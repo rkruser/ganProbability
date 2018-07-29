@@ -1,0 +1,18 @@
+name: ganTemplate
+modules: []
+#One for everything in otherPaths
+otherTemplates: {
+  generated: template
+}
+dependencies: []
+args: []
+files: {
+  submit: {'path':'submit.sh',
+         'parallelOpt':'threadInvariant'},
+  f1: {'path':'analysis/f1.txt',
+      'parallelOpt':'threadSpecific',
+      'pathOpt':'experimentRelative'},
+}
+formatArgs: {
+  submit: [ 'name', 'NUMBER', 'file:f1' ]
+}
