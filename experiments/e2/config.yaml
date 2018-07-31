@@ -1,5 +1,5 @@
-name: ganTemplate
-modules: [LoadGAN, TrainGAN]
+name: exp2Sampling
+modules: [LoadGAN, SampleGAN]
 #One for everything in otherPaths
 otherTemplates: {
   generated: template
@@ -19,9 +19,9 @@ args: [
   'ngf': 64,
   'ndf': 64,
   'nc': 1,
-  'cuda': False,
-  'netG':'',
-  'netGexpNum': -1, #experiment number to load from
+  'cuda': True,
+  'netG':'netG',
+  'netGexpNum': 1, #Load from 1, which is previous exp
   'netGinstance': -1, #Epoch snapshot to load from
   'netD': '',
   'netDexpNum': -1, # experiment number to load from
@@ -32,7 +32,8 @@ args: [
 # 'proportions':(0.1*np.ones(10))
   },
   {
-  'nepochs': 1
+  'samples': 20,
+  'forward': True
   }
 ]
 files: {

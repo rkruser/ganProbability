@@ -246,4 +246,44 @@ class LoadGAN(Operator):
     # Then need to return (net, criterion, optimizer, etc...)
     return problem
 
+  def getSamplingGAN(self,options={}):
+    opt = copy(self.opt)
+    opt.update(options)
+    self.log("Using options:\n"+str(opt))
+    opt = edict(opt)
 
+    # Repeat code; move to __init__?
+    if opt.manualSeed is None:
+      self.log("Generating random seed")
+      opt.manualSeed = random.randint(1, 10000)
+    self.log("Using random seed %d"%opt.manualSeed)
+    random.seed(opt.manualSeed)
+    torch.manual_seed(opt.manualSeed)
+    if opt.cuda:
+        torch.cuda.manual_seed_all(opt.manualSeed)
+    cudnn.benchmark = True #??
+
+    if torch.cuda.is_available() and not opt.cuda:
+        self.log("WARNING: You have a CUDA device, so you should probably run with --cuda")
+
+    netG = _netG(opt.ngpu, opt.nz, opt.ngf, opt.nc)
+    self.log("Load netG from file key %s"%opt.netG)
+    try:
+      netG.load_state_dict(self.files.load(opt.netG, instance=opt.netGinstance,
+            number=opt.netGexpNum,loader='torch'))
+    except Exception as e:
+      self.log("Problem loading netG from file")
+      raise e
+    self.log("netG structure:")
+    self.log(str(netG))
+
+    if opt.cuda:
+      netG = netG.cuda()
+
+    sampleProblem = {
+      'netG':netG,
+      'opt':opt
+    }
+
+    return sampleProblem
+    

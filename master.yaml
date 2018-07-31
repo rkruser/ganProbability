@@ -7,7 +7,8 @@ globalKeywords: {birdsnap: /vulcan/scratch/krusinga/birdsnap/birdsnap, cifar10: 
   lsun: '', mnist: /vulcan/scratch/krusinga/mnist}
 info:
 - [e1, First experiment]
-numExperiments: 1
+- [e2, 'Experiment 2: sampling']
+numExperiments: 2
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
