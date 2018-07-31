@@ -1,4 +1,4 @@
-name: samplingTemplate
+name: sampling4
 modules: [LoadGAN, SampleGAN]
 #One for everything in otherPaths
 otherTemplates: {
