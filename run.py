@@ -10,7 +10,7 @@ from code.SampleGAN import SampleGAN
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--id',type=int,default=-1,help='experiment ID')
-parser.add_argument('--procID',type=int,default=-1,help='Batch ID')
+parser.add_argument('--pid',type=int,default=-1,help='Batch ID')
 parser.add_argument('--nprocs',type=int,default=-1,help='Number of batch processes')
 parser.add_argument('--masterconfig',type=str,default='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml',
     help='Path to master config')
@@ -37,7 +37,7 @@ def main():
   opt = parser.parse_args()
   comm = MPI.COMM_WORLD
 
-  rank = opt.procID
+  rank = opt.pid
   if rank < 0:
     rank = comm.Get_rank()
 

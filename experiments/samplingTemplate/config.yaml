@@ -1,0 +1,57 @@
+name: samplingTemplate
+modules: [LoadGAN, SampleGAN]
+#One for everything in otherPaths
+otherTemplates: {
+  generated: template
+}
+dependencies: [[], [0]]
+args: [
+  # Loader args
+  {
+  # Loader default options
+  'dataset': 'mnist',
+  'batchSize': 64,
+  'workers': 2,
+  'imageSize': 28,
+  # Model default options
+  'ngpu': 1,
+  'nz': 20,
+  'ngf': 64,
+  'ndf': 64,
+  'nc': 1,
+  'cuda': True,
+  'netG':'netG',
+  'netGexpNum': 1, #experiment number to load from
+  'netGinstance': -1, #Epoch snapshot to load from
+  'netD': '',
+  'netDexpNum': -1, # experiment number to load from
+  'netDinstance': -1, #epoch snapshot to load from
+  'lr': 0.0002,
+  'beta1': 0.5,
+#  'manualSeed':None
+# 'proportions':(0.1*np.ones(10))
+  },
+  {
+  'samples': 20
+  }
+]
+files: {
+  submit: {'path': 'submit.sh',
+         'parallelOpt': 'threadInvariant'},
+  netG: {'path': 'models/netG.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  netD: {'path': 'models/netD.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  slurmOutFolder: 'logs/',
+  samples: {'path': 'data/samples.mat',
+            'parallelOpt': 'threadSpecific',
+            'pathOpt': 'experimentRelative',
+            'folder': 'generated'}
+}
+formatArgs: {
+  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder' ]
+}

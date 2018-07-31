@@ -1,0 +1,232 @@
+Hi, I am task:
+6
+=====
+Starting experiment batchSample
+ID: 3, PID 4/10
+07_31_2018_18:29:20
+=====
+=====
+Starting experiment batchSample
+ID: 3, PID 0/10
+07_31_2018_18:29:20
+=====
+=====
+Starting experiment batchSample
+ID: 3, PID 3/10
+07_31_2018_18:29:20
+=====
+=====
+Starting experiment batchSample
+ID: 3, PID 2/10
+07_31_2018_18:29:20
+=====
+=====
+Starting experiment batchSample
+ID: 3, PID 6/10
+07_31_2018_18:29:20
+=====
+=====
+Starting experiment batchSample
+ID: 3, PID 5/10
+07_31_2018_18:29:20
+=====
+=====
+Starting experiment batchSample
+ID: 3, PID 1/10
+07_31_2018_18:29:20
+=====
+SampleGAN: Using options {'forward': False, 'samples': 20}
+SampleGAN: Using options {'forward': False, 'samples': 20}
+SampleGAN: Using options {'forward': False, 'samples': 20}
+SampleGAN: Using options {'forward': False, 'samples': 20}
+SampleGAN: Using options {'forward': False, 'samples': 20}
+SampleGAN: Using options {'forward': False, 'samples': 20}SampleGAN: Using options {'forward': False, 'samples': 20}
+
+LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+
+LoadGAN: Generating random seedLoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+
+
+LoadGAN: Generating random seed
+LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+LoadGAN: Generating random seed
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 6355
+LoadGAN: Generating random seed
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 561
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 9117
+LoadGAN: Using random seed 5977
+LoadGAN: Using random seed 3159
+LoadGAN: Using random seed 3489
+Loaple 0
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+SampleGAN: Sample 10
+SampleGAN: Sample 10
+SampleGAN: Sample 10
+SampleGAN: The minimum value of prob is -42.1997412369 and the maximum is -25.710735131
+SampleGAN: Saving sampled data
+Module times: [0.00010204315185546875, 20.840839862823486]
+Total time: 20.8409528732
+SampleGAN: The minimum value of prob is -39.7335037769 and the maximum is -28.3961309288
+SampleGAN: Saving sampled data
+Module times: [0.00013899803161621094, 20.970796823501587]
+Total time: 20.9709470272
+SampleGAN: The minimum value of prob is -42.050270585 and the maximum is -25.3126349815
+SampleGAN: Saving sampled data
+=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+SampleGAN: Sample 0
+SampleGAN: Sample 0
+SampleGAN: Sample 0
+SampleGAN: Sample 0
+SampleGAN: Sample 0
+SampleGAN: Sample 0
+SampleGAN: Sample 0
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/autograd/__init__.py:93: UserWarning: retain_variables option is deprecated and will be removed in 0.3. Use retain_graph instead.
+  warnings.warn("retain_variables option is deprecated and will be removed in 0.3. "
+SampleGAN: Sample 10
+SampleGAN: Sample 10
+SampleGAN: Sample 10
+SampleGAN: Sample 10
+SampleGAN: Sample 10
+SampleGAN: Sample 10
+SampleGAN: Sample 10
+SampleGAN: The minimum value of prob is -40.2082624566 and the maximum is -29.0547129531
+SampleGAN: Saving sampled data
+Module times: [0.00011587142944335938, 22.123842000961304]
+Total time: 22.1239690781
+SampleGAN: The minimum value of prob is -41.6232317791 and the maximum is -30.6874074051
+SampleGAN: Saving sampled data
+Module times: [0.00012087821960449219, 22.35565710067749]
+Total time: 22.3557858467
+SampleGAN: The minimum value of prob is -41.5664760523 and the maximum is -31.4657778183
+SampleGAN: Saving sampled data
+SampleGAN: The minimum value of prob is -40.2131216759 and the maximum is -25.1579682303
+SampleGAN: Saving sampled data
+Module times: [0.00013208389282226562, 22.38312292098999]
+Total time: 22.3832650185
+Module times: [0.00014495849609375, 22.397341012954712]
+Total time: 22.397495985
+SampleGAN: The minimum value of prob is -40.2029012294 and the maximum is -30.2806523941
+SampleGAN: Saving sampled data
+Module times: [0.0001201629638671875, 22.408869981765747]
+Total time: 22.4090008736
+SampleGAN: The minimum value of prob is -43.377300088 and the maximum is -26.0735883148
+SampleGAN: Saving sampled data
+Module times: [0.00011491775512695312, 22.539461135864258]
+Total time: 22.5395879745
+SampleGAN: The minimum value of prob is -37.6172300772 and the maximum is -24.3303316353
+SampleGAN: Saving sampled data
+Module times: [0.00011920928955078125, 22.56615900993347]
+Total time: 22.5662879944
