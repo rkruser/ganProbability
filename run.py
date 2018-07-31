@@ -3,6 +3,9 @@
 from mlworkflow import Loader, Operator, Analyzer, experiment
 from mpi4py import MPI
 
+from code.LoadGAN import LoadGAN
+from code.TrainGAN import TrainGAN
+
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--id',type=int,default=-1,help='experiment ID')
@@ -21,6 +24,10 @@ def getClasses(clist):
       classes.append(Loader)
     elif c == 'Analyzer':
       classes.append(Analyzer)
+    elif c == 'LoadGAN':
+      classes.append(LoadGAN)
+    elif c == 'TrainGAN':
+      classes.append(TrainGAN)
   return classes
 
 def main():
@@ -35,7 +42,10 @@ def main():
   if size < 0:
     size = comm.Get_size()
 
-  experiment(masterconfig=opt.masterconfig, classParser=getClasses, experimentNum=opt.id, pid=rank, numProcs=size)
+#  s = getClasses(['LoadGAN','TrainGAN'])
+#  print s
+
+  experiment(masterconfig=opt.masterconfig, classParser=getClasses, experimentNum=opt.id, pid=rank, numProcs=size,verbose=True)
 
 if __name__ == '__main__':
   main()

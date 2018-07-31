@@ -1,14 +1,13 @@
 cleanScript: []
-editor: [/fs/vulcan-scratch/krusinga/projects/ganProbability/editor.sh, config.yaml, submit.sh]
-globalKeywords: {
-  generated: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated,
-  mnist: /vulcan/scratch/krusinga/mnist,
-  coco: /vulcan/scratch/krusinga/coco,
-  birdsnap: /vulcan/scratch/krusinga/birdsnap/birdsnap,
-  cub: /vulcan/scratch/krusinga/CUB_200_2011
-}
-info: []
-numExperiments: 0
+editor: [/fs/vulcan-scratch/krusinga/projects/ganProbability/editor.sh, config.yaml,
+  submit.sh]
+globalKeywords: {birdsnap: /vulcan/scratch/krusinga/birdsnap/birdsnap, cifar10: '',
+  coco: /vulcan/scratch/krusinga/coco, cub: /vulcan/scratch/krusinga/CUB_200_2011,
+  generated: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated, imagenet: '',
+  lsun: '', mnist: /vulcan/scratch/krusinga/mnist}
+info:
+- [e1, First experiment]
+numExperiments: 1
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
