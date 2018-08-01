@@ -3,13 +3,13 @@ Hi, I am task:
 =====
 Starting experiment zipping
 ID: 5, PID 0/10
-08_01_2018_14:19:05
+08_01_2018_14:32:05
 =====
 SampleGAN: Using options {'forward': True, 'samples': 20}
 LoadGAN: Using options:
 {'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
 LoadGAN: Generating random seed
-LoadGAN: Using random seed 6787
+LoadGAN: Using random seed 5699
 LoadGAN: Load netG from file key netG
 LoadGAN: netG structure:
 LoadGAN: _netG(
@@ -29,11 +29,14 @@ LoadGAN: _netG(
 )
 SampleGAN: Sample 0
 SampleGAN: Sample 10
-SampleGAN: The minimum value of prob is -23.2989939069 and the maximum is -9.48623739701
+SampleGAN: The minimum value of prob is -24.0419115444 and the maximum is -17.6874076221
 SampleGAN: Saving sampled data
 ZipSamples: Collapsing to process 0
 ZipSamples: In Process 0 (this should not be seen by other processes)
 ZipSamples: Loading mats
 ZipSamples: Saving samples
-Module times: [0.00011491775512695312, 4.220293998718262, 34.981760025024414, 0.6456680297851562]
-Total time: 39.8478531837
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e5/analysis/topIms.png with handler for imageArray
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e5/analysis/botIms.png with handler for imageArray
+Module times: [0.00013184547424316406, 5.047029972076416, 31.929800033569336, 0.682049036026001]
+Total time: 37.6590249538
