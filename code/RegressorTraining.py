@@ -52,8 +52,8 @@ class RegressorTraining(Operator):
     opt.update(args)
     self.opt = edict(opt)
     self.loader = self.dependencies[0]
-    self.trainCurve = [[],[],[]]
-    self.testCurve = [[],[],[]]
+    self.lossCurve = [[],[],[]]
+    self.errorCurve = [[],[],[]]
 
   def run(self):
     trainloader, testloader = self.loader.getProbData()
@@ -69,6 +69,9 @@ class RegressorTraining(Operator):
       scheduler.step()
       self.train(trainloader, netP, optimizerP, criterion, opt.cuda, epoch)
       self.test(testloader, netP, criterion, opt.cuda, epoch)
+
+      self.lossCurve[0].append(epoch)
+      self.errorCurve[0].append(epoch)
 
     # do checkpointing
     self.log("Saving netP")
@@ -97,9 +100,9 @@ class RegressorTraining(Operator):
           optimizer.step()
 
       self.log('Training epoch %d, loss = %d, abserror=%d'%(epoch,losses.avg,abserror.avg))
-      self.trainCurve[0].append(epoch)
-      self.trainCurve[1].append(losses.avg)
-      self.trainCurve[2].append(abserror.avg)
+#      self.trainCurve[0].append(epoch)
+      self.lossCurve[1].append(losses.avg)
+      self.errorCurve[1].append(abserror.avg)
 
   def test(self, dataloader, net, criterion, use_cuda, epoch):
       losses = AverageMeter()
@@ -120,32 +123,32 @@ class RegressorTraining(Operator):
           abserror.update((output.data - label).abs_().mean(), data.size(0))
 
       self.log('Testing epoch %d, loss = %d, abserror=%d'%(epoch,losses.avg,abserror.avg))
-      self.testCurve[0].append(epoch)
-      self.testCurve[1].append(losses.avg)
-      self.testCurve[2].append(abserror.avg)
+#      self.testCurve[0].append(epoch)
+      self.lossCurve[2].append(losses.avg)
+      self.errorCurve[2].append(abserror.avg)
 
   def getAnalysisData(self):
     train = {
-      'data':np.array(self.trainCurve),
-      'legend':['Avg t Loss','Avg abs error'],
+      'data':np.array(self.lossCurve),
+      'legend':['Train Loss','Test Loss'],
       'legendLoc':'upper right',
       'xlabel':'Epoch',
-      'ylabel':'Loss/Error',
-      'title':'Training curve',
+      'ylabel':'Loss',
+      'title':'Train/Test loss curve',
       'format':'png'
     }
     test = {
-      'data':np.array(self.testCurve),
-      'legend':['Avg t Loss','Avg abs error'],
+      'data':np.array(self.errorCurve),
+      'legend':['Train Error','Test Error'],
       'legendLoc':'upper right',
       'xlabel':'Epoch',
-      'ylabel':'Loss/Error',
-      'title':'Training curve',
+      'ylabel':'Error',
+      'title':'Train/Test error curve',
       'format':'png'
     }
-    trainDat = Data(train, 'lineplot', 'trainCurve')
-    testDat = Data(test, 'lineplot', 'testCurve')
-    return [trainDat, testDat]
+    lossDat = Data(train, 'lineplot', 'lossCurve')
+    errorDat = Data(test, 'lineplot', 'errorCurve')
+    return [lossDat, errorDat]
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""

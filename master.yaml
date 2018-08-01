@@ -12,7 +12,8 @@ info:
 - [e4, Another batch sampling test]
 - [e5, Testing zipping]
 - [e6, Testing regressor training]
-numExperiments: 6
+- [e7, Tweaked Regressor experiment]
+numExperiments: 7
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

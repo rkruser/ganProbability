@@ -36,7 +36,7 @@ args: [
 # 'proportions':(0.1*np.ones(10))
   },
   {
-  'nepochs': 2
+  'nepochs': 5
   },
   {}
 ]

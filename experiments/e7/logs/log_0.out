@@ -1,0 +1,46 @@
+=====
+Starting experiment regressorTest
+ID: 7, PID 0/1
+08_01_2018_17:24:38
+=====
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': '', 'netDexpNum': -1, 'netD': '', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': 5, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': False, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 9516
+LoadGAN: Loading netP
+LoadGAN: netP structure
+LoadGAN: _netP(
+  (main): Sequential(
+    (0): Conv2d(1, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+RegressorTraining: Epoch: 0
+RegressorTraining: Training epoch 0, loss = 17, abserror=17
+RegressorTraining: Testing epoch 0, loss = 20, abserror=21
+RegressorTraining: Epoch: 1
+RegressorTraining: Training epoch 1, loss = 9, abserror=9
+RegressorTraining: Testing epoch 1, loss = 20, abserror=20
+RegressorTraining: Epoch: 2
+RegressorTraining: Training epoch 2, loss = 3, abserror=4
+RegressorTraining: Testing epoch 2, loss = 20, abserror=20
+RegressorTraining: Epoch: 3
+RegressorTraining: Training epoch 3, loss = 1, abserror=2
+RegressorTraining: Testing epoch 3, loss = 20, abserror=20
+RegressorTraining: Epoch: 4
+RegressorTraining: Training epoch 4, loss = 1, abserror=1
+RegressorTraining: Testing epoch 4, loss = 19, abserror=20
+RegressorTraining: Saving netP
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e7/analysis/lossCurve.png with handler for lineplot
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e7/analysis/errorCurve.png with handler for lineplot
+Module times: [0.00016498565673828125, 4.458929061889648, 0.26877403259277344]
+Total time: 4.72788691521
