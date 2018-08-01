@@ -1,10 +1,10 @@
-name: ganTemplate
-modules: [LoadGAN, TrainGAN]
+name: regressorTest
+modules: [LoadGAN, RegressorTraining, Analyzer]
 #One for everything in otherPaths
 otherTemplates: {
   generated: template
 }
-dependencies: [[], [0]]
+dependencies: [[], [0], [0,1]]
 args: [
   # Loader args
   {
@@ -36,8 +36,9 @@ args: [
 # 'proportions':(0.1*np.ones(10))
   },
   {
-  'nepochs': 10
-  }
+  'nepochs': 2
+  },
+  {}
 ]
 files: {
   submit: {'path': 'submit.sh',

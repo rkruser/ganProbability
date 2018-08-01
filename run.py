@@ -7,6 +7,7 @@ from code.LoadGAN import LoadGAN
 from code.TrainGAN import TrainGAN
 from code.SampleGAN import SampleGAN
 from code.MergeSamples import ZipSamples
+from code.RegressorTraining import RegressorTraining
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -34,6 +35,8 @@ def getClasses(clist):
       classes.append(SampleGAN)
     elif c == 'ZipSamples':
       classes.append(ZipSamples)
+    elif c == 'RegressorTraining':
+      classes.append(RegressorTraining)
   return classes
 
 def main():

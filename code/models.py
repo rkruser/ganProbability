@@ -419,6 +419,41 @@ class prob_data(data.Dataset):
 
         return data, target
 
+# Sampling data
+class prob_data_ryen(data.Dataset):
+    """Custom Dataset loader for Probability training"""
+    def __init__(self, path, train=True, trainProportion=0.8):
+        self.path = path
+        self.train = train
+        self.trainProportion = trainProportion
+
+        data = sio.loadmat(self.path)
+        self.ntrainsamples = int(self.trainProportion*len(data['images']))
+
+        if self.train:
+            # self.train_data = data['images'][:self.ntrainsamples].astype(np.float32)
+            self.train_data = data['images'][:self.ntrainsamples].astype(np.float32)
+            self.train_prob = np.squeeze(data['prob'][0,:self.ntrainsamples].astype(np.float32))
+        else:
+            # self.test_data = data['images'][self.ntrainsamples:].astype(np.float32)
+            self.test_data = data['images'][self.ntrainsamples:].astype(np.float32)
+            self.test_prob = np.squeeze(data['prob'][0,self.ntrainsamples:].astype(np.float32))
+
+    def __len__(self):
+        if self.train:
+            return self.ntrainsamples
+        else:
+            return len(self.test_prob)
+
+    def __getitem__(self, item):
+        if self.train:
+            data, target = self.train_data[item], self.train_prob[item]
+        else:
+            data, target = self.test_data[item], self.test_prob[item]
+
+        return data, target
+
+
 # Sampling adversarial data
 class generate_adversarial_data(data.Dataset):
     """Custom Dataset loader for adversarial training"""

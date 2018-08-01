@@ -16,10 +16,11 @@ import torch.optim as optim
 import torch.utils.data
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
+import torch.optim.lr_scheduler as lr_scheduler
 from torch.autograd import Variable
 
 # May need to prefix the import as code.models?
-from code.models import _netG, _netD, weights_init, generate_data, mog_netD, mog_netG, generate_outlierexp_data, generate_classwise_data, outlier2
+from code.models import _netG, _netD, _netP, weights_init, generate_data, mog_netD, mog_netG, generate_outlierexp_data, generate_classwise_data, outlier2, prob_data_ryen
 
 
 
@@ -28,16 +29,17 @@ class LoadGAN(Loader):
     super(LoadGAN, self).__init__(config, args)
     opt = {
       # Loader default options
-      'dataset':'mog',
+      'dataset':'mnist',
+      'loadFromExperiment':-1,
       'batchSize':64,
       'workers':2,
       'imageSize':32,
       # Model default options
       'ngpu':1,
-      'nz':100,
+      'nz':20,
       'ngf':64,
       'ndf':64,
-      'nc':3,
+      'nc':1,
       'cuda':False,
       'netG':'',
       'netGexpNum':-1, #experiment number to load from
@@ -45,6 +47,9 @@ class LoadGAN(Loader):
       'netD':'',
       'netDexpNum':-1, # experiment number to load from
       'netDinstance':-1, #epoch snapshot to load from
+      'netP':'',
+      'netPinstance':-1,
+      'netPexpNum':-1,
       'lr':0.0002,
       'beta1':0.5,
       'manualSeed':None,
@@ -57,6 +62,21 @@ class LoadGAN(Loader):
   # Because is called by later modules
   def run(self):
     pass
+
+  def getProbData(self, options={}):
+    opt = copy(self.opt)
+    opt.update(options)
+    opt = edict(opt)
+
+    # Need to modify prob_data in models
+    datapath = self.getPath('samples',number=opt.loadFromExperiment, threadSpecific=False)
+    trainset = prob_data_ryen(path=datapath, train=True)
+    testset = prob_data_ryen(path=datapath, train=False)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=opt.batchSize,
+                                             shuffle=True, num_workers=int(opt.workers), pin_memory=True)
+    testloader = torch.utils.data.DataLoader(testset, batch_size=opt.batchSize,
+                                             shuffle=False, num_workers=int(opt.workers), pin_memory=True)
+    return trainloader, testloader
 
   # Return a torch dataloader object
   #  corresponding to the desired dataset
@@ -286,4 +306,63 @@ class LoadGAN(Loader):
     }
 
     return sampleProblem
+
+  def getRegressorProblem(self, options={}):
+    opt = copy(self.opt)
+    opt.update(options)
+    self.log("Using options:\n"+str(opt))
+    opt = edict(opt)
+
+    ngpu = opt.ngpu
+    nz = opt.nz
+    ngf = opt.ngf
+    ndf = opt.ndf
+    nc = opt.nc
+
+    if opt.manualSeed is None:
+      self.log("Generating random seed")
+      opt.manualSeed = random.randint(1, 10000)
+    self.log("Using random seed %d"%opt.manualSeed)
+    random.seed(opt.manualSeed)
+    torch.manual_seed(opt.manualSeed)
+    if opt.cuda:
+        torch.cuda.manual_seed_all(opt.manualSeed)
+    cudnn.benchmark = True #??
+
+    if torch.cuda.is_available() and not opt.cuda:
+        self.log("WARNING: You have a CUDA device, so you should probably run with --cuda")
+
+    self.log("Loading netP")
+    if opt.dataset == 'mog':
+        netP = mog_netP(ngpu)
+    else:
+        netP = _netP(ngpu,nc,ndf)
+    netP.apply(weights_init)
+    if opt.netP != '':
+        netP.load_state_dict(self.files.load(opt.netP,instance=opt.netPinstance,
+              number=opt.netPexpNum,loader='torch'))
+    self.log("netP structure")
+    self.log(str(netP))
+
+    # criterion = nn.MSELoss(size_average=True)
+    criterion = nn.SmoothL1Loss(size_average=True)
+
+    if opt.cuda:
+      netP.cuda()
+      criterion.cuda()
+
+    # setup optimizer
+    optimizerP = optim.Adam(netP.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999), weight_decay=0.0002)
+    scheduler = lr_scheduler.StepLR(optimizerP, step_size=200, gamma=0.1)
+
+    problem = {
+      'netP':netP,
+      'optimP':optimizerP,
+      'scheduler':scheduler,
+      'criterion':criterion,
+      'opt':opt #Send the rest of the options in case trainer needs them
+    }
+
+    return problem
+
     

@@ -1,0 +1,135 @@
+=====
+Starting experiment regressorTest
+ID: 6, PID 0/1
+08_01_2018_17:03:17
+=====
+An exception occurred when running RegressorTraining
+'RegressorTraining' object has no attribute 'getProbData'
+Exiting early
+=====
+Starting experiment regressorTest
+ID: 6, PID 0/1
+08_01_2018_17:03:50
+=====
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': '', 'netDexpNum': -1, 'netD': '', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': 5, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': False, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 3250
+LoadGAN: Loading netP
+An exception occurred when running RegressorTraining
+global name '_netP' is not defined
+Exiting early
+=====
+Starting experiment regressorTest
+ID: 6, PID 0/1
+08_01_2018_17:04:16
+=====
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': '', 'netDexpNum': -1, 'netD': '', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': 5, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': False, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 9752
+LoadGAN: Loading netP
+An exception occurred when running RegressorTraining
+global name '_netP' is not defined
+Exiting early
+=====
+Starting experiment regressorTest
+ID: 6, PID 0/1
+08_01_2018_17:05:23
+=====
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': '', 'netDexpNum': -1, 'netD': '', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': 5, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': False, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 3156
+LoadGAN: Loading netP
+LoadGAN: netP structure
+LoadGAN: _netP(
+  (main): Sequential(
+    (0): Conv2d(1, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+An exception occurred when running RegressorTraining
+global name 'lr_scheduler' is not defined
+Exiting early
+=====
+Starting experiment regressorTest
+ID: 6, PID 0/1
+08_01_2018_17:06:07
+=====
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': '', 'netDexpNum': -1, 'netD': '', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': 5, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': False, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 9661
+LoadGAN: Loading netP
+LoadGAN: netP structure
+LoadGAN: _netP(
+  (main): Sequential(
+    (0): Conv2d(1, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+RegressorTraining: Epoch: 0
+RegressorTraining: Training epoch 0, loss = 17, abserror=17
+RegressorTraining: Testing epoch 0, loss = 20, abserror=21
+RegressorTraining: Epoch: 1
+RegressorTraining: Training epoch 1, loss = 8, abserror=9
+RegressorTraining: Testing epoch 1, loss = 20, abserror=20
+RegressorTraining: Saving netP
+Analyzer: Obtaining data for analysis
+An exception occurred when running Analyzer
+global name 'np' is not defined
+Exiting early
+=====
+Starting experiment regressorTest
+ID: 6, PID 0/1
+08_01_2018_17:06:37
+=====
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': '', 'netDexpNum': -1, 'netD': '', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': 5, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': False, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 1736
+LoadGAN: Loading netP
+LoadGAN: netP structure
+LoadGAN: _netP(
+  (main): Sequential(
+    (0): Conv2d(1, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+RegressorTraining: Epoch: 0
+RegressorTraining: Training epoch 0, loss = 17, abserror=17
+RegressorTraining: Testing epoch 0, loss = 20, abserror=21
+RegressorTraining: Epoch: 1
+RegressorTraining: Training epoch 1, loss = 8, abserror=9
+RegressorTraining: Testing epoch 1, loss = 20, abserror=20
+RegressorTraining: Saving netP
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e6/analysis/trainCurve.png with handler for lineplot
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e6/analysis/testCurve.png with handler for lineplot
+Module times: [0.00014901161193847656, 1.9492788314819336, 0.3258240222930908]
+Total time: 2.27526879311
