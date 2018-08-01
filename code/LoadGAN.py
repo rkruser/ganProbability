@@ -1,6 +1,6 @@
 # Module to load the data and model
 
-from mlworkflow import Operator
+from mlworkflow import Loader
 from easydict import EasyDict as edict
 from copy import copy
 import sys
@@ -23,7 +23,7 @@ from code.models import _netG, _netD, weights_init, generate_data, mog_netD, mog
 
 
 
-class LoadGAN(Operator):
+class LoadGAN(Loader):
   def __init__(self, config, args):
     super(LoadGAN, self).__init__(config, args)
     opt = {

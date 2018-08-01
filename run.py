@@ -6,6 +6,7 @@ from mpi4py import MPI
 from code.LoadGAN import LoadGAN
 from code.TrainGAN import TrainGAN
 from code.SampleGAN import SampleGAN
+from code.MergeSamples import ZipSamples
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -31,6 +32,8 @@ def getClasses(clist):
       classes.append(TrainGAN)
     elif c == 'SampleGAN':
       classes.append(SampleGAN)
+    elif c == 'ZipSamples':
+      classes.append(ZipSamples)
   return classes
 
 def main():

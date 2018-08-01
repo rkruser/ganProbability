@@ -10,7 +10,8 @@ info:
 - [e2, 'Experiment 2: sampling']
 - [e3, Testing batch sampling]
 - [e4, Another batch sampling test]
-numExperiments: 4
+- [e5, Testing zipping]
+numExperiments: 5
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

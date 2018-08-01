@@ -1,0 +1,160 @@
+=====
+Starting experiment zipping
+ID: 5, PID 8/10
+08_01_2018_13:49:29
+=====
+SampleGAN: Using options {'forward': True, 'samples': 20}
+LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 8551
+LoadGAN: Load netG from file key netG
+LoadGAN: netG structure:
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+SampleGAN: Sample 0
+SampleGAN: Sample 10
+SampleGAN: The minimum value of prob is -22.9094709644 and the maximum is -10.836141749
+SampleGAN: Saving sampled data
+ZipSamples: Collapsing to process 0
+=====
+Starting experiment zipping
+ID: 5, PID 8/10
+08_01_2018_13:51:50
+=====
+SampleGAN: Using options {'forward': True, 'samples': 20}
+LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 9885
+LoadGAN: Load netG from file key netG
+LoadGAN: netG structure:
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+SampleGAN: Sample 0
+SampleGAN: Sample 10
+SampleGAN: The minimum value of prob is -26.6488673589 and the maximum is -15.4999628443
+SampleGAN: Saving sampled data
+ZipSamples: Collapsing to process 0
+=====
+Starting experiment zipping
+ID: 5, PID 8/10
+08_01_2018_14:07:24
+=====
+SampleGAN: Using options {'forward': True, 'samples': 20}
+LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 8629
+LoadGAN: Load netG from file key netG
+LoadGAN: netG structure:
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+SampleGAN: Sample 0
+SampleGAN: Sample 10
+SampleGAN: The minimum value of prob is -24.4914505917 and the maximum is -16.7328502453
+SampleGAN: Saving sampled data
+ZipSamples: Collapsing to process 0
+=====
+Starting experiment zipping
+ID: 5, PID 8/10
+08_01_2018_14:17:21
+=====
+SampleGAN: Using options {'forward': True, 'samples': 20}
+LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 6828
+LoadGAN: Load netG from file key netG
+LoadGAN: netG structure:
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+SampleGAN: Sample 0
+SampleGAN: Sample 10
+SampleGAN: The minimum value of prob is -26.3256007701 and the maximum is -15.55669816
+SampleGAN: Saving sampled data
+ZipSamples: Collapsing to process 0
+=====
+Starting experiment zipping
+ID: 5, PID 8/10
+08_01_2018_14:19:05
+=====
+SampleGAN: Using options {'forward': True, 'samples': 20}
+LoadGAN: Using options:
+{'ngf': 64, 'nc': 1, 'imageSize': 28, 'manualSeed': None, 'netG': 'netG', 'netGinstance': -1, 'netDexpNum': -1, 'netD': '', 'nz': 20, 'dataset': 'mnist', 'netGexpNum': 1, 'netDinstance': -1, 'ngpu': 1, 'cuda': True, 'beta1': 0.5, 'lr': 0.0002, 'batchSize': 64, 'ndf': 64, 'workers': 2, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 9606
+LoadGAN: Load netG from file key netG
+LoadGAN: netG structure:
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+SampleGAN: Sample 0
+SampleGAN: Sample 10
+SampleGAN: The minimum value of prob is -26.6757961344 and the maximum is -16.933537519
+SampleGAN: Saving sampled data
+ZipSamples: Collapsing to process 0

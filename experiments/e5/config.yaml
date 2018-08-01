@@ -1,4 +1,4 @@
-name: samplingTemplate
+name: zipping
 modules: [LoadGAN, SampleGAN, ZipSamples, Analyzer]
 #One for everything in otherPaths
 otherTemplates: {
