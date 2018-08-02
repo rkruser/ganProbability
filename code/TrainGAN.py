@@ -17,6 +17,7 @@ import torchvision.transforms as transforms
 from torch.autograd import Variable
 
 from code.models import _netG, _netD, weights_init, generate_data, mog_netD, mog_netG, generate_outlierexp_data, generate_classwise_data, outlier2
+from code.utils import AverageMeter
 
 
 #parser = argparse.ArgumentParser()
@@ -88,6 +89,8 @@ class TrainGAN(Operator):
     self.log("Beginning training")
     for epoch in range(opt.nepochs):
         self.log("===Begin epoch %d"%epoch)
+        gLosses = AverageMeter()
+        dLosses = AverageMeter()
         for i, data in enumerate(dataloader, 0): #what's with the 0?
             ############################
             # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
@@ -140,8 +143,11 @@ class TrainGAN(Operator):
             self.log('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
                   % (epoch, opt.nepochs, i, len(dataloader),
                      errD.data[0], errG.data[0], D_x, D_G_z1, D_G_z2))
-            self.errG.append(errG.data[0])
-            self.errD.append(errD.data[0])
+            gLosses.update(errG.data[0], real_cpu.size(0))
+            dLosses.update(errD.data[0], real_cpu.size(0))
+
+        self.errG.append(gLosses.avg)
+        self.errD.append(dLosses.avg)
 
                                                                       
     # do checkpointing
@@ -159,8 +165,8 @@ class TrainGAN(Operator):
     errInfo = {
       'data':np.array([range(len(self.errG)),self.errG,self.errD]),
       'legend':['Generator error','Discriminator Error'],
-      'xlabel':'Iteration (sub-epoch)',
-      'ylabel':'Error',
+      'xlabel':'Epoch',
+      'ylabel':'Average error',
       'title':'GAN training curve',
       'format':'png'
     }
