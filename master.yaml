@@ -4,7 +4,7 @@ editor: [/fs/vulcan-scratch/krusinga/projects/ganProbability/editor.sh, config.y
 globalKeywords: {birdsnap: /vulcan/scratch/krusinga/birdsnap/birdsnap, cifar10: '',
   coco: /vulcan/scratch/krusinga/coco, cub: /vulcan/scratch/krusinga/CUB_200_2011,
   generated: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated, imagenet: '',
-  lsun: '', mnist: /vulcan/scratch/krusinga/mnist}
+  lsun: '', mnist: /vulcan/scratch/krusinga/mnist, mnist_distribution: /vulcan/scratch/krusinga/mnist}
 info:
 - [e1, First experiment]
 - [e2, 'Experiment 2: sampling']
@@ -18,7 +18,9 @@ info:
 - [e10, Testing batch submit of total mnist]
 - [e11, Running mnist total for real]
 - [e12, Added training visualization to total pipeline]
-numExperiments: 12
+- [e13, '']
+- [e14, Testing mnist_distribution loader]
+numExperiments: 14
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

@@ -20,7 +20,7 @@ import torch.optim.lr_scheduler as lr_scheduler
 from torch.autograd import Variable
 
 # May need to prefix the import as code.models?
-from code.models import _netG, _netD, _netP, weights_init, generate_data, mog_netD, mog_netG, generate_outlierexp_data, generate_classwise_data, outlier2, prob_data_ryen
+from code.models import _netG, _netD, _netP, weights_init, generate_data, mog_netD, mog_netG, generate_outlierexp_data, generate_classwise_data, outlier2, prob_data_ryen, generate_mnist_distribution
 
 
 
@@ -57,6 +57,8 @@ class LoadGAN(Loader):
     }
     opt.update(args)
     self.opt = edict(opt)
+    self.opt.proportions = np.array(self.opt.proportions)
+    self.opt.proportions[9] = 1-np.sum(self.opt.proportions[:9])
 
   # Does nothing on run
   # Because is called by later modules
@@ -89,7 +91,7 @@ class LoadGAN(Loader):
 
     dataset = opt.dataset
     dataroot = ''
-    if dataset in ['imagenet', 'folder','lfw','lsun','cifar10','mnist','mnist_outlier','mnist_classwise']:
+    if dataset in ['imagenet', 'folder','lfw','lsun','cifar10','mnist','mnist_outlier','mnist_classwise', 'mnist_distribution']:
       try:
         # Path defined in master.yaml
         dataroot = self.getPath(dataset) 
@@ -159,6 +161,8 @@ class LoadGAN(Loader):
                                          transform=transforms.Compose([transforms.ToPILImage(),transforms.Scale(opt.imageSize),]),
                                          transform2=transforms.Compose([transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),]),
                                          size=opt.imageSize)
+    elif dataset == 'mnist_distribution':
+      dataset = generate_mnist_distribution(datadir=dataroot, probs=opt.proportions)
 
     assert dataset
 

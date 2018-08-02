@@ -528,6 +528,29 @@ class generate_classwise_data(data.Dataset):
 
         return data, target
 
+# Sampler for classwise training of GAN
+# Technically every epoch will have slightly different data due
+#  to off-sync wrap-around and such, but does that matter
+class generate_mnist_distribution(data.Dataset):
+    def __init__(self, datadir, probs=(0.1*np.ones(10)), length=60000):
+        self.datadir = datadir
+        self.probs = probs
+        self.length = length
+        self.loaders = [generate_classwise_data(self.datadir,i) for i in range(10)]
+        self.counters = np.zeros(10,dtype=int)
+        self.choices = np.random.choice(10,self.length,p=self.probs)
+
+    def __len__(self):
+        return self.length
+
+    def __getitem__(self, item):
+        choice = self.choices[item]
+        data,_ = self.loaders[choice][self.counters[choice]]
+        self.counters[choice] = (self.counters[choice] + 1)%len(self.loaders[choice])
+
+        return data, choice
+
+
 # Sampling mnist data for outlier experiment
 class generate_outlierexp_data(data.Dataset):
     """Custom Dataset loader for outlier exp"""
