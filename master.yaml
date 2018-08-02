@@ -15,7 +15,8 @@ info:
 - [e7, Tweaked Regressor experiment]
 - [e8, Test the mnist domain shift experiment]
 - [e9, Testing a total run-through]
-numExperiments: 9
+- [e10, Testing batch submit of total mnist]
+numExperiments: 10
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

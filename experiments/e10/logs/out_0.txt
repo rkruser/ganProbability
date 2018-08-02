@@ -1,0 +1,181 @@
+Hi, I am task:
+0
+=====
+Starting experiment mnistStage2
+ID: 10, PID 0/10
+08_01_2018_22:49:15
+=====
+SampleGAN: Using options {'forward': True, 'samples': 100}
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': 'netG', 'netDexpNum': -1, 'netD': 'netD', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': -1, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 3642
+LoadGAN: Load netG from file key netG
+LoadGAN: netG structure:
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+SampleGAN: Sample 0
+SampleGAN: Sample 10
+SampleGAN: Sample 20
+SampleGAN: Sample 30
+SampleGAN: Sample 40
+SampleGAN: Sample 50
+SampleGAN: Sample 60
+SampleGAN: Sample 70
+SampleGAN: Sample 80
+SampleGAN: Sample 90
+SampleGAN: The minimum value of prob is -26.0828274599 and the maximum is -11.0660579683
+SampleGAN: Saving sampled data
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+ZipSamples: Loading mats
+ZipSamples: Saving samples
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': 'netG', 'netDexpNum': -1, 'netD': 'netD', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': -1, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 6940
+LoadGAN: Loading netP
+LoadGAN: netP structure
+LoadGAN: _netP(
+  (main): Sequential(
+    (0): Conv2d(1, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+RegressorTraining: Epoch: 0
+RegressorTraining: Training epoch 0, loss = 7, abserror=8
+RegressorTraining: Testing epoch 0, loss = 19, abserror=20
+RegressorTraining: Saving netP
+RegressorRun: Loading netP
+RegressorRun: Getting loaders
+RegressorRun: Interpolating class distributions
+RegressorRun: Sample 0
+RegressorRun: Sample 100
+RegressorRun: Sample 200
+RegressorRun: Sample 300
+RegressorRun: Sample 400
+RegressorRun: Sample 500
+RegressorRun: Sample 600
+RegressorRun: Sample 700
+RegressorRun: Sample 800
+RegressorRun: Sample 900
+RegressorRun: Sample 1000
+RegressorRun: Sample 1100
+RegressorRun: Sample 1200
+RegressorRun: Sample 1300
+RegressorRun: Sample 1400
+RegressorRun: Sample 1500
+RegressorRun: Sample 1600
+RegressorRun: Sample 1700
+RegressorRun: Sample 1800
+RegressorRun: Sample 1900
+RegressorRun: Sample 2000
+RegressorRun: Sample 2100
+RegressorRun: Sample 2200
+RegressorRun: Sample 2300
+RegressorRun: Sample 2400
+RegressorRun: Sample 2500
+RegressorRun: Sample 2600
+RegressorRun: Sample 2700
+RegressorRun: Sample 2800
+RegressorRun: Sample 2900
+RegressorRun: Sample 3000
+RegressorRun: Sample 3100
+RegressorRun: Sample 3200
+RegressorRun: Sample 3300
+RegressorRun: Sample 3400
+RegressorRun: Sample 3500
+RegressorRun: Sample 3600
+RegressorRun: Sample 3700
+RegressorRun: Sample 3800
+RegressorRun: Sample 3900
+RegressorRun: Sample 4000
+RegressorRun: Sample 4100
+RegressorRun: Sample 4200
+RegressorRun: Sample 4300
+RegressorRun: Sample 4400
+RegressorRun: Sample 4500
+RegressorRun: Sample 4600
+RegressorRun: Sample 4700
+RegressorRun: Sample 4800
+RegressorRun: Sample 4900
+RegressorRun: Sample 5000
+RegressorRun: Sample 5100
+RegressorRun: Sample 5200
+RegressorRun: Sample 5300
+RegressorRun: Sample 5400
+RegressorRun: Sample 5500
+RegressorRun: Sample 5600
+RegressorRun: Sample 5700
+RegressorRun: Sample 5800
+RegressorRun: Sample 5900
+RegressorRun: Sample 6000
+RegressorRun: Sample 6100
+RegressorRun: Sample 6200
+RegressorRun: Sample 6300
+RegressorRun: Sample 6400
+RegressorRun: Sample 6500
+RegressorRun: Sample 6600
+RegressorRun: Sample 6700
+RegressorRun: Sample 6800
+RegressorRun: Sample 6900
+RegressorRun: Sample 7000
+RegressorRun: Sample 7100
+RegressorRun: Sample 7200
+RegressorRun: Sample 7300
+RegressorRun: Sample 7400
+RegressorRun: Sample 7500
+RegressorRun: Sample 7600
+RegressorRun: Sample 7700
+RegressorRun: Sample 7800
+RegressorRun: Sample 7900
+RegressorRun: Sample 8000
+RegressorRun: Sample 8100
+RegressorRun: Sample 8200
+RegressorRun: Sample 8300
+RegressorRun: Sample 8400
+RegressorRun: Sample 8500
+RegressorRun: Sample 8600
+RegressorRun: Sample 8700
+RegressorRun: Sample 8800
+RegressorRun: Sample 8900
+RegressorRun: Sample 9000
+RegressorRun: Sample 9100
+RegressorRun: Sample 9200
+RegressorRun: Sample 9300
+RegressorRun: Sample 9400
+RegressorRun: Sample 9500
+RegressorRun: Sample 9600
+RegressorRun: Sample 9700
+RegressorRun: Sample 9800
+RegressorRun: Sample 9900
+RegressorRun: Saving regressorResults
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e10/analysis/topIms.png with handler for imageArray
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e10/analysis/botIms.png with handler for imageArray
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e10/analysis/lossCurve.png with handler for lineplot
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e10/analysis/errorCurve.png with handler for lineplot
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e10/analysis/domainShiftTest.png with handler for lineplot
+Module times: [0.00014400482177734375, 4.017086029052734, 26.222185134887695, 0.5240349769592285, 21.954547882080078, 2.9704430103302]
+Total time: 55.6884820461
