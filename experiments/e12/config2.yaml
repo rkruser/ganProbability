@@ -37,7 +37,7 @@ args: [
   },
   #----- Sample args------
   {
-    'samples': 100,
+    'samples': 1000,
     'forward':True
   },
   #----- Zip args------
@@ -49,7 +49,7 @@ args: [
   },
 #----- Regressor training args------
   {
-  'nepochs': 1
+  'nepochs':25
   },
   #----- Regressor run args------
   {
@@ -57,7 +57,7 @@ args: [
     'netPinstance': -1,
     'netPexpNum': -1,
     'startProportions': [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-    'endProportions': [0, 0, 0, 0.2, 0.2, 0.2, 0.1, 0.1, 0.1, 0.1],
+    'endProportions': [0, 0, 0, 0, 0, 0.3, 0.3, 0.2, 0.1, 0.1],
     'samples':10000,
     'sigma':25
   },
