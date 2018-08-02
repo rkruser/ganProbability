@@ -1,0 +1,132 @@
+Hi, I am task:
+2
+=====
+Starting experiment mnistTotalStage2
+ID: 11, PID 2/10
+08_01_2018_23:54:00
+=====
+SampleGAN: Using options {'forward': True, 'samples': 1000}
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': 'netG', 'netDexpNum': -1, 'netD': 'netD', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': -1, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 2802
+LoadGAN: Load netG from file key netG
+LoadGAN: netG structure:
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+SampleGAN: Sample 0
+SampleGAN: Sample 10
+SampleGAN: Sample 20
+SampleGAN: Sample 30
+SampleGAN: Sample 40
+SampleGAN: Sample 50
+SampleGAN: Sample 60
+SampleGAN: Sample 70
+SampleGAN: Sample 80
+SampleGAN: Sample 90
+SampleGAN: Sample 100
+SampleGAN: Sample 110
+SampleGAN: Sample 120
+SampleGAN: Sample 130
+SampleGAN: Sample 140
+SampleGAN: Sample 150
+SampleGAN: Sample 160
+SampleGAN: Sample 170
+SampleGAN: Sample 180
+SampleGAN: Sample 190
+SampleGAN: Sample 200
+SampleGAN: Sample 210
+SampleGAN: Sample 220
+SampleGAN: Sample 230
+SampleGAN: Sample 240
+SampleGAN: Sample 250
+SampleGAN: Sample 260
+SampleGAN: Sample 270
+SampleGAN: Sample 280
+SampleGAN: Sample 290
+SampleGAN: Sample 300
+SampleGAN: Sample 310
+SampleGAN: Sample 320
+SampleGAN: Sample 330
+SampleGAN: Sample 340
+SampleGAN: Sample 350
+SampleGAN: Sample 360
+SampleGAN: Sample 370
+SampleGAN: Sample 380
+SampleGAN: Sample 390
+SampleGAN: Sample 400
+SampleGAN: Sample 410
+SampleGAN: Sample 420
+SampleGAN: Sample 430
+SampleGAN: Sample 440
+SampleGAN: Sample 450
+SampleGAN: Sample 460
+SampleGAN: Sample 470
+SampleGAN: Sample 480
+SampleGAN: Sample 490
+SampleGAN: Sample 500
+SampleGAN: Sample 510
+SampleGAN: Sample 520
+SampleGAN: Sample 530
+SampleGAN: Sample 540
+SampleGAN: Sample 550
+SampleGAN: Sample 560
+SampleGAN: Sample 570
+SampleGAN: Sample 580
+SampleGAN: Sample 590
+SampleGAN: Sample 600
+SampleGAN: Sample 610
+SampleGAN: Sample 620
+SampleGAN: Sample 630
+SampleGAN: Sample 640
+SampleGAN: Sample 650
+SampleGAN: Sample 660
+SampleGAN: Sample 670
+SampleGAN: Sample 680
+SampleGAN: Sample 690
+SampleGAN: Sample 700
+SampleGAN: Sample 710
+SampleGAN: Sample 720
+SampleGAN: Sample 730
+SampleGAN: Sample 740
+SampleGAN: Sample 750
+SampleGAN: Sample 760
+SampleGAN: Sample 770
+SampleGAN: Sample 780
+SampleGAN: Sample 790
+SampleGAN: Sample 800
+SampleGAN: Sample 810
+SampleGAN: Sample 820
+SampleGAN: Sample 830
+SampleGAN: Sample 840
+SampleGAN: Sample 850
+SampleGAN: Sample 860
+SampleGAN: Sample 870
+SampleGAN: Sample 880
+SampleGAN: Sample 890
+SampleGAN: Sample 900
+SampleGAN: Sample 910
+SampleGAN: Sample 920
+SampleGAN: Sample 930
+SampleGAN: Sample 940
+SampleGAN: Sample 950
+SampleGAN: Sample 960
+SampleGAN: Sample 970
+SampleGAN: Sample 980
+SampleGAN: Sample 990
+SampleGAN: The minimum value of prob is -29.3334010509 and the maximum is -4.71547843975
+SampleGAN: Saving sampled data
+ZipSamples: Collapsing to process 0

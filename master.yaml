@@ -16,7 +16,8 @@ info:
 - [e8, Test the mnist domain shift experiment]
 - [e9, Testing a total run-through]
 - [e10, Testing batch submit of total mnist]
-numExperiments: 10
+- [e11, Running mnist total for real]
+numExperiments: 11
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

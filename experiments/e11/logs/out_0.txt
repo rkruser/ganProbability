@@ -1,0 +1,568 @@
+Hi, I am task:
+0
+=====
+Starting experiment mnistTotalStage2
+ID: 11, PID 0/10
+08_01_2018_23:53:55
+=====
+SampleGAN: Using options {'forward': True, 'samples': 1000}
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': 'netG', 'netDexpNum': -1, 'netD': 'netD', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': -1, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 1234
+LoadGAN: Load netG from file key netG
+LoadGAN: netG structure:
+LoadGAN: _netG(
+  (main): Sequential(
+    (0): ConvTranspose2d(20, 256, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (2): ReLU(inplace)
+    (3): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): ReLU(inplace)
+    (6): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (8): ReLU(inplace)
+    (9): ConvTranspose2d(64, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): Tanh()
+  )
+)
+SampleGAN: Sample 0
+SampleGAN: Sample 10
+SampleGAN: Sample 20
+SampleGAN: Sample 30
+SampleGAN: Sample 40
+SampleGAN: Sample 50
+SampleGAN: Sample 60
+SampleGAN: Sample 70
+SampleGAN: Sample 80
+SampleGAN: Sample 90
+SampleGAN: Sample 100
+SampleGAN: Sample 110
+SampleGAN: Sample 120
+SampleGAN: Sample 130
+SampleGAN: Sample 140
+SampleGAN: Sample 150
+SampleGAN: Sample 160
+SampleGAN: Sample 170
+SampleGAN: Sample 180
+SampleGAN: Sample 190
+SampleGAN: Sample 200
+SampleGAN: Sample 210
+SampleGAN: Sample 220
+SampleGAN: Sample 230
+SampleGAN: Sample 240
+SampleGAN: Sample 250
+SampleGAN: Sample 260
+SampleGAN: Sample 270
+SampleGAN: Sample 280
+SampleGAN: Sample 290
+SampleGAN: Sample 300
+SampleGAN: Sample 310
+SampleGAN: Sample 320
+SampleGAN: Sample 330
+SampleGAN: Sample 340
+SampleGAN: Sample 350
+SampleGAN: Sample 360
+SampleGAN: Sample 370
+SampleGAN: Sample 380
+SampleGAN: Sample 390
+SampleGAN: Sample 400
+SampleGAN: Sample 410
+SampleGAN: Sample 420
+SampleGAN: Sample 430
+SampleGAN: Sample 440
+SampleGAN: Sample 450
+SampleGAN: Sample 460
+SampleGAN: Sample 470
+SampleGAN: Sample 480
+SampleGAN: Sample 490
+SampleGAN: Sample 500
+SampleGAN: Sample 510
+SampleGAN: Sample 520
+SampleGAN: Sample 530
+SampleGAN: Sample 540
+SampleGAN: Sample 550
+SampleGAN: Sample 560
+SampleGAN: Sample 570
+SampleGAN: Sample 580
+SampleGAN: Sample 590
+SampleGAN: Sample 600
+SampleGAN: Sample 610
+SampleGAN: Sample 620
+SampleGAN: Sample 630
+SampleGAN: Sample 640
+SampleGAN: Sample 650
+SampleGAN: Sample 660
+SampleGAN: Sample 670
+SampleGAN: Sample 680
+SampleGAN: Sample 690
+SampleGAN: Sample 700
+SampleGAN: Sample 710
+SampleGAN: Sample 720
+SampleGAN: Sample 730
+SampleGAN: Sample 740
+SampleGAN: Sample 750
+SampleGAN: Sample 760
+SampleGAN: Sample 770
+SampleGAN: Sample 780
+SampleGAN: Sample 790
+SampleGAN: Sample 800
+SampleGAN: Sample 810
+SampleGAN: Sample 820
+SampleGAN: Sample 830
+SampleGAN: Sample 840
+SampleGAN: Sample 850
+SampleGAN: Sample 860
+SampleGAN: Sample 870
+SampleGAN: Sample 880
+SampleGAN: Sample 890
+SampleGAN: Sample 900
+SampleGAN: Sample 910
+SampleGAN: Sample 920
+SampleGAN: Sample 930
+SampleGAN: Sample 940
+SampleGAN: Sample 950
+SampleGAN: Sample 960
+SampleGAN: Sample 970
+SampleGAN: Sample 980
+SampleGAN: Sample 990
+SampleGAN: The minimum value of prob is -29.6656162647 and the maximum is -3.6232243807
+SampleGAN: Saving sampled data
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+ZipSamples: Loading mats
+ZipSamples: Saving samples
+LoadGAN: Using options:
+{'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': 'netG', 'netDexpNum': -1, 'netD': 'netD', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': -1, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'netPexpNum': -1, 'batchSize': 64}
+LoadGAN: Generating random seed
+LoadGAN: Using random seed 9665
+LoadGAN: Loading netP
+LoadGAN: netP structure
+LoadGAN: _netP(
+  (main): Sequential(
+    (0): Conv2d(1, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+RegressorTraining: Epoch: 0
+RegressorTraining: Training epoch 0, loss = 2, abserror=2
+RegressorTraining: Testing epoch 0, loss = 1, abserror=1
+RegressorTraining: Epoch: 1
+RegressorTraining: Training epoch 1, loss = 1, abserror=1
+RegressorTraining: Testing epoch 1, loss = 1, abserror=1
+RegressorTraining: Epoch: 2
+RegressorTraining: Training epoch 2, loss = 1, abserror=1
+RegressorTraining: Testing epoch 2, loss = 1, abserror=1
+RegressorTraining: Epoch: 3
+RegressorTraining: Training epoch 3, loss = 1, abserror=1
+RegressorTraining: Testing epoch 3, loss = 1, abserror=1
+RegressorTraining: Epoch: 4
+RegressorTraining: Training epoch 4, loss = 1, abserror=1
+RegressorTraining: Testing epoch 4, loss = 1, abserror=1
+RegressorTraining: Epoch: 5
+RegressorTraining: Training epoch 5, loss = 0, abserror=1
+RegressorTraining: Testing epoch 5, loss = 1, abserror=1
+RegressorTraining: Epoch: 6
+RegressorTraining: Training epoch 6, loss = 0, abserror=1
+RegressorTraining: Testing epoch 6, loss = 1, abserror=1
+RegressorTraining: Epoch: 7
+RegressorTraining: Training epoch 7, loss = 0, abserror=1
+RegressorTraining: Testing epoch 7, loss = 1, abserror=1
+RegressorTraining: Epoch: 8
+RegressorTraining: Training epoch 8, loss = 0, abserror=1
+RegressorTraining: Testing epoch 8, loss = 1, abserror=1
+RegressorTraining: Epoch: 9
+RegressorTraining: Training epoch 9, loss = 0, abserror=1
+RegressorTraining: Testing epoch 9, loss = 1, abserror=2
+RegressorTraining: Epoch: 10
+RegressorTraining: Training epoch 10, loss = 0, abserror=1
+RegressorTraining: Testing epoch 10, loss = 1, abserror=1
+RegressorTraining: Epoch: 11
+RegressorTraining: Training epoch 11, loss = 0, abserror=1
+RegressorTraining: Testing epoch 11, loss = 1, abserror=1
+RegressorTraining: Epoch: 12
+RegressorTraining: Training epoch 12, loss = 0, abserror=1
+RegressorTraining: Testing epoch 12, loss = 1, abserror=1
+RegressorTraining: Epoch: 13
+RegressorTraining: Training epoch 13, loss = 0, abserror=1
+RegressorTraining: Testing epoch 13, loss = 1, abserror=1
+RegressorTraining: Epoch: 14
+RegressorTraining: Training epoch 14, loss = 0, abserror=1
+RegressorTraining: Testing epoch 14, loss = 1, abserror=1
+RegressorTraining: Epoch: 15
+RegressorTraining: Training epoch 15, loss = 0, abserror=1
+RegressorTraining: Testing epoch 15, loss = 1, abserror=2
+RegressorTraining: Epoch: 16
+RegressorTraining: Training epoch 16, loss = 0, abserror=0
+RegressorTraining: Testing epoch 16, loss = 1, abserror=1
+RegressorTraining: Epoch: 17
+RegressorTraining: Training epoch 17, loss = 0, abserror=0
+RegressorTraining: Testing epoch 17, loss = 1, abserror=1
+RegressorTraining: Epoch: 18
+RegressorTraining: Training epoch 18, loss = 0, abserror=0
+RegressorTraining: Testing epoch 18, loss = 1, abserror=1
+RegressorTraining: Epoch: 19
+RegressorTraining: Training epoch 19, loss = 0, abserror=0
+RegressorTraining: Testing epoch 19, loss = 1, abserror=1
+RegressorTraining: Epoch: 20
+RegressorTraining: Training epoch 20, loss = 0, abserror=0
+RegressorTraining: Testing epoch 20, loss = 1, abserror=1
+RegressorTraining: Epoch: 21
+RegressorTraining: Training epoch 21, loss = 0, abserror=0
+RegressorTraining: Testing epoch 21, loss = 1, abserror=1
+RegressorTraining: Epoch: 22
+RegressorTraining: Training epoch 22, loss = 0, abserror=0
+RegressorTraining: Testing epoch 22, loss = 1, abserror=1
+RegressorTraining: Epoch: 23
+RegressorTraining: Training epoch 23, loss = 0, abserror=0
+RegressorTraining: Testing epoch 23, loss = 1, abserror=1
+RegressorTraining: Epoch: 24
+RegressorTraining: Training epoch 24, loss = 0, abserror=0
+RegressorTraining: Testing epoch 24, loss = 1, abserror=1
+RegressorTraining: Epoch: 25
+RegressorTraining: Training epoch 25, loss = 0, abserror=0
+RegressorTraining: Testing epoch 25, loss = 1, abserror=1
+RegressorTraining: Epoch: 26
+RegressorTraining: Training epoch 26, loss = 0, abserror=0
+RegressorTraining: Testing epoch 26, loss = 1, abserror=1
+RegressorTraining: Epoch: 27
+RegressorTraining: Training epoch 27, loss = 0, abserror=0
+RegressorTraining: Testing epoch 27, loss = 1, abserror=1
+RegressorTraining: Epoch: 28
+RegressorTraining: Training epoch 28, loss = 0, abserror=0
+RegressorTraining: Testing epoch 28, loss = 1, abserror=1
+RegressorTraining: Epoch: 29
+RegressorTraining: Training epoch 29, loss = 0, abserror=0
+RegressorTraining: Testing epoch 29, loss = 1, abserror=1
+RegressorTraining: Epoch: 30
+RegressorTraining: Training epoch 30, loss = 0, abserror=0
+RegressorTraining: Testing epoch 30, loss = 1, abserror=1
+RegressorTraining: Epoch: 31
+RegressorTraining: Training epoch 31, loss = 0, abserror=0
+RegressorTraining: Testing epoch 31, loss = 1, abserror=1
+RegressorTraining: Epoch: 32
+RegressorTraining: Training epoch 32, loss = 0, abserror=0
+RegressorTraining: Testing epoch 32, loss = 1, abserror=1
+RegressorTraining: Epoch: 33
+RegressorTraining: Training epoch 33, loss = 0, abserror=0
+RegressorTraining: Testing epoch 33, loss = 1, abserror=1
+RegressorTraining: Epoch: 34
+RegressorTraining: Training epoch 34, loss = 0, abserror=0
+RegressorTraining: Testing epoch 34, loss = 1, abserror=1
+RegressorTraining: Epoch: 35
+RegressorTraining: Training epoch 35, loss = 0, abserror=0
+RegressorTraining: Testing epoch 35, loss = 1, abserror=1
+RegressorTraining: Epoch: 36
+RegressorTraining: Training epoch 36, loss = 0, abserror=0
+RegressorTraining: Testing epoch 36, loss = 1, abserror=1
+RegressorTraining: Epoch: 37
+RegressorTraining: Training epoch 37, loss = 0, abserror=0
+RegressorTraining: Testing epoch 37, loss = 1, abserror=1
+RegressorTraining: Epoch: 38
+RegressorTraining: Training epoch 38, loss = 0, abserror=0
+RegressorTraining: Testing epoch 38, loss = 1, abserror=1
+RegressorTraining: Epoch: 39
+RegressorTraining: Training epoch 39, loss = 0, abserror=0
+RegressorTraining: Testing epoch 39, loss = 1, abserror=1
+RegressorTraining: Epoch: 40
+RegressorTraining: Training epoch 40, loss = 0, abserror=0
+RegressorTraining: Testing epoch 40, loss = 1, abserror=1
+RegressorTraining: Epoch: 41
+RegressorTraining: Training epoch 41, loss = 0, abserror=0
+RegressorTraining: Testing epoch 41, loss = 1, abserror=1
+RegressorTraining: Epoch: 42
+RegressorTraining: Training epoch 42, loss = 0, abserror=0
+RegressorTraining: Testing epoch 42, loss = 1, abserror=1
+RegressorTraining: Epoch: 43
+RegressorTraining: Training epoch 43, loss = 0, abserror=0
+RegressorTraining: Testing epoch 43, loss = 1, abserror=1
+RegressorTraining: Epoch: 44
+RegressorTraining: Training epoch 44, loss = 0, abserror=0
+RegressorTraining: Testing epoch 44, loss = 1, abserror=1
+RegressorTraining: Epoch: 45
+RegressorTraining: Training epoch 45, loss = 0, abserror=0
+RegressorTraining: Testing epoch 45, loss = 1, abserror=1
+RegressorTraining: Epoch: 46
+RegressorTraining: Training epoch 46, loss = 0, abserror=0
+RegressorTraining: Testing epoch 46, loss = 1, abserror=1
+RegressorTraining: Epoch: 47
+RegressorTraining: Training epoch 47, loss = 0, abserror=0
+RegressorTraining: Testing epoch 47, loss = 1, abserror=1
+RegressorTraining: Epoch: 48
+RegressorTraining: Training epoch 48, loss = 0, abserror=0
+RegressorTraining: Testing epoch 48, loss = 1, abserror=1
+RegressorTraining: Epoch: 49
+RegressorTraining: Training epoch 49, loss = 0, abserror=0
+RegressorTraining: Testing epoch 49, loss = 1, abserror=1
+RegressorTraining: Epoch: 50
+RegressorTraining: Training epoch 50, loss = 0, abserror=0
+RegressorTraining: Testing epoch 50, loss = 1, abserror=1
+RegressorTraining: Epoch: 51
+RegressorTraining: Training epoch 51, loss = 0, abserror=0
+RegressorTraining: Testing epoch 51, loss = 1, abserror=1
+RegressorTraining: Epoch: 52
+RegressorTraining: Training epoch 52, loss = 0, abserror=0
+RegressorTraining: Testing epoch 52, loss = 1, abserror=1
+RegressorTraining: Epoch: 53
+RegressorTraining: Training epoch 53, loss = 0, abserror=0
+RegressorTraining: Testing epoch 53, loss = 1, abserror=1
+RegressorTraining: Epoch: 54
+RegressorTraining: Training epoch 54, loss = 0, abserror=0
+RegressorTraining: Testing epoch 54, loss = 1, abserror=1
+RegressorTraining: Epoch: 55
+RegressorTraining: Training epoch 55, loss = 0, abserror=0
+RegressorTraining: Testing epoch 55, loss = 1, abserror=1
+RegressorTraining: Epoch: 56
+RegressorTraining: Training epoch 56, loss = 0, abserror=0
+RegressorTraining: Testing epoch 56, loss = 1, abserror=1
+RegressorTraining: Epoch: 57
+RegressorTraining: Training epoch 57, loss = 0, abserror=0
+RegressorTraining: Testing epoch 57, loss = 1, abserror=1
+RegressorTraining: Epoch: 58
+RegressorTraining: Training epoch 58, loss = 0, abserror=0
+RegressorTraining: Testing epoch 58, loss = 1, abserror=1
+RegressorTraining: Epoch: 59
+RegressorTraining: Training epoch 59, loss = 0, abserror=0
+RegressorTraining: Testing epoch 59, loss = 1, abserror=1
+RegressorTraining: Epoch: 60
+RegressorTraining: Training epoch 60, loss = 0, abserror=0
+RegressorTraining: Testing epoch 60, loss = 1, abserror=1
+RegressorTraining: Epoch: 61
+RegressorTraining: Training epoch 61, loss = 0, abserror=0
+RegressorTraining: Testing epoch 61, loss = 1, abserror=1
+RegressorTraining: Epoch: 62
+RegressorTraining: Training epoch 62, loss = 0, abserror=0
+RegressorTraining: Testing epoch 62, loss = 1, abserror=1
+RegressorTraining: Epoch: 63
+RegressorTraining: Training epoch 63, loss = 0, abserror=0
+RegressorTraining: Testing epoch 63, loss = 1, abserror=1
+RegressorTraining: Epoch: 64
+RegressorTraining: Training epoch 64, loss = 0, abserror=0
+RegressorTraining: Testing epoch 64, loss = 1, abserror=1
+RegressorTraining: Epoch: 65
+RegressorTraining: Training epoch 65, loss = 0, abserror=0
+RegressorTraining: Testing epoch 65, loss = 1, abserror=1
+RegressorTraining: Epoch: 66
+RegressorTraining: Training epoch 66, loss = 0, abserror=0
+RegressorTraining: Testing epoch 66, loss = 1, abserror=1
+RegressorTraining: Epoch: 67
+RegressorTraining: Training epoch 67, loss = 0, abserror=0
+RegressorTraining: Testing epoch 67, loss = 1, abserror=1
+RegressorTraining: Epoch: 68
+RegressorTraining: Training epoch 68, loss = 0, abserror=0
+RegressorTraining: Testing epoch 68, loss = 1, abserror=1
+RegressorTraining: Epoch: 69
+RegressorTraining: Training epoch 69, loss = 0, abserror=0
+RegressorTraining: Testing epoch 69, loss = 1, abserror=1
+RegressorTraining: Epoch: 70
+RegressorTraining: Training epoch 70, loss = 0, abserror=0
+RegressorTraining: Testing epoch 70, loss = 1, abserror=1
+RegressorTraining: Epoch: 71
+RegressorTraining: Training epoch 71, loss = 0, abserror=0
+RegressorTraining: Testing epoch 71, loss = 1, abserror=1
+RegressorTraining: Epoch: 72
+RegressorTraining: Training epoch 72, loss = 0, abserror=0
+RegressorTraining: Testing epoch 72, loss = 1, abserror=1
+RegressorTraining: Epoch: 73
+RegressorTraining: Training epoch 73, loss = 0, abserror=0
+RegressorTraining: Testing epoch 73, loss = 1, abserror=1
+RegressorTraining: Epoch: 74
+RegressorTraining: Training epoch 74, loss = 0, abserror=0
+RegressorTraining: Testing epoch 74, loss = 1, abserror=1
+RegressorTraining: Epoch: 75
+RegressorTraining: Training epoch 75, loss = 0, abserror=0
+RegressorTraining: Testing epoch 75, loss = 1, abserror=1
+RegressorTraining: Epoch: 76
+RegressorTraining: Training epoch 76, loss = 0, abserror=0
+RegressorTraining: Testing epoch 76, loss = 1, abserror=1
+RegressorTraining: Epoch: 77
+RegressorTraining: Training epoch 77, loss = 0, abserror=0
+RegressorTraining: Testing epoch 77, loss = 1, abserror=1
+RegressorTraining: Epoch: 78
+RegressorTraining: Training epoch 78, loss = 0, abserror=0
+RegressorTraining: Testing epoch 78, loss = 1, abserror=1
+RegressorTraining: Epoch: 79
+RegressorTraining: Training epoch 79, loss = 0, abserror=0
+RegressorTraining: Testing epoch 79, loss = 1, abserror=1
+RegressorTraining: Epoch: 80
+RegressorTraining: Training epoch 80, loss = 0, abserror=0
+RegressorTraining: Testing epoch 80, loss = 1, abserror=1
+RegressorTraining: Epoch: 81
+RegressorTraining: Training epoch 81, loss = 0, abserror=0
+RegressorTraining: Testing epoch 81, loss = 1, abserror=1
+RegressorTraining: Epoch: 82
+RegressorTraining: Training epoch 82, loss = 0, abserror=0
+RegressorTraining: Testing epoch 82, loss = 1, abserror=1
+RegressorTraining: Epoch: 83
+RegressorTraining: Training epoch 83, loss = 0, abserror=0
+RegressorTraining: Testing epoch 83, loss = 1, abserror=1
+RegressorTraining: Epoch: 84
+RegressorTraining: Training epoch 84, loss = 0, abserror=0
+RegressorTraining: Testing epoch 84, loss = 1, abserror=1
+RegressorTraining: Epoch: 85
+RegressorTraining: Training epoch 85, loss = 0, abserror=0
+RegressorTraining: Testing epoch 85, loss = 1, abserror=1
+RegressorTraining: Epoch: 86
+RegressorTraining: Training epoch 86, loss = 0, abserror=0
+RegressorTraining: Testing epoch 86, loss = 0, abserror=1
+RegressorTraining: Epoch: 87
+RegressorTraining: Training epoch 87, loss = 0, abserror=0
+RegressorTraining: Testing epoch 87, loss = 1, abserror=1
+RegressorTraining: Epoch: 88
+RegressorTraining: Training epoch 88, loss = 0, abserror=0
+RegressorTraining: Testing epoch 88, loss = 1, abserror=1
+RegressorTraining: Epoch: 89
+RegressorTraining: Training epoch 89, loss = 0, abserror=0
+RegressorTraining: Testing epoch 89, loss = 1, abserror=1
+RegressorTraining: Epoch: 90
+RegressorTraining: Training epoch 90, loss = 0, abserror=0
+RegressorTraining: Testing epoch 90, loss = 0, abserror=1
+RegressorTraining: Epoch: 91
+RegressorTraining: Training epoch 91, loss = 0, abserror=0
+RegressorTraining: Testing epoch 91, loss = 1, abserror=1
+RegressorTraining: Epoch: 92
+RegressorTraining: Training epoch 92, loss = 0, abserror=0
+RegressorTraining: Testing epoch 92, loss = 1, abserror=1
+RegressorTraining: Epoch: 93
+RegressorTraining: Training epoch 93, loss = 0, abserror=0
+RegressorTraining: Testing epoch 93, loss = 1, abserror=1
+RegressorTraining: Epoch: 94
+RegressorTraining: Training epoch 94, loss = 0, abserror=0
+RegressorTraining: Testing epoch 94, loss = 1, abserror=1
+RegressorTraining: Epoch: 95
+RegressorTraining: Training epoch 95, loss = 0, abserror=0
+RegressorTraining: Testing epoch 95, loss = 1, abserror=1
+RegressorTraining: Epoch: 96
+RegressorTraining: Training epoch 96, loss = 0, abserror=0
+RegressorTraining: Testing epoch 96, loss = 1, abserror=1
+RegressorTraining: Epoch: 97
+RegressorTraining: Training epoch 97, loss = 0, abserror=0
+RegressorTraining: Testing epoch 97, loss = 1, abserror=1
+RegressorTraining: Epoch: 98
+RegressorTraining: Training epoch 98, loss = 0, abserror=0
+RegressorTraining: Testing epoch 98, loss = 1, abserror=1
+RegressorTraining: Epoch: 99
+RegressorTraining: Training epoch 99, loss = 0, abserror=0
+RegressorTraining: Testing epoch 99, loss = 1, abserror=1
+RegressorTraining: Saving netP
+RegressorRun: Loading netP
+RegressorRun: Getting loaders
+RegressorRun: Interpolating class distributions
+RegressorRun: Sample 0
+RegressorRun: Sample 100
+RegressorRun: Sample 200
+RegressorRun: Sample 300
+RegressorRun: Sample 400
+RegressorRun: Sample 500
+RegressorRun: Sample 600
+RegressorRun: Sample 700
+RegressorRun: Sample 800
+RegressorRun: Sample 900
+RegressorRun: Sample 1000
+RegressorRun: Sample 1100
+RegressorRun: Sample 1200
+RegressorRun: Sample 1300
+RegressorRun: Sample 1400
+RegressorRun: Sample 1500
+RegressorRun: Sample 1600
+RegressorRun: Sample 1700
+RegressorRun: Sample 1800
+RegressorRun: Sample 1900
+RegressorRun: Sample 2000
+RegressorRun: Sample 2100
+RegressorRun: Sample 2200
+RegressorRun: Sample 2300
+RegressorRun: Sample 2400
+RegressorRun: Sample 2500
+RegressorRun: Sample 2600
+RegressorRun: Sample 2700
+RegressorRun: Sample 2800
+RegressorRun: Sample 2900
+RegressorRun: Sample 3000
+RegressorRun: Sample 3100
+RegressorRun: Sample 3200
+RegressorRun: Sample 3300
+RegressorRun: Sample 3400
+RegressorRun: Sample 3500
+RegressorRun: Sample 3600
+RegressorRun: Sample 3700
+RegressorRun: Sample 3800
+RegressorRun: Sample 3900
+RegressorRun: Sample 4000
+RegressorRun: Sample 4100
+RegressorRun: Sample 4200
+RegressorRun: Sample 4300
+RegressorRun: Sample 4400
+RegressorRun: Sample 4500
+RegressorRun: Sample 4600
+RegressorRun: Sample 4700
+RegressorRun: Sample 4800
+RegressorRun: Sample 4900
+RegressorRun: Sample 5000
+RegressorRun: Sample 5100
+RegressorRun: Sample 5200
+RegressorRun: Sample 5300
+RegressorRun: Sample 5400
+RegressorRun: Sample 5500
+RegressorRun: Sample 5600
+RegressorRun: Sample 5700
+RegressorRun: Sample 5800
+RegressorRun: Sample 5900
+RegressorRun: Sample 6000
+RegressorRun: Sample 6100
+RegressorRun: Sample 6200
+RegressorRun: Sample 6300
+RegressorRun: Sample 6400
+RegressorRun: Sample 6500
+RegressorRun: Sample 6600
+RegressorRun: Sample 6700
+RegressorRun: Sample 6800
+RegressorRun: Sample 6900
+RegressorRun: Sample 7000
+RegressorRun: Sample 7100
+RegressorRun: Sample 7200
+RegressorRun: Sample 7300
+RegressorRun: Sample 7400
+RegressorRun: Sample 7500
+RegressorRun: Sample 7600
+RegressorRun: Sample 7700
+RegressorRun: Sample 7800
+RegressorRun: Sample 7900
+RegressorRun: Sample 8000
+RegressorRun: Sample 8100
+RegressorRun: Sample 8200
+RegressorRun: Sample 8300
+RegressorRun: Sample 8400
+RegressorRun: Sample 8500
+RegressorRun: Sample 8600
+RegressorRun: Sample 8700
+RegressorRun: Sample 8800
+RegressorRun: Sample 8900
+RegressorRun: Sample 9000
+RegressorRun: Sample 9100
+RegressorRun: Sample 9200
+RegressorRun: Sample 9300
+RegressorRun: Sample 9400
+RegressorRun: Sample 9500
+RegressorRun: Sample 9600
+RegressorRun: Sample 9700
+RegressorRun: Sample 9800
+RegressorRun: Sample 9900
+RegressorRun: Saving regressorResults
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e11/analysis/topIms.png with handler for imageArray
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e11/analysis/botIms.png with handler for imageArray
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e11/analysis/lossCurve.png with handler for lineplot
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e11/analysis/errorCurve.png with handler for lineplot
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e11/analysis/domainShiftTest.png with handler for lineplot
+Module times: [0.00016498565673828125, 4.961410999298096, 44.667978048324585, 105.35867500305176, 22.823276042938232, 2.9437761306762695]
+Total time: 180.755322933
