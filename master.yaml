@@ -22,7 +22,8 @@ info:
 - [e14, Testing mnist_distribution loader]
 - [e15, Redoing e14 with different probs]
 - [e16, Another mnist exp]
-numExperiments: 16
+- [e17, Testing upward shift]
+numExperiments: 17
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
