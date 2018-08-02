@@ -1,17 +1,18 @@
-name: mnistStage1
-modules: [LoadGAN, TrainGAN, Analyzer]
+name: mnistStage2
+modules: [LoadGAN, SampleGAN, ZipSamples, RegressorTraining, RegressorRun, Analyzer]
 #One for everything in otherPaths
-otherTemplates: {
-  generated: template
-}
-dependencies: [[], [0], [0,1]]
+#otherTemplates: {
+#  generated: template
+#}
+dependencies: [[], [0], [], [0], [0], [0,1,2,3,4]]
 args: [
-  # Loader args
+  #----- Loader args------
   {
   # Loader default options
   'dataset': 'mnist',
+  'loadFromExperiment': -1, #The current experiment
   'batchSize': 64,
-  'workers': 2, #??
+  'workers': 2,
   'imageSize': 28,
   # Model default options
   'ngpu': 1,
@@ -19,25 +20,50 @@ args: [
   'ngf': 64,
   'ndf': 64,
   'nc': 1,
-  'cuda': True, # Running on cuda
-  'netG':'',
+  'cuda': True,
+  'netG':'netG',
   'netGexpNum': -1, #experiment number to load from
   'netGinstance': -1, #Epoch snapshot to load from
-  'netD': '',
+  'netD': 'netD',
   'netDexpNum': -1, # experiment number to load from
   'netDinstance': -1, #epoch snapshot to load from
+  'netP': '',
+  'netPinstance': -1,
+  'netPexpNum': -1,
   'lr': 0.0002,
   'beta1': 0.5,
 #  'manualSeed':None
 # 'proportions':(0.1*np.ones(10))
   },
+  #----- Sample args------
+  {
+    'samples': 100,
+    'forward':True
+  },
+  #----- Zip args------
+  {
+    'zipkey': 'samples',
+    'collapseInterval': 1,
+    'collapseTimeout': 300,
+    'take': 25
+  },
+#----- Regressor training args------
   {
   'nepochs': 1
   },
+  #----- Regressor run args------
+  {
+    'netP': 'netP',
+    'netPinstance': -1,
+    'netPexpNum': -1,
+    'startProportions': [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+    'endProportions': [0, 0, 0, 0.2, 0.2, 0.2, 0.1, 0.1, 0.1, 0.1],
+    'samples':10000,
+    'sigma':25
+  },
+  #----- Analyzer args------
   {}
 ]
-## Note: at the moment: this must contain
-# all the files needed for stage 2 as well
 files: {
   submit: {'path': 'submit.sh',
          'parallelOpt': 'threadInvariant'},
@@ -66,10 +92,8 @@ files: {
                       'folder': 'generated'},
   domainShiftCurve: 'analysis/domainShiftTest.png',
   topIms: {'path': 'analysis/topIms.png', 'parallelOpt': 'threadInvariant'},
-  botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'},
-  ganTrainPlot: 'analysis/ganTrainPlot.png'
+  botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'}
 }
-formatArgs: {
-  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder' ],
-  submit2: [ 'name', 'NUMBER', 'file:slurmOutFolder' ]
-}
+#formatArgs: {
+#  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder' ]
+#}

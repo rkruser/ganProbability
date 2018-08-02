@@ -1,5 +1,5 @@
 ##### mlworkflow
-from mlworkflow import Operator
+from mlworkflow import Operator, Data
 from easydict import EasyDict as edict
 
 #from __future__ import print_function
@@ -55,6 +55,9 @@ class TrainGAN(Operator):
     self.opt = edict(opt)
     assert(len(self.dependencies) > 0)
     self.loader = self.dependencies[0] #Depend on loader class
+
+    self.errG = []
+    self.errD = []
 
   def run(self):
     # Place the following in loader
@@ -137,6 +140,8 @@ class TrainGAN(Operator):
             self.log('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
                   % (epoch, opt.nepochs, i, len(dataloader),
                      errD.data[0], errG.data[0], D_x, D_G_z1, D_G_z2))
+            self.errG.append(errG.data[0])
+            self.errD.append(errD.data[0])
 
                                                                       
     # do checkpointing
@@ -148,6 +153,20 @@ class TrainGAN(Operator):
 
     #torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % (opt.outf, opt.classindex))
     #torch.save(netD.state_dict(), '%s/netD_epoch_%d.pth' % (opt.outf, opt.classindex))
+
+  def getAnalysisData(self):
+    assert(len(self.errG) == len(self.errD))
+    errInfo = {
+      'data':np.array([range(len(self.errG)),self.errG,self.errD]),
+      'legend':['Generator error','Discriminator Error'],
+      'xlabel':'Iteration (sub-epoch)',
+      'ylabel':'Error',
+      'title':'GAN training curve',
+      'format':'png'
+    }
+    errAnalysis = Data(errInfo, 'lineplot', 'ganTrainPlot')
+    return [errAnalysis]
+
 
 
 # Todo:

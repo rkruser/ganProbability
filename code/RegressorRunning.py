@@ -87,7 +87,7 @@ class RegressorRun(Operator):
     # Should convolve probabilities with gaussian or something
     xran = np.arange(-3*self.opt.sigma, 3*self.opt.sigma+1, 1)
     gaussFilter = norm.pdf(xran,0,self.opt.sigma)
-    filteredProbs = np.convolve(self.probs, gaussFilter, 'same')
+    filteredProbs = np.convolve(self.probs, gaussFilter, 'valid') #Change to valid convolution
     plotDict = {
       'data':np.array([np.arange(len(filteredProbs)), filteredProbs]),
       'title':'Domain shift {0} --> {1}'.format(str(self.opt.startProportions),str(self.opt.endProportions)),

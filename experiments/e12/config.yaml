@@ -1,4 +1,4 @@
-name: mnistStage1
+name: mnistTotal
 modules: [LoadGAN, TrainGAN, Analyzer]
 #One for everything in otherPaths
 otherTemplates: {
@@ -11,7 +11,7 @@ args: [
   # Loader default options
   'dataset': 'mnist',
   'batchSize': 64,
-  'workers': 2, #??
+  'workers': 1, #??
   'imageSize': 28,
   # Model default options
   'ngpu': 1,
@@ -32,7 +32,7 @@ args: [
 # 'proportions':(0.1*np.ones(10))
   },
   {
-  'nepochs': 1
+  'nepochs': 5
   },
   {}
 ]

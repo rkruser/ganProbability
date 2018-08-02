@@ -17,7 +17,8 @@ info:
 - [e9, Testing a total run-through]
 - [e10, Testing batch submit of total mnist]
 - [e11, Running mnist total for real]
-numExperiments: 11
+- [e12, Added training visualization to total pipeline]
+numExperiments: 12
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
