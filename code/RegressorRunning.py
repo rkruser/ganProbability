@@ -87,7 +87,7 @@ class RegressorRun(Operator):
     gaussFilter = norm.pdf(xran,0,self.opt.sigma)
     filteredProbs = np.convolve(self.probs, gaussFilter, 'same')
     plotDict = {
-      'data':filteredProbs,
+      'data':np.array([np.arange(len(filteredProbs)), filteredProbs]),
       'title':'Domain shift {0} --> {1}'.format(str(self.opt.startProportions),str(self.opt.endProportions)),
       'xlabel':'Input number',
       'ylabel':'Regressor Probability'

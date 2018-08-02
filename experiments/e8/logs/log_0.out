@@ -133,3 +133,116 @@ Analyzer: Obtaining data for analysis
 Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e8/analysis/domainShiftTest.png with handler for lineplot
 Module times: [0.00013303756713867188, 20.878762006759644, 61.075448989868164]
 Total time: 81.9543590546
+=====
+Starting experiment runRegressorTest
+ID: 8, PID 0/1
+08_01_2018_21:19:10
+=====
+RegressorRun: Loading netP
+RegressorRun: Getting loaders
+RegressorRun: Interpolating class distributions
+RegressorRun: Sample 0
+RegressorRun: Sample 100
+RegressorRun: Sample 200
+RegressorRun: Sample 300
+RegressorRun: Sample 400
+RegressorRun: Sample 500
+RegressorRun: Sample 600
+RegressorRun: Sample 700
+RegressorRun: Sample 800
+RegressorRun: Sample 900
+RegressorRun: Sample 1000
+RegressorRun: Sample 1100
+RegressorRun: Sample 1200
+RegressorRun: Sample 1300
+RegressorRun: Sample 1400
+RegressorRun: Sample 1500
+RegressorRun: Sample 1600
+RegressorRun: Sample 1700
+RegressorRun: Sample 1800
+RegressorRun: Sample 1900
+RegressorRun: Sample 2000
+RegressorRun: Sample 2100
+RegressorRun: Sample 2200
+RegressorRun: Sample 2300
+RegressorRun: Sample 2400
+RegressorRun: Sample 2500
+RegressorRun: Sample 2600
+RegressorRun: Sample 2700
+RegressorRun: Sample 2800
+RegressorRun: Sample 2900
+RegressorRun: Sample 3000
+RegressorRun: Sample 3100
+RegressorRun: Sample 3200
+RegressorRun: Sample 3300
+RegressorRun: Sample 3400
+RegressorRun: Sample 3500
+RegressorRun: Sample 3600
+RegressorRun: Sample 3700
+RegressorRun: Sample 3800
+RegressorRun: Sample 3900
+RegressorRun: Sample 4000
+RegressorRun: Sample 4100
+RegressorRun: Sample 4200
+RegressorRun: Sample 4300
+RegressorRun: Sample 4400
+RegressorRun: Sample 4500
+RegressorRun: Sample 4600
+RegressorRun: Sample 4700
+RegressorRun: Sample 4800
+RegressorRun: Sample 4900
+RegressorRun: Sample 5000
+RegressorRun: Sample 5100
+RegressorRun: Sample 5200
+RegressorRun: Sample 5300
+RegressorRun: Sample 5400
+RegressorRun: Sample 5500
+RegressorRun: Sample 5600
+RegressorRun: Sample 5700
+RegressorRun: Sample 5800
+RegressorRun: Sample 5900
+RegressorRun: Sample 6000
+RegressorRun: Sample 6100
+RegressorRun: Sample 6200
+RegressorRun: Sample 6300
+RegressorRun: Sample 6400
+RegressorRun: Sample 6500
+RegressorRun: Sample 6600
+RegressorRun: Sample 6700
+RegressorRun: Sample 6800
+RegressorRun: Sample 6900
+RegressorRun: Sample 7000
+RegressorRun: Sample 7100
+RegressorRun: Sample 7200
+RegressorRun: Sample 7300
+RegressorRun: Sample 7400
+RegressorRun: Sample 7500
+RegressorRun: Sample 7600
+RegressorRun: Sample 7700
+RegressorRun: Sample 7800
+RegressorRun: Sample 7900
+RegressorRun: Sample 8000
+RegressorRun: Sample 8100
+RegressorRun: Sample 8200
+RegressorRun: Sample 8300
+RegressorRun: Sample 8400
+RegressorRun: Sample 8500
+RegressorRun: Sample 8600
+RegressorRun: Sample 8700
+RegressorRun: Sample 8800
+RegressorRun: Sample 8900
+RegressorRun: Sample 9000
+RegressorRun: Sample 9100
+RegressorRun: Sample 9200
+RegressorRun: Sample 9300
+RegressorRun: Sample 9400
+RegressorRun: Sample 9500
+RegressorRun: Sample 9600
+RegressorRun: Sample 9700
+RegressorRun: Sample 9800
+RegressorRun: Sample 9900
+RegressorRun: Saving regressorResults
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e8/analysis/domainShiftTest.png with handler for lineplot
+Module times: [0.00015211105346679688, 21.286720991134644, 0.17174386978149414]
+Total time: 21.4586341381
