@@ -20,7 +20,8 @@ info:
 - [e12, Added training visualization to total pipeline]
 - [e13, '']
 - [e14, Testing mnist_distribution loader]
-numExperiments: 14
+- [e15, Redoing e14 with different probs]
+numExperiments: 15
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
