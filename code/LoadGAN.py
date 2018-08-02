@@ -65,6 +65,7 @@ class LoadGAN(Loader):
 
   def getProbData(self, options={}):
     opt = copy(self.opt)
+    options = copy(options)
     opt.update(options)
     opt = edict(opt)
 
@@ -82,6 +83,7 @@ class LoadGAN(Loader):
   #  corresponding to the desired dataset
   def getLoader(self, options={}):
     opt = copy(self.opt)
+    options = copy(options)
     opt.update(options)
     opt = edict(opt)
 
@@ -170,6 +172,7 @@ class LoadGAN(Loader):
   # Return the model corresponding to the option
   def getGANModel(self, options={}):
     opt = copy(self.opt)
+    options = copy(options)
     opt.update(options)
     self.log("Using options:\n"+str(opt))
     opt = edict(opt)
@@ -268,6 +271,7 @@ class LoadGAN(Loader):
 
   def getSamplingGAN(self,options={}):
     opt = copy(self.opt)
+    options = copy(options)
     opt.update(options)
     self.log("Using options:\n"+str(opt))
     opt = edict(opt)
@@ -309,6 +313,7 @@ class LoadGAN(Loader):
 
   def getRegressorProblem(self, options={}):
     opt = copy(self.opt)
+    options = copy(options)
     opt.update(options)
     self.log("Using options:\n"+str(opt))
     opt = edict(opt)
@@ -364,5 +369,24 @@ class LoadGAN(Loader):
     }
 
     return problem
+
+  def getNetP(self,options={}):
+    opt = copy(self.opt)
+    options = copy(options)
+    opt.update(options)
+    opt = edict(opt)
+
+    if opt.dataset == 'mog':
+      netP = mog_netP(opt.ngpu)
+    else:
+      netP = _netP(opt.ngpu,opt.nc,opt.ndf)
+
+    netP.load_state_dict(self.files.load(opt.netP,instance=opt.netPinstance,
+          number=opt.netPexpNum,loader='torch'))
+
+    return netP
+
+
+      
 
     

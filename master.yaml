@@ -13,7 +13,8 @@ info:
 - [e5, Testing zipping]
 - [e6, Testing regressor training]
 - [e7, Tweaked Regressor experiment]
-numExperiments: 7
+- [e8, Test the mnist domain shift experiment]
+numExperiments: 8
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

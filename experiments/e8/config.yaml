@@ -1,5 +1,5 @@
-name: regressorTest
-modules: [LoadGAN, RegressorTraining, Analyzer]
+name: runRegressorTest
+modules: [LoadGAN, RegressorRun, Analyzer]
 #One for everything in otherPaths
 otherTemplates: {
   generated: template
@@ -36,7 +36,13 @@ args: [
 # 'proportions':(0.1*np.ones(10))
   },
   {
-  'nepochs': 2
+    'netP': 'netP',
+    'netPinstance': -1,
+    'netPexpNum': 7,
+#    'startProportions':(0.1*np.ones(10)),
+#    'endProportions':(0.1*np.ones(10)),
+    'samples':10000,
+    'sigma':25
   },
   {}
 ]
