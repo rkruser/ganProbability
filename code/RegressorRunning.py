@@ -90,7 +90,8 @@ class RegressorRun(Operator):
       'data':np.array([np.arange(len(filteredProbs)), filteredProbs]),
       'title':'Domain shift {0} --> {1}'.format(str(self.opt.startProportions),str(self.opt.endProportions)),
       'xlabel':'Input number',
-      'ylabel':'Regressor Probability'
+      'ylabel':'Regressor Probability',
+      'format':'png'
     }
     toPlot = Data(plotDict, 'lineplot', 'domainShiftCurve')
 
