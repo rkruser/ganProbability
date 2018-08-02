@@ -53,6 +53,8 @@ class RegressorRun(Operator):
     }
     opt.update(args)
     self.opt = edict(opt)
+    self.opt.startProportions = np.array(self.opt.startProportions)
+    self.opt.endProportions = np.array(self.opt.endProportions)
     self.opt.startProportions[9] = 1-np.sum(self.opt.startProportions[:9])
     self.opt.endProportions[9] = 1-np.sum(self.opt.endProportions[:9])
 

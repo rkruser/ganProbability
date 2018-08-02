@@ -17,6 +17,7 @@ parser.add_argument('--pid',type=int,default=-1,help='Batch ID')
 parser.add_argument('--nprocs',type=int,default=-1,help='Number of batch processes')
 parser.add_argument('--masterconfig',type=str,default='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml',
     help='Path to master config')
+parser.add_argument('--stage', type=int, default=1, help='The stage of the model to run')
 
 
 def getClasses(clist):
@@ -57,7 +58,7 @@ def main():
 #  s = getClasses(['LoadGAN','TrainGAN'])
 #  print s
 
-  experiment(masterconfig=opt.masterconfig, classParser=getClasses, experimentNum=opt.id, pid=rank, numProcs=size,verbose=True)
+  experiment(masterconfig=opt.masterconfig, classParser=getClasses, experimentNum=opt.id, pid=rank, numProcs=size,verbose=True,stage=opt.stage)
 
 if __name__ == '__main__':
   main()

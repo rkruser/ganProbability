@@ -1,0 +1,73 @@
+name: mnistStage1
+modules: [LoadGAN, TrainGAN]
+#One for everything in otherPaths
+otherTemplates: {
+  generated: template
+}
+dependencies: [[], [0]]
+args: [
+  # Loader args
+  {
+  # Loader default options
+  'dataset': 'mnist',
+  'batchSize': 64,
+  'workers': 2, #??
+  'imageSize': 28,
+  # Model default options
+  'ngpu': 1,
+  'nz': 20,
+  'ngf': 64,
+  'ndf': 64,
+  'nc': 1,
+  'cuda': True, # Running on cuda
+  'netG':'',
+  'netGexpNum': -1, #experiment number to load from
+  'netGinstance': -1, #Epoch snapshot to load from
+  'netD': '',
+  'netDexpNum': -1, # experiment number to load from
+  'netDinstance': -1, #epoch snapshot to load from
+  'lr': 0.0002,
+  'beta1': 0.5,
+#  'manualSeed':None
+# 'proportions':(0.1*np.ones(10))
+  },
+  {
+  'nepochs': 1
+  }
+]
+## Note: at the moment: this must contain
+# all the files needed for stage 2 as well
+files: {
+  submit: {'path': 'submit.sh',
+         'parallelOpt': 'threadInvariant'},
+  submit2: {'path': 'submit2.sh',
+         'parallelOpt': 'threadInvariant'},
+  netG: {'path': 'models/netG.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  netD: {'path': 'models/netD.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  slurmOutFolder: 'logs/',
+  samples: {'path': 'data/samples.mat',
+            'parallelOpt': 'threadSpecific',
+            'pathOpt': 'experimentRelative',
+            'folder': 'generated'},
+  netP: {'path': 'models/netP.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  lossCurve: 'analysis/lossCurve.png',
+  errorCurve: 'analysis/errorCurve.png',
+  regressorResults: { 'path': 'data/regressorShiftResults.mat',
+                      'folder': 'generated'},
+  domainShiftCurve: 'analysis/domainShiftTest.png',
+  topIms: {'path': 'analysis/topIms.png', 'parallelOpt': 'threadInvariant'},
+  botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'}
+}
+formatArgs: {
+  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder' ],
+  submit2: [ 'name', 'NUMBER', 'file:slurmOutFolder' ]
+}
