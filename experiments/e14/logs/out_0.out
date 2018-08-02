@@ -2,14 +2,14 @@ Hi, I am task:
 0
 =====
 Starting experiment mnistStage2
-ID: 14, PID 0/10
-08_02_2018_11:14:20
+ID: 17, PID 0/10
+08_02_2018_13:23:40
 =====
 SampleGAN: Using options {'forward': True, 'samples': 8000}
 LoadGAN: Using options:
 {'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist_distribution', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': 'netG', 'netDexpNum': -1, 'netD': 'netD', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': -1, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'netPexpNum': -1, 'batchSize': 64}
 LoadGAN: Generating random seed
-LoadGAN: Using random seed 5739
+LoadGAN: Using random seed 7990
 LoadGAN: Load netG from file key netG
 LoadGAN: netG structure:
 LoadGAN: _netG(
@@ -827,7 +827,7 @@ SampleGAN: Sample 7960
 SampleGAN: Sample 7970
 SampleGAN: Sample 7980
 SampleGAN: Sample 7990
-SampleGAN: The minimum value of prob is -31.3113587236 and the maximum is -8.90652354741
+SampleGAN: The minimum value of prob is -29.6071615347 and the maximum is -9.94580663206
 SampleGAN: Saving sampled data
 ZipSamples: Collapsing to process 0
 ZipSamples: In Process 0 (this should not be seen by other processes)
@@ -836,7 +836,7 @@ ZipSamples: Saving samples
 LoadGAN: Using options:
 {'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist_distribution', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': 'netG', 'netDexpNum': -1, 'netD': 'netD', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': -1, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'netPexpNum': -1, 'batchSize': 64}
 LoadGAN: Generating random seed
-LoadGAN: Using random seed 734
+LoadGAN: Using random seed 9372
 LoadGAN: Loading netP
 LoadGAN: netP structure
 LoadGAN: _netP(
@@ -854,80 +854,80 @@ LoadGAN: _netP(
   )
 )
 RegressorTraining: Epoch: 0
-RegressorTraining: Training epoch 0, loss = 1, abserror=1
+RegressorTraining: Training epoch 0, loss = 0, abserror=1
 RegressorTraining: Testing epoch 0, loss = 0, abserror=1
 RegressorTraining: Epoch: 1
 RegressorTraining: Training epoch 1, loss = 0, abserror=1
 RegressorTraining: Testing epoch 1, loss = 0, abserror=1
 RegressorTraining: Epoch: 2
 RegressorTraining: Training epoch 2, loss = 0, abserror=1
-RegressorTraining: Testing epoch 2, loss = 1, abserror=1
+RegressorTraining: Testing epoch 2, loss = 0, abserror=1
 RegressorTraining: Epoch: 3
 RegressorTraining: Training epoch 3, loss = 0, abserror=1
-RegressorTraining: Testing epoch 3, loss = 1, abserror=2
+RegressorTraining: Testing epoch 3, loss = 0, abserror=1
 RegressorTraining: Epoch: 4
-RegressorTraining: Training epoch 4, loss = 0, abserror=1
-RegressorTraining: Testing epoch 4, loss = 1, abserror=1
+RegressorTraining: Training epoch 4, loss = 0, abserror=0
+RegressorTraining: Testing epoch 4, loss = 0, abserror=1
 RegressorTraining: Epoch: 5
-RegressorTraining: Training epoch 5, loss = 0, abserror=1
-RegressorTraining: Testing epoch 5, loss = 2, abserror=2
+RegressorTraining: Training epoch 5, loss = 0, abserror=0
+RegressorTraining: Testing epoch 5, loss = 0, abserror=1
 RegressorTraining: Epoch: 6
-RegressorTraining: Training epoch 6, loss = 0, abserror=1
-RegressorTraining: Testing epoch 6, loss = 2, abserror=3
+RegressorTraining: Training epoch 6, loss = 0, abserror=0
+RegressorTraining: Testing epoch 6, loss = 0, abserror=0
 RegressorTraining: Epoch: 7
-RegressorTraining: Training epoch 7, loss = 0, abserror=1
+RegressorTraining: Training epoch 7, loss = 0, abserror=0
 RegressorTraining: Testing epoch 7, loss = 0, abserror=1
 RegressorTraining: Epoch: 8
-RegressorTraining: Training epoch 8, loss = 0, abserror=1
+RegressorTraining: Training epoch 8, loss = 0, abserror=0
 RegressorTraining: Testing epoch 8, loss = 0, abserror=1
 RegressorTraining: Epoch: 9
-RegressorTraining: Training epoch 9, loss = 0, abserror=1
-RegressorTraining: Testing epoch 9, loss = 0, abserror=1
+RegressorTraining: Training epoch 9, loss = 0, abserror=0
+RegressorTraining: Testing epoch 9, loss = 1, abserror=1
 RegressorTraining: Epoch: 10
 RegressorTraining: Training epoch 10, loss = 0, abserror=0
 RegressorTraining: Testing epoch 10, loss = 0, abserror=1
 RegressorTraining: Epoch: 11
 RegressorTraining: Training epoch 11, loss = 0, abserror=0
-RegressorTraining: Testing epoch 11, loss = 1, abserror=1
+RegressorTraining: Testing epoch 11, loss = 0, abserror=1
 RegressorTraining: Epoch: 12
 RegressorTraining: Training epoch 12, loss = 0, abserror=0
-RegressorTraining: Testing epoch 12, loss = 0, abserror=1
+RegressorTraining: Testing epoch 12, loss = 0, abserror=0
 RegressorTraining: Epoch: 13
 RegressorTraining: Training epoch 13, loss = 0, abserror=0
-RegressorTraining: Testing epoch 13, loss = 1, abserror=2
+RegressorTraining: Testing epoch 13, loss = 0, abserror=1
 RegressorTraining: Epoch: 14
 RegressorTraining: Training epoch 14, loss = 0, abserror=0
 RegressorTraining: Testing epoch 14, loss = 0, abserror=1
 RegressorTraining: Epoch: 15
 RegressorTraining: Training epoch 15, loss = 0, abserror=0
-RegressorTraining: Testing epoch 15, loss = 2, abserror=2
+RegressorTraining: Testing epoch 15, loss = 0, abserror=1
 RegressorTraining: Epoch: 16
 RegressorTraining: Training epoch 16, loss = 0, abserror=0
-RegressorTraining: Testing epoch 16, loss = 0, abserror=1
+RegressorTraining: Testing epoch 16, loss = 0, abserror=0
 RegressorTraining: Epoch: 17
 RegressorTraining: Training epoch 17, loss = 0, abserror=0
-RegressorTraining: Testing epoch 17, loss = 0, abserror=1
+RegressorTraining: Testing epoch 17, loss = 0, abserror=0
 RegressorTraining: Epoch: 18
 RegressorTraining: Training epoch 18, loss = 0, abserror=0
-RegressorTraining: Testing epoch 18, loss = 1, abserror=2
+RegressorTraining: Testing epoch 18, loss = 0, abserror=0
 RegressorTraining: Epoch: 19
 RegressorTraining: Training epoch 19, loss = 0, abserror=0
-RegressorTraining: Testing epoch 19, loss = 2, abserror=3
+RegressorTraining: Testing epoch 19, loss = 0, abserror=0
 RegressorTraining: Epoch: 20
 RegressorTraining: Training epoch 20, loss = 0, abserror=0
-RegressorTraining: Testing epoch 20, loss = 0, abserror=1
+RegressorTraining: Testing epoch 20, loss = 0, abserror=0
 RegressorTraining: Epoch: 21
 RegressorTraining: Training epoch 21, loss = 0, abserror=0
-RegressorTraining: Testing epoch 21, loss = 0, abserror=1
+RegressorTraining: Testing epoch 21, loss = 0, abserror=0
 RegressorTraining: Epoch: 22
 RegressorTraining: Training epoch 22, loss = 0, abserror=0
-RegressorTraining: Testing epoch 22, loss = 1, abserror=1
+RegressorTraining: Testing epoch 22, loss = 0, abserror=0
 RegressorTraining: Epoch: 23
 RegressorTraining: Training epoch 23, loss = 0, abserror=0
 RegressorTraining: Testing epoch 23, loss = 0, abserror=1
 RegressorTraining: Epoch: 24
 RegressorTraining: Training epoch 24, loss = 0, abserror=0
-RegressorTraining: Testing epoch 24, loss = 1, abserror=1
+RegressorTraining: Testing epoch 24, loss = 0, abserror=0
 RegressorTraining: Saving netP
 RegressorRun: Loading netP
 RegressorRun: Getting loaders
@@ -1034,15 +1034,15 @@ RegressorRun: Sample 9800
 RegressorRun: Sample 9900
 RegressorRun: Saving regressorResults
 Analyzer: Obtaining data for analysis
-Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/topIms.png with handler for imageArray
-Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/topIms.pickle
-Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/botIms.png with handler for imageArray
-Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/botIms.pickle
-Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/lossCurve.png with handler for lineplot
-Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/lossCurve.pickle
-Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/errorCurve.png with handler for lineplot
-Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/errorCurve.pickle
-Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/domainShiftTest.png with handler for lineplot
-Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e14/analysis/domainShiftTest.pickle
-Module times: [0.00017690658569335938, 15.266682147979736, 65.61339688301086, 179.52871990203857, 23.54934811592102, 2.8982458114624023]
-Total time: 286.856617928
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/topIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/topIms.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/botIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/botIms.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/errorCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/domainShiftTest.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e17/analysis/domainShiftTest.pickle
+Module times: [0.00017595291137695312, 15.432109117507935, 76.211256980896, 186.2654209136963, 23.32541799545288, 2.865041971206665]
+Total time: 304.099478006

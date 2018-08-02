@@ -2,14 +2,14 @@ Hi, I am task:
 1
 =====
 Starting experiment mnistStage2
-ID: 14, PID 1/10
-08_02_2018_11:14:20
+ID: 17, PID 1/10
+08_02_2018_13:23:40
 =====
 SampleGAN: Using options {'forward': True, 'samples': 8000}
 LoadGAN: Using options:
 {'nc': 1, 'proportions': array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'dataset': 'mnist_distribution', 'ngpu': 1, 'ngf': 64, 'workers': 2, 'netG': 'netG', 'netDexpNum': -1, 'netD': 'netD', 'nz': 20, 'netDinstance': -1, 'lr': 0.0002, 'beta1': 0.5, 'loadFromExperiment': -1, 'netP': '', 'netGinstance': -1, 'imageSize': 28, 'netPinstance': -1, 'manualSeed': None, 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'netPexpNum': -1, 'batchSize': 64}
 LoadGAN: Generating random seed
-LoadGAN: Using random seed 271
+LoadGAN: Using random seed 1604
 LoadGAN: Load netG from file key netG
 LoadGAN: netG structure:
 LoadGAN: _netG(
@@ -827,6 +827,6 @@ SampleGAN: Sample 7960
 SampleGAN: Sample 7970
 SampleGAN: Sample 7980
 SampleGAN: Sample 7990
-SampleGAN: The minimum value of prob is -30.9516102716 and the maximum is -9.84351524207
+SampleGAN: The minimum value of prob is -29.637036034 and the maximum is -7.39372016843
 SampleGAN: Saving sampled data
 ZipSamples: Collapsing to process 0
