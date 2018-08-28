@@ -184,6 +184,7 @@ class ModelLoaderRyen(Loader):
       model.netD.cuda()
       model.criterion.cuda()
       
+    print model
    
     return model
 

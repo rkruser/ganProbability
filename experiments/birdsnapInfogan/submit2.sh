@@ -16,6 +16,6 @@
 echo "Hi, I am task:"
 echo ${{SLURM_ARRAY_TASK_ID}}
 
-cd /fs/vulcan-scratch/krusinga/projects/ganProbability/
+cd {3}
 module load cuda
 python run.py --pid ${{SLURM_ARRAY_TASK_ID}} --nprocs ${{SLURM_ARRAY_TASK_COUNT}} --stage 2

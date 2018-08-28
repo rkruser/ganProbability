@@ -1,70 +1,88 @@
-name: birdsnapInfogan
-modules: [DataloaderRyen, ModelLoaderRyen, TrainerRyen, Analyzer]
+name: mnistStage2
+modules: [LoadGAN, SampleGAN, ZipSamples, RegressorTraining, RegressorRun, Analyzer]
 #One for everything in otherPaths
-otherTemplates: {
-  generated: template
-}
-dependencies: [[], [], [0,1], [0,1,2]]
+#otherTemplates: {
+#  generated: template
+#}
+dependencies: [[], [0], [], [0], [0], [0,1,2,3,4]]
 args: [
-  # Loader args
+  #----- Loader args------
   {
-    'matfile':'/vulcan/scratch/krusinga/birdsnap/birdsnap/download/birdsnap.mat',
+  # Loader default options
+  'dataset': 'mnist',
+  'loadFromExperiment': -1, #The current experiment
   'batchSize': 64,
-  'workers': 2 #??
-  },
-  # modelLoader options
-  {
-  'imageSize': 64,
+  'workers': 2,
+  'imageSize': 28,
   # Model default options
   'ngpu': 1,
-  'nz': 100,
+  'nz': 20,
   'ngf': 64,
   'ndf': 64,
-  'npf': 64,
-  'nc': 3,
-  'cuda': True, # Running on cuda
-  'netG':'',
+  'nc': 1,
+  'cuda': True,
+  'netG':'netG',
   'netGexpNum': -1, #experiment number to load from
   'netGinstance': -1, #Epoch snapshot to load from
-  'netD': '',
+  'netD': 'netD',
   'netDexpNum': -1, # experiment number to load from
   'netDinstance': -1, #epoch snapshot to load from
+  'netP': '',
+  'netPinstance': -1,
+  'netPexpNum': -1,
   'lr': 0.0002,
   'beta1': 0.5,
-  'reconScale': 0
+#  'manualSeed':None
+# 'proportions':(0.1*np.ones(10))
   },
-  # train opts
+  #----- Sample args------
   {
-  'nepochs': 25
+    'samples': 100,
+    'forward':True
   },
-  # Analyzer opts
+  #----- Zip args------
+  {
+    'zipkey': 'samples',
+    'collapseInterval': 1,
+    'collapseTimeout': 300,
+    'take': 25
+  },
+#----- Regressor training args------
+  {
+  'nepochs': 1
+  },
+  #----- Regressor run args------
+  {
+    'netP': 'netP',
+    'netPinstance': -1,
+    'netPexpNum': -1,
+    'startProportions': [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+    'endProportions': [0, 0, 0, 0.2, 0.2, 0.2, 0.1, 0.1, 0.1, 0.1],
+    'samples':10000,
+    'sigma':25
+  },
+  #----- Analyzer args------
   {}
 ]
-## Note: at the moment: this must contain
-# all the files needed for stage 2 as well
 files: {
   submit: {'path': 'submit.sh',
          'parallelOpt': 'threadInvariant'},
   submit2: {'path': 'submit2.sh',
          'parallelOpt': 'threadInvariant'},
-  netG: {'path': 'models/netG_birdsnap.pth',
+  netG: {'path': 'models/netG.pth',
       'parallelOpt': 'threadInvariant',
       'pathOpt': 'experimentRelative',
       'folder': 'generated'},
-  netD: {'path': 'models/netD_birdsnap.pth',
+  netD: {'path': 'models/netD.pth',
       'parallelOpt': 'threadInvariant',
       'pathOpt': 'experimentRelative',
       'folder': 'generated'},
-  analysisPickle: {'path': 'data/analysisData.pickle',
-                  'parallelOpt': 'threadInvariant',
-                   'pathOpt': 'experimentRelative',
-                   'folder': 'generated'},
   slurmOutFolder: 'logs/',
   samples: {'path': 'data/samples.mat',
             'parallelOpt': 'threadSpecific',
             'pathOpt': 'experimentRelative',
             'folder': 'generated'},
-  netP: {'path': 'models/netP_birdsnap.pth',
+  netP: {'path': 'models/netP.pth',
       'parallelOpt': 'threadInvariant',
       'pathOpt': 'experimentRelative',
       'folder': 'generated'},
@@ -74,11 +92,8 @@ files: {
                       'folder': 'generated'},
   domainShiftCurve: 'analysis/domainShiftTest.png',
   topIms: {'path': 'analysis/topIms.png', 'parallelOpt': 'threadInvariant'},
-  botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'},
-  ganTrainPlot: 'analysis/ganTrainPlot.png',
-  ganSampleIms: 'analysis/sampleIm.png'
+  botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'}
 }
-formatArgs: {
-  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],
-  submit2: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ]
-}
+#formatArgs: {
+#  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder' ]
+#}

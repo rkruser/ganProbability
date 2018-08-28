@@ -16,6 +16,6 @@
 
 echo "Hi, I am task:"
 
-cd /fs/vulcan-scratch/krusinga/projects/ganProbability/
+cd {3}
 module load cuda
 python run.py --stage 1 --id {1} --masterconfig /cfarhomes/krusinga/ganProb/ganProbProject/master.yaml

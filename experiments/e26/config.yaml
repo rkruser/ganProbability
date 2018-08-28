@@ -31,11 +31,11 @@ args: [
   'netDinstance': -1, #epoch snapshot to load from
   'lr': 0.0002,
   'beta1': 0.5,
-  'reconScale': 0
+  'reconScale': 0.5
   },
   # train opts
   {
-  'nepochs': 25
+  'nepochs': 5
   },
   # Analyzer opts
   {}
@@ -79,6 +79,6 @@ files: {
   ganSampleIms: 'analysis/sampleIm.png'
 }
 formatArgs: {
-  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],
-  submit2: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ]
+  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder' ],
+  submit2: [ 'name', 'NUMBER', 'file:slurmOutFolder' ]
 }
