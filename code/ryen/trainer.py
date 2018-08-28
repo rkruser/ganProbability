@@ -53,7 +53,10 @@ class TrainerRyen(Operator):
         # Train the D portion on real ims
         self.log("Iteration %d"%i)
         model.netD.zero_grad()
-        dataX = data # split into data and label? Nope
+        if isinstance(data, torch.Tensor):
+          dataX = data # split into data and label? Nope
+        else:
+          dataX, _ = data
         batch_size = dataX.size(0)
         labelsReal = torch.Tensor(batch_size).fill_(1.0)
         labelsFake = torch.Tensor(batch_size).fill_(0.0)

@@ -22,6 +22,39 @@ def weights_init(m):
         if m.bias is not None:
             init.constant(m.bias, 0.0)
 
+# Model for 28 by 28 images
+class NetG28(nn.Module):
+  def __init__(self, nz=100, ngf=64, nc=1, ngpu=0):
+    super(NetG28, self).__init__()
+    self.ngpu = ngpu
+    self.main = nn.Sequential(
+        # input is Z, going into a convolution
+        nn.ConvTranspose2d(nz, ngf * 4, 4, 1, 0, bias=False),
+        nn.BatchNorm2d(ngf * 4),
+        nn.ReLU(True),
+        # state size. (ngf*4) x 4 x 4
+        nn.ConvTranspose2d(ngf * 4, ngf * 2, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ngf * 2),
+        nn.ReLU(True),
+        # state size. (ngf*2) x 8 x 8
+        # nn.ConvTranspose2d(ngf * 2,     ngf, 4, 2, 1, bias=False),
+        # for 28 x 28
+        nn.ConvTranspose2d(ngf * 2, ngf, 4, 2, 2, bias=False),
+        nn.BatchNorm2d(ngf),
+        nn.ReLU(True),
+        # state size. (ngf) x 16 x 16
+        nn.ConvTranspose2d(    ngf,      nc, 4, 2, 1, bias=False),
+        nn.Tanh()
+        # state size. (nc) x 32 x 32
+    )
+
+  def forward(self, input):
+    if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+        output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+    else:
+        output = self.main(input)
+    return output
+
 
 class NetG64(nn.Module):
   def __init__(self, nz=100, ngf=64, nc=3, ngpu=0):
@@ -57,6 +90,53 @@ class NetG64(nn.Module):
     else:
       output = self.main(x)
     return output
+
+# Discriminator
+class NetD28(nn.Module):
+  def __init__(self, nz=100, ndf=64, nc=1, ngpu=0):
+    super(NetD28, self).__init__()
+    self.ngpu = ngpu
+    self.nz = nz
+    self.main = nn.Sequential(
+        # input is (nc) x 32 x 32
+        nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ndf),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf) x 16 x 16
+        nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ndf * 2),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf*2) x 8 x 8
+        # nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
+        # for 28 x 28
+        nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 2, bias=False),
+        nn.BatchNorm2d(ndf * 4),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf*4) x 4 x 4
+    )
+
+    # Predictor takes main output and produces a probability
+    self.predictor = nn.Sequential(
+        nn.Conv2d(ndf*4, 1, 4, 1, 0, bias=False),
+        nn.Sigmoid()
+        # Output is a single scalar
+    )
+
+    # Output size is nz
+    self.reconstructor = nn.Conv2d(ndf*4, nz, 4, 1, 0)
+
+
+  def forward(self, x):
+    # Removed the x.data part in this and in netG
+    if isinstance(x.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+      output = nn.parallel.data_parallel(self.main, x, range(self.ngpu))
+    else:
+      output = self.main(x)
+
+    prediction = self.predictor(output)
+    reconstruction = self.reconstructor(output)
+    return prediction.view(-1,1).squeeze(1), reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
+
 
 class NetD64(nn.Module):
   def __init__(self, nz=100, ndf=64, nc=3, ngpu=0):
@@ -135,6 +215,7 @@ class ModelLoaderRyen(Loader):
   def __init__(self, config, args):
     super(ModelLoaderRyen,self).__init__(config, args)
     opt = {
+      'dataset':'birdsnap',
       'nz':100,
       'ngf':64,
       'ndf':64,
@@ -149,10 +230,25 @@ class ModelLoaderRyen(Loader):
     }
     opt.update(args)
     self.opt = edict(opt)
-    
+
   def getModel(self):
-    netG = NetG64(self.opt.nz,self.opt.ngf,self.opt.nc,self.opt.ngpu)
-    netD = NetD64(self.opt.nz,self.opt.ndf,self.opt.nc,self.opt.ngpu)
+    modelName = self.opt.dataset
+    if modelName == 'birdsnap':
+      return self.getBirdsnap()
+    elif modelName == 'mnist':
+      return self.getMnist()
+    else:
+      raise ValueError("Unknown model %s"%modelName)
+
+  def getMnist(self):
+    return self.getGenericProblem(NetG28, NetD28)
+    
+  def getBirdsnap(self):
+    return self.getGenericProblem(NetG64, NetD64)
+
+  def getGenericProblem(self, NETWORK_G, NETWORK_D):
+    netG = NETWORK_G(self.opt.nz,self.opt.ngf,self.opt.nc,self.opt.ngpu)
+    netD = NETWORK_D(self.opt.nz,self.opt.ndf,self.opt.nc,self.opt.ngpu)
     model = {
       'netG':netG,
       'netD':netD,
