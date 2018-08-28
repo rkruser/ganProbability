@@ -5,6 +5,8 @@ from mpi4py import MPI
 
 #import code.sohil as sohil
 
+#LoadGAN = TrainGAN = SampleGAN = ZipSamples = RegressorTraining = RegressorRun = None
+
 from code.sohil.LoadGAN import LoadGAN
 from code.sohil.TrainGAN import TrainGAN
 from code.sohil.SampleGAN import SampleGAN
@@ -21,6 +23,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--id',type=int,default=-1,help='experiment ID')
 parser.add_argument('--pid',type=int,default=-1,help='Batch ID')
 parser.add_argument('--nprocs',type=int,default=-1,help='Number of batch processes')
+# Need to make the default './master.yaml'
 parser.add_argument('--masterconfig',type=str,default='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml',
     help='Path to master config')
 parser.add_argument('--stage', type=int, default=1, help='The stage of the model to run')
