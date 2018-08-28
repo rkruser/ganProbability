@@ -3,12 +3,18 @@
 from mlworkflow import Loader, Operator, Analyzer, experiment
 from mpi4py import MPI
 
-from code.LoadGAN import LoadGAN
-from code.TrainGAN import TrainGAN
-from code.SampleGAN import SampleGAN
-from code.MergeSamples import ZipSamples
-from code.RegressorTraining import RegressorTraining
-from code.RegressorRunning import RegressorRun
+#import code.sohil as sohil
+
+from code.sohil.LoadGAN import LoadGAN
+from code.sohil.TrainGAN import TrainGAN
+from code.sohil.SampleGAN import SampleGAN
+from code.sohil.MergeSamples import ZipSamples
+from code.sohil.RegressorTraining import RegressorTraining
+from code.sohil.RegressorRunning import RegressorRun
+
+from code.ryen.loaders import DataloaderRyen
+from code.ryen.models import ModelLoaderRyen
+from code.ryen.trainer import TrainerRyen
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -41,6 +47,12 @@ def getClasses(clist):
       classes.append(RegressorTraining)
     elif c == 'RegressorRun':
       classes.append(RegressorRun)
+    elif c == 'DataloaderRyen':
+      classes.append(DataloaderRyen)
+    elif c == 'ModelLoaderRyen':
+      classes.append(ModelLoaderRyen)
+    elif c == 'TrainerRyen':
+      classes.append(TrainerRyen)
   return classes
 
 def main():

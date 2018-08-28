@@ -18,12 +18,14 @@ info:
 - [e10, Testing batch submit of total mnist]
 - [e11, Running mnist total for real]
 - [e12, Added training visualization to total pipeline]
-- [e13, '']
 - [e14, Testing mnist_distribution loader]
 - [e15, Redoing e14 with different probs]
 - [e16, Another mnist exp]
 - [e17, Testing upward shift]
-numExperiments: 17
+- [e18, Making sure things work after moving modules]
+- [e19, Run birdsnap with infogan]
+- [e20, 'Bugs worked out, now to train']
+numExperiments: 20
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
