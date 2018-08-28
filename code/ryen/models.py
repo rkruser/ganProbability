@@ -144,7 +144,8 @@ class ModelLoaderRyen(Loader):
       'cuda':False,
       'manualSeed':None,
       'lr':0.0002,
-      'beta1':0.5
+      'beta1':0.5,
+      'reconScale':0.5
     }
     opt.update(args)
     self.opt = edict(opt)
@@ -158,7 +159,7 @@ class ModelLoaderRyen(Loader):
       'cuda':self.opt.cuda,
       'criterion':nn.BCELoss(), #what about mse?
       'reconstructionLoss':nn.MSELoss(),
-      'reconScale':0.5,
+      'reconScale':self.opt.reconScale,
       'nz':self.opt.nz,
       'optimizerG':optim.Adam(netG.parameters(), lr=self.opt.lr, betas=(self.opt.beta1,0.999)),
       'optimizerD':optim.Adam(netD.parameters(), lr=self.opt.lr, betas=(self.opt.beta1,0.999))

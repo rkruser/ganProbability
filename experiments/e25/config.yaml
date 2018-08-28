@@ -31,7 +31,7 @@ args: [
   'netDinstance': -1, #epoch snapshot to load from
   'lr': 0.0002,
   'beta1': 0.5,
-  'reconScale': 0
+  'reconScale': 0.005
   },
   # train opts
   {
