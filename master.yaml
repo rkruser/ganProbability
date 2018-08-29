@@ -25,7 +25,8 @@ info:
 - [e18, Making sure things work after moving modules]
 - [e19, Run birdsnap with infogan]
 - [e20, 'Bugs worked out, now to train']
-numExperiments: 20
+- [e21, e21 loss tweak]
+numExperiments: 21
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

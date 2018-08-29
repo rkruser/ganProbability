@@ -76,7 +76,7 @@ class TrainerRyen(Operator):
         # Train D using fake labels
         fakeIms = model.netG(zCodes)
         dFake, dRecon = model.netD(fakeIms.detach()) # detach??
-        errDfake = model.criterion(dFake, labelsFake)+model.reconScale*model.reconstructionLoss(dRecon, zCodes.view(batch_size, model.nz))
+        errDfake = model.criterion(dFake, labelsFake)-model.reconScale*model.reconstructionLoss(dRecon, zCodes.view(batch_size, model.nz))
         errDfake.backward()
         errD = errDreal + errDfake
         model.optimizerD.step()
