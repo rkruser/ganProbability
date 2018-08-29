@@ -17,3 +17,4 @@ echo "Hi, I am task:"
 cd /fs/vulcan-scratch/krusinga/projects/ganProbability/
 module load cuda
 python run.py --stage 1
+

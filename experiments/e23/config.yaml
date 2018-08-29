@@ -1,0 +1,84 @@
+name: birdsnapInfogan
+modules: [DataloaderRyen, ModelLoaderRyen, TrainerRyen, Analyzer]
+#One for everything in otherPaths
+otherTemplates: {
+  generated: template
+}
+dependencies: [[], [], [0,1], [0,1,2]]
+args: [
+  # Loader args
+  {
+  'matfile':'/vulcan/scratch/krusinga/birdsnap/birdsnap/download/birdsnap.mat',
+  'batchSize': 64,
+  'workers': 2 #??
+  },
+  # modelLoader options
+  {
+  'imageSize': 64,
+  # Model default options
+  'ngpu': 1,
+  'nz': 100,
+  'ngf': 64,
+  'ndf': 64,
+  'npf': 64,
+  'nc': 3,
+  'cuda': True, # Running on cuda
+  'netG':'',
+  'netGexpNum': -1, #experiment number to load from
+  'netGinstance': -1, #Epoch snapshot to load from
+  'netD': '',
+  'netDexpNum': -1, # experiment number to load from
+  'netDinstance': -1, #epoch snapshot to load from
+  'lr': 0.0002,
+  'beta1': 0.5,
+  'reconScale': 0
+  },
+  # train opts
+  {
+  'nepochs': 25
+  },
+  # Analyzer opts
+  {}
+]
+## Note: at the moment: this must contain
+# all the files needed for stage 2 as well
+files: {
+  submit: {'path': 'submit.sh',
+         'parallelOpt': 'threadInvariant'},
+  submit2: {'path': 'submit2.sh',
+         'parallelOpt': 'threadInvariant'},
+  netG: {'path': 'models/netG_birdsnap.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  netD: {'path': 'models/netD_birdsnap.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  analysisPickle: {'path': 'data/analysisData.pickle',
+                  'parallelOpt': 'threadInvariant',
+                   'pathOpt': 'experimentRelative',
+                   'folder': 'generated'},
+  slurmOutFolder: 'logs/',
+  samples: {'path': 'data/samples.mat',
+            'parallelOpt': 'threadSpecific',
+            'pathOpt': 'experimentRelative',
+            'folder': 'generated'},
+  netP: {'path': 'models/netP_birdsnap.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  lossCurve: 'analysis/lossCurve.png',
+  errorCurve: 'analysis/errorCurve.png',
+  regressorResults: { 'path': 'data/regressorShiftResults.mat',
+                      'folder': 'generated'},
+  domainShiftCurve: 'analysis/domainShiftTest.png',
+  topIms: {'path': 'analysis/topIms.png', 'parallelOpt': 'threadInvariant'},
+  botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'},
+  ganTrainPlot: 'analysis/ganTrainPlot.png',
+  ganSampleIms: 'analysis/sampleIm.png'
+}
+formatArgs: {
+  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder' ],
+  submit2: [ 'name', 'NUMBER', 'file:slurmOutFolder' ]
+}

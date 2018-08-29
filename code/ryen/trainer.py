@@ -53,7 +53,10 @@ class TrainerRyen(Operator):
         # Train the D portion on real ims
         self.log("Iteration %d"%i)
         model.netD.zero_grad()
-        dataX = data # split into data and label? Nope
+        if isinstance(data, torch.Tensor):
+          dataX = data # split into data and label? Nope
+        else:
+          dataX, _ = data
         batch_size = dataX.size(0)
         labelsReal = torch.Tensor(batch_size).fill_(1.0)
         labelsFake = torch.Tensor(batch_size).fill_(0.0)
@@ -86,7 +89,7 @@ class TrainerRyen(Operator):
         model.netG.zero_grad()
 #        labelsForged = torch.Tensor(batch_size).fill_(1.0)
         gFake, gRecon = model.netD(fakeIms) # no detach this time
-        errG = model.criterion(gFake, labelsReal) + model.reconScale*model.reconstructionLoss(gRecon, zCodes.view(batch_size, model.nz)) # Question: should the recon loss be propagated back to G here?
+        errG = model.criterion(gFake, labelsReal) - model.reconScale*model.reconstructionLoss(gRecon, zCodes.view(batch_size, model.nz)) # Question: should the recon loss be propagated back to G here?
         errG.backward()
         model.optimizerG.step()
 
