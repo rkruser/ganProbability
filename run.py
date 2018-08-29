@@ -17,6 +17,7 @@ from code.sohil.RegressorRunning import RegressorRun
 from code.ryen.loaders import DataloaderRyen
 from code.ryen.models import ModelLoaderRyen
 from code.ryen.trainer import TrainerRyen
+from code.ryen.sampling import SampleAnalyze
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -56,6 +57,8 @@ def getClasses(clist):
       classes.append(ModelLoaderRyen)
     elif c == 'TrainerRyen':
       classes.append(TrainerRyen)
+    elif c == 'SampleAnalyze':
+      classes.append(SampleAnalyze)
   return classes
 
 def main():

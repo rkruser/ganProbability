@@ -78,6 +78,28 @@ class DataloaderRyen(Loader):
     elif dset == 'cub':
       return self.getCub()
 
+  def getDataset(self):
+    dset = self.opt.dataset
+    if dset == 'birdsnap':
+      dataset = BirdsnapDataset(self.opt.matfile),
+    elif dset == 'mnist':
+      dataset = generate_mnist_distribution(datadir=self.getPath('mnist'), probs=self.opt.proportions)
+    elif dset == 'cub':
+      image_transform = transforms.Compose([
+        transforms.RandomCrop(self.opt.imsize),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(), 
+        # ToTensor permutes dimensions so c is first
+        # Also transforms into range (0,1)
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+        # The normalize command pushes everything
+        # into (-1,1)
+      dataset = TextDataset(self.getPath('cub'), 'train',
+                      imsize=self.opt.imsize,
+                      transform=image_transform)
+    return dataset
+
+
   def getCub(self):
     image_transform = transforms.Compose([
             transforms.RandomCrop(self.opt.imsize),

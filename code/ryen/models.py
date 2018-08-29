@@ -240,6 +240,37 @@ class ModelLoaderRyen(Loader):
     else:
       raise ValueError("Unknown model %s"%modelName)
 
+  def getGenerator(self):
+    modelName = self.opt.dataset
+    if modelName == 'birdsnap':
+      netG = NetG64(self.opt.nz,self.opt.ngf,self.opt.nc,self.opt.ngpu)
+    elif modelName == 'mnist':
+      netG = NetG28(self.opt.nz,self.opt.ngf,self.opt.nc,self.opt.ngpu)
+    else:
+      raise ValueError("Unknown model %s"%modelName)
+    netG.apply(weights_init)
+    if self.opt.netG != '':
+      self.log("Loading netG from file")
+      netG.load_state_dict(self.files.load(self.opt.netG, instance=self.opt.netGinstance,
+            number=self.opt.netGexpNum,loader='torch'))
+    return netG
+
+  def getDiscriminator(self):
+    modelName = self.opt.dataset
+    if modelName == 'birdsnap':
+      netD = NetD64(self.opt.nz,self.opt.ndf,self.opt.nc,self.opt.ngpu)
+    elif modelName == 'mnist':
+      netD = NetD28(self.opt.nz,self.opt.ndf,self.opt.nc,self.opt.ngpu)
+    else:
+      raise ValueError("Unknown model %s"%modelName)
+    netD.apply(weights_init)
+    if self.opt.netD != '':
+      self.log("Loading netD from file")
+      netD.load_state_dict(self.files.load(self.opt.netD, instance=self.opt.netDinstance,
+            number=self.opt.netDexpNum,loader='torch'))
+    return netD
+
+
   def getMnist(self):
     return self.getGenericProblem(NetG28, NetD28)
     

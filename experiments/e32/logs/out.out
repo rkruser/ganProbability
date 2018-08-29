@@ -1,0 +1,14 @@
+Hi, I am task:
+
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_15:42:29
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.TypeError'>
+only integer scalar arrays can be converted to a scalar index
+Exiting early

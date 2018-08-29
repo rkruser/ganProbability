@@ -23595,3 +23595,103 @@ Analyzer: Generating /cfarhomes/krusinga/ganProb/ganProbProject/experiments/e32/
 Analyzer: Saving data in /cfarhomes/krusinga/ganProb/ganProbProject/experiments/e32/analysis/sampleIm_24.pickle
 Module times: [8.988380432128906e-05, 6.699562072753906e-05, 367.1217288970947, 32.11126089096069]
 Total time: 399.233162165
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_15:36:51
+=====
+Module times: [0.0001270771026611328, 7.009506225585938e-05]
+Total time: 0.00021505355835
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_15:38:12
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netG from file
+An exception occurred when running SampleAnalyze
+<type 'exceptions.NameError'>
+global name 'netG' is not defined
+Exiting early
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_15:39:45
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+An exception occurred when running SampleAnalyze
+<type 'exceptions.ValueError'>
+Expected 4D tensor as input, got 2D tensor instead.
+Exiting early
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_15:40:40
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.NameError'>
+global name 'dataroot' is not defined
+Exiting early
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_15:42:29
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.TypeError'>
+only integer scalar arrays can be converted to a scalar index
+Exiting early
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_15:47:18
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.TypeError'>
+only integer scalar arrays can be converted to a scalar index
+Exiting early
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_15:54:02
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.ValueError'>
+Expected 4D tensor as input, got 2D tensor instead.
+Exiting early
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_15:57:20
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.NameError'>
+global name 'recondCodes' is not defined
+Exiting early
+=====
+Starting experiment mnistStage2
+ID: 32, PID 0/1
+08_29_2018_16:03:04
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+SampleAnalyze: Saving sampleRealSave
+Module times: [0.00018787384033203125, 0.00019216537475585938, 177.61617493629456]
+Total time: 177.616585016
