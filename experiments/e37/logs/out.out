@@ -3,11 +3,11 @@ Hi, I am task:
 =====
 Starting experiment stage2
 ID: 37, PID 0/1
-08_30_2018_10:28:10
+08_30_2018_11:10:34
 =====
 ModelLoaderRyen: Loading netG from file
 ModelLoaderRyen: Loading netD from file
 SampleAnalyze: Saving sampleReconSave
 SampleAnalyze: Saving sampleRealSave
-Module times: [0.00012111663818359375, 8.20159912109375e-05, 11.667348861694336]
-Total time: 11.6675739288
+Module times: [0.0001289844512939453, 7.390975952148438e-05, 6.322061061859131]
+Total time: 6.322286129
