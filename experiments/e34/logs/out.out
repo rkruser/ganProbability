@@ -1,0 +1,13 @@
+Hi, I am task:
+
+=====
+Starting experiment mnistStage2
+ID: 34, PID 0/1
+08_29_2018_17:40:19
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+SampleAnalyze: Saving sampleRealSave
+Module times: [0.00010800361633300781, 7.200241088867188e-05, 12.769767045974731]
+Total time: 12.7699611187

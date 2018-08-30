@@ -23538,3 +23538,14 @@ Analyzer: Generating /cfarhomes/krusinga/ganProb/ganProbProject/experiments/e34/
 Analyzer: Saving data in /cfarhomes/krusinga/ganProb/ganProbProject/experiments/e34/analysis/sampleIm_24.pickle
 Module times: [0.00011110305786132812, 7.295608520507812e-05, 372.41178917884827, 33.17319679260254]
 Total time: 405.58518815
+=====
+Starting experiment mnistStage2
+ID: 34, PID 0/1
+08_29_2018_17:40:19
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+SampleAnalyze: Saving sampleRealSave
+Module times: [0.00010800361633300781, 7.200241088867188e-05, 12.769767045974731]
+Total time: 12.7699611187
