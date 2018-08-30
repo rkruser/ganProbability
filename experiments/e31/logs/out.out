@@ -1,0 +1,13 @@
+Hi, I am task:
+=====
+Starting experiment stage2
+ID: 31, PID 0/1
+08_30_2018_10:12:36
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.ValueError'>
+Cannot take a larger sample than population when 'replace=False'
+Exiting early

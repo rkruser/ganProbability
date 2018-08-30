@@ -1,0 +1,13 @@
+Hi, I am task:
+
+=====
+Starting experiment stage2
+ID: 36, PID 0/1
+08_30_2018_10:28:10
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+SampleAnalyze: Saving sampleRealSave
+Module times: [0.00010609626770019531, 7.390975952148438e-05, 12.028167009353638]
+Total time: 12.0283639431

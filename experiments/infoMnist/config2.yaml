@@ -1,0 +1,46 @@
+name: stage2
+modules: [DataloaderRyen, ModelLoaderRyen, SampleAnalyze]
+#One for everything in otherPaths
+#otherTemplates: {
+#  generated: template
+#}
+dependencies: [[], [], [0,1]]
+args: [
+  # Loader args
+  {
+  'dataset': 'mnist',
+  'batchSize': 64,
+  'workers': 1,
+  'proportions': [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]   #??
+  },
+  # modelLoader options
+  {
+  'dataset': 'mnist',
+  'imageSize': 28,
+  # Model default options
+  'ngpu': 1,
+  'nz': 100,
+  'ngf': 64,
+  'ndf': 64,
+  'npf': 64,
+  'nc': 1,
+  'cuda': True, # Running on cuda
+  'netG':'netG',
+  'netGexpNum': -1, #experiment number to load from
+  'netGinstance': -1, #Epoch snapshot to load from
+  'netD': 'netD',
+  'netDexpNum': -1, # experiment number to load from
+  'netDinstance': -1, #epoch snapshot to load from
+  'lr': 0.0002,
+  'beta1': 0.5
+  },
+  {
+    'cuda': True,
+    'nz': 100,
+    'nSamples': 1000
+  }
+]
+
+#formatArgs: {
+#  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder' ]
+#}

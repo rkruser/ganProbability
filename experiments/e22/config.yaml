@@ -54,6 +54,8 @@ files: {
       'parallelOpt': 'threadInvariant',
       'pathOpt': 'experimentRelative',
       'folder': 'generated'},
+  sampleRealSave: {'path': 'analysis/sampleRealSave.mat'},
+  sampleReconSave: {'path': 'analysis/sampleReconSave.mat'},
   analysisPickle: {'path': 'data/analysisData.pickle',
                   'parallelOpt': 'threadInvariant',
                    'pathOpt': 'experimentRelative',

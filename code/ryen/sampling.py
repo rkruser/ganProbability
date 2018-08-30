@@ -53,7 +53,11 @@ class SampleAnalyze(Operator):
     dataset = self.dataLoader.getDataset()
     #realSamples = dataset[np.random.choice(len(dataset),self.opt.nSamples,replace=False)]
     inds = np.random.choice(len(dataset),self.opt.nSamples,replace=False)
-    realSamples = [dataset[inds[k]][0].unsqueeze(0) for k in range(len(inds))]
+    # Hacky fix to problem of multiple return values
+    if isinstance(dataset[0], torch.Tensor):
+      realSamples = [dataset[inds[k]].unsqueeze(0) for k in range(len(inds))]
+    else:
+      realSamples = [dataset[inds[k]][0].unsqueeze(0) for k in range(len(inds))]
     realSamples = torch.cat(realSamples, 0)
     if self.opt.cuda:
       realSamples = realSamples.cuda()

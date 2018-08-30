@@ -17763,3 +17763,62 @@ Analyzer: Generating /cfarhomes/krusinga/ganProb/ganProbProject/experiments/e31/
 Analyzer: Saving data in /cfarhomes/krusinga/ganProb/ganProbProject/experiments/e31/analysis/sampleIm_24.pickle
 Module times: [7.081031799316406e-05, 6.580352783203125e-05, 1045.7936480045319, 28.95986008644104]
 Total time: 1074.75366187
+=====
+Starting experiment stage2
+ID: 31, PID 0/1
+08_30_2018_10:12:36
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.ValueError'>
+Cannot take a larger sample than population when 'replace=False'
+Exiting early
+=====
+Starting experiment stage2
+ID: 31, PID 0/1
+08_30_2018_10:20:00
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.ValueError'>
+Cannot take a larger sample than population when 'replace=False'
+Exiting early
+=====
+Starting experiment stage2
+ID: 31, PID 0/1
+08_30_2018_10:21:04
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<type 'exceptions.ValueError'>
+Cannot take a larger sample than population when 'replace=False'
+Exiting early
+=====
+Starting experiment stage2
+ID: 31, PID 0/1
+08_30_2018_10:23:22
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+An exception occurred when running SampleAnalyze
+<class 'bdb.BdbQuit'>
+
+Exiting early
+=====
+Starting experiment stage2
+ID: 31, PID 0/1
+08_30_2018_10:26:20
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+SampleAnalyze: Saving sampleRealSave
+Module times: [0.00020885467529296875, 0.00017189979553222656, 36.34346604347229]
+Total time: 36.3438711166

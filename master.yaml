@@ -36,12 +36,14 @@ info:
 - [e28, Rerun e23]
 - [e29, Rerun e24]
 - [e30, Rerun e25]
-- [e31, 'Make lambda huge, equal to 0.5']
+- [e31, 'Make lambda huge, equal to 5']
 - [e32, Testing mnist with infogan but 0]
 - [e33, Running cub]
 - [e34, Running mnist again with infogan loss]
 - [e35, Testing vulcan-scratch experiment creation after problems]
-numExperiments: 35
+- [e36, 'Testing birdsnap with infogan again, lambda 0']
+- [e37, infogan birdsnap 0.5]
+numExperiments: 37
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

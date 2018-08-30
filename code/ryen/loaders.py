@@ -82,6 +82,7 @@ class DataloaderRyen(Loader):
     dset = self.opt.dataset
     if dset == 'birdsnap':
       dataset = BirdsnapDataset(self.opt.matfile),
+      dataset = dataset[0] # CONSTRUCTOR RETURNS A TUPLE FOR SOME REASON
     elif dset == 'mnist':
       dataset = generate_mnist_distribution(datadir=self.getPath('mnist'), probs=self.opt.proportions)
     elif dset == 'cub':
