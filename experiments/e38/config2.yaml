@@ -1,0 +1,48 @@
+name: stage2
+modules: [DataloaderRyen, ModelLoaderRyen, SampleAnalyze]
+#One for everything in otherPaths
+#otherTemplates: {
+#  generated: template
+#}
+dependencies: [[], [], [0,1]]
+args: [
+  # Loader args
+  {
+  'dataset': 'birdsnap',
+  'matfile': '/vulcan/scratch/krusinga/birdsnap/birdsnap/download/birdsnap.mat',
+  'batchSize': 64,
+  'workers': 1,
+  'proportions': [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]   #??
+  },
+  # modelLoader options
+  {
+  'dataset': 'birdsnap',
+  'imageSize': 64,
+  # Model default options
+  'ngpu': 1,
+  'nz': 100,
+  'ngf': 64,
+  'ndf': 64,
+  'npf': 64,
+  'nc': 3,
+  'cuda': True, # Running on cuda
+  'netG':'netG',
+  'netGexpNum': -1, #experiment number to load from
+  'netGinstance': -1, #Epoch snapshot to load from
+  'netD': 'netD',
+  'netDexpNum': -1, # experiment number to load from
+  'netDinstance': -1, #epoch snapshot to load from
+  'lr': 0.0002,
+  'beta1': 0.5,
+  'reconScale': 0.5
+  },
+  {
+    'cuda': True,
+    'nz': 100,
+    'nSamples': 1000
+  }
+]
+
+#formatArgs: {
+#  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder' ]
+#}

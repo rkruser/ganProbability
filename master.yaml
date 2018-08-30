@@ -43,7 +43,8 @@ info:
 - [e35, Testing vulcan-scratch experiment creation after problems]
 - [e36, 'Testing birdsnap with infogan again, lambda 0']
 - [e37, infogan birdsnap 0.5]
-numExperiments: 37
+- [e38, Running for more epochs]
+numExperiments: 38
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
