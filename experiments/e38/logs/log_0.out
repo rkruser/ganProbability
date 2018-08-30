@@ -85213,3 +85213,14 @@ Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experim
 Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e38/analysis/sampleIm_119.pickle
 Module times: [9.799003601074219e-05, 7.081031799316406e-05, 5488.171808004379, 153.6252670288086]
 Total time: 5641.79726195
+=====
+Starting experiment stage2
+ID: 38, PID 0/1
+08_30_2018_13:03:30
+=====
+ModelLoaderRyen: Loading netG from file
+ModelLoaderRyen: Loading netD from file
+SampleAnalyze: Saving sampleReconSave
+SampleAnalyze: Saving sampleRealSave
+Module times: [9.202957153320312e-05, 6.29425048828125e-05, 6.253771781921387]
+Total time: 6.25394010544
