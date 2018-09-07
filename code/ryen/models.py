@@ -1,5 +1,6 @@
 from mlworkflow import Loader
 from easydict import EasyDict as edict
+from copy import copy
 
 import torch
 import torch.nn as nn
@@ -269,6 +270,46 @@ class ModelLoaderRyen(Loader):
       netD.load_state_dict(self.files.load(self.opt.netD, instance=self.opt.netDinstance,
             number=self.opt.netDexpNum,loader='torch'))
     return netD
+
+  def getSamplingGAN(self):
+    netG = self.getGenerator()
+    if self.opt.cuda:
+      netG = netG.cuda()
+    return {'netG': netG, 'opt':copy(self.opt)}
+
+  def getRegressorProblem(self):
+    netP = NetPLatent(self.opt.nz, self.opt.npf, self.opt.ngpu)
+    netP.apply(weights_init)
+    if self.opt.netP != '':
+        netP.load_state_dict(self.files.load(self.opt.netP,instance=self.opt.netPinstance,
+              number=self.opt.netPexpNum,loader='torch'))
+    self.log("netP structure")
+    self.log(str(netP))
+
+    # criterion = nn.MSELoss(size_average=True)
+    criterion = nn.SmoothL1Loss(size_average=True)
+
+    # Changed from sohil
+    if self.opt.cuda:
+      netP = netP.cuda()
+      criterion = criterion.cuda()
+
+    # setup optimizer
+    optimizerP = optim.Adam(netP.parameters(), lr=self.opt.lr, betas=(self.opt.beta1, 0.999), weight_decay=0.0002)
+    scheduler = lr_scheduler.StepLR(optimizerP, step_size=200, gamma=0.1)
+
+    problem = {
+      'netP':netP,
+      'optimP':optimizerP,
+      'scheduler':scheduler,
+      'criterion':criterion,
+      'opt':copy(self.opt) #Send the rest of the options in case trainer needs them
+    }
+
+    return problem
+
+    
+
 
 
   def getMnist(self):

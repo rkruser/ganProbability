@@ -13,6 +13,40 @@ from code.stackgan.datasets import TextDataset
 
 matfile = '/vulcan/scratch/krusinga/birdsnap/birdsnap/download/birdsnap.mat'
 
+class probDataCodes(data.Dataset):
+    """Custom Dataset loader for Probability training"""
+    def __init__(self, path, train=True, trainProportion=0.8):
+        self.path = path
+        self.train = train
+        self.trainProportion = trainProportion
+
+        data = sio.loadmat(self.path)
+        self.ntrainsamples = int(self.trainProportion*len(data['images']))
+
+        if self.train:
+            # self.train_data = data['images'][:self.ntrainsamples].astype(np.float32)
+            self.train_data = data['code'][:self.ntrainsamples].astype(np.float32)
+            self.train_prob = np.squeeze(data['prob'][0,:self.ntrainsamples].astype(np.float32))
+        else:
+            # self.test_data = data['images'][self.ntrainsamples:].astype(np.float32)
+            self.test_data = data['code'][self.ntrainsamples:].astype(np.float32)
+            self.test_prob = np.squeeze(data['prob'][0,self.ntrainsamples:].astype(np.float32))
+
+    def __len__(self):
+        if self.train:
+            return self.ntrainsamples
+        else:
+            return len(self.test_prob)
+
+    def __getitem__(self, item):
+        if self.train:
+            data, target = self.train_data[item], self.train_prob[item]
+        else:
+            data, target = self.test_data[item], self.test_prob[item]
+
+        return data, target
+
+
 class BirdsnapDataset(data.Dataset):
   def __init__(self, matfile):
     self.matfile = matfile
@@ -131,6 +165,17 @@ class DataloaderRyen(Loader):
       print "Dataroot for mnist not found"
       sys.exit()
     return data.DataLoader(generate_mnist_distribution(datadir=dataroot, probs=self.opt.proportions), batch_size=self.opt.batchSize, shuffle=True, num_workers=self.opt.workers)
+
+  def getProbData(self):
+    # Need to modify prob_data in models
+    datapath = self.getPath('samples',number=opt.loadFromExperiment, threadSpecific=False)
+    trainset = probDataCodes(path=datapath, train=True)
+    testset = probDataCodes(path=datapath, train=False)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=self.opt.batchSize,
+                                             shuffle=True, num_workers=int(self.opt.workers), pin_memory=True)
+    testloader = torch.utils.data.DataLoader(testset, batch_size=self.opt.batchSize,
+                                             shuffle=False, num_workers=int(self.opt.workers), pin_memory=True)
+    return trainloader, testloader
 
 
 def main():

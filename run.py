@@ -13,11 +13,13 @@ from code.sohil.SampleGAN import SampleGAN
 from code.sohil.MergeSamples import ZipSamples
 from code.sohil.RegressorTraining import RegressorTraining
 from code.sohil.RegressorRunning import RegressorRun
+from code.sohil.RegressorRunning3Col import RegressorRun3Col
 
 from code.ryen.loaders import DataloaderRyen
 from code.ryen.models import ModelLoaderRyen
 from code.ryen.trainer import TrainerRyen
 from code.ryen.sampling import SampleAnalyze
+from code.ryen.regressorTraining import RegressorTrainingRyen
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -59,6 +61,10 @@ def getClasses(clist):
       classes.append(TrainerRyen)
     elif c == 'SampleAnalyze':
       classes.append(SampleAnalyze)
+    elif c == 'RegressorTrainingRyen':
+      classes.append(RegressorTrainingRyen)
+    elif c == 'RegressorRun3Col':
+      classes.append(RegressorRun3Col)
   return classes
 
 def main():

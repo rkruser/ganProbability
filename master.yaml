@@ -1,10 +1,10 @@
 cleanScript: []
 editor: [/fs/vulcan-scratch/krusinga/projects/ganProbability/editor.sh, config.yaml,
   submit.sh, config2.yaml, submit2.sh]
-globalKeywords: {birdsnap: /vulcan/scratch/krusinga/birdsnap/birdsnap, cifar10: '',
+globalKeywords: {birdsnap: /vulcan/scratch/krusinga/birdsnap/birdsnap, cifar10: '/vulcan/scratch/krusinga/cifar10',
   coco: /vulcan/scratch/krusinga/coco, cub: /vulcan/scratch/krusinga/CUB_200_2011,
-  generated: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated, imagenet: '',
-  lsun: '', mnist: /vulcan/scratch/krusinga/mnist, mnist_distribution: /vulcan/scratch/krusinga/mnist,
+  fakeMnist: /vulcan/scratch/krusinga/mnist/mnistKnockoff.mat, generated: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated,
+  imagenet: '', lsun: '', mnist: /vulcan/scratch/krusinga/mnist, mnist_distribution: /vulcan/scratch/krusinga/mnist,
   projectPath: /fs/vulcan-scratch/krusinga/projects/ganProbability/}
 info:
 - [e1, First experiment]
@@ -44,7 +44,8 @@ info:
 - [e36, 'Testing birdsnap with infogan again, lambda 0']
 - [e37, infogan birdsnap 0.5]
 - [e38, Running for more epochs]
-numExperiments: 38
+- [e39, Training on CFAR and testing on MNIST]
+numExperiments: 39
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
