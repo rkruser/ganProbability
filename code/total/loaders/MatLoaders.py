@@ -11,12 +11,30 @@ from os.path import join
 
 class MNISTSize28Cols1(LoaderTemplate):
   def __init__(self, config, args):
-    super(LoaderTemplate, self).__init__(config, args)
-    self.path = self.getPath('mnist')
+    super(MNISTSize28Cols1, self).__init__(config, args)
+    self.path = self.getPath('mnist') #Change depending on dataset
 
-  def getDataset(self, outShape = None, distribution=None, labels=None, mode='train', returnClass = False):
+  def getDataset(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False):
+    # Before returning, can check for compatible shapes
     return MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode)
 
+  def getDataloader(self, outShape = None, distribution=None, labels=None, mode='train', returnClass = False):
+    # Before returning, can check for compatible shapes
+    return data.DataLoader(MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
+
+
+
+class ProbData(LoaderTemplate):
+  def __init__(self, config, args):
+    super(ProbData, self).__init__(config, args)
+    self.current = None
+    self.path = self.getPath('ProbData')
+
+  def getDataset(self, deep=False, mode='train', trainProportion=0.8):
+    return ProbLoader(self.path, matpath, deep=deep, mode=mode, trainProportion=trainProportion)
+
+  def getDataloader(self, deep=False, mode='train', trainProportion=0.8):
+    return data.Dataloader(ProbLoader(self.path, matpath, deep=deep, mode=mode, trainProportion=trainProportion), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
 
 
 # Assumes you have a matfile
@@ -122,3 +140,49 @@ def getProportionalIndices(distribution, counts,randomize=False):
     ranges = [np.arange(s)%counts[i] for i,s in enumerate(sizes)]
   return ranges
 
+class ProbLoader(data.Dataset):
+  def __init__(self, matpath, deep=False, mode='train', trainProportion=0.8):
+    self.data = loadmat(matpath)
+    if deep:
+      self.X = self.data['codes']
+    else:
+      self.X = self.data['images']
+    self.Y = self.data['prob']
+
+    if mode=='train':
+      self.train = True
+    else:
+      self.train = False
+
+    self.outShape = self.X[0].shape 
+
+    self.dataSize = len(self.X)
+    self.trainSize = int(self.originalSize*trainProportion)
+    self.testSize = self.dataSize-self.trainSize
+    
+    self.Xtrain = self.X[:self.trainSize]
+    self.Ytrain = self.Y[:self.trainSize]
+    self.Xtest = self.X[self.trainSize:]
+    self.Ytest = self.Y[self.trainSize:]
+
+
+  def __len__(self):
+    if self.train: 
+      return self.trainSize
+    else:
+      return self.testSize
+
+  def __getitem__(self, item):
+    if self.train:
+      return torch.from_numpy(self.Xtrain[item]), self.Ytrain[item]
+    else:
+      return torch.from_numpy(self.Xtest[item]), self.Ytest[item]
+
+  def setMode(self, mode):
+    if mode == 'train':
+      self.train = True
+    else:
+      self.train = False
+
+  def getOutshape(self):
+    return self.outShape
