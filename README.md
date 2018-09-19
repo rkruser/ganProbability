@@ -1,5 +1,13 @@
 Todos:
 ------
+- Finish creating loaders and fill in some model functions (30 min)
+- Test the loaders and models (1 hr)
+- Write a class parser for "total" so it can run (20 min)
+- Create experimental templates based on "total" (20 min)
+- Create experiment modules for "total" (1 hr)
+- Put matfile paths in the master config (10 min)
+- Use a pretrained "deep features" network (add into regressor model) (1 hr)
+- Perform specific experiments (2 hrs)
 
 Plan:
 -----

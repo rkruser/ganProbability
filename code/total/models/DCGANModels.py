@@ -282,6 +282,7 @@ class DCGANModel(ModelTemplate):
       probs[i] = -log_const*0.5*np.sum(Z**2)+gauss_const - np.log(np.abs(dummy)).sum()
 
     
+		# What about codes?
     allData = {'images': images.astype(np.float32),
                'prob': probs.astype(np.float32), #no s to be consistent
                'jacob': jacob.astype(np.float32)}
