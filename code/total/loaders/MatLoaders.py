@@ -55,11 +55,11 @@ class MatLoader(data.Dataset):
     if mode=='test':
       self.X = data['Xtest'].astype(np.float32)
       if 'Ytest' in data:
-        self.Y = data['Ytest'].astype(int).squeeze()
+        self.Y = data['Ytest'].squeeze()
     else:
       self.X = data['Xtrain'].astype(np.float32)
       if 'Ytrain' in data:
-        self.Y = data['Ytrain'].astype(int).squeeze()
+        self.Y = data['Ytrain'].squeeze()
 
     if returnLabel:
       assert(self.Y is not None)
