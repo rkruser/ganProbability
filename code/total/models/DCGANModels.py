@@ -167,6 +167,8 @@ class DCGANModel(ModelTemplate):
 
     dataloader = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnClass=False)
 
+    self.netG.train()
+    self.netD.train()
     for epoch in range(nepochs):
       self.log("===Begin epoch {0}".format(epoch))
       gLosses = AverageMeter()
@@ -234,7 +236,11 @@ class DCGANModel(ModelTemplate):
       
   # Sample 
   def sample(self, nSamples):
-    pass
+    self.netG.eval()
+    codes = torch.FloatTensor(nSamples,self.nz).normal_(0,1)
+    results = self.netG(codes)
+    return results
+
 
   # method should be one of 'numerical', 'exact'
   def probSample(self, nSamples, deepFeatures=None, method='numerical', epsilon=1e-5):
