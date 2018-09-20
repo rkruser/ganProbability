@@ -78,7 +78,7 @@ class MatLoader(data.Dataset):
       if labels is not None:
         self.labels = labels
       else:
-        self.labels = np.unique(Y) #Should be sorted
+        self.labels = np.unique(Y) #Is sorted
       self.classwiseSubsets = [np.where(Y==lbl) for lbl in self.labels]
     else:
       self.labels = None

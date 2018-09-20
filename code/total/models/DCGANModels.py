@@ -32,7 +32,7 @@ class DCGANSize28Col1(DCGANModel):
     args['imSize'] = 28
     args['netGclass'] = NetG28
     args['netDclass'] = NetD28
-    super(DCGANSize28Col3, self).__init__(config, args)
+    super(DCGANSize28Col1, self).__init__(config, args)
 
 class DCGANSize64Col1(DCGANModel):
   def __init__(self, config, args):
@@ -41,16 +41,16 @@ class DCGANSize64Col1(DCGANModel):
     args['imSize'] = 64
     args['netGclass'] = NetG64
     args['netDclass'] = NetD64
-    super(DCGANSize28Col3, self).__init__(config, args)
+    super(DCGANSize64Col1, self).__init__(config, args)
 
-class DCGANSize28Col3(DCGANModel):
+class DCGANSize64Col3(DCGANModel):
   def __init__(self, config, args):
     args = copy(args)
     args['nc'] = 3
     args['imSize'] = 64
     args['netGclass'] = NetG64
     args['netDclass'] = NetD64
-    super(DCGANSize28Col3, self).__init__(config, args)
+    super(DCGANSize64Col3, self).__init__(config, args)
 
 
 # Need to do random seeding in another module
@@ -282,6 +282,7 @@ class DCGANModel(ModelTemplate):
       probs[i] = -log_const*0.5*np.sum(Z**2)+gauss_const - np.log(np.abs(dummy)).sum()
 
     
+		# What about codes?
     allData = {'images': images.astype(np.float32),
                'prob': probs.astype(np.float32), #no s to be consistent
                'jacob': jacob.astype(np.float32)}
