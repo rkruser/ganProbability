@@ -1,6 +1,6 @@
 from copy import copy
 from code.total.models.ModelTemplate import ModelTemplate, AverageMeter
-from code.total.models.nnModels import weights_init, NetG28, NetD28, NetG64, NetD64
+from code.total.models.nnModels import weights_init, NetG28, NetD28, NetG64, NetD64, NetG32, NetD32
 
 import torch
 import torch.nn as nn
@@ -33,6 +33,25 @@ class DCGANSize28Col1(DCGANModel):
     args['netGclass'] = NetG28
     args['netDclass'] = NetD28
     super(DCGANSize28Col1, self).__init__(config, args)
+
+class DCGANSize32Col3(DCGANModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 32
+    args['netGclass'] = NetG32
+    args['netDclass'] = NetD32
+    super(DCGANSize32Col3, self).__init__(config, args)
+
+class DCGANSize32Col1(DCGANModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 32
+    args['netGclass'] = NetG32
+    args['netDclass'] = NetD32
+    super(DCGANSize32Col1, self).__init__(config, args)
+
 
 class DCGANSize64Col1(DCGANModel):
   def __init__(self, config, args):

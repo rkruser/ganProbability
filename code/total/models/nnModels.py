@@ -57,6 +57,41 @@ class NetG28(nn.Module):
     return output
 
 
+# Model for 32 by 32 images
+class NetG32(nn.Module):
+  def __init__(self, nz=100, ngf=64, nc=1, ngpu=0):
+    super(NetG32, self).__init__()
+    self.ngpu = ngpu
+    self.main = nn.Sequential(
+        # input is Z, going into a convolution
+        nn.ConvTranspose2d(nz, ngf * 4, 4, 1, 0, bias=False),
+        nn.BatchNorm2d(ngf * 4),
+        nn.ReLU(True),
+        # state size. (ngf*4) x 4 x 4
+        nn.ConvTranspose2d(ngf * 4, ngf * 2, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ngf * 2),
+        nn.ReLU(True),
+        # state size. (ngf*2) x 7 x 7
+        nn.ConvTranspose2d(ngf * 2,     ngf, 4, 2, 1, bias=False),
+        # for 28 x 28
+#        nn.ConvTranspose2d(ngf * 2, ngf, 4, 2, 2, bias=False),
+        nn.BatchNorm2d(ngf),
+        nn.ReLU(True),
+        # state size. (ngf) x 14 x 14
+        nn.ConvTranspose2d(    ngf,      nc, 4, 2, 1, bias=False),
+        nn.Tanh()
+        # state size. (nc) x 32 x 32
+    )
+
+  def forward(self, input):
+    if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+        output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+    else:
+        output = self.main(input)
+    return output
+
+
+
 class NetG64(nn.Module):
   def __init__(self, nz=100, ngf=64, nc=3, ngpu=0):
     super(NetG64,self).__init__()
@@ -94,10 +129,11 @@ class NetG64(nn.Module):
 
 # Discriminator
 class NetD28(nn.Module):
-  def __init__(self, nz=100, ndf=64, nc=1, ngpu=0):
+  def __init__(self, nz=100, ndf=64, nc=1, ngpu=0, infogan=False):
     super(NetD28, self).__init__()
     self.ngpu = ngpu
     self.nz = nz
+    self.infogan = infogan
     self.main = nn.Sequential(
         # input is (nc) x 32 x 32
         nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
@@ -124,7 +160,8 @@ class NetD28(nn.Module):
     )
 
     # Output size is nz
-    self.reconstructor = nn.Conv2d(ndf*4, nz, 4, 1, 0)
+    if self.infogan:
+      self.reconstructor = nn.Conv2d(ndf*4, nz, 4, 1, 0)
 
 
   def forward(self, x):
@@ -134,16 +171,73 @@ class NetD28(nn.Module):
     else:
       output = self.main(x)
 
-    prediction = self.predictor(output)
-    reconstruction = self.reconstructor(output)
-    return prediction.view(-1,1).squeeze(1), reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
+    prediction = self.predictor(output).view(-1,1).squeeze(1)
+
+    if self.infogan:
+      reconstruction = self.reconstructor(output)
+      return prediction, reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
+    else:
+      return prediction
+
+
+class NetD32(nn.Module):
+  def __init__(self, nz=100, ndf=64, nc=1, ngpu=0, infogan=False):
+    super(NetD32, self).__init__()
+    self.ngpu = ngpu
+    self.nz = nz
+    self.infogan = infogan
+    self.main = nn.Sequential(
+        # input is (nc) x 32 x 32
+        nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ndf),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf) x 16 x 16
+        nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ndf * 2),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf*2) x 8 x 8
+        nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
+        # for 28 x 28
+       # nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 2, bias=False),
+        nn.BatchNorm2d(ndf * 4),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf*4) x 4 x 4
+    )
+
+    # Predictor takes main output and produces a probability
+    self.predictor = nn.Sequential(
+        nn.Conv2d(ndf*4, 1, 4, 1, 0, bias=False),
+        nn.Sigmoid()
+        # Output is a single scalar
+    )
+
+    # Output size is nz
+    if self.infogan:
+      self.reconstructor = nn.Conv2d(ndf*4, nz, 4, 1, 0)
+
+
+  def forward(self, x):
+    # Removed the x.data part in this and in netG
+    if isinstance(x.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+      output = nn.parallel.data_parallel(self.main, x, range(self.ngpu))
+    else:
+      output = self.main(x)
+
+    prediction = self.predictor(output).view(-1,1).squeeze(1)
+
+    if self.infogan:
+      reconstruction = self.reconstructor(output)
+      return prediction, reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
+    else:
+      return prediction
 
 
 class NetD64(nn.Module):
-  def __init__(self, nz=100, ndf=64, nc=3, ngpu=0):
+  def __init__(self, nz=100, ndf=64, nc=3, ngpu=0, infogan=False):
     super(NetD64,self).__init__()
     self.ngpu = ngpu
     self.nz = nz
+    self.infogan = infogan
     self.main = nn.Sequential(
         # input (nc) x 64 x 64
         nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
@@ -173,7 +267,8 @@ class NetD64(nn.Module):
     )
 
     # Output size is nz
-    self.reconstructor = nn.Conv2d(ndf*8, nz, 4, 1, 0)
+    if self.infogan:
+      self.reconstructor = nn.Conv2d(ndf*8, nz, 4, 1, 0)
 
   def forward(self, x):
     # Removed the x.data part in this and in netG
@@ -182,9 +277,288 @@ class NetD64(nn.Module):
     else:
       output = self.main(x)
 
-    prediction = self.predictor(output)
-    reconstruction = self.reconstructor(output)
-    return prediction.view(-1,1).squeeze(1), reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
+    prediction = self.predictor(output).view(-1,1).squeeze(1)
+
+    if self.infogan:
+      reconstruction = self.reconstructor(output)
+      return prediction, reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
+    else:
+      return prediction
+
+# ===========================
+
+# Regressor
+class NetP28(nn.Module):
+    def __init__(self, ngpu, nc, npf):
+        super(NetP28, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            # input is (nc) x 32 x 32
+            nn.Conv2d(nc, npf, 4, 2, 1, bias=True),
+            nn.BatchNorm2d(npf),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf) x 16 x 16
+            nn.Conv2d(npf, npf * 2, 4, 2, 1, bias=True),
+            nn.BatchNorm2d(npf * 2),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf*2) x 8 x 8
+            # nn.Conv2d(npf * 2, npf * 4, 4, 2, 1, bias=True),
+            # for 28 x 28
+            nn.Conv2d(npf * 2, npf * 4, 4, 2, 2, bias=False),
+            nn.BatchNorm2d(npf * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf*4) x 4 x 4
+            nn.Conv2d(npf * 4, 1, 4, 1, 0, bias=True),
+            # nn.ReLU(inplace=True)
+        )
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+        else:
+            output = self.main(input)
+
+        return output.view(-1, 1).squeeze(1)
+
+
+# Regressor
+class NetP32(nn.Module):
+    def __init__(self, ngpu, nc, npf):
+        super(NetP32, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            # input is (nc) x 32 x 32
+            nn.Conv2d(nc, npf, 4, 2, 1, bias=True),
+            nn.BatchNorm2d(npf),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf) x 16 x 16
+            nn.Conv2d(npf, npf * 2, 4, 2, 1, bias=True),
+            nn.BatchNorm2d(npf * 2),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf*2) x 8 x 8
+            nn.Conv2d(npf * 2, npf * 4, 4, 2, 1, bias=True),
+            # for 28 x 28
+#            nn.Conv2d(npf * 2, npf * 4, 4, 2, 2, bias=False),
+            nn.BatchNorm2d(npf * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf*4) x 4 x 4
+            nn.Conv2d(npf * 4, 1, 4, 1, 0, bias=True),
+            # nn.ReLU(inplace=True)
+        )
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+        else:
+            output = self.main(input)
+
+        return output.view(-1, 1).squeeze(1)
+
+# Regressor
+class NetP64(nn.Module):
+    def __init__(self, ngpu, nc, npf):
+        super(NetP64, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            # input is (nc) x 64 x 64
+            nn.Conv2d(nc, npf, 4, 2, 1, bias=True),
+            nn.BatchNorm2d(npf),
+            nn.LeakyReLU(0.2, inplace=True),
+
+            nn.Conv2d(npf, npf*2, 4, 2, 1, bias=True),
+            nn.BatchNorm2d(npf*2),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf) x 16 x 16
+            nn.Conv2d(npf*2, npf * 4, 4, 2, 1, bias=True),
+            nn.BatchNorm2d(npf * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf*2) x 8 x 8
+            nn.Conv2d(npf * 4, npf * 8, 4, 2, 1, bias=True),
+            # for 28 x 28
+#            nn.Conv2d(npf * 2, npf * 4, 4, 2, 2, bias=False),
+            nn.BatchNorm2d(npf * 8),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf*4) x 4 x 4
+            nn.Conv2d(npf * 8, 1, 4, 1, 0, bias=True),
+            # nn.ReLU(inplace=True)
+        )
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+        else:
+            output = self.main(input)
+
+        return output.view(-1, 1).squeeze(1)
+
+
+
+## Regressor - conv1 features
+# class _netF(nn.Module):
+#     def __init__(self, ngpu):
+#         super(_netF, self).__init__()
+#         self.ngpu = ngpu
+#         self.main = nn.Sequential(
+#             nn.Linear(1250,800),
+#             nn.ReLU(inplace=True),
+#             nn.Linear(800,500),
+#             nn.ReLU(inplace=True),
+#             nn.Linear(500,1)
+#         )
+#
+#     def forward(self, input):
+#         if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+#             output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+#         else:
+#             output = self.main(input)
+#
+#         return output.view(-1, 1).squeeze(1)
+
+## Regressor - fc1 features
+# class _netF(nn.Module):
+#     def __init__(self, ngpu):
+#         super(_netF, self).__init__()
+#         self.ngpu = ngpu
+#         self.main = nn.Sequential(
+#             nn.Linear(500,800),
+#             nn.ReLU(inplace=True),
+#             nn.Linear(800,500),
+#             nn.ReLU(inplace=True),
+#             nn.Linear(500,1)
+#         )
+#
+#     def forward(self, input):
+#         if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+#             output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+#         else:
+#             output = self.main(input)
+#
+#         return output.view(-1, 1).squeeze(1)
+
+# Regressor - fc2 features
+class _netF(nn.Module):
+    def __init__(self, ngpu):
+        super(_netF, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            nn.Linear(10, 32),
+            nn.ReLU(inplace=True),
+            nn.Linear(32, 32),
+            nn.ReLU(inplace=True),
+            nn.Linear(32, 64),
+            nn.ReLU(inplace=True),
+            nn.Linear(64, 128),
+            nn.ReLU(inplace=True),
+            nn.Linear(128, 256),
+            nn.ReLU(inplace=True),
+            nn.Linear(256,1)
+        )
+
+    def forward(self, input, th):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+        else:
+            output = self.main(input)
+            # output -= 8*F.relu(output - th)
+            output = -torch.abs(output) + th
+
+        return output.view(-1, 1).squeeze(1)
+
+# Lenet model for extracting features
+class _lenet(nn.Module):
+    def __init__(self, ngpu):
+        super(_lenet, self).__init__()
+        self.ngpu = ngpu
+        self.features = nn.Sequential(
+            nn.Conv2d(1, 20, 5, 1, bias=True),
+            # nn.MaxPool2d(2,2),
+            nn.AvgPool2d(2,2),
+            nn.Conv2d(20, 50, 5, 1, bias=True),
+            # nn.MaxPool2d(2, 2),
+            nn.AvgPool2d(2, 2),
+        )
+        self.features2 = nn.Linear(5*5*50, 500)
+        self.main = nn.Linear(500, 10)
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.features, input, range(self.ngpu))
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+        else:
+            output = self.features(input)
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+
+        return output, output1
+
+# Classifier for which Adversarial exmaples were generated
+class _lenet_ad(nn.Module):
+    def __init__(self, ngpu):
+        super(_lenet_ad, self).__init__()
+        self.ngpu = ngpu
+        self.features = nn.Sequential(
+            nn.Dropout(p=0.2),
+            nn.Linear(784, 625),
+            nn.ReLU(inplace=True),
+            nn.Dropout(p=0.5),
+            nn.Linear(625, 625),
+            nn.ReLU(inplace=True),
+            nn.Dropout(p=0.5),
+            nn.Linear(625, 10)
+        )
+
+    def forward(self, input):
+        output = input.view(input.size(0), -1)
+        output = self.features(output)
+        return output, output
+
+# Every model for MoG - Generator
+class mog_netG(nn.Module):
+    def __init__(self, ngpu, nz):
+        super(mog_netG, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            # input is Z, going into a convolution
+            nn.Linear(nz,128),
+            nn.Tanh(),
+            nn.Linear(128, 128),
+            nn.Tanh(),
+            nn.Linear(128, 2),
+        )
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+        else:
+            output = self.main(input)
+        return output
+
+# Discriminator
+class mog_netD(nn.Module):
+    def __init__(self, ngpu):
+        super(mog_netD, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            nn.Linear(2, 128),
+            nn.Tanh(),
+            nn.Linear(128, 128),
+            nn.Tanh(),
+            nn.Linear(128, 1),
+            nn.Sigmoid()
+        )
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+        else:
+            output = self.main(input)
+
+        return output.view(-1, 1)
+
+
 
 
 # What is the best shape for this net?
@@ -211,149 +585,5 @@ class NetPLatent(nn.Module):
       # output = -torch.abs(output)+th  # Why do this?
 
     return output.view(-1,1).squeeze(1) 
-
-class ModelLoaderRyen(Loader):
-  def __init__(self, config, args):
-    super(ModelLoaderRyen,self).__init__(config, args)
-    opt = {
-      'dataset':'birdsnap',
-      'nz':100,
-      'ngf':64,
-      'ndf':64,
-      'npf':64,
-      'nc':3,
-      'ngpu':0,
-      'cuda':False,
-      'manualSeed':None,
-      'lr':0.0002,
-      'beta1':0.5,
-      'reconScale':0.5
-    }
-    opt.update(args)
-    self.opt = edict(opt)
-
-  def getModel(self):
-    modelName = self.opt.dataset
-    if modelName == 'birdsnap':
-      return self.getBirdsnap()
-    elif modelName == 'mnist':
-      return self.getMnist()
-    else:
-      raise ValueError("Unknown model %s"%modelName)
-
-  def getGenerator(self):
-    modelName = self.opt.dataset
-    if modelName == 'birdsnap':
-      netG = NetG64(self.opt.nz,self.opt.ngf,self.opt.nc,self.opt.ngpu)
-    elif modelName == 'mnist':
-      netG = NetG28(self.opt.nz,self.opt.ngf,self.opt.nc,self.opt.ngpu)
-    else:
-      raise ValueError("Unknown model %s"%modelName)
-    netG.apply(weights_init)
-    if self.opt.netG != '':
-      self.log("Loading netG from file")
-      netG.load_state_dict(self.files.load(self.opt.netG, instance=self.opt.netGinstance,
-            number=self.opt.netGexpNum,loader='torch'))
-    return netG
-
-  def getDiscriminator(self):
-    modelName = self.opt.dataset
-    if modelName == 'birdsnap':
-      netD = NetD64(self.opt.nz,self.opt.ndf,self.opt.nc,self.opt.ngpu)
-    elif modelName == 'mnist':
-      netD = NetD28(self.opt.nz,self.opt.ndf,self.opt.nc,self.opt.ngpu)
-    else:
-      raise ValueError("Unknown model %s"%modelName)
-    netD.apply(weights_init)
-    if self.opt.netD != '':
-      self.log("Loading netD from file")
-      netD.load_state_dict(self.files.load(self.opt.netD, instance=self.opt.netDinstance,
-            number=self.opt.netDexpNum,loader='torch'))
-    return netD
-
-  def getSamplingGAN(self):
-    netG = self.getGenerator()
-    if self.opt.cuda:
-      netG = netG.cuda()
-    return {'netG': netG, 'opt':copy(self.opt)}
-
-  def getRegressorProblem(self):
-    netP = NetPLatent(self.opt.nz, self.opt.npf, self.opt.ngpu)
-    netP.apply(weights_init)
-    if self.opt.netP != '':
-        netP.load_state_dict(self.files.load(self.opt.netP,instance=self.opt.netPinstance,
-              number=self.opt.netPexpNum,loader='torch'))
-    self.log("netP structure")
-    self.log(str(netP))
-
-    # criterion = nn.MSELoss(size_average=True)
-    criterion = nn.SmoothL1Loss(size_average=True)
-
-    # Changed from sohil
-    if self.opt.cuda:
-      netP = netP.cuda()
-      criterion = criterion.cuda()
-
-    # setup optimizer
-    optimizerP = optim.Adam(netP.parameters(), lr=self.opt.lr, betas=(self.opt.beta1, 0.999), weight_decay=0.0002)
-    scheduler = lr_scheduler.StepLR(optimizerP, step_size=200, gamma=0.1)
-
-    problem = {
-      'netP':netP,
-      'optimP':optimizerP,
-      'scheduler':scheduler,
-      'criterion':criterion,
-      'opt':copy(self.opt) #Send the rest of the options in case trainer needs them
-    }
-
-    return problem
-
-    
-
-
-
-  def getMnist(self):
-    return self.getGenericProblem(NetG28, NetD28)
-    
-  def getBirdsnap(self):
-    return self.getGenericProblem(NetG64, NetD64)
-
-  def getGenericProblem(self, NETWORK_G, NETWORK_D):
-    netG = NETWORK_G(self.opt.nz,self.opt.ngf,self.opt.nc,self.opt.ngpu)
-    netD = NETWORK_D(self.opt.nz,self.opt.ndf,self.opt.nc,self.opt.ngpu)
-    model = {
-      'netG':netG,
-      'netD':netD,
-      'cuda':self.opt.cuda,
-      'criterion':nn.BCELoss(), #what about mse?
-      'reconstructionLoss':nn.MSELoss(),
-      'reconScale':self.opt.reconScale,
-      'nz':self.opt.nz,
-      'optimizerG':optim.Adam(netG.parameters(), lr=self.opt.lr, betas=(self.opt.beta1,0.999)),
-      'optimizerD':optim.Adam(netD.parameters(), lr=self.opt.lr, betas=(self.opt.beta1,0.999))
-    }
-    model = edict(model)
-
-    if self.opt.manualSeed is None:
-      manualSeed = random.randint(1,10000)
-      self.log("Using random seed %d"%manualSeed)
-    random.seed(manualSeed)
-    torch.manual_seed(manualSeed)
-    if self.opt.cuda:
-      torch.cuda.manual_seed_all(manualSeed)
-    cudnn.benchmark = True 
-    
-    # possibly load from file, else
-    model.netG.apply(weights_init)
-    model.netD.apply(weights_init)
-
-    if self.opt.cuda:
-      model.netG.cuda()
-      model.netD.cuda()
-      model.criterion.cuda()
-
-    print model
-      
-    return model
 
 

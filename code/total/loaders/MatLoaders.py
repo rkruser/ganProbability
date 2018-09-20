@@ -1,4 +1,5 @@
-from code.total.loaders.LoaderTemplate import LoaderTemplate
+from copy import copy
+from mlmanager import Loader
 
 import torch 
 import torch.utils.data as data
@@ -8,12 +9,28 @@ from scipy.io import loadmat
 import sys
 from os.path import join
 
-
-class MNISTSize28Cols1(LoaderTemplate):
+class LoaderTemplate(Loader):
   def __init__(self, config, args):
-    super(MNISTSize28Cols1, self).__init__(config, args)
-    self.path = self.getPath('mnist') #Change depending on dataset
+    super(LoaderTemplate, self).__init__(config,args)
+    self.opt = {
+      'batchSize':64,
+      'workers':2,
+      'shuffle':True
+    }
+    self.opt.update(copy(args))
 
+    self.batchSize = self.opt['batchSize']
+    self.workers = self.opt['workers']
+    self.shuffle = self.opt['shuffle']
+    self.path = None
+
+  # Return the torch dataset object for the dataset
+  # Outshape is the desired tensor shape
+  # Everything will be normalized between -1 and 1
+  # returnClass decides whether the dataset object will
+  #  return a pair (x,y) or just x
+  # This function should give an error if outShape is 
+  #  not compatible with the dataset
   def getDataset(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False):
     # Before returning, can check for compatible shapes
     return MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode)
@@ -23,12 +40,47 @@ class MNISTSize28Cols1(LoaderTemplate):
     return data.DataLoader(MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
 
 
+class MNISTSize28Cols1(LoaderTemplate):
+  def __init__(self, config, args):
+    super(MNISTSize28Cols1, self).__init__(config, args)
+    self.path = self.getPath('mnist28') #Change depending on dataset
+
+class MNISTSize32Cols1(LoaderTemplate):
+  def __init__(self, config, args):
+    super(MNISTSize32Cols1, self).__init__(config, args)
+    self.path = self.getPath('mnist32') #Change depending on dataset
+
+class MNISTSize64Cols1(LoaderTemplate):
+  def __init__(self, config, args):
+    super(MNISTSize64Cols1, self).__init__(config, args)
+    self.path = self.getPath('mnist64') #Change depending on dataset
+
+class CFAR10Size28Cols3(LoaderTemplate):
+  def __init__(self, config, args):
+    super(CFAR10Size28Cols3, self).__init__(config, args)
+    self.path = self.getPath('cifar10_28') #Change depending on dataset
+
+class CFAR10Size32Cols3(LoaderTemplate):
+  def __init__(self, config, args):
+    super(CFAR10Size32Cols3, self).__init__(config, args)
+    self.path = self.getPath('cifar10_32') #Change depending on dataset
+
+class CFAR10Size64Cols3(LoaderTemplate):
+  def __init__(self, config, args):
+    super(CFAR10Size64Cols3, self).__init__(config, args)
+    self.path = self.getPath('cifar10_64') #Change depending on dataset
+
+class CUB200Size64Cols3(LoaderTemplate):
+  def __init__(self, config, args):
+    super(CUB200Size64Cols3, self).__init__(config, args)
+    self.path = self.getPath('cub200_64') #Change depending on dataset
+
 
 class ProbData(LoaderTemplate):
   def __init__(self, config, args):
     super(ProbData, self).__init__(config, args)
     self.current = None
-    self.path = self.getPath('ProbData')
+    self.path = self.getPath('ProbData') #Need to add to config
 
   def getDataset(self, deep=False, mode='train', trainProportion=0.8):
     return ProbLoader(self.path, matpath, deep=deep, mode=mode, trainProportion=trainProportion)
