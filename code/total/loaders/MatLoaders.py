@@ -80,7 +80,7 @@ class ProbData(LoaderTemplate):
   def __init__(self, config, args):
     super(ProbData, self).__init__(config, args)
     self.current = None
-    self.path = self.getPath('ProbData') #Need to add to config
+    self.path = self.getPath('samples') #Need to add to config
 
   def getDataset(self, deep=False, mode='train', trainProportion=0.8):
     return ProbLoader(self.path, matpath, deep=deep, mode=mode, trainProportion=trainProportion)
@@ -196,7 +196,7 @@ class ProbLoader(data.Dataset):
   def __init__(self, matpath, deep=False, mode='train', trainProportion=0.8):
     self.data = loadmat(matpath)
     if deep:
-      self.X = self.data['codes']
+      self.X = self.data['codes'] #Actually no, but okay
     else:
       self.X = self.data['images']
     self.Y = self.data['prob']
