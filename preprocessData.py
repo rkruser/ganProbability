@@ -81,13 +81,18 @@ def getNumpy(dset, start, end):
   for i in range(start, end):
     if i%10 == 0:
       print "Iter {}".format(i)
-    item = dset[i]
-    if Yvals:
-      a.append(np.array(item[0]))
-      if item[1] is not None:
-        b.append(item[1])
-    else:
-      a.append(np.array(item))
+    try: #Need to test try/catch
+      item = dset[i]
+      if Yvals:
+        a.append(np.array(item[0]))
+        if item[1] is not None:
+          b.append(item[1])
+      else:
+        a.append(np.array(item))
+    except IOError as e:
+      print "Error,",e 
+      print "Skipping {0}".format(i)
+
 
   if Yvals and len(b) == len(a):
     return np.array(a), np.array(b)

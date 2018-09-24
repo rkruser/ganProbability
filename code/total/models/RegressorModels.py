@@ -145,7 +145,6 @@ class RegressorModel(ModelTemplate):
     self.save()
 
 
-
   def trainEpoch(self, dataloader):
     self.netP.train()
     losses = AverageMeter()
@@ -178,8 +177,9 @@ class RegressorModel(ModelTemplate):
 
       
   # Sample 
-  def sample(self, nSamples):
-    pass
+  def sample(self, inputs):
+    outProbs = self.netP(inputs)
+    return outProbs
 
   # method should be one of 'numerical', 'exact'
   def probSample(self, nSamples, deepFeatures=None, method='numerical', epsilon=1e-5):
