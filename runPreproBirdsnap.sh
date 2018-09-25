@@ -5,4 +5,4 @@
 #SBATCH --time=12:00:00
 #SBATCH --job-name=birdsnapPrepro
 cd /fs/vulcan-scratch/krusinga/projects/ganProbability
-python preprocessData.py --name birdsnap --folder /vulcan/scratch/krusinga/birdsnap/birdsnap/download/images --outSize 64
+python preprocessData.py --name birdsnap --folder /vulcan/scratch/krusinga/birdsnap/birdsnap/download/images --outSize 32

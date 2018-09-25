@@ -88,11 +88,11 @@ class DCGANModel(ModelTemplate):
       'lr':0.0002,
       'beta1':0.5,
       'netGclass':NetG28,
-      'netG':'',
+      'netGkey':'',
       'netGinstance':-1,
       'netGexpNum':-1,
       'netDclass':NetD28,
-      'netD':'',
+      'netDkey':'',
       'netDinstance':-1,
       'netDexpNum':-1,
       'checkpointEvery':10
@@ -102,31 +102,35 @@ class DCGANModel(ModelTemplate):
 
     self.log(str(self.opt))
 
-    # Perhaps there is a pythonic way to convert dict items to attributes
-    self.nz = self.opt['nz']
-    self.ngf = self.opt['ngf']
-    self.ndf = self.opt['ndf']
-    self.nc = self.opt['nc']
-    self.imSize = self.opt['imSize']
-    self.lr = self.opt['lr']
-    self.beta1 = self.opt['beta1']
-    self.ngpu = self.opt['ngpu']
-    self.cuda = self.opt['cuda']
-    self.outShape = (self.nc,self.imSize,self.imSize)
+    for key in self.opt:
+      setattr(self, key, self.opt[key])
 
     self.log("outShape is "+str(self.outShape))
 
-    self.netGclass = self.opt['netGclass']
-    self.netGkey = self.opt['netG']
-    self.netGinstance = self.opt['netGinstance']
-    self.netGexpNum = self.opt['netGexpNum']
-
-    self.netDclass = self.opt['netDclass']
-    self.netDkey = self.opt['netD']
-    self.netDinstance = self.opt['netDinstance']
-    self.netDexpNum = self.opt['netDexpNum']
-
-    self.checkpointEvery = self.opt['checkpointEvery']
+    # Perhaps there is a pythonic way to convert dict items to attributes
+#    self.nz = self.opt['nz']
+#    self.ngf = self.opt['ngf']
+#    self.ndf = self.opt['ndf']
+#    self.nc = self.opt['nc']
+#    self.imSize = self.opt['imSize']
+#    self.lr = self.opt['lr']
+#    self.beta1 = self.opt['beta1']
+#    self.ngpu = self.opt['ngpu']
+#    self.cuda = self.opt['cuda']
+#    self.outShape = (self.nc,self.imSize,self.imSize)
+#
+#
+#    self.netGclass = self.opt['netGclass']
+#    self.netGkey = self.opt['netG']
+#    self.netGinstance = self.opt['netGinstance']
+#    self.netGexpNum = self.opt['netGexpNum']
+#
+#    self.netDclass = self.opt['netDclass']
+#    self.netDkey = self.opt['netD']
+#    self.netDinstance = self.opt['netDinstance']
+#    self.netDexpNum = self.opt['netDexpNum']
+#
+#    self.checkpointEvery = self.opt['checkpointEvery']
 
 
     self.netG = self.netGclass(nz=self.nz, ngf=self.ngf, nc=self.nc, ngpu=self.ngpu)

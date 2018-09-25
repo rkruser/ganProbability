@@ -6,7 +6,16 @@ globalKeywords: {birdsnap: /vulcan/scratch/krusinga/birdsnap/birdsnap, cifar10: 
   fakeMnist: /vulcan/scratch/krusinga/mnist/mnistKnockoff.mat, generated: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated,
   imagenet: '', lsun: '', mnist: /vulcan/scratch/krusinga/mnist, mnist_distribution: /vulcan/scratch/krusinga/mnist,
   projectPath: /fs/vulcan-scratch/krusinga/projects/ganProbability/,
-  mnist28: /vulcan/scratch/krusinga/mnist/mnist28.mat, mnist32: /vulcan/scratch/krusinga/mnist/mnist32.mat, mnist64: /vulcan/scratch/krusinga/mnist/mnist64.mat, cifar10_28: /vulcan/scratch/krusinga/cifar10/cifar10_28.mat, cifar10_32: /vulcan/scratch/krusinga/cifar10/cifar10_32.mat, cifar10_64: /vulcan/scratch/krusinga/cifar10/cifar10_64.mat, cub200_64: /vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_64.mat, birdsnap64: /vulcan/scratch/krusinga/birdsnap/birdsnap/download/images/birdsnap64.mat, birdsnap32: /vulcan/scratch/krusinga/birdsnap/birdsnap/download/images/birdsnap32.mat
+  mnist28: /vulcan/scratch/krusinga/mnist/mnist28.mat, 
+  mnist32: /vulcan/scratch/krusinga/mnist/mnist32.mat, 
+  mnist64: /vulcan/scratch/krusinga/mnist/mnist64.mat, 
+  cifar10_28: /vulcan/scratch/krusinga/cifar10/cifar10_28.mat, 
+  cifar10_32: /vulcan/scratch/krusinga/cifar10/cifar10_32.mat, 
+  cifar10_64: /vulcan/scratch/krusinga/cifar10/cifar10_64.mat, 
+  cub200_64: /vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_64.mat, 
+  cub200_32: /vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_32.mat, 
+  birdsnap64: /vulcan/scratch/krusinga/birdsnap/birdsnap/download/images/birdsnap64.mat, 
+  birdsnap32: /vulcan/scratch/krusinga/birdsnap/birdsnap/download/images/birdsnap32.mat
 }
 info:
 - [e1, First experiment]

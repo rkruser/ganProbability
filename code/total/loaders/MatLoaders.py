@@ -75,6 +75,21 @@ class CUB200Size64Cols3(LoaderTemplate):
     super(CUB200Size64Cols3, self).__init__(config, args)
     self.path = self.getPath('cub200_64') #Change depending on dataset
 
+class CUB200Size32Cols3(LoaderTemplate):
+  def __init__(self, config, args):
+    super(CUB200Size32Cols3, self).__init__(config, args)
+    self.path = self.getPath('cub200_32') #Change depending on dataset
+
+class BirdsnapSize64Cols3(LoaderTemplate):
+  def __init__(self, config, args):
+    super(CUB200Size64Cols3, self).__init__(config, args)
+    self.path = self.getPath('birdsnap64')
+
+class BirdsnapSize32Cols3(LoaderTemplate):
+  def __init__(self, config, args):
+    super(CUB200Size32Cols3, self).__init__(config, args)
+    self.path = self.getPath('birdsnap32')
+
 
 class ProbData(LoaderTemplate):
   def __init__(self, config, args):

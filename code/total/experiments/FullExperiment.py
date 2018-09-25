@@ -9,6 +9,7 @@ class StandardExperiment(Operator):
 			'nEpochs':20
 		}
 		self.opt.update(args)
+
 		self.loaderTemplate = self.dependencies[0]
 		self.ganModel = self.dependencies[1]
 		self.regressorModel = self.dependencies[2]

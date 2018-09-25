@@ -75,7 +75,7 @@ class RegressorModel(ModelTemplate):
       'lr':0.0002,
       'beta1':0.5,
       'netPclass':NetP28,
-      'netP':'',
+      'netPkey':'',
       'netPinstance':-1,
       'netPexpNum':-1,
       'checkpointEvery':10
@@ -85,25 +85,29 @@ class RegressorModel(ModelTemplate):
 
     self.log(str(self.opt))
 
-    # Perhaps there is a pythonic way to convert dict items to attributes
-    self.nz = self.opt['nz']
-    self.npf = self.opt['npf']
-    self.nc = self.opt['nc']
-    self.imSize = self.opt['imSize']
-    self.lr = self.opt['lr']
-    self.beta1 = self.opt['beta1']
-    self.ngpu = self.opt['ngpu']
-    self.cuda = self.opt['cuda']
-    self.inShape = (self.nc,self.imSize,self.imSize)
+    for key in self.opt:
+      setattr(self, key, self.opt[key])
 
     self.log("inShape is "+str(self.outShape))
 
-    self.netPclass = self.opt['netPclass']
-    self.netPkey = self.opt['netP']
-    self.netPinstance = self.opt['netPinstance']
-    self.netPexpNum = self.opt['netPexpNum']
-
-    self.checkpointEvery = self.opt['checkpointEvery']
+    # Perhaps there is a pythonic way to convert dict items to attributes
+#    self.nz = self.opt['nz']
+#    self.npf = self.opt['npf']
+#    self.nc = self.opt['nc']
+#    self.imSize = self.opt['imSize']
+#    self.lr = self.opt['lr']
+#    self.beta1 = self.opt['beta1']
+#    self.ngpu = self.opt['ngpu']
+#    self.cuda = self.opt['cuda']
+#    self.inShape = (self.nc,self.imSize,self.imSize)
+#
+#
+#    self.netPclass = self.opt['netPclass']
+#    self.netPkey = self.opt['netP']
+#    self.netPinstance = self.opt['netPinstance']
+#    self.netPexpNum = self.opt['netPexpNum']
+#
+#    self.checkpointEvery = self.opt['checkpointEvery']
 
 
     self.netP = self.netPclass(ngpu=self.ngpu, nc=self.nc, npf=self.npf)
