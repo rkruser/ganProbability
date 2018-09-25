@@ -1,0 +1,31 @@
+=====
+Starting experiment stage1
+ID: 40, PID 0/1
+09_25_2018_18:55:33
+=====
+=====
+Starting experiment stage1
+ID: 40, PID 0/1
+09_25_2018_18:56:05
+=====
+=====
+Starting experiment stage1
+ID: 40, PID 0/1
+09_25_2018_18:57:10
+=====
+DCGANSize32Col3: {'netGkey': '', 'netGinstance': -1, 'ngpu': 0, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 10, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 1, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': False, 'beta1': 0.5, 'netDkey': '', 'imSize': 32}
+An exception occurred when running DCGANSize32Col3
+<type 'exceptions.AttributeError'>
+'DCGANSize32Col3' object has no attribute 'outShape'
+Exiting early
+=====
+Starting experiment stage1
+ID: 40, PID 0/1
+09_25_2018_18:59:27
+=====
+DCGANSize32Col3: {'netGkey': '', 'netGinstance': -1, 'ngpu': 0, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 10, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 1, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': False, 'beta1': 0.5, 'netDkey': '', 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+An exception occurred when running DCGANSize32Col3
+<type 'exceptions.TypeError'>
+__init__() got an unexpected keyword argument 'ngf'
+Exiting early

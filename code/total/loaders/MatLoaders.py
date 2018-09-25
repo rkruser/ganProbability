@@ -1,5 +1,5 @@
 from copy import copy
-from mlmanager import Loader
+from mlworkflow import Loader
 
 import torch 
 import torch.utils.data as data

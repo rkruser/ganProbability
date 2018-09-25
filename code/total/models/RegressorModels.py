@@ -13,54 +13,6 @@ from torch.autograd import Variable
 import torch.optim.lr_scheduler as lr_scheduler
 
 
-class RegressorSize28Col3(RegressorModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 3
-    args['imSize'] = 28
-    args['netPclass'] = NetP28
-    super(RegressorSize28Col3, self).__init__(config, args)
-
-class RegressorSize28Col1(RegressorModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 1
-    args['imSize'] = 28
-    args['netPclass'] = NetP28
-    super(RegressorSize28Col3, self).__init__(config, args)
-
-class RegressorSize32Col3(RegressorModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 3
-    args['imSize'] = 32
-    args['netPclass'] = NetP32
-    super(RegressorSize32Col3, self).__init__(config, args)
-
-class RegressorSize32Col1(RegressorModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 1
-    args['imSize'] = 32
-    args['netPclass'] = NetP32
-    super(RegressorSize32Col1, self).__init__(config, args)
-
-class RegressorSize64Col3(RegressorModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 3
-    args['imSize'] = 64
-    args['netPclass'] = NetP64
-    super(RegressorSize64Col3, self).__init__(config, args)
-
-class RegressorSize64Col1(RegressorModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 1
-    args['imSize'] = 64
-    args['netPclass'] = NetP64
-    super(RegressorSize64Col1, self).__init__(config, args)
-
 
 class RegressorModel(ModelTemplate):
   def __init__(self, config, args):
@@ -249,4 +201,53 @@ class RegressorModel(ModelTemplate):
     lossDat = Data(train, 'lineplot', 'lossCurve')
     errorDat = Data(test, 'lineplot', 'errorCurve')
     return [lossDat, errorDat]
+
+
+class RegressorSize28Col3(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 28
+    args['netPclass'] = NetP28
+    super(RegressorSize28Col3, self).__init__(config, args)
+
+class RegressorSize28Col1(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 28
+    args['netPclass'] = NetP28
+    super(RegressorSize28Col3, self).__init__(config, args)
+
+class RegressorSize32Col3(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 32
+    args['netPclass'] = NetP32
+    super(RegressorSize32Col3, self).__init__(config, args)
+
+class RegressorSize32Col1(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 32
+    args['netPclass'] = NetP32
+    super(RegressorSize32Col1, self).__init__(config, args)
+
+class RegressorSize64Col3(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 64
+    args['netPclass'] = NetP64
+    super(RegressorSize64Col3, self).__init__(config, args)
+
+class RegressorSize64Col1(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 64
+    args['netPclass'] = NetP64
+    super(RegressorSize64Col1, self).__init__(config, args)
 

@@ -16,61 +16,6 @@ import numpy as np
 # Check for correctness
 # Fill in sampling and other functions
 
-class DCGANSize28Col3(DCGANModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 3
-    args['imSize'] = 28
-    args['netGclass'] = NetG28
-    args['netDclass'] = NetD28
-    super(DCGANSize28Col3, self).__init__(config, args)
-
-class DCGANSize28Col1(DCGANModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 1
-    args['imSize'] = 28
-    args['netGclass'] = NetG28
-    args['netDclass'] = NetD28
-    super(DCGANSize28Col1, self).__init__(config, args)
-
-class DCGANSize32Col3(DCGANModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 3
-    args['imSize'] = 32
-    args['netGclass'] = NetG32
-    args['netDclass'] = NetD32
-    super(DCGANSize32Col3, self).__init__(config, args)
-
-class DCGANSize32Col1(DCGANModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 1
-    args['imSize'] = 32
-    args['netGclass'] = NetG32
-    args['netDclass'] = NetD32
-    super(DCGANSize32Col1, self).__init__(config, args)
-
-
-class DCGANSize64Col1(DCGANModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 1
-    args['imSize'] = 64
-    args['netGclass'] = NetG64
-    args['netDclass'] = NetD64
-    super(DCGANSize64Col1, self).__init__(config, args)
-
-class DCGANSize64Col3(DCGANModel):
-  def __init__(self, config, args):
-    args = copy(args)
-    args['nc'] = 3
-    args['imSize'] = 64
-    args['netGclass'] = NetG64
-    args['netDclass'] = NetD64
-    super(DCGANSize64Col3, self).__init__(config, args)
-
 
 # Need to do random seeding in another module
 
@@ -105,6 +50,7 @@ class DCGANModel(ModelTemplate):
     for key in self.opt:
       setattr(self, key, self.opt[key])
 
+    self.outShape = (self.nc, self.imSize, self.imSize)
     self.log("outShape is "+str(self.outShape))
 
     # Perhaps there is a pythonic way to convert dict items to attributes
@@ -234,9 +180,9 @@ class DCGANModel(ModelTemplate):
 
       # Save checkpoint
       if (epoch+1)%self.checkpointEvery == 0:
-        self.save(checkpointNum = epoch)
+        self.saveCheckpoint(checkpointNum = epoch)
 
-    self.save()
+    self.saveCheckpoint()
       
   # Sample 
   def sample(self, nSamples):
@@ -353,4 +299,60 @@ class DCGANModel(ModelTemplate):
     for i, im in enumerate(self.images):
       results.append(Data({'images':im,'dpi':400}, 'imageArray', 'ganSampleIms', instance=(i*self.checkpointEvery)))
     return results
+
+
+class DCGANSize28Col3(DCGANModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 28
+    args['netGclass'] = NetG28
+    args['netDclass'] = NetD28
+    super(DCGANSize28Col3, self).__init__(config, args)
+
+class DCGANSize28Col1(DCGANModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 28
+    args['netGclass'] = NetG28
+    args['netDclass'] = NetD28
+    super(DCGANSize28Col1, self).__init__(config, args)
+
+class DCGANSize32Col3(DCGANModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 32
+    args['netGclass'] = NetG32
+    args['netDclass'] = NetD32
+    super(DCGANSize32Col3, self).__init__(config, args)
+
+class DCGANSize32Col1(DCGANModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 32
+    args['netGclass'] = NetG32
+    args['netDclass'] = NetD32
+    super(DCGANSize32Col1, self).__init__(config, args)
+
+
+class DCGANSize64Col1(DCGANModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 64
+    args['netGclass'] = NetG64
+    args['netDclass'] = NetD64
+    super(DCGANSize64Col1, self).__init__(config, args)
+
+class DCGANSize64Col3(DCGANModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 64
+    args['netGclass'] = NetG64
+    args['netDclass'] = NetD64
+    super(DCGANSize64Col3, self).__init__(config, args)
 

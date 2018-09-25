@@ -1,5 +1,6 @@
 # Run experiments
 # Import modules from code here
+import sys
 from mlworkflow import Loader, Operator, Analyzer, experiment
 from mpi4py import MPI
 import argparse
@@ -23,8 +24,9 @@ def getModulesFromDict(mlist, moduleMap):
     mods.append(toAppend)
   return mods
 
-from getOperators import mapDict
-#from code.total.getOperators import mapDict
+#from getOperators import mapDict
+from code.total.getOperators import mapDict
+mapDict.update({'Analyzer':Analyzer})
 getClasses = lambda mlist: getModulesFromDict(mlist, mapDict)
 
 def main():

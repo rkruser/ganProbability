@@ -20,8 +20,7 @@ class SampleGAN(Operator):
 		self.ganModel = self.dependencies[0]
 
 	def sample(self):
-		samples = self.ganModel.probSample(nSamples = self.opt['samples'], deepFeatures = self.opt['deep'],
-				method=self.opt['method'], epsilon=self.opt['epsilon'])
+		samples = self.ganModel.probSample(nSamples = self.opt['samples'], deepFeatures = self.opt['deep'], method=self.opt['method'], epsilon=self.opt['epsilon'])
 		self.save(samples, 'samples', saver='mat', threadSpecific = self.opt['appendThreadId'])
 
 	def run(self):

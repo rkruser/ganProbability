@@ -1,0 +1,8 @@
+name: stage2
+modules: [DCGANSize32Cols3, SampleGAN, ZipSamples, MNISTSize32Cols1, ProbData, RegressorSize32Cols3,  RegressorTrain, RegressorTest, Analyzer]
+#One for everything in otherPaths
+#otherTemplates: {
+#  generated: template
+#}
+dependencies: [[], [0], [], [], [], [], [4,5], [3], [0,1,2,3,4,5,6,7]]
+args: {}

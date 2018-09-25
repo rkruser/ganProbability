@@ -5,26 +5,24 @@ from code.total.models.nnModels import weights_init, NetG28, NetD28, NetG32, Net
 from code.total.loaders.MatLoaders import MatLoader
 
 class GANTrain(Operator):
-	def __init__(self, config, args):
-		super(GANTrain, self).__init__(config, args)
-		args = copy(args)
-		self.opt = {
-			'nGANepochs':20
-		}
-		self.opt.update(args)
+  def __init__(self, config, args):
+    super(GANTrain, self).__init__(config, args)
+    args = copy(args)
+    self.opt = {
+      'nGANepochs':20
+    }
+    self.opt.update(args)
 
     for key in self.opt:
       setattr(self, key, self.opt[key])
-    
-    
 
-		self.dataloader = self.dependencies[0]
-		self.ganModel = self.dependencies[1]
+    self.dataloader = self.dependencies[0]
+    self.ganModel = self.dependencies[1]
 #		self.regressorModel = self.dependencies[2]
 	#	self.sampler = self.dependencies[3]
 
 
-	def run(self):
+  def run(self):
     pid = self.getPID()
     if pid == 0:
       self.ganModel.train(self.dataloader, self.nGANepochs)
@@ -35,13 +33,13 @@ class GANTrain(Operator):
 
 
 class RegressorTrain(Operator):
-	def __init__(self, config, args):
-		super(RegressorTrain, self).__init__(config, args)
-		args = copy(args)
-		self.opt = {
-			'nRegressorEpochs':20
-		}
-		self.opt.update(args)
+  def __init__(self, config, args):
+    super(RegressorTrain, self).__init__(config, args)
+    args = copy(args)
+    self.opt = {
+      'nRegressorEpochs':20
+    }
+    self.opt.update(args)
 
     for key in self.opt:
       setattr(self, key, self.opt[key])
@@ -57,14 +55,14 @@ class RegressorTrain(Operator):
 
 class RegressorTest(Operator):
   def __init__(self, config, args):
-		super(RegressorTrain, self).__init__(config, args)
-		args = copy(args)
-		self.opt = {
+    super(RegressorTrain, self).__init__(config, args)
+    args = copy(args)
+    self.opt = {
       'dataset':'mnist28',
       'distribution':None,
       'nRegressorSamples':1000
-		}
-		self.opt.update(args)
+    }
+    self.opt.update(args)
 
     for key in self.opt:
       setattr(self, key, self.opt[key])

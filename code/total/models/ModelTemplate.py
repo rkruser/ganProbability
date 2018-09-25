@@ -1,4 +1,4 @@
-from mlmanager import Loader
+from mlworkflow import Loader
 
 class ModelTemplate(Loader):
   def __init__(self, config, args):
