@@ -153,9 +153,9 @@ class DCGANModel(ModelTemplate):
       self.netD.apply(weights_init)
 
     if self.cuda:
-      self.netG.cuda()
-      self.netD.cuda()
-      self.criterion.cuda()
+      self.netG = self.netG.cuda()
+      self.netD = self.netD.cuda()
+      self.criterion = self.criterion.cuda()
 
   # data tracking
     self.images = []
@@ -188,11 +188,11 @@ class DCGANModel(ModelTemplate):
         zCodesG = torch.Tensor(batchize, self.nz, 1,1).normal_(0,1)
 
         if self.cuda:
-          data.cuda()
-          zCodesD.cuda()
-          zCodesG.cuda()
-          labelsReal.cuda()
-          labelsFake.cuda()
+          data = data.cuda()
+          zCodesD = zCodesD.cuda()
+          zCodesG = zCodesG.cuda()
+          labelsReal = labelsReal.cuda()
+          labelsFake = labelsFake.cuda()
 
         data = Variable(data)
         labelsReal = Variable(labelsReal)

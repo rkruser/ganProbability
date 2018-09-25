@@ -25,6 +25,7 @@ class SampleGAN(Operator):
 		self.save(samples, 'samples', saver='mat', threadSpecific = self.opt['appendThreadId'])
 
 	def run(self):
+    # Check if netG file exists
 		if self.opt['autoRun']:
 			self.sample()
 

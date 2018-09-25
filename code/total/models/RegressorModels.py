@@ -66,7 +66,6 @@ class RegressorModel(ModelTemplate):
   def __init__(self, config, args):
     super(Regressor,self).__init__(config, args)
     self.opt = {
-      'nz': 100,
       'npf': 64,
       'nc':3,
       'imSize':28,
@@ -115,15 +114,15 @@ class RegressorModel(ModelTemplate):
     self.optimizerP = optim.Adam(self.netG.parameters(), lr=self.lr, betas=(self.beta1,0.999))
     self.scheduler = lr_scheduler.StepLR(self.optimizerP, step_size=200, gamma=0.1)
 
-    # Load netG, newly or from file
+    # Load netP, newly or from file
     if self.netPkey != '':
-      self.netP.load_state_dict(self.load(self.netPkey, instance=self.netGinstance, number=self.netGexpNum))
+      self.netP.load_state_dict(self.load(self.netPkey, instance=self.netPinstance, number=self.netPexpNum))
     else:
       self.netP.apply(weights_init)
 
     if self.cuda:
-      self.netP.cuda()
-      self.criterion.cuda()
+      self.netP = self.netP.cuda()
+      self.criterion = self.criterion.cuda()
 
 
     self.lossCurve = ([], [], [])
@@ -161,8 +160,8 @@ class RegressorModel(ModelTemplate):
       batchSize = data.size(0)
 
       if self.cuda:
-        data.cuda()
-        label.cuda()
+        data = data.cuda()
+        label = label.cuda()
 
       data = Variable(data)
       label = Variable(label)
