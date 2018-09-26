@@ -17,7 +17,8 @@ class LoaderTemplate(Loader):
       'workers':2,
       'shuffle':True
     }
-    self.opt.update(copy(args))
+    args = copy(args)
+    self.opt.update(args)
 
     self.batchSize = self.opt['batchSize']
     self.workers = self.opt['workers']
@@ -35,7 +36,7 @@ class LoaderTemplate(Loader):
     # Before returning, can check for compatible shapes
     return MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode)
 
-  def getDataloader(self, outShape = None, distribution=None, labels=None, mode='train', returnClass = False):
+  def getDataloader(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False):
     # Before returning, can check for compatible shapes
     return data.DataLoader(MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
 
@@ -95,20 +96,20 @@ class ProbData(LoaderTemplate):
   def __init__(self, config, args):
     super(ProbData, self).__init__(config, args)
     self.current = None
-    self.path = self.getPath('samples') #Need to add to config
+    self.path = self.getPath('samples', threadSpecific=False) #Need to add to config
 
-  def getDataset(self, deep=False, mode='train', trainProportion=0.8):
-    return ProbLoader(self.path, matpath, deep=deep, mode=mode, trainProportion=trainProportion)
+  def getDataset(self, deep=False, mode='train', trainProportion=0.8, outShape=None):
+    return ProbLoader(self.path, deep=deep, mode=mode, trainProportion=trainProportion)
 
-  def getDataloader(self, deep=False, mode='train', trainProportion=0.8):
-    return data.Dataloader(ProbLoader(self.path, matpath, deep=deep, mode=mode, trainProportion=trainProportion), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
+  def getDataloader(self, deep=False, mode='train', trainProportion=0.8, outShape=None):
+    return data.DataLoader(ProbLoader(self.path, deep=deep, mode=mode, trainProportion=trainProportion), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
 
 
 # Assumes you have a matfile
 # containing Xtrain, (Ytrain), Xtest, (Ytest) of the appropriate sizes
 class MatLoader(data.Dataset):
   def __init__(self, matFile, outShape=None, distribution=None, labels=None,  returnLabel=False, mode='train'):
-    self.matDirectory = matDirectory
+    self.matFile = matFile
     self.distribution = distribution
     self.outShape = outShape
     self.mode = mode
@@ -133,7 +134,7 @@ class MatLoader(data.Dataset):
 
     # Handle input / output shapes
     self.defaultShape = self.X[0].shape #
-    if self.outShape != self.defaultShape:
+    if (self.outShape is not None) and (self.outShape != self.defaultShape):
       self.reshape = True
       assert(self.outShape[1] == self.defaultShape[1] and self.outShape[2] == self.defaultShape[2]) # Don't try to resize for the moment
 #      self.transform = transforms.Compose([transforms.ToPILImage(), transforms.Scale((self.outShape[1],self.outShape[2])), transforms.ToTensor(), transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))])
@@ -145,8 +146,8 @@ class MatLoader(data.Dataset):
       if labels is not None:
         self.labels = labels
       else:
-        self.labels = np.unique(Y) #Is sorted
-      self.classwiseSubsets = [np.where(Y==lbl) for lbl in self.labels]
+        self.labels = np.unique(self.Y) #Is sorted
+      self.classwiseSubsets = [np.where(self.Y==lbl) for lbl in self.labels]
     else:
       self.labels = None
       self.classwiseSubsets = None
@@ -214,7 +215,7 @@ class ProbLoader(data.Dataset):
       self.X = self.data['codes'] #Actually no, but okay
     else:
       self.X = self.data['images']
-    self.Y = self.data['prob']
+    self.Y = self.data['prob'].squeeze()
 
     if mode=='train':
       self.train = True
@@ -224,7 +225,7 @@ class ProbLoader(data.Dataset):
     self.outShape = self.X[0].shape 
 
     self.dataSize = len(self.X)
-    self.trainSize = int(self.originalSize*trainProportion)
+    self.trainSize = int(self.dataSize*trainProportion)
     self.testSize = self.dataSize-self.trainSize
     
     self.Xtrain = self.X[:self.trainSize]

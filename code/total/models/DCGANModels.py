@@ -1,3 +1,4 @@
+from mlworkflow import Data
 from copy import copy
 from code.total.models.ModelTemplate import ModelTemplate, AverageMeter
 from code.total.models.nnModels import weights_init, NetG28, NetD28, NetG64, NetD64, NetG32, NetD32
@@ -80,7 +81,7 @@ class DCGANModel(ModelTemplate):
 
 
     self.netG = self.netGclass(nz=self.nz, ngf=self.ngf, nc=self.nc, ngpu=self.ngpu)
-    self.netD = self.netDclass(nz=self.nz, ngf=self.ngf, nc=self.nc, ngpu=self.ngpu)
+    self.netD = self.netDclass(nz=self.nz, ndf=self.ndf, nc=self.nc, ngpu=self.ngpu)
     self.criterion = nn.BCELoss()
     self.optimizerG = optim.Adam(self.netG.parameters(), lr=self.lr, betas=(self.beta1,0.999))
     self.optimizerD = optim.Adam(self.netD.parameters(), lr=self.lr, betas=(self.beta1,0.999))
@@ -88,13 +89,13 @@ class DCGANModel(ModelTemplate):
 
     # Load netG, newly or from file
     if self.netGkey != '':
-      self.netG.load_state_dict(self.load(self.netGkey, instance=self.netGinstance, number=self.netGexpNum))
+      self.netG.load_state_dict(self.load(self.netGkey, instance=self.netGinstance, number=self.netGexpNum, loader='torch'))
     else:
       self.netG.apply(weights_init)
 
     # Load netD, newly or from file
     if self.netDkey != '':
-      self.netD.load_state_dict(self.load(self.netDkey, instance=self.netDinstance, number=self.netDexpNum))
+      self.netD.load_state_dict(self.load(self.netDkey, instance=self.netDinstance, number=self.netDexpNum, loader='torch'))
     else:
       self.netD.apply(weights_init)
 
@@ -115,7 +116,7 @@ class DCGANModel(ModelTemplate):
     self.errG = []
     self.errD = []
 
-    dataloader = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnClass=False)
+    dataloader = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnLabel=False)
 
     self.netG.train()
     self.netD.train()
@@ -130,8 +131,8 @@ class DCGANModel(ModelTemplate):
         batchSize = data.size(0)
         labelsReal = torch.Tensor(batchSize).fill_(1.0)
         labelsFake = torch.Tensor(batchSize).fill_(0.0)
-        zCodesD = torch.Tensor(batchize, self.nz, 1,1).normal_(0,1)
-        zCodesG = torch.Tensor(batchize, self.nz, 1,1).normal_(0,1)
+        zCodesD = torch.Tensor(batchSize, self.nz, 1,1).normal_(0,1)
+        zCodesG = torch.Tensor(batchSize, self.nz, 1,1).normal_(0,1)
 
         if self.cuda:
           data = data.cuda()
@@ -195,8 +196,10 @@ class DCGANModel(ModelTemplate):
   # method should be one of 'numerical', 'exact'
   def probSample(self, nSamples, deepFeatures=None, method='numerical', epsilon=1e-5):
     codes = torch.FloatTensor(nSamples,self.nz).normal_(0,1)
+    if self.cuda:
+      codes = codes.cuda()
     results = self.getProbs(codes, method=method, epsilon=epsilon)
-    results['codes'] = codes.cpu().numpy()
+    results['code'] = codes.cpu().numpy()
     # if deepFeatures is not None:
     #   Run the deep feature network on all images and put in results
     return results
@@ -211,7 +214,8 @@ class DCGANModel(ModelTemplate):
     b = torch.eye(self.nz)*epsilon # Add/subtract to code
 
     if self.cuda:
-      noise.cuda()
+      noise = noise.cuda()
+      b = b.cuda()
 #      b.cuda() # not necessary?
 
     gauss_const = -self.nz*np.log(np.sqrt(2*np.pi))
@@ -235,7 +239,7 @@ class DCGANModel(ModelTemplate):
         noisev = Variable(noise, volatile=True) #volatile helps with memory?
         fake = self.netG(noisev)
         I = fake.data.cpu().numpy().reshape(2*self.nz+1,-1)
-        J = (I[1:nz+1,:]-I[nz+1:,:]).transpose()/(2*epsilon)
+        J = (I[1:self.nz+1,:]-I[self.nz+1:,:]).transpose()/(2*epsilon)
       else:
         noise.copy_(a.unsqueeze(2).unsqueeze(3))
         noisev = Variable(noise, requires_grad=True)
@@ -251,6 +255,7 @@ class DCGANModel(ModelTemplate):
       images[i] = I[0,:].reshape(self.nc, self.imSize, self.imSize)
       
       R = np.linalg.qr(J, mode='r')
+      Z = a.cpu().numpy()
       dummy = R.diagonal().copy()
       jacob[i] = dummy.copy() # No modification yet
       dummy[np.where(np.abs(dummy) < 1e-20)] = 1

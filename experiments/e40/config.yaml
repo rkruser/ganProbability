@@ -6,7 +6,8 @@ otherTemplates: {
 }
 dependencies: [[], [], [0,1], [0,1,2]]
 args: {
-  nGANepochs: 1
+  nGANepochs: 1,
+  cuda: True
 }
 ## Note: at the moment: this must contain
 # all the files needed for stage 2 as well

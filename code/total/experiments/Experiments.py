@@ -4,6 +4,9 @@ from mlworkflow import Operator
 from code.total.models.nnModels import weights_init, NetG28, NetD28, NetG32, NetD32, NetG64, NetD64, NetP28, NetP32, NetP64
 from code.total.loaders.MatLoaders import MatLoader
 
+import torch
+import numpy as np
+
 class GANTrain(Operator):
   def __init__(self, config, args):
     super(GANTrain, self).__init__(config, args)
@@ -55,10 +58,10 @@ class RegressorTrain(Operator):
 
 class RegressorTest(Operator):
   def __init__(self, config, args):
-    super(RegressorTrain, self).__init__(config, args)
+    super(RegressorTest, self).__init__(config, args)
     args = copy(args)
     self.opt = {
-      'dataset':'mnist28',
+#      'dataset':'mnist28',
       'distribution':None,
       'nRegressorSamples':1000
     }
@@ -67,12 +70,14 @@ class RegressorTest(Operator):
     for key in self.opt:
       setattr(self, key, self.opt[key])
 
-    self.datasetPath = self.getPath(self.dataset)
+    #self.datasetPath = self.getPath(self.dataset)
 
-    self.regressor = self.dependencies[0]
+    self.dataloader = self.dependencies[0]
+    self.regressor = self.dependencies[1]
 
   def run(self):
-    dataloader = MatLoader(self.datasetPath, distribution=self.distribution, mode='test', returnLabel=True)
+#    dataloader = MatLoader(self.datasetPath, distribution=self.distribution, mode='test', returnLabel=True)
+    dataloader = self.dataloader.getDataset(outShape=self.regressor.inShape, distribution=self.distribution, mode='test', returnLabel=True)
     # Sample
     imArr = []
     labelArr = []

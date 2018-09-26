@@ -1,3 +1,4 @@
+from mlworkflow import Data
 from copy import copy
 from code.total.models.ModelTemplate import ModelTemplate, AverageMeter
 from code.total.models.nnModels import weights_init, NetP28, NetP32, NetP64
@@ -16,7 +17,7 @@ import torch.optim.lr_scheduler as lr_scheduler
 
 class RegressorModel(ModelTemplate):
   def __init__(self, config, args):
-    super(Regressor,self).__init__(config, args)
+    super(RegressorModel,self).__init__(config, args)
     self.opt = {
       'npf': 64,
       'nc':3,
@@ -39,7 +40,9 @@ class RegressorModel(ModelTemplate):
     for key in self.opt:
       setattr(self, key, self.opt[key])
 
-    self.log("inShape is "+str(self.outShape))
+    self.inShape = (self.nc, self.imSize, self.imSize)
+
+    self.log("inShape is "+str(self.inShape))
 
     # Perhaps there is a pythonic way to convert dict items to attributes
 #    self.nz = self.opt['nz']
@@ -63,12 +66,12 @@ class RegressorModel(ModelTemplate):
 
     self.netP = self.netPclass(ngpu=self.ngpu, nc=self.nc, npf=self.npf)
     self.criterion = nn.SmoothL1Loss(size_average=True)
-    self.optimizerP = optim.Adam(self.netG.parameters(), lr=self.lr, betas=(self.beta1,0.999))
+    self.optimizerP = optim.Adam(self.netP.parameters(), lr=self.lr, betas=(self.beta1,0.999))
     self.scheduler = lr_scheduler.StepLR(self.optimizerP, step_size=200, gamma=0.1)
 
     # Load netP, newly or from file
     if self.netPkey != '':
-      self.netP.load_state_dict(self.load(self.netPkey, instance=self.netPinstance, number=self.netPexpNum))
+      self.netP.load_state_dict(self.load(self.netPkey, instance=self.netPinstance, number=self.netPexpNum, loader='torch'))
     else:
       self.netP.apply(weights_init)
 
@@ -83,24 +86,24 @@ class RegressorModel(ModelTemplate):
 
   def train(self, loaderTemplate, nepochs):
     # Reset for this run
-    dataloaderTrain = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnClass=False)
-    dataloaderTest = loaderTemplate.getDataloader(outShape=self.outShape, mode='test', returnClass=False)
+    dataloaderTrain = loaderTemplate.getDataloader(outShape=self.inShape, mode='train')
+    dataloaderTest = loaderTemplate.getDataloader(outShape=self.inShape, mode='test')
 
     for epoch in range(nepochs):
       self.log("===Begin epoch {0}".format(epoch))
-      scheduler.step()
-      self.trainEpoch(dataLoaderTrain)
-      self.testEpoch(dataLoaderTest)
+      self.scheduler.step()
+      self.trainEpoch(dataloaderTrain, epoch)
+      self.testEpoch(dataloaderTest, epoch)
       self.lossCurve[0].append(epoch)
       self.errorCurve[0].append(epoch)
     # Save checkpoint
       if (epoch+1)%self.checkpointEvery == 0:
-        self.save(checkpointNum = epoch)
+        self.saveCheckpoint(checkpointNum = epoch)
       
-    self.save()
+    self.saveCheckpoint()
 
 
-  def trainEpoch(self, dataloader):
+  def trainEpoch(self, dataloader, epoch):
     self.netP.train()
     losses = AverageMeter()
     abserror = AverageMeter()
@@ -121,7 +124,7 @@ class RegressorModel(ModelTemplate):
       output = self.netP(data)
       err = self.criterion(output, label)
       losses.update(err.data[0], data.size(0))
-      abserror.update((output.data-label).abs_().mean(), data.size(0))
+      abserror.update((output.data-label.data).abs_().mean(), data.size(0))
 
       err.backward()
       self.optimizerP.step()
@@ -133,8 +136,12 @@ class RegressorModel(ModelTemplate):
       
   # Sample 
   def sample(self, inputs):
+    self.netP.eval()
+    if self.cuda:
+      inputs = inputs.cuda()
+    inputs = Variable(inputs)
     outProbs = self.netP(inputs)
-    return outProbs
+    return outProbs.data.cpu()
 
   # method should be one of 'numerical', 'exact'
   def probSample(self, nSamples, deepFeatures=None, method='numerical', epsilon=1e-5):
@@ -150,25 +157,24 @@ class RegressorModel(ModelTemplate):
   def nearestInput(self, ims):
     pass
 
-  def testEpoch(self, dataloader):
+  def testEpoch(self, dataloader, epoch):
     losses = AverageMeter()
     abserror = AverageMeter()
     self.netP.eval()
     for i, (data, label) in enumerate(dataloader):
-        if use_cuda:
-            data = data.cuda()
-            label = label.cuda()
+        if self.cuda:
+          data = data.cuda()
+          label = label.cuda()
         data = Variable(data, volatile=True)
         label = Variable(label, volatile=True)
 
         output = self.netP(data)#, 5)
-        err = criterion(output, label)
+        err = self.criterion(output, label)
 
         losses.update(err.data[0], data.size(0))
-        abserror.update((output.data - label).abs_().mean(), data.size(0))
+        abserror.update((output.data - label.data).abs_().mean(), data.size(0))
 
-#    self.log('Testing epoch %d, loss = %d, abserror=%d'%(epoch,losses.avg,abserror.avg))
-#      self.testCurve[0].append(epoch)
+    self.log('Testing epoch %d, loss = %d, abserror=%d'%(epoch,losses.avg,abserror.avg))
     self.lossCurve[2].append(losses.avg)
     self.errorCurve[2].append(abserror.avg)
 

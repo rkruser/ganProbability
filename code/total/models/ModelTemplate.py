@@ -25,7 +25,8 @@ class ModelTemplate(Loader):
     raise NotImplementedError()
 
   # Load self if args say so
-  def load(self):
+    # can't call this load because it conflicts with the other load function
+  def loadModel(self):
     raise NotImplementedError()
 
 
