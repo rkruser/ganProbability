@@ -7,6 +7,8 @@ from code.total.loaders.MatLoaders import MatLoader
 import torch
 import numpy as np
 
+# Here is a new comment
+
 class GANTrain(Operator):
   def __init__(self, config, args):
     super(GANTrain, self).__init__(config, args)
