@@ -51,7 +51,9 @@ info:
 - [e38, Running for more epochs]
 - [e39, Training on CFAR and testing on MNIST]
 - [e40, The first experiment with the new code in the total directory]
-numExperiments: 40
+- [e41, First real experiment in new code; train on CIFAR and test on MNIST]
+- [e42, 'Train on MNIST, test on CIFAR']
+numExperiments: 42
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
