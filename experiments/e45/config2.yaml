@@ -1,5 +1,5 @@
 name: stage2
-modules: [DCGANSize28Col3, SampleGAN, ZipSamples, MNISTSize28Cols1, ProbData, RegressorSize32Col3,  RegressorTrain, RegressorTest, Analyzer]
+modules: [DCGANSize28Col3, SampleGAN, ZipSamples, MNISTSize28Cols1, ProbData, RegressorSize28Col3,  RegressorTrain, RegressorTest, Analyzer]
 #One for everything in otherPaths
 #otherTemplates: {
 #  generated: template
@@ -8,7 +8,7 @@ dependencies: [[], [0], [], [], [], [], [4,5], [3,5], [0,1,2,3,4,5,6,7]]
 args: {
   'netGkey': 'netG',
   'netDkey': 'netD',
-  'samples': 10000,
+  'samples': 128,
   'take': 25,
   'nRegressorEpochs':10,
   'batchSize':64

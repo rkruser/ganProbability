@@ -27,7 +27,7 @@ class RegressorModel(ModelTemplate):
       'lr':0.0002,
       'beta1':0.5,
       'netPclass':NetP28,
-      'netPkey':'',
+      'netPkey':'netP',
       'netPinstance':-1,
       'netPexpNum':-1,
       'checkpointEvery':10
