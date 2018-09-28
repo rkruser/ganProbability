@@ -69,27 +69,40 @@ class RegressorModel(ModelTemplate):
     self.optimizerP = optim.Adam(self.netP.parameters(), lr=self.lr, betas=(self.beta1,0.999))
     self.scheduler = lr_scheduler.StepLR(self.optimizerP, step_size=200, gamma=0.1)
 
+    if self.netPinstance == -1:
+      self.netPinstance = self.getLatestInstance(self.netPkey, self.netPexpNum)
+
     # Load netP, newly or from file
-    if self.netPkey != '':
+    if self.netPinstance is not None:
+      self.log("Loading netP instance {0}".format(self.netPinstance))
       self.netP.load_state_dict(self.load(self.netPkey, instance=self.netPinstance, number=self.netPexpNum, loader='torch'))
+      if self.checkExists('regressorState', instance=self.netPinstance, number=self.netPexpNum):
+        self.lossCurve, self.errorCurve = self.load('regressorState', instance=self.netPinstance, number=self.netPexpNum, loader='pickle')
+      else:
+        self.lossCurve = ([], [], [])
+        self.errorCurve = ([], [], [])
     else:
+      self.log("Training netP from scratch")
+      self.netPinstance = -1
       self.netP.apply(weights_init)
+      self.lossCurve = ([], [], [])
+      self.errorCurve = ([], [], [])
+
 
     if self.cuda:
       self.netP = self.netP.cuda()
       self.criterion = self.criterion.cuda()
 
 
-    self.lossCurve = ([], [], [])
-    self.errorCurve = ([], [], [])
-
+    
 
   def train(self, loaderTemplate, nepochs):
     # Reset for this run
     dataloaderTrain = loaderTemplate.getDataloader(outShape=self.inShape, mode='train')
     dataloaderTest = loaderTemplate.getDataloader(outShape=self.inShape, mode='test')
 
-    for epoch in range(nepochs):
+    startEpoch = self.netPinstance+1
+    for epoch in range(startEpoch, nepochs):
       self.log("===Begin epoch {0}".format(epoch))
       self.scheduler.step()
       self.trainEpoch(dataloaderTrain, epoch)
@@ -181,8 +194,10 @@ class RegressorModel(ModelTemplate):
   def saveCheckpoint(self, checkpointNum=None):
     if checkpointNum is not None:
       self.save(self.netP.state_dict(), 'netP', instance=checkpointNum, saver='torch')
+      self.save((self.lossCurve, self.errorCurve), 'regressorState', instance=checkpointNum, saver='pickle')
     else:
       self.save(self.netP.state_dict(), 'netP', saver='torch')
+      self.save((self.lossCurve, self.errorCurve), 'regressorState', saver='pickle')
 
 
   def getAnalysisData(self):
