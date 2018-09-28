@@ -40369,3 +40369,71 @@ Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experim
 Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/errorCurve.pickle
 Module times: [3.151249885559082, 51.414637088775635, 38.77163314819336, 0.00013017654418945312, 5.0067901611328125e-05, 0.07064509391784668, 192.1098508834839, 1.8419630527496338, 8.371960163116455]
 Total time: 295.732168913
+=====
+Starting experiment stage2
+ID: 46, PID 0/10
+09_28_2018_14:16:32
+=====
+DCGANSize28Col3: {'samples': 5000, 'netGkey': 'netG', 'netGinstance': -1, 'ngpu': 0, 'take': 25, 'netGclass': <class 'code.total.models.nnModels.NetG28'>, 'checkpointEvery': 5, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD28'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'nRegressorEpochs': 25, 'netDkey': 'netD', 'batchSize': 64, 'imSize': 28}
+DCGANSize28Col3: outShape is (3, 28, 28)
+DCGANSize28Col3: Loading GAN from instance 24
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netG_24.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netD_24.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/ganState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+RegressorSize28Col3: {'netPclass': <class 'code.total.models.nnModels.NetP28'>, 'beta1': 0.5, 'npf': 64, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netPinstance': -1, 'nGANepochs': 25, 'batchSize': 64, 'nc': 3, 'samples': 5000, 'lr': 0.0002, 'cuda': True, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 28, 'netPkey': 'netP'}
+RegressorSize28Col3: inShape is (3, 28, 28)
+RegressorSize28Col3: Loading netP instance 24
+RegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netP_24.pth
+RegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/regressorState_24.pickle
+RegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netP_24.pth
+RegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.AttributeError'>
+'RegressorTest' object has no attribute 'analysisData'
+Exiting early
+=====
+Starting experiment stage2
+ID: 46, PID 0/10
+09_28_2018_14:19:40
+=====
+DCGANSize28Col3: {'samples': 5000, 'netGkey': 'netG', 'netGinstance': -1, 'ngpu': 0, 'take': 25, 'netGclass': <class 'code.total.models.nnModels.NetG28'>, 'checkpointEvery': 5, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD28'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'nRegressorEpochs': 25, 'netDkey': 'netD', 'batchSize': 64, 'imSize': 28}
+DCGANSize28Col3: outShape is (3, 28, 28)
+DCGANSize28Col3: Loading GAN from instance 24
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netG_24.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netD_24.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/ganState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+RegressorSize28Col3: {'netPclass': <class 'code.total.models.nnModels.NetP28'>, 'beta1': 0.5, 'npf': 64, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netPinstance': -1, 'nGANepochs': 25, 'batchSize': 64, 'nc': 3, 'samples': 5000, 'lr': 0.0002, 'cuda': True, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 28, 'netPkey': 'netP'}
+RegressorSize28Col3: inShape is (3, 28, 28)
+RegressorSize28Col3: Loading netP instance 24
+RegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netP_24.pth
+RegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/regressorState_24.pickle
+RegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netP_24.pth
+RegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/regressorState_24.pickle
+RegressorTest: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/data/regressorShiftResults_0.mat
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/ganTrainPlot.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/ganTrainPlot.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_0.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_0.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_5.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_5.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_10.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_10.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_15.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_15.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_20.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/sample_20.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/errorCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/topDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/topDataIms.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/botDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e46/analysis/botDataIms.pickle
+Module times: [2.681346893310547, 0.00012493133544921875, 27.064159154891968, 7.104873657226562e-05, 3.314018249511719e-05, 0.02744603157043457, 0.7685720920562744, 1.141319990158081, 8.385818004608154]
+Total time: 40.0689229965

@@ -5011,3 +5011,27 @@ DCGANSize28Col3: Probability sampling 4998
 DCGANSize28Col3: Probability sampling 4999
 SampleGAN: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/data/samples_8.mat
 ZipSamples: Collapsing to process 0
+=====
+Starting experiment stage2
+ID: 46, PID 8/10
+09_28_2018_14:16:34
+=====
+DCGANSize28Col3: {'samples': 5000, 'netGkey': 'netG', 'netGinstance': -1, 'ngpu': 0, 'take': 25, 'netGclass': <class 'code.total.models.nnModels.NetG28'>, 'checkpointEvery': 5, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD28'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'nRegressorEpochs': 25, 'netDkey': 'netD', 'batchSize': 64, 'imSize': 28}
+DCGANSize28Col3: outShape is (3, 28, 28)
+DCGANSize28Col3: Loading GAN from instance 24
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netG_24.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netD_24.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/ganState_24.pickle
+ZipSamples: Collapsing to process 0
+=====
+Starting experiment stage2
+ID: 46, PID 8/10
+09_28_2018_14:19:40
+=====
+DCGANSize28Col3: {'samples': 5000, 'netGkey': 'netG', 'netGinstance': -1, 'ngpu': 0, 'take': 25, 'netGclass': <class 'code.total.models.nnModels.NetG28'>, 'checkpointEvery': 5, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD28'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'nRegressorEpochs': 25, 'netDkey': 'netD', 'batchSize': 64, 'imSize': 28}
+DCGANSize28Col3: outShape is (3, 28, 28)
+DCGANSize28Col3: Loading GAN from instance 24
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netG_24.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/netD_24.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e46/models/ganState_24.pickle
+ZipSamples: Collapsing to process 0

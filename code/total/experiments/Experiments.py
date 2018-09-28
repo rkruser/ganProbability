@@ -1,5 +1,5 @@
 from copy import copy
-from mlworkflow import Operator
+from mlworkflow import Operator, Data
 
 from code.total.models.nnModels import weights_init, NetG28, NetD28, NetG32, NetD32, NetG64, NetD64, NetP28, NetP32, NetP64
 from code.total.loaders.MatLoaders import MatLoader
@@ -77,6 +77,8 @@ class RegressorTest(Operator):
     self.dataloader = self.dependencies[0]
     self.regressor = self.dependencies[1]
 
+    self.analysisData = []
+
   def run(self):
 #    dataloader = MatLoader(self.datasetPath, distribution=self.distribution, mode='test', returnLabel=True)
     dataloader = self.dataloader.getDataset(outShape=self.regressor.inShape, distribution=self.distribution, mode='test', returnLabel=True)
@@ -91,6 +93,31 @@ class RegressorTest(Operator):
     ims = torch.stack(imArr, dim=0)
     imProbs = self.regressor.sample(ims)
 
+    #######
+    sortedInds = np.argsort(imProbs)
+    topN = sortedInds[-self.take:]
+    bottomN = sortedInds[:self.take]
+
+    imTop = np.array(ims[topN])
+  #  imTop = (imTop+1.0)*127.5
+  #  imTop = imTop.astype(np.uint8)
+    imTop = imTop*0.5+0.5 #Transform changes depending on dataset
+    # Later make the transform flexible
+#    imTop = np.transpose(imTop,(2,3,1,0)) # Transpose to RGB format
+    imTop = np.transpose(imTop,(0,2,3,1))
+    # put number of samples in last dimension because
+    # that's hows matlab needs it for imshow
+
+    self.analysisData.append(Data({'images':imTop},'imageArray','topDataIms'))
+
+    imBot = np.array(ims[bottomN])
+    imBot = imBot*0.5+0.5
+    imBot = np.transpose(imBot,(0,2,3,1))
+
+    self.analysisData.append(Data({'images':imBot},'imageArray','botDataIms')) 
+
+    #####
+
     resultData = {
       'images':np.array(ims),
       'prob':np.array(imProbs),
@@ -99,6 +126,9 @@ class RegressorTest(Operator):
 
     self.save(resultData, 'regressorResults', saver='mat')
 
+
+  def getAnalysisData(self):
+    return self.analysisData
 
 
 # Actually, there is no need for the following details
