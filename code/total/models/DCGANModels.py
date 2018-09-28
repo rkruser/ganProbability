@@ -260,7 +260,7 @@ class DCGANModel(ModelTemplate):
 
       J = np.empty([nX, self.nz])
 
-      a = codes[0].view(1,-1)
+      a = codes[i].view(1,-1)
       if method=='numerical':
         noise.copy_(torch.cat((a,a+b,a-b),0).unsqueeze(2).unsqueeze(3))
         noisev = Variable(noise, volatile=True) #volatile helps with memory?

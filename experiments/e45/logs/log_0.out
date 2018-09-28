@@ -18542,3 +18542,318 @@ Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experim
 Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/errorCurve.pickle
 Module times: [3.2503559589385986, 2.4598870277404785, 0.009562969207763672, 8.702278137207031e-05, 5.0067901611328125e-05, 0.0699009895324707, 2.8270740509033203, 1.2006239891052246, 4.284461975097656]
 Total time: 14.1020770073
+=====
+Starting experiment stage2
+ID: 45, PID 0/1
+09_28_2018_13:34:03
+=====
+DCGANSize28Col3: {'samples': 128, 'netGkey': 'netG', 'netGinstance': -1, 'ngpu': 0, 'take': 25, 'netGclass': <class 'code.total.models.nnModels.NetG28'>, 'checkpointEvery': 2, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD28'>, 'nGANepochs': 10, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'nRegressorEpochs': 10, 'netDkey': 'netD', 'batchSize': 64, 'imSize': 28}
+DCGANSize28Col3: outShape is (3, 28, 28)
+DCGANSize28Col3: Loading GAN from instance 9
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/netG_9.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/netD_9.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/ganState_9.pickle
+DCGANSize28Col3: Probability sampling 0
+DCGANSize28Col3: Probability sampling 1
+DCGANSize28Col3: Probability sampling 2
+DCGANSize28Col3: Probability sampling 3
+DCGANSize28Col3: Probability sampling 4
+DCGANSize28Col3: Probability sampling 5
+DCGANSize28Col3: Probability sampling 6
+DCGANSize28Col3: Probability sampling 7
+DCGANSize28Col3: Probability sampling 8
+DCGANSize28Col3: Probability sampling 9
+DCGANSize28Col3: Probability sampling 10
+DCGANSize28Col3: Probability sampling 11
+DCGANSize28Col3: Probability sampling 12
+DCGANSize28Col3: Probability sampling 13
+DCGANSize28Col3: Probability sampling 14
+DCGANSize28Col3: Probability sampling 15
+DCGANSize28Col3: Probability sampling 16
+DCGANSize28Col3: Probability sampling 17
+DCGANSize28Col3: Probability sampling 18
+DCGANSize28Col3: Probability sampling 19
+DCGANSize28Col3: Probability sampling 20
+DCGANSize28Col3: Probability sampling 21
+DCGANSize28Col3: Probability sampling 22
+DCGANSize28Col3: Probability sampling 23
+DCGANSize28Col3: Probability sampling 24
+DCGANSize28Col3: Probability sampling 25
+DCGANSize28Col3: Probability sampling 26
+DCGANSize28Col3: Probability sampling 27
+DCGANSize28Col3: Probability sampling 28
+DCGANSize28Col3: Probability sampling 29
+DCGANSize28Col3: Probability sampling 30
+DCGANSize28Col3: Probability sampling 31
+DCGANSize28Col3: Probability sampling 32
+DCGANSize28Col3: Probability sampling 33
+DCGANSize28Col3: Probability sampling 34
+DCGANSize28Col3: Probability sampling 35
+DCGANSize28Col3: Probability sampling 36
+DCGANSize28Col3: Probability sampling 37
+DCGANSize28Col3: Probability sampling 38
+DCGANSize28Col3: Probability sampling 39
+DCGANSize28Col3: Probability sampling 40
+DCGANSize28Col3: Probability sampling 41
+DCGANSize28Col3: Probability sampling 42
+DCGANSize28Col3: Probability sampling 43
+DCGANSize28Col3: Probability sampling 44
+DCGANSize28Col3: Probability sampling 45
+DCGANSize28Col3: Probability sampling 46
+DCGANSize28Col3: Probability sampling 47
+DCGANSize28Col3: Probability sampling 48
+DCGANSize28Col3: Probability sampling 49
+DCGANSize28Col3: Probability sampling 50
+DCGANSize28Col3: Probability sampling 51
+DCGANSize28Col3: Probability sampling 52
+DCGANSize28Col3: Probability sampling 53
+DCGANSize28Col3: Probability sampling 54
+DCGANSize28Col3: Probability sampling 55
+DCGANSize28Col3: Probability sampling 56
+DCGANSize28Col3: Probability sampling 57
+DCGANSize28Col3: Probability sampling 58
+DCGANSize28Col3: Probability sampling 59
+DCGANSize28Col3: Probability sampling 60
+DCGANSize28Col3: Probability sampling 61
+DCGANSize28Col3: Probability sampling 62
+DCGANSize28Col3: Probability sampling 63
+DCGANSize28Col3: Probability sampling 64
+DCGANSize28Col3: Probability sampling 65
+DCGANSize28Col3: Probability sampling 66
+DCGANSize28Col3: Probability sampling 67
+DCGANSize28Col3: Probability sampling 68
+DCGANSize28Col3: Probability sampling 69
+DCGANSize28Col3: Probability sampling 70
+DCGANSize28Col3: Probability sampling 71
+DCGANSize28Col3: Probability sampling 72
+DCGANSize28Col3: Probability sampling 73
+DCGANSize28Col3: Probability sampling 74
+DCGANSize28Col3: Probability sampling 75
+DCGANSize28Col3: Probability sampling 76
+DCGANSize28Col3: Probability sampling 77
+DCGANSize28Col3: Probability sampling 78
+DCGANSize28Col3: Probability sampling 79
+DCGANSize28Col3: Probability sampling 80
+DCGANSize28Col3: Probability sampling 81
+DCGANSize28Col3: Probability sampling 82
+DCGANSize28Col3: Probability sampling 83
+DCGANSize28Col3: Probability sampling 84
+DCGANSize28Col3: Probability sampling 85
+DCGANSize28Col3: Probability sampling 86
+DCGANSize28Col3: Probability sampling 87
+DCGANSize28Col3: Probability sampling 88
+DCGANSize28Col3: Probability sampling 89
+DCGANSize28Col3: Probability sampling 90
+DCGANSize28Col3: Probability sampling 91
+DCGANSize28Col3: Probability sampling 92
+DCGANSize28Col3: Probability sampling 93
+DCGANSize28Col3: Probability sampling 94
+DCGANSize28Col3: Probability sampling 95
+DCGANSize28Col3: Probability sampling 96
+DCGANSize28Col3: Probability sampling 97
+DCGANSize28Col3: Probability sampling 98
+DCGANSize28Col3: Probability sampling 99
+DCGANSize28Col3: Probability sampling 100
+DCGANSize28Col3: Probability sampling 101
+DCGANSize28Col3: Probability sampling 102
+DCGANSize28Col3: Probability sampling 103
+DCGANSize28Col3: Probability sampling 104
+DCGANSize28Col3: Probability sampling 105
+DCGANSize28Col3: Probability sampling 106
+DCGANSize28Col3: Probability sampling 107
+DCGANSize28Col3: Probability sampling 108
+DCGANSize28Col3: Probability sampling 109
+DCGANSize28Col3: Probability sampling 110
+DCGANSize28Col3: Probability sampling 111
+DCGANSize28Col3: Probability sampling 112
+DCGANSize28Col3: Probability sampling 113
+DCGANSize28Col3: Probability sampling 114
+DCGANSize28Col3: Probability sampling 115
+DCGANSize28Col3: Probability sampling 116
+DCGANSize28Col3: Probability sampling 117
+DCGANSize28Col3: Probability sampling 118
+DCGANSize28Col3: Probability sampling 119
+DCGANSize28Col3: Probability sampling 120
+DCGANSize28Col3: Probability sampling 121
+DCGANSize28Col3: Probability sampling 122
+DCGANSize28Col3: Probability sampling 123
+DCGANSize28Col3: Probability sampling 124
+DCGANSize28Col3: Probability sampling 125
+DCGANSize28Col3: Probability sampling 126
+DCGANSize28Col3: Probability sampling 127
+SampleGAN: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/data/samples_0.mat
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+ZipSamples: Loading mats
+ZipSamples: Saving samples
+An exception occurred when running ZipSamples
+<class 'bdb.BdbQuit'>
+
+Exiting early
+=====
+Starting experiment stage2
+ID: 45, PID 0/1
+09_28_2018_13:38:44
+=====
+DCGANSize28Col3: {'samples': 128, 'netGkey': 'netG', 'netGinstance': -1, 'ngpu': 0, 'take': 25, 'netGclass': <class 'code.total.models.nnModels.NetG28'>, 'checkpointEvery': 2, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD28'>, 'nGANepochs': 10, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'nRegressorEpochs': 10, 'netDkey': 'netD', 'batchSize': 64, 'imSize': 28}
+DCGANSize28Col3: outShape is (3, 28, 28)
+DCGANSize28Col3: Loading GAN from instance 9
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/netG_9.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/netD_9.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/ganState_9.pickle
+DCGANSize28Col3: Probability sampling 0
+DCGANSize28Col3: Probability sampling 1
+DCGANSize28Col3: Probability sampling 2
+DCGANSize28Col3: Probability sampling 3
+DCGANSize28Col3: Probability sampling 4
+DCGANSize28Col3: Probability sampling 5
+DCGANSize28Col3: Probability sampling 6
+DCGANSize28Col3: Probability sampling 7
+DCGANSize28Col3: Probability sampling 8
+DCGANSize28Col3: Probability sampling 9
+DCGANSize28Col3: Probability sampling 10
+DCGANSize28Col3: Probability sampling 11
+DCGANSize28Col3: Probability sampling 12
+DCGANSize28Col3: Probability sampling 13
+DCGANSize28Col3: Probability sampling 14
+DCGANSize28Col3: Probability sampling 15
+DCGANSize28Col3: Probability sampling 16
+DCGANSize28Col3: Probability sampling 17
+DCGANSize28Col3: Probability sampling 18
+DCGANSize28Col3: Probability sampling 19
+DCGANSize28Col3: Probability sampling 20
+DCGANSize28Col3: Probability sampling 21
+DCGANSize28Col3: Probability sampling 22
+DCGANSize28Col3: Probability sampling 23
+DCGANSize28Col3: Probability sampling 24
+DCGANSize28Col3: Probability sampling 25
+DCGANSize28Col3: Probability sampling 26
+DCGANSize28Col3: Probability sampling 27
+DCGANSize28Col3: Probability sampling 28
+DCGANSize28Col3: Probability sampling 29
+DCGANSize28Col3: Probability sampling 30
+DCGANSize28Col3: Probability sampling 31
+DCGANSize28Col3: Probability sampling 32
+DCGANSize28Col3: Probability sampling 33
+DCGANSize28Col3: Probability sampling 34
+DCGANSize28Col3: Probability sampling 35
+DCGANSize28Col3: Probability sampling 36
+DCGANSize28Col3: Probability sampling 37
+DCGANSize28Col3: Probability sampling 38
+DCGANSize28Col3: Probability sampling 39
+DCGANSize28Col3: Probability sampling 40
+DCGANSize28Col3: Probability sampling 41
+DCGANSize28Col3: Probability sampling 42
+DCGANSize28Col3: Probability sampling 43
+DCGANSize28Col3: Probability sampling 44
+DCGANSize28Col3: Probability sampling 45
+DCGANSize28Col3: Probability sampling 46
+DCGANSize28Col3: Probability sampling 47
+DCGANSize28Col3: Probability sampling 48
+DCGANSize28Col3: Probability sampling 49
+DCGANSize28Col3: Probability sampling 50
+DCGANSize28Col3: Probability sampling 51
+DCGANSize28Col3: Probability sampling 52
+DCGANSize28Col3: Probability sampling 53
+DCGANSize28Col3: Probability sampling 54
+DCGANSize28Col3: Probability sampling 55
+DCGANSize28Col3: Probability sampling 56
+DCGANSize28Col3: Probability sampling 57
+DCGANSize28Col3: Probability sampling 58
+DCGANSize28Col3: Probability sampling 59
+DCGANSize28Col3: Probability sampling 60
+DCGANSize28Col3: Probability sampling 61
+DCGANSize28Col3: Probability sampling 62
+DCGANSize28Col3: Probability sampling 63
+DCGANSize28Col3: Probability sampling 64
+DCGANSize28Col3: Probability sampling 65
+DCGANSize28Col3: Probability sampling 66
+DCGANSize28Col3: Probability sampling 67
+DCGANSize28Col3: Probability sampling 68
+DCGANSize28Col3: Probability sampling 69
+DCGANSize28Col3: Probability sampling 70
+DCGANSize28Col3: Probability sampling 71
+DCGANSize28Col3: Probability sampling 72
+DCGANSize28Col3: Probability sampling 73
+DCGANSize28Col3: Probability sampling 74
+DCGANSize28Col3: Probability sampling 75
+DCGANSize28Col3: Probability sampling 76
+DCGANSize28Col3: Probability sampling 77
+DCGANSize28Col3: Probability sampling 78
+DCGANSize28Col3: Probability sampling 79
+DCGANSize28Col3: Probability sampling 80
+DCGANSize28Col3: Probability sampling 81
+DCGANSize28Col3: Probability sampling 82
+DCGANSize28Col3: Probability sampling 83
+DCGANSize28Col3: Probability sampling 84
+DCGANSize28Col3: Probability sampling 85
+DCGANSize28Col3: Probability sampling 86
+DCGANSize28Col3: Probability sampling 87
+DCGANSize28Col3: Probability sampling 88
+DCGANSize28Col3: Probability sampling 89
+DCGANSize28Col3: Probability sampling 90
+DCGANSize28Col3: Probability sampling 91
+DCGANSize28Col3: Probability sampling 92
+DCGANSize28Col3: Probability sampling 93
+DCGANSize28Col3: Probability sampling 94
+DCGANSize28Col3: Probability sampling 95
+DCGANSize28Col3: Probability sampling 96
+DCGANSize28Col3: Probability sampling 97
+DCGANSize28Col3: Probability sampling 98
+DCGANSize28Col3: Probability sampling 99
+DCGANSize28Col3: Probability sampling 100
+DCGANSize28Col3: Probability sampling 101
+DCGANSize28Col3: Probability sampling 102
+DCGANSize28Col3: Probability sampling 103
+DCGANSize28Col3: Probability sampling 104
+DCGANSize28Col3: Probability sampling 105
+DCGANSize28Col3: Probability sampling 106
+DCGANSize28Col3: Probability sampling 107
+DCGANSize28Col3: Probability sampling 108
+DCGANSize28Col3: Probability sampling 109
+DCGANSize28Col3: Probability sampling 110
+DCGANSize28Col3: Probability sampling 111
+DCGANSize28Col3: Probability sampling 112
+DCGANSize28Col3: Probability sampling 113
+DCGANSize28Col3: Probability sampling 114
+DCGANSize28Col3: Probability sampling 115
+DCGANSize28Col3: Probability sampling 116
+DCGANSize28Col3: Probability sampling 117
+DCGANSize28Col3: Probability sampling 118
+DCGANSize28Col3: Probability sampling 119
+DCGANSize28Col3: Probability sampling 120
+DCGANSize28Col3: Probability sampling 121
+DCGANSize28Col3: Probability sampling 122
+DCGANSize28Col3: Probability sampling 123
+DCGANSize28Col3: Probability sampling 124
+DCGANSize28Col3: Probability sampling 125
+DCGANSize28Col3: Probability sampling 126
+DCGANSize28Col3: Probability sampling 127
+SampleGAN: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/data/samples_0.mat
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+ZipSamples: Loading mats
+ZipSamples: Saving samples
+RegressorSize28Col3: {'netPclass': <class 'code.total.models.nnModels.NetP28'>, 'beta1': 0.5, 'netGkey': 'netG', 'npf': 64, 'ngpu': 0, 'take': 25, 'checkpointEvery': 2, 'netDkey': 'netD', 'netPinstance': -1, 'nGANepochs': 10, 'batchSize': 64, 'nc': 3, 'samples': 128, 'lr': 0.0002, 'cuda': True, 'netPexpNum': -1, 'nRegressorEpochs': 10, 'imSize': 28, 'netPkey': 'netP'}
+RegressorSize28Col3: inShape is (3, 28, 28)
+RegressorSize28Col3: Loading netP instance 9
+RegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/netP_9.pth
+RegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/regressorState_9.pickle
+RegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/netP_9.pth
+RegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/regressorState_9.pickle
+RegressorTest: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/data/regressorShiftResults_0.mat
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/ganTrainPlot.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/ganTrainPlot.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/sample_0.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/sample_0.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/topIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/topIms.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/botIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/botIms.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e45/analysis/errorCurve.pickle
+Module times: [3.237900972366333, 2.381397008895874, 0.009888172149658203, 7.104873657226562e-05, 3.600120544433594e-05, 0.017893075942993164, 0.013887882232666016, 0.33669114112854004, 4.230648994445801]
+Total time: 10.2284650803
