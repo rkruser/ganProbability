@@ -34,11 +34,11 @@ class DCGANModel(ModelTemplate):
       'lr':0.0002,
       'beta1':0.5,
       'netGclass':NetG28,
-      'netGkey':'',
+      'netGkey':'netG',
       'netGinstance':-1,
       'netGexpNum':-1,
       'netDclass':NetD28,
-      'netDkey':'',
+      'netDkey':'netD',
       'netDinstance':-1,
       'netDexpNum':-1,
       'checkpointEvery':10
@@ -87,40 +87,65 @@ class DCGANModel(ModelTemplate):
     self.optimizerD = optim.Adam(self.netD.parameters(), lr=self.lr, betas=(self.beta1,0.999))
     self.scheduler = None
 
-    # Load netG, newly or from file
-    if self.netGkey != '':
-      self.netG.load_state_dict(self.load(self.netGkey, instance=self.netGinstance, number=self.netGexpNum, loader='torch'))
-    else:
-      self.netG.apply(weights_init)
 
-    # Load netD, newly or from file
-    if self.netDkey != '':
+    if (self.netGinstance == -1 or self.netDinstance == -1):
+      self.netGinstance = self.getLatestInstance(self.netGkey, self.netGexpNum)
+      self.netDinstance = self.getLatestInstance(self.netDkey, self.netDexpNum)
+
+    if (self.netGinstance is not None) and (self.netGinstance == self.netDinstance):
+      self.log("Loading GAN from instance {0}".format(netGinstance))
+      self.netG.load_state_dict(self.load(self.netGkey, instance=self.netGinstance, number=self.netGexpNum, loader='torch'))
       self.netD.load_state_dict(self.load(self.netDkey, instance=self.netDinstance, number=self.netDexpNum, loader='torch'))
+      if self.checkExists('ganState', instance=self.netGinstance, number=self.netGexpNum):
+      # data tracking
+        self.images, self.errG, self.errD = self.load('ganState', instance=self.netGinstance, number=self.netGexpNum, loader='pickle')
+      else:
+        self.images = []
+        self.errG = []
+        self.errD = []
     else:
+      self.log("Starting GAN from scratch")
+      self.netGinstance = -1
+      self.netDinstance = -1
+      self.netG.apply(weights_init)
       self.netD.apply(weights_init)
+      self.images = []
+      self.errG = []
+      self.errD = []
+
+
+
+    # Load netG, newly or from file
+    # if self.netGkey != '':
+    #   self.netG.load_state_dict(self.load(self.netGkey, instance=self.netGinstance, number=self.netGexpNum, loader='torch'))
+    # else:
+    #   self.netG.apply(weights_init)
+
+    # # Load netD, newly or from file
+    # if self.netDkey != '':
+    #   self.netD.load_state_dict(self.load(self.netDkey, instance=self.netDinstance, number=self.netDexpNum, loader='torch'))
+    # else:
+    #   self.netD.apply(weights_init)
 
     if self.cuda:
       self.netG = self.netG.cuda()
       self.netD = self.netD.cuda()
       self.criterion = self.criterion.cuda()
 
-  # data tracking
-    self.images = []
-    self.errG = []
-    self.errD = []
 
 
   def train(self, loaderTemplate, nepochs):
     # Reset for this run
-    self.images = []
-    self.errG = []
-    self.errD = []
+    # self.images = []
+    # self.errG = []
+    # self.errD = []
 
     dataloader = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnLabel=False)
 
     self.netG.train()
     self.netD.train()
-    for epoch in range(nepochs):
+    startEpoch = self.netGinstance+1
+    for epoch in range(startEpoch,nepochs):
       self.log("===Begin epoch {0}".format(epoch))
       gLosses = AverageMeter()
       dLosses = AverageMeter()
@@ -284,9 +309,11 @@ class DCGANModel(ModelTemplate):
     if checkpointNum is not None:
       self.save(self.netG.state_dict(), 'netG', instance=checkpointNum, saver='torch')
       self.save(self.netD.state_dict(), 'netD', instance=checkpointNum, saver='torch')
+      self.save((self.images,self.errG, self.errD), 'ganState', instance=checkpointNum, saver='pickle')
     else:
       self.save(self.netG.state_dict(), 'netG', saver='torch')
       self.save(self.netD.state_dict(), 'netD', saver='torch')
+      self.save((self.images,self.errG, self.errD), 'ganState', saver='pickle')
 
 
   def getAnalysisData(self):
