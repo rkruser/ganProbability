@@ -1,0 +1,14 @@
+Hello:
+5
+=====
+Starting experiment stage2
+ID: 47, PID 5/10
+09_28_2018_15:07:05
+=====
+DCGANSize28Col3: {'samples': 5000, 'netGkey': 'netG', 'netGinstance': -1, 'ngpu': 0, 'take': 25, 'netGclass': <class 'code.total.models.nnModels.NetG28'>, 'checkpointEvery': 2, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD28'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'nRegressorEpochs': 25, 'netDkey': 'netD', 'batchSize': 64, 'imSize': 28}
+DCGANSize28Col3: outShape is (3, 28, 28)
+DCGANSize28Col3: Loading GAN from instance 4
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e47/models/netG_4.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e47/models/netD_4.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e47/models/ganState_4.pickle
+ZipSamples: Collapsing to process 0
