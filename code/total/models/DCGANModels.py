@@ -9,6 +9,8 @@ import torch.optim as optim
 from torch.autograd import Variable
 import numpy as np 
 
+# sdlfkjasdfasldfkj
+
 # Todo:
 #  Make this class slightly more general,
 #  (allowing multiple colors and sizes)

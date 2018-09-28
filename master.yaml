@@ -53,7 +53,9 @@ info:
 - [e40, The first experiment with the new code in the total directory]
 - [e41, First real experiment in new code; train on CIFAR and test on MNIST]
 - [e42, 'Train on MNIST, test on CIFAR']
-numExperiments: 42
+- [e43, Something is wrong with the previous experiments]
+- [e44, Trying to debug e41/e42]
+numExperiments: 44
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
