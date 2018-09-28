@@ -30,6 +30,10 @@ class ZipSamples(Operator):
     self.collapse(pid=0,timeout=self.opt.collapseTimeout,interval=self.opt.collapseInterval)
     self.log("In Process 0 (this should not be seen by other processes)")
 
+    # Do nothing if already have sampled
+    if self.checkExists(self.opt.zipkey, threadSpecific=False):
+      return
+
     opt = self.opt
 
     self.log("Loading mats")

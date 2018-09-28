@@ -56,7 +56,8 @@ info:
 - [e43, Something is wrong with the previous experiments]
 - [e44, Trying to debug e41/e42]
 - [e45, Trying to figure out out earlier problem]
-numExperiments: 45
+- [e46, 'Train on CIFAR10, test on MNIST']
+numExperiments: 46
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
