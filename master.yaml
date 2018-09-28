@@ -57,7 +57,8 @@ info:
 - [e44, Trying to debug e41/e42]
 - [e45, Trying to figure out out earlier problem]
 - [e46, 'Train on CIFAR10, test on MNIST']
-numExperiments: 46
+- [e47, 'Train on MNIST, test on CIFAR10']
+numExperiments: 47
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
