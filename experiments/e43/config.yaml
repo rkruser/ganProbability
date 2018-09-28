@@ -24,14 +24,6 @@ files: {
       'parallelOpt': 'threadInvariant',
       'pathOpt': 'experimentRelative',
       'folder': 'generated'},
-  ganState: {'path': 'models/ganState.pickle',
-      'parallelOpt': 'threadInvariant',
-      'pathOpt': 'experimentRelative',
-      'folder': 'generated'},
-  regressorState: {'path': 'models/regressorState.pickle',
-  'parallelOpt': 'threadInvariant',
-  'pathOpt': 'experimentRelative',
-  'folder': 'generated'},
   slurmOutFolder: 'logs/',
   samples: {'path': 'data/samples.mat',
             'parallelOpt': 'threadSpecific',
@@ -48,8 +40,7 @@ files: {
   domainShiftCurve: 'analysis/domainShiftTest.png',
   topIms: {'path': 'analysis/topIms.png', 'parallelOpt': 'threadInvariant'},
   botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'},
-  ganTrainPlot: 'analysis/ganTrainPlot.png',
-  ganSampleIms: 'analysis/sample.png'
+  ganTrainPlot: 'analysis/ganTrainPlot.png'
 }
 formatArgs: {
   submit: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],

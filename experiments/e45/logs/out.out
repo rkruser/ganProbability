@@ -1,0 +1,15 @@
+Hello:
+=====
+Starting experiment stage1
+ID: 45, PID 0/1
+09_28_2018_13:09:56
+=====
+DCGANSize28Col3: {'netGkey': 'netG', 'netGinstance': -1, 'ngpu': 0, 'netGclass': <class 'code.total.models.nnModels.NetG28'>, 'checkpointEvery': 2, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD28'>, 'nGANepochs': 10, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'netDkey': 'netD', 'imSize': 28}
+DCGANSize28Col3: outShape is (3, 28, 28)
+DCGANSize28Col3: Loading GAN from instance -1
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/netG.pth
+DCGANSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e45/models/netD.pth
+An exception occurred when running DCGANSize28Col3
+<type 'exceptions.TypeError'>
+checkExists() got multiple values for keyword argument 'instance'
+Exiting early

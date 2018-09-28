@@ -95,7 +95,7 @@ class DCGANModel(ModelTemplate):
       self.netDinstance = self.getLatestInstance(self.netDkey, self.netDexpNum)
 
     if (self.netGinstance is not None) and (self.netGinstance == self.netDinstance):
-      self.log("Loading GAN from instance {0}".format(netGinstance))
+      self.log("Loading GAN from instance {0}".format(self.netGinstance))
       self.netG.load_state_dict(self.load(self.netGkey, instance=self.netGinstance, number=self.netGexpNum, loader='torch'))
       self.netD.load_state_dict(self.load(self.netDkey, instance=self.netDinstance, number=self.netDexpNum, loader='torch'))
       if self.checkExists('ganState', instance=self.netGinstance, number=self.netGexpNum):
@@ -210,7 +210,7 @@ class DCGANModel(ModelTemplate):
       if (epoch+1)%self.checkpointEvery == 0:
         self.saveCheckpoint(checkpointNum = epoch)
 
-    self.saveCheckpoint()
+    self.saveCheckpoint(checkpointNum=(nepochs-1))
       
   # Sample 
   def sample(self, nSamples):

@@ -113,7 +113,7 @@ class RegressorModel(ModelTemplate):
       if (epoch+1)%self.checkpointEvery == 0:
         self.saveCheckpoint(checkpointNum = epoch)
       
-    self.saveCheckpoint()
+    self.saveCheckpoint(checkpointNum=(nepochs-1))
 
 
   def trainEpoch(self, dataloader, epoch):
