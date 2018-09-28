@@ -8,7 +8,7 @@ dependencies: [[], [], [0,1], [0,1,2]]
 args: {
   nGANepochs: 25,
   cuda: True,
-  checkpointEvery: 5
+  checkpointEvery: 2
 }
 ## Note: at the moment: this must contain
 # all the files needed for stage 2 as well
@@ -49,6 +49,8 @@ files: {
   domainShiftCurve: 'analysis/domainShiftTest.png',
   topIms: {'path': 'analysis/topIms.png', 'parallelOpt': 'threadInvariant'},
   botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'},
+  topDataIms: {'path': 'analysis/topDataIms.png', 'parallelOpt': 'threadInvariant'},
+  botDataIms: {'path': 'analysis/botDataIms.png', 'parallelOpt': 'threadInvariant'},
   ganTrainPlot: 'analysis/ganTrainPlot.png',
   ganSampleIms: 'analysis/sample.png'
 }
