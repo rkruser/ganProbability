@@ -587,3 +587,139 @@ class NetPLatent(nn.Module):
     return output.view(-1,1).squeeze(1) 
 
 
+######### Deep Features #########
+
+# Lenet model for extracting features
+class Lenet32(nn.Module):
+    def __init__(self, ngpu, nc):
+        super(Lenet32, self).__init__()
+        self.ngpu = ngpu
+        self.features = nn.Sequential(
+            nn.Conv2d(nc, 20, 5, 1, bias=True),
+            # nn.MaxPool2d(2,2),
+            nn.AvgPool2d(2,2),
+            nn.Conv2d(20, 50, 5, 1, bias=True),
+            # nn.MaxPool2d(2, 2),
+            nn.AvgPool2d(2, 2),
+        )
+        self.features2 = nn.Linear(5*5*50, 500)
+        self.main = nn.Linear(500, 10)
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.features, input, range(self.ngpu))
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+        else:
+            output = self.features(input)
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+
+        return output, output1
+
+# Lenet model for extracting features
+class Lenet28(nn.Module):
+    def __init__(self, ngpu, nc):
+        super(Lenet28, self).__init__()
+        self.ngpu = ngpu
+        self.features = nn.Sequential(
+            nn.Conv2d(nc, 20, 5, 1, bias=True),
+            # 32 x 32 out
+            nn.AvgPool2d(2,2), #16 x 16
+            nn.Conv2d(20, 50, 5, 1, bias=True), #16 x 16
+            # nn.MaxPool2d(2, 2),
+            nn.AvgPool2d(2, 2),
+        )
+        self.features2 = nn.Linear(4*4*50, 500)
+        self.main = nn.Linear(500, 10)
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.features, input, range(self.ngpu))
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+        else:
+            output = self.features(input)
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+
+        return output, output1
+
+# Lenet model for extracting features
+class Lenet64(nn.Module):
+    def __init__(self, ngpu, nc):
+        super(Lenet64, self).__init__()
+        self.ngpu = ngpu
+        self.features = nn.Sequential(
+            # 64 x 64
+            nn.Conv2d(nc, 20, 5, 1, 2, bias=True), # 64x64
+            nn.AvgPool2d(2,2), #32 x 32
+
+            nn.Conv2d(20, 50, 5, 1, bias=True),
+            # 32 x 32 out
+            nn.AvgPool2d(2,2), #16 x 16
+            nn.Conv2d(50, 100, 5, 1, bias=True), #16 x 16
+            # nn.MaxPool2d(2, 2),
+            nn.AvgPool2d(2, 2),
+        )
+        self.features2 = nn.Linear(5*5*100, 500)
+        self.main = nn.Linear(500, 10)
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.features, input, range(self.ngpu))
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+        else:
+            output = self.features(input)
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+
+        return output, output1
+
+# Lenet model for extracting features
+class Lenet128(nn.Module):
+    def __init__(self, ngpu, nc):
+        super(Lenet128, self).__init__()
+        self.ngpu = ngpu
+        self.features = nn.Sequential(
+            # 128 x 128
+            nn.Conv2d(nc, 20, 5, 1, 2, bias=True), # 128 x 128
+            nn.AvgPool2d(2,2), #64 x 64
+
+            # 64 x 64
+            nn.Conv2d(20, 50, 5, 1, 2, bias=True), # 64x64
+            nn.AvgPool2d(2,2), #32 x 32
+
+            nn.Conv2d(50, 100, 5, 1, bias=True),
+            # 28 x 28 out
+            nn.AvgPool2d(2,2), #14 x 14
+            nn.Conv2d(100, 200, 5, 1, bias=True), #10 x 10
+            nn.AvgPool2d(2, 2), #5 x 5 
+        )
+        self.features2 = nn.Linear(5*5*200, 500)
+        self.main = nn.Linear(500, 10)
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.features, input, range(self.ngpu))
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+        else:
+            output = self.features(input)
+            output = output.view(input.size(0), -1)
+            output = F.leaky_relu(self.features2(output), negative_slope=0.2, inplace=True)
+            output1 = self.main(output)
+
+        return output, output1
+
+
+
+
