@@ -1,0 +1,58 @@
+=====
+Starting experiment stage1
+ID: 54, PID 0/1
+10_03_2018_17:18:08
+=====
+DeepRegressorSize28Col3: {'netPclass': <class 'code.total.models.nnModels.DeepRegressor'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': True, 'netPexpNum': -1, 'npf': 64, 'ngpu': 0, 'embeddingModelClass': <class 'code.total.models.nnModels.Lenet28'>, 'checkpointEvery': 5, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 28, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': 53, 'beta1': 0.5, 'nRegressorEpochs': 25, 'nOutFeatures': 500, 'sampleExpNum': 46, 'netPkey': 'netP'}
+DeepRegressorSize28Col3: inShape is (3, 28, 28)
+DeepRegressorSize28Col3: Regressor is using a deep feature embedding
+DeepRegressorSize28Col3: Loading an embedding model from file, training netP from scratch
+DeepRegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e53/models/lenet_24.pth
+An exception occurred when running DeepRegressorSize28Col3
+<type 'exceptions.NameError'>
+global name 'nInnerFeatures' is not defined
+Exiting early
+=====
+Starting experiment stage1
+ID: 54, PID 0/1
+10_03_2018_17:19:38
+=====
+DeepRegressorSize28Col3: {'netPclass': <class 'code.total.models.nnModels.DeepRegressor'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': True, 'netPexpNum': -1, 'npf': 64, 'ngpu': 0, 'embeddingModelClass': <class 'code.total.models.nnModels.Lenet28'>, 'checkpointEvery': 5, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 28, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': 53, 'beta1': 0.5, 'nRegressorEpochs': 25, 'nOutFeatures': 500, 'sampleExpNum': 46, 'netPkey': 'netP'}
+DeepRegressorSize28Col3: inShape is (3, 28, 28)
+DeepRegressorSize28Col3: Regressor is using a deep feature embedding
+DeepRegressorSize28Col3: Loading an embedding model from file, training netP from scratch
+DeepRegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e53/models/lenet_24.pth
+DeepRegressorSize28Col3: DeepRegressor(
+  (deepFeatures): Lenet28(
+    (features): Sequential(
+      (0): Conv2d(3, 20, kernel_size=(5, 5), stride=(1, 1))
+      (1): AvgPool2d(kernel_size=2, stride=2, padding=0, ceil_mode=False, count_include_pad=True)
+      (2): Conv2d(20, 50, kernel_size=(5, 5), stride=(1, 1))
+      (3): AvgPool2d(kernel_size=2, stride=2, padding=0, ceil_mode=False, count_include_pad=True)
+    )
+    (features2): Linear(in_features=800, out_features=500, bias=True)
+    (main): Sequential(
+      (0): Linear(in_features=500, out_features=10, bias=True)
+      (1): Softmax()
+    )
+  )
+  (main): Sequential(
+    (0): Linear(in_features=500, out_features=256, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=256, out_features=128, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=128, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=32, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=32, out_features=16, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=16, out_features=1, bias=True)
+  )
+)
+DeepRegressorSize28Col3: ===Begin epoch 0
+DeepRegressorSize28Col3: Iteration 0
+An exception occurred when running RegressorTrain
+<type 'exceptions.AttributeError'>
+'builtin_function_or_method' object has no attribute 'data'
+Exiting early

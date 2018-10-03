@@ -745,7 +745,6 @@ class DeepRegressor(nn.Module):
 
         self.ngpu = ngpu
         self.nOutFeatures = nOutFeatures
-        self.nInnerFeatures = nInnerFeatures
         self.main = nn.Sequential(
             nn.Linear(self.nOutFeatures, 256),
             nn.ReLU(inplace=True),
