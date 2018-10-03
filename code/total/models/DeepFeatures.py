@@ -12,7 +12,7 @@ class LenetModel(ModelTemplate):
       'nc':3,
       'imSize':28,
       'nOutClasses':10, #Number of classes to predict
-      'ngpu':0,
+      'ngpu':0, # This depends on cuda availability, fix later
       'cuda':False,
       'lr':0.0002,
       'beta1':0.5,
