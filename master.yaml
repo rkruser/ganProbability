@@ -65,7 +65,8 @@ info:
 - [e52, Lenet with mnist size 64]
 - [e53, Training on CFAR10 size 28]
 - [e54, Training deep feature regressor on cifar10]
-numExperiments: 54
+- [e55, Deep features trained and tested on MNIST]
+numExperiments: 55
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

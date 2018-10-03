@@ -1,0 +1,462 @@
+=====
+Starting experiment stage1
+ID: 55, PID 0/1
+10_03_2018_18:00:13
+=====
+DeepRegressorSize28Col3: {'netPclass': <class 'code.total.models.nnModels.DeepRegressor'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': True, 'netPexpNum': -1, 'npf': 64, 'ngpu': 0, 'embeddingModelClass': <class 'code.total.models.nnModels.Lenet28'>, 'checkpointEvery': 5, 'netPinstance': -1, 'embeddingModelInstance': 9, 'nc': 3, 'imSize': 28, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': 53, 'beta1': 0.5, 'nRegressorEpochs': 25, 'nOutFeatures': 500, 'sampleExpNum': 47, 'netPkey': 'netP'}
+DeepRegressorSize28Col3: inShape is (3, 28, 28)
+DeepRegressorSize28Col3: Regressor is using a deep feature embedding
+DeepRegressorSize28Col3: Loading an embedding model from file, training netP from scratch
+DeepRegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e53/models/lenet_9.pth
+DeepRegressorSize28Col3: DeepRegressor(
+  (deepFeatures): Lenet28(
+    (features): Sequential(
+      (0): Conv2d(3, 20, kernel_size=(5, 5), stride=(1, 1))
+      (1): AvgPool2d(kernel_size=2, stride=2, padding=0, ceil_mode=False, count_include_pad=True)
+      (2): Conv2d(20, 50, kernel_size=(5, 5), stride=(1, 1))
+      (3): AvgPool2d(kernel_size=2, stride=2, padding=0, ceil_mode=False, count_include_pad=True)
+    )
+    (features2): Linear(in_features=800, out_features=500, bias=True)
+    (main): Sequential(
+      (0): Linear(in_features=500, out_features=10, bias=True)
+      (1): Softmax()
+    )
+  )
+  (main): Sequential(
+    (0): Linear(in_features=500, out_features=256, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=256, out_features=128, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=128, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=32, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=32, out_features=16, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=16, out_features=1, bias=True)
+  )
+)
+DeepRegressorSize28Col3: ===Begin epoch 0
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 0, loss=18.8848961227, abserror=19.3792128693
+DeepRegressorSize28Col3: Testing epoch 0, loss = 14, abserror=14
+DeepRegressorSize28Col3: ===Begin epoch 1
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 1, loss=12.9048772781, abserror=13.3968686325
+DeepRegressorSize28Col3: Testing epoch 1, loss = 12, abserror=12
+DeepRegressorSize28Col3: ===Begin epoch 2
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 2, loss=11.8948510086, abserror=12.3858316452
+DeepRegressorSize28Col3: Testing epoch 2, loss = 11, abserror=12
+DeepRegressorSize28Col3: ===Begin epoch 3
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 3, loss=11.5195091049, abserror=12.0106928238
+DeepRegressorSize28Col3: Testing epoch 3, loss = 11, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 4
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 4, loss=11.280713176, abserror=11.771495787
+DeepRegressorSize28Col3: Testing epoch 4, loss = 11, abserror=11
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/netP_4.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/regressorState_4.pickle
+DeepRegressorSize28Col3: ===Begin epoch 5
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 5, loss=11.1231328369, abserror=11.6139606094
+DeepRegressorSize28Col3: Testing epoch 5, loss = 11, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 6
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 6, loss=11.021370253, abserror=11.5123910873
+DeepRegressorSize28Col3: Testing epoch 6, loss = 11, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 7
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 7, loss=10.9439309822, abserror=11.4343497032
+DeepRegressorSize28Col3: Testing epoch 7, loss = 10, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 8
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 8, loss=10.8596229042, abserror=11.3501675034
+DeepRegressorSize28Col3: Testing epoch 8, loss = 11, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 9
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 9, loss=10.8086642067, abserror=11.299387751
+DeepRegressorSize28Col3: Testing epoch 9, loss = 10, abserror=11
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/netP_9.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/regressorState_9.pickle
+DeepRegressorSize28Col3: ===Begin epoch 10
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 10, loss=10.7409927658, abserror=11.2311903
+DeepRegressorSize28Col3: Testing epoch 10, loss = 10, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 11
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 11, loss=10.6879641762, abserror=11.1786984436
+DeepRegressorSize28Col3: Testing epoch 11, loss = 10, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 12
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 12, loss=10.6509987915, abserror=11.1412477249
+DeepRegressorSize28Col3: Testing epoch 12, loss = 10, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 13
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 13, loss=10.5948573074, abserror=11.0852957993
+DeepRegressorSize28Col3: Testing epoch 13, loss = 10, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 14
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 14, loss=10.5813228157, abserror=11.0714893753
+DeepRegressorSize28Col3: Testing epoch 14, loss = 10, abserror=11
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/netP_14.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/regressorState_14.pickle
+DeepRegressorSize28Col3: ===Begin epoch 15
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 15, loss=10.5240118965, abserror=11.0138484406
+DeepRegressorSize28Col3: Testing epoch 15, loss = 10, abserror=11
+DeepRegressorSize28Col3: ===Begin epoch 16
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 16, loss=10.4834337723, abserror=10.972965535
+DeepRegressorSize28Col3: Testing epoch 16, loss = 10, abserror=10
+DeepRegressorSize28Col3: ===Begin epoch 17
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 17, loss=10.4742591049, abserror=10.9642391693
+DeepRegressorSize28Col3: Testing epoch 17, loss = 10, abserror=10
+DeepRegressorSize28Col3: ===Begin epoch 18
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 18, loss=10.4290408752, abserror=10.9188745514
+DeepRegressorSize28Col3: Testing epoch 18, loss = 10, abserror=10
+DeepRegressorSize28Col3: ===Begin epoch 19
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 19, loss=10.3902557213, abserror=10.8803518593
+DeepRegressorSize28Col3: Testing epoch 19, loss = 10, abserror=10
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/netP_19.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/regressorState_19.pickle
+DeepRegressorSize28Col3: ===Begin epoch 20
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 20, loss=10.3703921776, abserror=10.8604790123
+DeepRegressorSize28Col3: Testing epoch 20, loss = 10, abserror=10
+DeepRegressorSize28Col3: ===Begin epoch 21
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 21, loss=10.3426044319, abserror=10.8322195862
+DeepRegressorSize28Col3: Testing epoch 21, loss = 10, abserror=10
+DeepRegressorSize28Col3: ===Begin epoch 22
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 22, loss=10.3043895668, abserror=10.794000853
+DeepRegressorSize28Col3: Testing epoch 22, loss = 10, abserror=10
+DeepRegressorSize28Col3: ===Begin epoch 23
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 23, loss=10.2797986847, abserror=10.7696563393
+DeepRegressorSize28Col3: Testing epoch 23, loss = 10, abserror=10
+DeepRegressorSize28Col3: ===Begin epoch 24
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Iteration 150
+DeepRegressorSize28Col3: Iteration 200
+DeepRegressorSize28Col3: Iteration 250
+DeepRegressorSize28Col3: Iteration 300
+DeepRegressorSize28Col3: Iteration 350
+DeepRegressorSize28Col3: Iteration 400
+DeepRegressorSize28Col3: Iteration 450
+DeepRegressorSize28Col3: Iteration 500
+DeepRegressorSize28Col3: Iteration 550
+DeepRegressorSize28Col3: Iteration 600
+DeepRegressorSize28Col3: Epoch 24, loss=10.2639304245, abserror=10.753735643
+DeepRegressorSize28Col3: Testing epoch 24, loss = 10, abserror=10
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/netP_24.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/regressorState_24.pickle
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/netP_24.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/models/regressorState_24.pickle
+RegressorTest: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e55/data/regressorShiftResults_0.mat
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e55/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e55/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e55/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e55/analysis/errorCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e55/analysis/topDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e55/analysis/topDataIms.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e55/analysis/botDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e55/analysis/botDataIms.pickle
+Module times: [0.022294998168945312, 2.7543511390686035, 152.71472311019897, 0.00014710426330566406, 3.302917957305908, 4.218301057815552]
+Total time: 163.012763023
