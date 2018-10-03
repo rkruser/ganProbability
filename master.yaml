@@ -59,7 +59,9 @@ info:
 - [e46, 'Train on CIFAR10, test on MNIST']
 - [e47, 'Train on MNIST, test on CIFAR10']
 - [e48, Testing lenet training]
-numExperiments: 48
+- [e49, Training lenet for real]
+- [e50, Train lenet on mnist]
+numExperiments: 50
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
