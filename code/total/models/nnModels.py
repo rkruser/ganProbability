@@ -758,6 +758,7 @@ class DeepRegressor(nn.Module):
             nn.ReLU(inplace=True),
             nn.Linear(16,1)
         )
+        self.main.apply(weights_init)
 
     def forward(self, x):
         feats, _ = self.deepFeatures(x)

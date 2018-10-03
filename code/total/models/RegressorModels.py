@@ -87,7 +87,7 @@ class RegressorModel(ModelTemplate):
         self.embeddingModel.load_state_dict(self.load(self.embeddingModelKey, instance=self.embeddingModelInstance, number=self.embeddingModelExpNum, loader='torch'))
         self.netP = self.netPclass(self.embeddingModel, self.nOutFeatures, self.ngpu)        
         self.netPinstance = -1
-        self.netP.apply(weights_init)
+#        self.netP.apply(weights_init) #Applied in the init function
         self.lossCurve = ([], [], [])
         self.errorCurve = ([], [], [])
       else:
