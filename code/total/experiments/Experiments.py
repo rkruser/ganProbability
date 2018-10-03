@@ -131,6 +131,30 @@ class RegressorTest(Operator):
     return self.analysisData
 
 
+class DeepFeatureTrain(Operator):
+  def __init__(self, config, args):
+    super(DeepFeatureTrain, self).__init__(config, args)
+    args = copy(args)
+    self.opt = {
+#      'dataset':'mnist28',
+      'nDeepEpochs': 50
+    }
+    self.opt.update(args)
+
+    for key in self.opt:
+      setattr(self, key, self.opt[key])
+
+    #self.datasetPath = self.getPath(self.dataset)
+
+    self.dataloader = self.dependencies[0]
+    self.deepmodel = self.dependencies[1]
+
+    self.analysisData = []
+
+  def run(self):
+    self.deepmodel.train(self.dataloader, self.nDeepEpochs)
+
+
 # Actually, there is no need for the following details
 # Just need to instantate GANModel operator objects
 class Experiment(Operator):

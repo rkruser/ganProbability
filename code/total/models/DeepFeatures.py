@@ -17,7 +17,7 @@ class LenetModel(ModelTemplate):
       'lr':0.0002,
       'beta1':0.5,
       'lenetClass':Lenet28,
-      'lenetKey':'lenet28',
+      'lenetKey':'lenet',
       'lenetInstance':-1,
       'lenetExpNum':-1,
       'checkpointEvery':5
@@ -203,3 +203,67 @@ def train(self, loaderTemplate, nepochs):
     errorDat = Data(test, 'lineplot', 'errorCurve')
     return [lossDat, errorDat]
 
+
+class LenetSize28Cols3(LenetModel):
+	def __init__(self, config, args):
+		args = copy(args)
+		args['nc'] = 3
+		args['imSize'] = 28
+		args['lenetClass'] = Lenet28
+		super(LenetSize28Cols3, self).__init__(config, args)
+
+class LenetSize28Cols1(LenetModel):
+	def __init__(self, config, args):
+		args = copy(args)
+		args['nc'] = 1
+		args['imSize'] = 28
+		args['lenetClass'] = Lenet28
+		super(LenetSize28Cols1, self).__init__(config, args)
+
+class LenetSize32Cols3(LenetModel):
+	def __init__(self, config, args):
+		args = copy(args)
+		args['nc'] = 3
+		args['imSize'] = 32
+		args['lenetClass'] = Lenet32
+		super(LenetSize32Cols3, self).__init__(config, args)
+
+class LenetSize32Cols1(LenetModel):
+	def __init__(self, config, args):
+		args = copy(args)
+		args['nc'] = 1
+		args['imSize'] = 32
+		args['lenetClass'] = Lenet32
+		super(LenetSize32Cols1, self).__init__(config, args)
+
+class LenetSize64Cols3(LenetModel):
+	def __init__(self, config, args):
+		args = copy(args)
+		args['nc'] = 3
+		args['imSize'] = 64
+		args['lenetClass'] = Lenet64
+		super(LenetSize64Cols3, self).__init__(config, args)
+
+class LenetSize64Cols1(LenetModel):
+	def __init__(self, config, args):
+		args = copy(args)
+		args['nc'] = 1
+		args['imSize'] = 64
+		args['lenetClass'] = Lenet64
+		super(LenetSize64Cols1, self).__init__(config, args)
+
+class LenetSize128Cols3(LenetModel):
+	def __init__(self, config, args):
+		args = copy(args)
+		args['nc'] = 3
+		args['imSize'] = 128
+		args['lenetClass'] = Lenet128
+		super(LenetSize128Cols3, self).__init__(config, args)
+
+class LenetSize128Cols1(LenetModel):
+	def __init__(self, config, args):
+		args = copy(args)
+		args['nc'] = 1
+		args['imSize'] = 128
+		args['lenetClass'] = Lenet128
+		super(LenetSize128Cols1, self).__init__(config, args)
