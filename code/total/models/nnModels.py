@@ -4,9 +4,11 @@ from copy import copy
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F #weird
 import torch.optim as optim
 import random
 import torch.backends.cudnn as cudnn
+import torch.nn.init as init
 
 # custom weights initialization called on netG and netD
 def weights_init(m):
@@ -603,7 +605,10 @@ class Lenet32(nn.Module):
             nn.AvgPool2d(2, 2),
         )
         self.features2 = nn.Linear(5*5*50, 500)
-        self.main = nn.Linear(500, 10)
+        self.main = nn.Sequential(
+            nn.Linear(500, 10),
+            nn.Softmax() #Change in others as well
+            )
 
     def forward(self, input):
         if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
@@ -633,7 +638,10 @@ class Lenet28(nn.Module):
             nn.AvgPool2d(2, 2),
         )
         self.features2 = nn.Linear(4*4*50, 500)
-        self.main = nn.Linear(500, 10)
+        self.main = nn.Sequential(
+            nn.Linear(500, 10),
+            nn.Softmax() #Change in others as well
+            )
 
     def forward(self, input):
         if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
@@ -667,7 +675,10 @@ class Lenet64(nn.Module):
             nn.AvgPool2d(2, 2),
         )
         self.features2 = nn.Linear(5*5*100, 500)
-        self.main = nn.Linear(500, 10)
+        self.main = nn.Sequential(
+            nn.Linear(500, 10),
+            nn.Softmax() #Change in others as well
+            )
 
     def forward(self, input):
         if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
@@ -704,7 +715,10 @@ class Lenet128(nn.Module):
             nn.AvgPool2d(2, 2), #5 x 5 
         )
         self.features2 = nn.Linear(5*5*200, 500)
-        self.main = nn.Linear(500, 10)
+        self.main = nn.Sequential(
+            nn.Linear(500, 10),
+            nn.Softmax() #Change in others as well
+            )
 
     def forward(self, input):
         if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:

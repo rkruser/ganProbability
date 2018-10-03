@@ -4,10 +4,17 @@ from copy import copy
 from code.total.models.ModelTemplate import ModelTemplate, AverageMeter
 from code.total.models.nnModels import weights_init, Lenet28, Lenet32, Lenet64, Lenet128
 
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.autograd import Variable
+import numpy as np 
+import torch.optim.lr_scheduler as lr_scheduler
+
 
 class LenetModel(ModelTemplate):
   def __init__(self, config, args):
-    super(DCGANModel,self).__init__(config, args)
+    super(LenetModel,self).__init__(config, args)
     self.opt = {
       'nc':3,
       'imSize':28,
@@ -31,7 +38,7 @@ class LenetModel(ModelTemplate):
       setattr(self, key, self.opt[key])
 
     self.inShape = (self.nc, self.imSize, self.imSize)
-    self.log("inShape is "+str(self.outShape))
+    self.log("inShape is "+str(self.inShape))
 
 
     self.lenet = self.lenetClass(ngpu=self.ngpu, nc=self.nc)
@@ -54,7 +61,7 @@ class LenetModel(ModelTemplate):
         self.lossCurve = ([], [], [])
         self.errorCurve = ([], [], [])
     else:
-      self.log("Training netP from scratch")
+      self.log("Training lenet from scratch")
       self.lenetInstance = -1
       self.lenet.apply(weights_init)
       self.lossCurve = ([], [], [])
@@ -67,7 +74,7 @@ class LenetModel(ModelTemplate):
 
 
 
-def train(self, loaderTemplate, nepochs):
+  def train(self, loaderTemplate, nepochs):
     # Reset for this run
     dataloaderTrain = loaderTemplate.getDataloader(outShape=self.inShape, mode='train', returnLabel=True)
     dataloaderTest = loaderTemplate.getDataloader(outShape=self.inShape, mode='test', returnLabel=True)
@@ -98,7 +105,7 @@ def train(self, loaderTemplate, nepochs):
       self.lenet.zero_grad()
       batchSize = data.size(0)
       y = y.view(-1,1) # make 2d
-      label = torch.zeros(batchSize, 1)
+      label = torch.zeros(batchSize, self.nOutClasses) #10 for now
       label.scatter_(1,y,1) 
 
       ##### Stopped here for Monday
@@ -110,7 +117,7 @@ def train(self, loaderTemplate, nepochs):
       data = Variable(data)
       label = Variable(label)
 
-      output = self.lenet(data)
+      _, output = self.lenet(data)
       err = self.criterion(output, label)
       losses.update(err.data[0], data.size(0))
       abserror.update((output.data-label.data).abs_().mean(), data.size(0))
@@ -149,23 +156,24 @@ def train(self, loaderTemplate, nepochs):
   def testEpoch(self, dataloader, epoch):
     losses = AverageMeter()
     abserror = AverageMeter()
-    self.netP.eval()
+    self.lenet.eval()
     for i, (data, y) in enumerate(dataloader):
-    	batchSize = data.size(0)
-		label = torch.zeros(batchSize, 1)
-		label.scatter_(1,y,1) 
+      batchSize = data.size(0)
+      y = y.view(-1,1)
+      label = torch.zeros(batchSize, self.nOutClasses)
+      label.scatter_(1,y,1) 
 
-	    if self.cuda:
-	      data = data.cuda()
-	      label = label.cuda()
-	    data = Variable(data, volatile=True)
-	    label = Variable(label, volatile=True)
+      if self.cuda:
+        data = data.cuda()
+        label = label.cuda()
+      data = Variable(data, volatile=True)
+      label = Variable(label, volatile=True)
 
-	    output = self.lenet(data)#, 5)
-	    err = self.criterion(output, label)
+      _, output = self.lenet(data)#, 5)
+      err = self.criterion(output, label)
 
-	    losses.update(err.data[0], data.size(0))
-	    abserror.update((output.data - label.data).abs_().mean(), data.size(0))
+      losses.update(err.data[0], data.size(0))
+      abserror.update((output.data - label.data).abs_().mean(), data.size(0))
 
     self.log('Testing epoch %d, loss = %d, abserror=%d'%(epoch,losses.avg,abserror.avg))
     self.lossCurve[2].append(losses.avg)
