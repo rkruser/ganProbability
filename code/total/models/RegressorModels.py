@@ -1,7 +1,8 @@
 from mlworkflow import Data
 from copy import copy
 from code.total.models.ModelTemplate import ModelTemplate, AverageMeter
-from code.total.models.nnModels import weights_init, NetP28, NetP32, NetP64
+from code.total.models.nnModels import weights_init, NetP28, NetP32, NetP64 #, Lenet28, Lenet32, Lenet64, Lenet128
+from code.total.models.nnModels import Lenet28, Lenet32, Lenet64, Lenet128, DeepRegressor
 
 import numpy as np
 import torch
@@ -26,6 +27,14 @@ class RegressorModel(ModelTemplate):
       'cuda':False,
       'lr':0.0002,
       'beta1':0.5,
+      # If using a deep embedding
+      'usesEmbeddingModel':False,
+      'embeddingModelKey':'lenet',
+      'embeddingModelInstance':-1,
+      'embeddingModelExpNum':-1,
+      'nOutFeatures':500,
+      'embeddingModelClass':None,
+      # Regular netP
       'netPclass':NetP28,
       'netPkey':'netP',
       'netPinstance':-1,
@@ -64,31 +73,64 @@ class RegressorModel(ModelTemplate):
 #    self.checkpointEvery = self.opt['checkpointEvery']
 
 
-    self.netP = self.netPclass(ngpu=self.ngpu, nc=self.nc, npf=self.npf)
-    self.criterion = nn.SmoothL1Loss(size_average=True)
-    self.optimizerP = optim.Adam(self.netP.parameters(), lr=self.lr, betas=(self.beta1,0.999))
-    self.scheduler = lr_scheduler.StepLR(self.optimizerP, step_size=200, gamma=0.1)
+    if self.usesEmbeddingModel:
+      self.log("Regressor is using a deep feature embedding")
+      self.embeddingModel = self.embeddingModelClass(self.ngpu, self.nc)
+      if self.netPinstance == -1:
+        self.netPinstance = self.getLatestInstance(self.netPkey, self.netPexpNum)
 
-    if self.netPinstance == -1:
-      self.netPinstance = self.getLatestInstance(self.netPkey, self.netPexpNum)
-
-    # Load netP, newly or from file
-    if self.netPinstance is not None:
-      self.log("Loading netP instance {0}".format(self.netPinstance))
-      self.netP.load_state_dict(self.load(self.netPkey, instance=self.netPinstance, number=self.netPexpNum, loader='torch'))
-      if self.checkExists('regressorState', instance=self.netPinstance, number=self.netPexpNum):
-        self.lossCurve, self.errorCurve = self.load('regressorState', instance=self.netPinstance, number=self.netPexpNum, loader='pickle')
-      else:
+      if self.netPinstance is None:
+        # If this netP has not been saved before, load the embedding model from a file but nothing else
+        self.log("Loading an embedding model from file, training netP from scratch")
+        if self.embeddingModelInstance == -1:
+          self.embeddingModelInstance = self.getLatestInstance(self.embeddingModelKey, self.embeddingModelExpNum)
+        self.embeddingModel.load_state_dict(self.load(self.embeddingModelKey, instance=self.embeddingModelInstance, number=self.embeddingModelExpNum, loader='torch'))
+        self.netP = self.netPclass(self.embeddingModel, self.nOutFeatures, self.ngpu)        
+        self.netPinstance = -1
+        self.netP.apply(weights_init)
         self.lossCurve = ([], [], [])
         self.errorCurve = ([], [], [])
+      else:
+        # If this netP has been saved before, load the embedding model and eveything else at once
+        self.log("Loading deep feature netP instance {0}".format(self.netPinstance))
+
+        self.netP = self.netPclass(self.embeddingModel, self.nOutFeatures, self.ngpu)
+        self.netP.load_state_dict(self.load(self.netPkey, instance=self.netPinstance, number=self.netPexpNum, loader='torch'))
+        if self.checkExists('regressorState', instance=self.netPinstance, number=self.netPexpNum):
+          self.lossCurve, self.errorCurve = self.load('regressorState', instance=self.netPinstance, number=self.netPexpNum, loader='pickle')
+        else:
+          self.lossCurve = ([], [], [])
+          self.errorCurve = ([], [], [])
+
+
     else:
-      self.log("Training netP from scratch")
-      self.netPinstance = -1
-      self.netP.apply(weights_init)
-      self.lossCurve = ([], [], [])
-      self.errorCurve = ([], [], [])
+      self.netP = self.netPclass(ngpu=self.ngpu, nc=self.nc, npf=self.npf)
+
+      if self.netPinstance == -1:
+        self.netPinstance = self.getLatestInstance(self.netPkey, self.netPexpNum)
+
+      # Load netP, newly or from file
+      if self.netPinstance is not None:
+        self.log("Loading netP instance {0}".format(self.netPinstance))
+        self.netP.load_state_dict(self.load(self.netPkey, instance=self.netPinstance, number=self.netPexpNum, loader='torch'))
+        if self.checkExists('regressorState', instance=self.netPinstance, number=self.netPexpNum):
+          self.lossCurve, self.errorCurve = self.load('regressorState', instance=self.netPinstance, number=self.netPexpNum, loader='pickle')
+        else:
+          self.lossCurve = ([], [], [])
+          self.errorCurve = ([], [], [])
+      else:
+        self.log("Training netP from scratch")
+        self.netPinstance = -1
+        self.netP.apply(weights_init)
+        self.lossCurve = ([], [], [])
+        self.errorCurve = ([], [], [])
 
 
+    self.log(str(self.netP))
+
+    self.criterion = nn.SmoothL1Loss(size_average=True)
+    self.optimizerP = optim.Adam(filter(lambda m: m.requires_grad, self.netP.parameters()), lr=self.lr, betas=(self.beta1,0.999))
+    self.scheduler = lr_scheduler.StepLR(self.optimizerP, step_size=200, gamma=0.1)
     if self.cuda:
       self.netP = self.netP.cuda()
       self.criterion = self.criterion.cuda()
@@ -271,4 +313,74 @@ class RegressorSize64Col1(RegressorModel):
     args['imSize'] = 64
     args['netPclass'] = NetP64
     super(RegressorSize64Col1, self).__init__(config, args)
+
+########### Deep Models
+
+class DeepRegressorSize28Col3(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 28
+    args['netPclass'] = DeepRegressor
+    args['usesEmbeddingModel'] = True
+    args['embeddingModelClass'] = Lenet28
+    args['nOutFeatures'] = 500
+    super(DeepRegressorSize28Col3, self).__init__(config, args)
+
+class DeepRegressorSize28Col1(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 28
+    args['netPclass'] = DeepRegressor
+    args['usesEmbeddingModel'] = True
+    args['embeddingModelClass'] = Lenet28
+    args['nOutFeatures'] = 500
+    super(DeepRegressorSize28Col3, self).__init__(config, args)
+
+class DeepRegressorSize32Col3(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 32
+    args['netPclass'] = DeepRegressor
+    args['usesEmbeddingModel'] = True
+    args['embeddingModelClass'] = Lenet32
+    args['nOutFeatures'] = 500
+    super(DeepRegressorSize32Col3, self).__init__(config, args)
+
+class DeepRegressorSize32Col1(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 32
+    args['netPclass'] = DeepRegressor
+    args['usesEmbeddingModel'] = True
+    args['embeddingModelClass'] = Lenet32
+    args['nOutFeatures'] = 500
+    super(DeepRegressorSize32Col1, self).__init__(config, args)
+
+class DeepRegressorSize64Col3(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 3
+    args['imSize'] = 64
+    args['netPclass'] = DeepRegressor
+    args['usesEmbeddingModel'] = True
+    args['embeddingModelClass'] = Lenet64
+    args['nOutFeatures'] = 500
+
+    super(DeepRegressorSize64Col3, self).__init__(config, args)
+
+class DeepRegressorSize64Col1(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['nc'] = 1
+    args['imSize'] = 64
+    args['netPclass'] = DeepRegressor
+    args['usesEmbeddingModel'] = True
+    args['embeddingModelClass'] = Lenet64
+    args['nOutFeatures'] = 500
+
+    super(DeepRegressorSize64Col1, self).__init__(config, args)
 

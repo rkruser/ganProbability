@@ -736,4 +736,41 @@ class Lenet128(nn.Module):
 
 
 
+class DeepRegressor(nn.Module):
+    def __init__(self, featureExtractor, nOutFeatures=500, ngpu=0):
+        super(DeepRegressor, self).__init__()
+        self.deepFeatures = featureExtractor
+        for m in self.deepFeatures.parameters():
+            m.requires_grad = False
+
+        self.ngpu = ngpu
+        self.nOutFeatures = nOutFeatures
+        self.nInnerFeatures = nInnerFeatures
+        self.main = nn.Sequential(
+            nn.Linear(self.nOutFeatures, 256),
+            nn.ReLU(inplace=True),
+            nn.Linear(256, 128),
+            nn.ReLU(inplace=True),
+            nn.Linear(128, 64),
+            nn.ReLU(inplace=True),
+            nn.Linear(64, 32),
+            nn.ReLU(inplace=True),
+            nn.Linear(32, 16),
+            nn.ReLU(inplace=True),
+            nn.Linear(16,1)
+        )
+
+    def forward(self, x):
+        feats, _ = self.deepFeatures(x)
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.main, feats, range(self.ngpu))
+        else:
+            output = self.main(feats)
+            # output -= 8*F.relu(output - th)
+#            output = -torch.abs(output) + th
+
+        return output.view(-1, 1).squeeze(1)
+       
+
+
 

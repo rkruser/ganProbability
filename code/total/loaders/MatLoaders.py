@@ -95,8 +95,17 @@ class BirdsnapSize32Cols3(LoaderTemplate):
 class ProbData(LoaderTemplate):
   def __init__(self, config, args):
     super(ProbData, self).__init__(config, args)
-    self.current = None
-    self.path = self.getPath('samples', threadSpecific=False) #Need to add to config
+    args = copy(args)
+    self.opt = {
+      'sampleKey':'samples',
+      'sampleExpNum':-1
+    }
+    self.opt.update(args)
+    for a in self.opt:
+      setattr(self, a, self.opt[a])
+
+    self.current = None #??
+    self.path = self.getPath(self.sampleKey, number=self.sampleExpNum, threadSpecific=False) #Need to add to config
 
   def getDataset(self, deep=False, mode='train', trainProportion=0.8, outShape=None):
     return ProbLoader(self.path, deep=deep, mode=mode, trainProportion=trainProportion)
