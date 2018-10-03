@@ -110,13 +110,13 @@ def train(self, loaderTemplate, nepochs):
       data = Variable(data)
       label = Variable(label)
 
-      output = self.netP(data)
+      output = self.lenet(data)
       err = self.criterion(output, label)
       losses.update(err.data[0], data.size(0))
       abserror.update((output.data-label.data).abs_().mean(), data.size(0))
 
       err.backward()
-      self.optimizerP.step()
+      self.optimizer.step()
 
     self.log("Epoch {0}, loss={1}, abserror={2}".format(epoch, losses.avg, abserror.avg))
     self.lossCurve[1].append(losses.avg)
@@ -125,12 +125,12 @@ def train(self, loaderTemplate, nepochs):
       
   # Sample 
   def sample(self, inputs):
-    self.netP.eval()
+    self.lenet.eval()
     if self.cuda:
       inputs = inputs.cuda()
     inputs = Variable(inputs)
-    outProbs = self.netP(inputs)
-    return outProbs.data.cpu()
+    outputs = self.lenet(inputs)
+    return outputs.data.cpu()
 
   # method should be one of 'numerical', 'exact'
   def probSample(self, nSamples, deepFeatures=None, method='numerical', epsilon=1e-5):
@@ -150,18 +150,22 @@ def train(self, loaderTemplate, nepochs):
     losses = AverageMeter()
     abserror = AverageMeter()
     self.netP.eval()
-    for i, (data, label) in enumerate(dataloader):
-        if self.cuda:
-          data = data.cuda()
-          label = label.cuda()
-        data = Variable(data, volatile=True)
-        label = Variable(label, volatile=True)
+    for i, (data, y) in enumerate(dataloader):
+    	batchSize = data.size(0)
+		label = torch.zeros(batchSize, 1)
+		label.scatter_(1,y,1) 
 
-        output = self.netP(data)#, 5)
-        err = self.criterion(output, label)
+	    if self.cuda:
+	      data = data.cuda()
+	      label = label.cuda()
+	    data = Variable(data, volatile=True)
+	    label = Variable(label, volatile=True)
 
-        losses.update(err.data[0], data.size(0))
-        abserror.update((output.data - label.data).abs_().mean(), data.size(0))
+	    output = self.lenet(data)#, 5)
+	    err = self.criterion(output, label)
+
+	    losses.update(err.data[0], data.size(0))
+	    abserror.update((output.data - label.data).abs_().mean(), data.size(0))
 
     self.log('Testing epoch %d, loss = %d, abserror=%d'%(epoch,losses.avg,abserror.avg))
     self.lossCurve[2].append(losses.avg)
