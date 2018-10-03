@@ -100,7 +100,8 @@ class LenetModel(ModelTemplate):
     abserror = AverageMeter()
 
     for i, (data,y) in enumerate(dataloader):
-      self.log("Iteration {0}".format(i))
+      if i%50 == 0:
+        self.log("Iteration {0}".format(i))
       
       self.lenet.zero_grad()
       batchSize = data.size(0)

@@ -5887,3 +5887,62 @@ Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experim
 Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e48/analysis/errorCurve.pickle
 Module times: [6.198883056640625e-05, 2.683241844177246, 42.92985200881958, 0.3151428699493408]
 Total time: 45.9283201694
+=====
+Starting experiment stage1
+ID: 48, PID 0/1
+10_02_2018_23:22:46
+=====
+LenetSize32Cols3: {'beta1': 0.5, 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'ngpu': 0, 'nDeepEpochs': 1, 'checkpointEvery': 1, 'lenetInstance': -1, 'lenetKey': 'lenet', 'nOutClasses': 10, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 4
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenet_4.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenetState_4.pickle
+LenetSize32Cols3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenet_0.pth
+LenetSize32Cols3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenetState_0.pickle
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e48/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e48/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e48/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e48/analysis/errorCurve.pickle
+Module times: [7.82012939453125e-05, 2.7243618965148926, 0.9237871170043945, 0.2548041343688965]
+Total time: 3.9030520916
+=====
+Starting experiment stage1
+ID: 48, PID 0/1
+10_02_2018_23:23:09
+=====
+LenetSize32Cols3: {'beta1': 0.5, 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'ngpu': 0, 'nDeepEpochs': 6, 'checkpointEvery': 1, 'lenetInstance': -1, 'lenetKey': 'lenet', 'nOutClasses': 10, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 4
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenet_4.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenetState_4.pickle
+LenetSize32Cols3: ===Begin epoch 5
+LenetSize32Cols3: Iteration 0
+LenetSize32Cols3: Iteration 50
+LenetSize32Cols3: Iteration 100
+LenetSize32Cols3: Iteration 150
+LenetSize32Cols3: Iteration 200
+LenetSize32Cols3: Iteration 250
+LenetSize32Cols3: Iteration 300
+LenetSize32Cols3: Iteration 350
+LenetSize32Cols3: Iteration 400
+LenetSize32Cols3: Iteration 450
+LenetSize32Cols3: Iteration 500
+LenetSize32Cols3: Iteration 550
+LenetSize32Cols3: Iteration 600
+LenetSize32Cols3: Iteration 650
+LenetSize32Cols3: Iteration 700
+LenetSize32Cols3: Iteration 750
+LenetSize32Cols3: Epoch 5, loss=0.207428462029, abserror=0.122008198915
+LenetSize32Cols3: Testing epoch 5, loss = 0, abserror=0
+LenetSize32Cols3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenet_5.pth
+LenetSize32Cols3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenetState_5.pickle
+LenetSize32Cols3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenet_5.pth
+LenetSize32Cols3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e48/models/lenetState_5.pickle
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e48/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e48/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e48/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e48/analysis/errorCurve.pickle
+Module times: [6.079673767089844e-05, 2.6418678760528564, 8.935267925262451, 0.26307010650634766]
+Total time: 11.8402900696

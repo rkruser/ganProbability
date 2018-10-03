@@ -6,7 +6,7 @@ otherTemplates: {
 }
 dependencies: [[], [], [0,1], [0,1,2]]
 args: {
-  nDeepEpochs: 5,
+  nDeepEpochs: 6,
   cuda: True,
   checkpointEvery: 1
 }
