@@ -64,6 +64,7 @@ class RegressorTest(Operator):
     args = copy(args)
     self.opt = {
 #      'dataset':'mnist28',
+      'take': 25,
       'distribution':None,
       'nRegressorSamples':1000
     }

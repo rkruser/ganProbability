@@ -164,7 +164,8 @@ class RegressorModel(ModelTemplate):
     abserror = AverageMeter()
 
     for i, (data,label) in enumerate(dataloader):
-      self.log("Iteration {0}".format(i))
+      if i%50 == 0:
+        self.log("Iteration {0}".format(i))
       
       self.netP.zero_grad()
       batchSize = data.size(0)
