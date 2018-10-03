@@ -61,7 +61,9 @@ info:
 - [e48, Testing lenet training]
 - [e49, Training lenet for real]
 - [e50, Train lenet on mnist]
-numExperiments: 50
+- [e51, Cifar size 64]
+- [e52, Lenet with mnist size 64]
+numExperiments: 52
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

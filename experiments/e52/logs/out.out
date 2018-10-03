@@ -1,0 +1,580 @@
+Hello:
+=====
+Starting experiment stage1
+ID: 52, PID 0/1
+10_02_2018_23:52:32
+=====
+LenetSize64Cols1: {'beta1': 0.5, 'lenetClass': <class 'code.total.models.nnModels.Lenet64'>, 'ngpu': 0, 'nDeepEpochs': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'lenet', 'nOutClasses': 10, 'nc': 1, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'imSize': 64}
+LenetSize64Cols1: inShape is (1, 64, 64)
+LenetSize64Cols1: Training lenet from scratch
+LenetSize64Cols1: ===Begin epoch 0
+LenetSize64Cols1: Iteration 0
+/fs/vulcan-scratch/krusinga/anaconda2/lib/python2.7/site-packages/torch/nn/modules/container.py:67: UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  input = module(input)
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 0, loss=0.0495931713382, abserror=0.0272676853543
+LenetSize64Cols1: Testing epoch 0, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 1
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 1, loss=0.0231771834224, abserror=0.0122212021711
+LenetSize64Cols1: Testing epoch 1, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 2
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 2, loss=0.0180227131639, abserror=0.00948804065225
+LenetSize64Cols1: Testing epoch 2, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 3
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 3, loss=0.0151685465937, abserror=0.00796697027646
+LenetSize64Cols1: Testing epoch 3, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 4
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 4, loss=0.0132078924575, abserror=0.00689306765205
+LenetSize64Cols1: Testing epoch 4, loss = 0, abserror=0
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenet_4.pth
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenetState_4.pickle
+LenetSize64Cols1: ===Begin epoch 5
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 5, loss=0.0119000999963, abserror=0.00620421507716
+LenetSize64Cols1: Testing epoch 5, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 6
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 6, loss=0.0107298068148, abserror=0.00561229324124
+LenetSize64Cols1: Testing epoch 6, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 7
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 7, loss=0.00962538490873, abserror=0.00508190545499
+LenetSize64Cols1: Testing epoch 7, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 8
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 8, loss=0.00860390602097, abserror=0.00451096380856
+LenetSize64Cols1: Testing epoch 8, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 9
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 9, loss=0.00812686152028, abserror=0.00428031556288
+LenetSize64Cols1: Testing epoch 9, loss = 0, abserror=0
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenet_9.pth
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenetState_9.pickle
+LenetSize64Cols1: ===Begin epoch 10
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 10, loss=0.00719031324056, abserror=0.00376282964525
+LenetSize64Cols1: Testing epoch 10, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 11
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 11, loss=0.00666906694499, abserror=0.00353719719795
+LenetSize64Cols1: Testing epoch 11, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 12
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 12, loss=0.00616324069276, abserror=0.00328524991185
+LenetSize64Cols1: Testing epoch 12, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 13
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 13, loss=0.0057068701238, abserror=0.00302984946414
+LenetSize64Cols1: Testing epoch 13, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 14
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 14, loss=0.00533855678536, abserror=0.00281780222384
+LenetSize64Cols1: Testing epoch 14, loss = 0, abserror=0
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenet_14.pth
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenetState_14.pickle
+LenetSize64Cols1: ===Begin epoch 15
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 15, loss=0.00490255859353, abserror=0.0026431907086
+LenetSize64Cols1: Testing epoch 15, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 16
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 16, loss=0.00445027678356, abserror=0.00239648781072
+LenetSize64Cols1: Testing epoch 16, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 17
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 17, loss=0.00444601832588, abserror=0.00233181443414
+LenetSize64Cols1: Testing epoch 17, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 18
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 18, loss=0.00395477296764, abserror=0.00214797680263
+LenetSize64Cols1: Testing epoch 18, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 19
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 19, loss=0.00404126745114, abserror=0.00212885675891
+LenetSize64Cols1: Testing epoch 19, loss = 0, abserror=0
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenet_19.pth
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenetState_19.pickle
+LenetSize64Cols1: ===Begin epoch 20
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 20, loss=0.00362575472954, abserror=0.00189916287851
+LenetSize64Cols1: Testing epoch 20, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 21
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 21, loss=0.00343968701616, abserror=0.00181518832949
+LenetSize64Cols1: Testing epoch 21, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 22
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 22, loss=0.00342159079402, abserror=0.00182140834856
+LenetSize64Cols1: Testing epoch 22, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 23
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 23, loss=0.003141497687, abserror=0.00166751594423
+LenetSize64Cols1: Testing epoch 23, loss = 0, abserror=0
+LenetSize64Cols1: ===Begin epoch 24
+LenetSize64Cols1: Iteration 0
+LenetSize64Cols1: Iteration 50
+LenetSize64Cols1: Iteration 100
+LenetSize64Cols1: Iteration 150
+LenetSize64Cols1: Iteration 200
+LenetSize64Cols1: Iteration 250
+LenetSize64Cols1: Iteration 300
+LenetSize64Cols1: Iteration 350
+LenetSize64Cols1: Iteration 400
+LenetSize64Cols1: Iteration 450
+LenetSize64Cols1: Iteration 500
+LenetSize64Cols1: Iteration 550
+LenetSize64Cols1: Iteration 600
+LenetSize64Cols1: Iteration 650
+LenetSize64Cols1: Iteration 700
+LenetSize64Cols1: Iteration 750
+LenetSize64Cols1: Iteration 800
+LenetSize64Cols1: Iteration 850
+LenetSize64Cols1: Iteration 900
+LenetSize64Cols1: Epoch 24, loss=2.71638353355, abserror=0.0990020227906
+LenetSize64Cols1: Testing epoch 24, loss = 4, abserror=0
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenet_24.pth
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenetState_24.pickle
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenet_24.pth
+LenetSize64Cols1: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e52/models/lenetState_24.pickle
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e52/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e52/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e52/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e52/analysis/errorCurve.pickle
+Module times: [5.2928924560546875e-05, 2.5773839950561523, 301.1835811138153, 0.24103593826293945]
+Total time: 304.002075911
