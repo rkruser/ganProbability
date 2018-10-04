@@ -274,6 +274,8 @@ class DCGANModel(ModelTemplate):
         fake = fake.view(1,-1)
 
         for k in range(nX):
+          if k%1000 == 0:
+            self.log("bprop iter {}".format(k))
           self.netG.zero_grad()
           fake[0,k].backward(retain_variables=True)
           J[k] = noisev.grad.data.cpu().numpy().squeeze()

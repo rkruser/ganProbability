@@ -1,0 +1,19 @@
+name: stage2
+modules: [DCGANSize32Col3, SampleGAN, ZipSamples, Analyzer]
+#One for everything in otherPaths
+#otherTemplates: {
+#  generated: template
+#}
+dependencies: [[], [0], [], [0,1,2]]
+args: {
+  'netGkey': 'netG',
+  'netGexpNum': 46,
+  'netDkey': 'netD',
+  'netDexpNum': 46,
+  'samples': 1000,
+  'take': 25,
+  'method': 'analytical',
+  'resample': True
+#  'nRegressorEpochs':1,
+#  'batchSize':1
+}

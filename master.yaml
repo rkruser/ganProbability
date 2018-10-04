@@ -66,7 +66,11 @@ info:
 - [e53, Training on CFAR10 size 28]
 - [e54, Training deep feature regressor on cifar10]
 - [e55, Deep features trained and tested on MNIST]
-numExperiments: 55
+- [e56, Sampling non-numerically]
+- [e57, Sampling mnist analytically]
+- [e58, Train GAN on CIFAR10 size 64]
+- [e59, Train GAN on MNIST size 64]
+numExperiments: 59
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
