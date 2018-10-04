@@ -9280,3 +9280,215 @@ Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experim
 Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e56/analysis/botIms.pickle
 Module times: [3.7874550819396973, 0.013525009155273438, 1.6108198165893555, 7.786344051361084]
 Total time: 13.1981739998
+=====
+Starting experiment stage3
+ID: 56, PID 0/1
+10_04_2018_11:45:04
+=====
+DeepRegressorSize28Col3: {'netPclass': <class 'code.total.models.nnModels.DeepRegressor'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': True, 'netPexpNum': -1, 'npf': 64, 'ngpu': 0, 'embeddingModelClass': <class 'code.total.models.nnModels.Lenet28'>, 'checkpointEvery': 5, 'netPinstance': -1, 'nGANepochs': 1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 28, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': 53, 'beta1': 0.5, 'nRegressorEpochs': 25, 'nOutFeatures': 500, 'netPkey': 'netP'}
+DeepRegressorSize28Col3: inShape is (3, 28, 28)
+DeepRegressorSize28Col3: Regressor is using a deep feature embedding
+DeepRegressorSize28Col3: Loading an embedding model from file, training netP from scratch
+DeepRegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e53/models/lenet_24.pth
+DeepRegressorSize28Col3: DeepRegressor(
+  (deepFeatures): Lenet28(
+    (features): Sequential(
+      (0): Conv2d(3, 20, kernel_size=(5, 5), stride=(1, 1))
+      (1): AvgPool2d(kernel_size=2, stride=2, padding=0, ceil_mode=False, count_include_pad=True)
+      (2): Conv2d(20, 50, kernel_size=(5, 5), stride=(1, 1))
+      (3): AvgPool2d(kernel_size=2, stride=2, padding=0, ceil_mode=False, count_include_pad=True)
+    )
+    (features2): Linear(in_features=800, out_features=500, bias=True)
+    (main): Sequential(
+      (0): Linear(in_features=500, out_features=10, bias=True)
+      (1): Softmax()
+    )
+  )
+  (main): Sequential(
+    (0): Linear(in_features=500, out_features=256, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=256, out_features=128, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=128, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=32, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=32, out_features=16, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=16, out_features=1, bias=True)
+  )
+)
+DeepRegressorSize28Col3: ===Begin epoch 0
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 0, loss=208.753288818, abserror=209.252384369
+DeepRegressorSize28Col3: Testing epoch 0, loss = 63, abserror=63
+DeepRegressorSize28Col3: ===Begin epoch 1
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 1, loss=50.5352511749, abserror=51.0329300842
+DeepRegressorSize28Col3: Testing epoch 1, loss = 40, abserror=40
+DeepRegressorSize28Col3: ===Begin epoch 2
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 2, loss=33.5781159058, abserror=34.0745713043
+DeepRegressorSize28Col3: Testing epoch 2, loss = 29, abserror=29
+DeepRegressorSize28Col3: ===Begin epoch 3
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 3, loss=27.38349646, abserror=27.8795328522
+DeepRegressorSize28Col3: Testing epoch 3, loss = 26, abserror=26
+DeepRegressorSize28Col3: ===Begin epoch 4
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 4, loss=25.7788570862, abserror=26.2745568695
+DeepRegressorSize28Col3: Testing epoch 4, loss = 25, abserror=26
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/netP_4.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/regressorState_4.pickle
+DeepRegressorSize28Col3: ===Begin epoch 5
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 5, loss=24.9363594513, abserror=25.4317329254
+DeepRegressorSize28Col3: Testing epoch 5, loss = 24, abserror=24
+DeepRegressorSize28Col3: ===Begin epoch 6
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 6, loss=24.273504776, abserror=24.7690218048
+DeepRegressorSize28Col3: Testing epoch 6, loss = 24, abserror=25
+DeepRegressorSize28Col3: ===Begin epoch 7
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 7, loss=23.8121612854, abserror=24.3083616562
+DeepRegressorSize28Col3: Testing epoch 7, loss = 24, abserror=24
+DeepRegressorSize28Col3: ===Begin epoch 8
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 8, loss=23.4154751282, abserror=23.9107543335
+DeepRegressorSize28Col3: Testing epoch 8, loss = 23, abserror=23
+DeepRegressorSize28Col3: ===Begin epoch 9
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 9, loss=23.0945329819, abserror=23.5897623367
+DeepRegressorSize28Col3: Testing epoch 9, loss = 23, abserror=23
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/netP_9.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/regressorState_9.pickle
+DeepRegressorSize28Col3: ===Begin epoch 10
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 10, loss=22.8956552582, abserror=23.3901842957
+DeepRegressorSize28Col3: Testing epoch 10, loss = 23, abserror=24
+DeepRegressorSize28Col3: ===Begin epoch 11
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 11, loss=22.608775116, abserror=23.1034237366
+DeepRegressorSize28Col3: Testing epoch 11, loss = 22, abserror=23
+DeepRegressorSize28Col3: ===Begin epoch 12
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 12, loss=22.3971164093, abserror=22.8917684174
+DeepRegressorSize28Col3: Testing epoch 12, loss = 22, abserror=23
+DeepRegressorSize28Col3: ===Begin epoch 13
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 13, loss=22.1956392059, abserror=22.6911569061
+DeepRegressorSize28Col3: Testing epoch 13, loss = 22, abserror=23
+DeepRegressorSize28Col3: ===Begin epoch 14
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 14, loss=22.1149893875, abserror=22.6102450562
+DeepRegressorSize28Col3: Testing epoch 14, loss = 22, abserror=23
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/netP_14.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/regressorState_14.pickle
+DeepRegressorSize28Col3: ===Begin epoch 15
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 15, loss=21.9191530609, abserror=22.4138970337
+DeepRegressorSize28Col3: Testing epoch 15, loss = 22, abserror=22
+DeepRegressorSize28Col3: ===Begin epoch 16
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 16, loss=21.888516922, abserror=22.3840164642
+DeepRegressorSize28Col3: Testing epoch 16, loss = 22, abserror=22
+DeepRegressorSize28Col3: ===Begin epoch 17
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 17, loss=21.7931739197, abserror=22.2884391174
+DeepRegressorSize28Col3: Testing epoch 17, loss = 22, abserror=22
+DeepRegressorSize28Col3: ===Begin epoch 18
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 18, loss=21.6621303711, abserror=22.1567966919
+DeepRegressorSize28Col3: Testing epoch 18, loss = 22, abserror=22
+DeepRegressorSize28Col3: ===Begin epoch 19
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 19, loss=21.5667575531, abserror=22.0615885468
+DeepRegressorSize28Col3: Testing epoch 19, loss = 22, abserror=22
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/netP_19.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/regressorState_19.pickle
+DeepRegressorSize28Col3: ===Begin epoch 20
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 20, loss=21.4371340485, abserror=21.9311852417
+DeepRegressorSize28Col3: Testing epoch 20, loss = 22, abserror=22
+DeepRegressorSize28Col3: ===Begin epoch 21
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 21, loss=21.3679800568, abserror=21.8625816498
+DeepRegressorSize28Col3: Testing epoch 21, loss = 21, abserror=22
+DeepRegressorSize28Col3: ===Begin epoch 22
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 22, loss=21.2775262451, abserror=21.7729091797
+DeepRegressorSize28Col3: Testing epoch 22, loss = 22, abserror=22
+DeepRegressorSize28Col3: ===Begin epoch 23
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 23, loss=21.2394679565, abserror=21.7334941254
+DeepRegressorSize28Col3: Testing epoch 23, loss = 21, abserror=22
+DeepRegressorSize28Col3: ===Begin epoch 24
+DeepRegressorSize28Col3: Iteration 0
+DeepRegressorSize28Col3: Iteration 50
+DeepRegressorSize28Col3: Iteration 100
+DeepRegressorSize28Col3: Epoch 24, loss=21.3189323349, abserror=21.8137826385
+DeepRegressorSize28Col3: Testing epoch 24, loss = 21, abserror=22
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/netP_24.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/regressorState_24.pickle
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/netP_24.pth
+DeepRegressorSize28Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/models/regressorState_24.pickle
+RegressorTest: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e56/data/regressorShiftResults_0.mat
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e56/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e56/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e56/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e56/analysis/errorCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e56/analysis/topDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e56/analysis/topDataIms.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e56/analysis/botDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e56/analysis/botDataIms.pickle
+Module times: [0.01070094108581543, 2.661885976791382, 32.49671506881714, 0.00010895729064941406, 4.36204981803894, 2.2894580364227295]
+Total time: 41.820952177
