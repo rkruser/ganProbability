@@ -1,0 +1,23 @@
+Hello:
+=====
+Starting experiment stage1
+ID: 56, PID 0/1
+10_04_2018_10:01:30
+=====
+DeepRegressorSize32Col3: {'netPclass': <class 'code.total.models.nnModels.DeepRegressor'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': True, 'netPexpNum': -1, 'npf': 64, 'ngpu': 0, 'embeddingModelClass': <class 'code.total.models.nnModels.Lenet32'>, 'checkpointEvery': 5, 'netPinstance': -1, 'nGANepochs': 1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 32, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': 53, 'beta1': 0.5, 'nRegressorEpochs': 25, 'nOutFeatures': 500, 'netPkey': 'netP'}
+DeepRegressorSize32Col3: inShape is (3, 32, 32)
+DeepRegressorSize32Col3: Regressor is using a deep feature embedding
+DeepRegressorSize32Col3: Loading an embedding model from file, training netP from scratch
+DeepRegressorSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e53/models/lenet_24.pth
+An exception occurred when running DeepRegressorSize32Col3
+<type 'exceptions.RuntimeError'>
+While copying the parameter named features2.weight, whose dimensions in the model are torch.Size([500, 1250]) and whose dimensions in the checkpoint are torch.Size([500, 800]).
+Exiting early
+Traceback (most recent call last):
+  File "run.py", line 50, in <module>
+    main()
+  File "run.py", line 47, in main
+    experiment(masterconfig=opt.masterconfig, classParser=getClasses, experimentNum=opt.id, pid=rank, numProcs=size,verbose=True,stage=opt.stage)
+  File "/fs/vulcan-scratch/krusinga/projects/template/mlworkflow/__init__.py", line 572, in experiment
+    raise e
+RuntimeError: While copying the parameter named features2.weight, whose dimensions in the model are torch.Size([500, 1250]) and whose dimensions in the checkpoint are torch.Size([500, 800]).
