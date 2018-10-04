@@ -22,7 +22,7 @@ def main():
   projected = clf.transform(mnistX)
   print projected.shape
   print projected[:10]
-  plt.scatter(projected[:,0], projected[:,1])
+  plt.scatter(projected[:,0], projected[:,1], c=mnistY.squeeze())
   plt.savefig("scripts/mnistPlot.png", format='png')
   pickle.dump(clf, open('/vulcan/scratch/krusinga/mnist/mnistPCA.pickle','w'))
 
