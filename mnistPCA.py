@@ -20,7 +20,9 @@ def main():
   print "Fitting clf"
   clf.fit(mnistX)
   projected = clf.transform(mnistX)
-  plt.plot(projected)
+  print projected.shape
+  print projected[:10]
+  plt.scatter(projected[:,0], projected[:,1])
   plt.savefig("scripts/mnistPlot.png", format='png')
   pickle.dump(clf, open('/vulcan/scratch/krusinga/mnist/mnistPCA.pickle','w'))
 
