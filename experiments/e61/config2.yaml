@@ -1,0 +1,17 @@
+name: stage2
+modules: [ProbData, RegressorSize28Col3, MNISTSize28Cols1, RegressorTest, Analyzer]
+#One for everything in otherPaths
+#otherTemplates: {
+#  generated: template
+#}
+dependencies: [[], [], [], [2,1], [0,1,2,3]]
+args: {
+  'netGkey': 'netG',
+  'netDkey': 'netD',
+  'netPkey': 'netP',
+  'netPexpNum': 47,
+#  'samples': 10,
+  'take': 25
+#  'nRegressorEpochs':1,
+#  'batchSize':1
+}

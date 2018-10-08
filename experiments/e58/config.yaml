@@ -6,8 +6,9 @@ otherTemplates: {
 }
 dependencies: [[], [], [0,1], [0,1,2]]
 args: {
-  nGANepochs: 25,
-  cuda: True
+  nGANepochs: 20,
+  cuda: True,
+  checkpointEvery: 5
 }
 ## Note: at the moment: this must contain
 # all the files needed for stage 2 as well

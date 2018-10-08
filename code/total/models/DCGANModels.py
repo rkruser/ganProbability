@@ -221,11 +221,13 @@ class DCGANModel(ModelTemplate):
 
 
   # method should be one of 'numerical', 'exact'
-  def probSample(self, nSamples, deepFeatures=None, method='numerical', epsilon=1e-5):
+  # deepFeatures should be an NN object with a forward function
+  def probSample(self, nSamples, deepFeatures=None, deepFeaturesOutsize=None, method='numerical', epsilon=1e-5):
     codes = torch.FloatTensor(nSamples,self.nz).normal_(0,1)
     if self.cuda:
       codes = codes.cuda()
-    results = self.getProbs(codes, method=method, epsilon=epsilon)
+      deepFeatures = deepFeatures.cuda()
+    results = self.getProbs(codes, deepFeatures, deepFeaturesOutsize, method=method, epsilon=epsilon)
     results['code'] = codes.cpu().numpy()
     # if deepFeatures is not None:
     #   Run the deep feature network on all images and put in results
@@ -233,7 +235,7 @@ class DCGANModel(ModelTemplate):
 
   # Move this to a library function later
   # Get the probabilities of a set of codes
-  def getProbs(self, codes, method='numerical', epsilon=1e-5):
+  def getProbs(self, codes, deepFeatures=None, deepFeaturesOutsize=None, method='numerical', epsilon=1e-5):
     if method=='numerical':
       noise = torch.FloatTensor(2*self.nz+1,self.nz,1,1)
     else:
@@ -245,14 +247,21 @@ class DCGANModel(ModelTemplate):
       b = b.cuda()
 #      b.cuda() # not necessary?
 
-    gauss_const = -self.nz*np.log(np.sqrt(2*np.pi))
-    log_const = 1.0
+    # Using log10 because it's more intuitive
+    gauss_const = -self.nz*np.log10(np.sqrt(2*np.pi))
+    log_const = np.log10(np.exp(1))
 
     nSamples = codes.size(0)
     images = np.empty([nSamples, self.nc, self.imSize, self.imSize])
     probs = np.empty([nSamples])
     jacob = np.empty([nSamples, self.nz])
-    nX = self.nc*self.imSize*self.imSize
+
+    if deepFeaturesOutsize is not None:
+      nX = deepFeaturesOutsize
+      feats = np.empty([nSamples, nX])
+    else:
+      nX = self.nc*self.imSize*self.imSize
+    # Take deep features into account here
 
     self.netG.eval()
     for i in range(codes.size(0)):
@@ -264,37 +273,58 @@ class DCGANModel(ModelTemplate):
       if method=='numerical':
         noise.copy_(torch.cat((a,a+b,a-b),0).unsqueeze(2).unsqueeze(3))
         noisev = Variable(noise, volatile=True) #volatile helps with memory?
-        fake = self.netG(noisev)
+        fakeIms = self.netG(noisev)
+        if deepFeatures is not None:
+          fake = deepFeatures(fakeIms) # What if there are multiple return values
+        else:
+          fake = fakeIms
         I = fake.data.cpu().numpy().reshape(2*self.nz+1,-1)
         J = (I[1:self.nz+1,:]-I[self.nz+1:,:]).transpose()/(2*epsilon)
       else:
         noise.copy_(a.unsqueeze(2).unsqueeze(3))
         noisev = Variable(noise, requires_grad=True)
-        fake = self.netG(noisev)
+        fakeIms = self.netG(noisev)
+#        I = fake.data.cpu().numpy() #memory problems?
+        if deepFeatures is not None:
+          fake = deepFeatures(fakeIms)
+        else:
+          fake = fakeIms
+        # Insert deep features here
         fake = fake.view(1,-1)
 
         for k in range(nX):
           if k%1000 == 0:
             self.log("bprop iter {}".format(k))
           self.netG.zero_grad()
-          fake[0,k].backward(retain_variables=True)
+          if deepFeatures is not None:
+            deepFeatures.zero_grad()
+          fake[0,k].backward(retain_variables=True) #Not sure if retain variables is necessary
           J[k] = noisev.grad.data.cpu().numpy().squeeze()
-        I = fake.data.cpu().numpy()
 
-      images[i] = I[0,:].reshape(self.nc, self.imSize, self.imSize)
+      fakeIms = fakeIms.data.cpu().numpy()
+      images[i] = fakeIms[0,:].reshape(self.nc, self.imSize, self.imSize)
+      if deepFeatures is not None:
+        feats[i] = fake.data[0,:].cpu().numpy()
       
       R = np.linalg.qr(J, mode='r')
       Z = a.cpu().numpy()
       dummy = R.diagonal().copy()
       jacob[i] = dummy.copy() # No modification yet
       dummy[np.where(np.abs(dummy) < 1e-20)] = 1
-      probs[i] = -log_const*0.5*np.sum(Z**2)+gauss_const - np.log(np.abs(dummy)).sum()
+      probs[i] = -log_const*0.5*np.sum(Z**2)+gauss_const - np.log10(np.abs(dummy)).sum()
 
     
 		# What about codes?
-    allData = {'images': images.astype(np.float32),
-               'prob': probs.astype(np.float32), #no s to be consistent
-               'jacob': jacob.astype(np.float32)}
+    if deepFeatures is not None:
+      allData = {'images': images.astype(np.float32),
+                 'feats': feats.astype(np.float32),
+                 'prob': probs.astype(np.float32), #no s to be consistent
+                 'jacob': jacob.astype(np.float32)}
+    else:
+      allData = {'images': images.astype(np.float32),
+                 'prob': probs.astype(np.float32), #no s to be consistent
+                 'jacob': jacob.astype(np.float32)}
+
     return allData
 
 

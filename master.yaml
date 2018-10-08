@@ -70,7 +70,10 @@ info:
 - [e57, Sampling mnist analytically]
 - [e58, Train GAN on CIFAR10 size 64]
 - [e59, Train GAN on MNIST size 64]
-numExperiments: 59
+- [e60, Training lenet on MNIST28]
+- [e61, Regressor no deep features mnist]
+- [e62, Test shallow cfar regressor on cifar]
+numExperiments: 62
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

@@ -1,0 +1,37 @@
+Hello:
+=====
+Starting experiment stage2
+ID: 61, PID 0/1
+10_04_2018_14:07:31
+=====
+RegressorSize28Col3: {'netPclass': <class 'code.total.models.nnModels.NetP28'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': 47, 'netGkey': 'netG', 'npf': 64, 'ngpu': 0, 'embeddingModelClass': None, 'take': 25, 'checkpointEvery': 10, 'netDkey': 'netD', 'netPinstance': -1, 'nGANepochs': 1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 28, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'netP'}
+RegressorSize28Col3: inShape is (3, 28, 28)
+RegressorSize28Col3: Loading netP instance 24
+RegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e47/models/netP_24.pth
+RegressorSize28Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e47/models/regressorState_24.pickle
+RegressorSize28Col3: NetP28(
+  (main): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(2, 2), bias=False)
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+RegressorTest: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e61/data/regressorShiftResults_0.mat
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e61/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e61/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e61/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e61/analysis/errorCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e61/analysis/topDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e61/analysis/topDataIms.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e61/analysis/botDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e61/analysis/botDataIms.pickle
+Module times: [0.01143789291381836, 2.8631210327148438, 5.2928924560546875e-05, 2.7611701488494873, 3.497338056564331]
+Total time: 9.13313794136

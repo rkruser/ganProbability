@@ -4232,3 +4232,27 @@ Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experim
 Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e57/analysis/botDataIms.pickle
 Module times: [0.011625051498413086, 2.5591750144958496, 30.32918095588684, 0.00010085105895996094, 1.1475770473480225, 2.308279037475586]
 Total time: 36.3559589386
+=====
+Starting experiment stage2
+ID: 57, PID 0/1
+10_04_2018_11:54:26
+=====
+DCGANSize28Col3: {'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD28'>, 'nGANepochs': 1, 'netDexpNum': 47, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'resample': True, 'method': 'analytical', 'samples': 1000, 'netGkey': 'netG', 'netGinstance': -1, 'netGclass': <class 'code.total.models.nnModels.NetG28'>, 'checkpointEvery': 10, 'ndf': 64, 'netGexpNum': 47, 'cuda': True, 'netDkey': 'netD', 'imSize': 28}
+DCGANSize28Col3: outShape is (3, 28, 28)
+DCGANSize28Col3: Starting GAN from scratch
+DCGANSize28Col3: Probability sampling 0
+DCGANSize28Col3: bprop iter 0
+DCGANSize28Col3: bprop iter 1000
+DCGANSize28Col3: bprop iter 2000
+DCGANSize28Col3: Probability sampling 1
+DCGANSize28Col3: bprop iter 0
+DCGANSize28Col3: bprop iter 1000
+DCGANSize28Col3: bprop iter 2000
+DCGANSize28Col3: Probability sampling 2
+DCGANSize28Col3: bprop iter 0
+DCGANSize28Col3: bprop iter 1000
+DCGANSize28Col3: bprop iter 2000
+An exception occurred when running SampleGAN
+<class 'bdb.BdbQuit'>
+
+Exiting early

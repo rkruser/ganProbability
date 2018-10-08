@@ -1,14 +1,13 @@
 name: stage1
-modules: [MNISTSize64Cols1, DCGANSize64Col3, GANTrain, Analyzer]
+modules: [CFAR10Size32Cols3, DCGANSize32Col3, GANTrain, Analyzer]
 #One for everything in otherPaths
 otherTemplates: {
   generated: template
 }
 dependencies: [[], [], [0,1], [0,1,2]]
 args: {
-  nGANepochs: 25,
-  cuda: True,
-  checkpointEvery: 5
+  nGANepochs: 1,
+  cuda: True
 }
 ## Note: at the moment: this must contain
 # all the files needed for stage 2 as well
