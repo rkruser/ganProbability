@@ -4,7 +4,7 @@ from code.total.models.RegressorModels import RegressorSize28Col3, RegressorSize
 from code.total.models.RegressorModels import DeepRegressorSize28Col3, DeepRegressorSize28Col1, DeepRegressorSize32Col3, DeepRegressorSize32Col1, DeepRegressorSize64Col3, DeepRegressorSize64Col1
 from code.total.models.DeepFeatures import LenetSize28Cols3, LenetSize28Cols1, LenetSize32Cols3, LenetSize32Cols1, LenetSize64Cols3, LenetSize64Cols1, LenetSize128Cols3, LenetSize128Cols1
 from code.total.experiments.Experiments import GANTrain, RegressorTrain, RegressorTest, DeepFeatureTrain
-from code.total.experiments.SampleGAN import SampleGAN
+from code.total.experiments.SampleGAN import SampleGAN, SampleDeepGAN
 from code.total.experiments.ZipSamples import ZipSamples
 
 mapDict = {
@@ -52,6 +52,7 @@ mapDict = {
     'LenetSize128Cols3': LenetSize128Cols3,
    # Sampling
     'SampleGAN': SampleGAN,
+    'SampleDeepGAN': SampleDeepGAN,
     'ZipSamples': ZipSamples,
    # Experiments
     'GANTrain': GANTrain,

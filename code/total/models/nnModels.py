@@ -25,6 +25,20 @@ def weights_init(m):
         if m.bias is not None:
             init.constant(m.bias, 0.0)
 
+# Wrap a neural net and only return its first return value
+class NthArgWrapper(nn.Module):
+    def __init__(self, net, arg):
+        super(NthArgWrapper, self).__init__()
+        self.net = net
+        self.arg = arg
+
+    def forward(self, x):
+        result = self.net(x)
+        assert(isinstance(result, tuple) and (len(result) > self.arg))
+        return result[self.arg]
+
+
+
 # Model for 28 by 28 images
 class NetG28(nn.Module):
   def __init__(self, nz=100, ngf=64, nc=1, ngpu=0):

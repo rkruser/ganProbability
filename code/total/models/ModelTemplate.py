@@ -28,6 +28,9 @@ class ModelTemplate(Loader):
     # can't call this load because it conflicts with the other load function
   def loadModel(self):
     raise NotImplementedError()
+    
+  def getNetwork(self):
+    raise NotImplementedError()
 
 
 class AverageMeter(object):

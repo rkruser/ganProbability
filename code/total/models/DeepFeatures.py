@@ -73,6 +73,8 @@ class LenetModel(ModelTemplate):
       self.criterion = self.criterion.cuda()
 
 
+  def getModel(self):
+    return self.lenet
 
   def train(self, loaderTemplate, nepochs):
     # Reset for this run
@@ -92,6 +94,7 @@ class LenetModel(ModelTemplate):
         self.saveCheckpoint(checkpointNum = epoch)
       
     self.saveCheckpoint(checkpointNum=(nepochs-1))
+
 
 
   def trainEpoch(self, dataloader, epoch):

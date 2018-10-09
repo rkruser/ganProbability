@@ -226,8 +226,9 @@ class DCGANModel(ModelTemplate):
     codes = torch.FloatTensor(nSamples,self.nz).normal_(0,1)
     if self.cuda:
       codes = codes.cuda()
-      deepFeatures = deepFeatures.cuda()
-    results = self.getProbs(codes, deepFeatures, deepFeaturesOutsize, method=method, epsilon=epsilon)
+      if deepFeatures is not None:
+        deepFeatures = deepFeatures.cuda()
+    results = self.getProbs(codes, deepFeatures=deepFeatures, deepFeaturesOutsize=deepFeaturesOutsize, method=method, epsilon=epsilon)
     results['code'] = codes.cpu().numpy()
     # if deepFeatures is not None:
     #   Run the deep feature network on all images and put in results

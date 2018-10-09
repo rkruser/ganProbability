@@ -41,12 +41,19 @@ class ZipSamples(Operator):
     for i in range(nprocs):
       loadedMats.append(self.files.load(self.opt.zipkey, instance=i, loader='mat'))
 
+#    keys = [k for k in loadedMats[0]]
+
+#    allSamples = {k: np.concatenate([loadedMats[i][k] for i in range(nprocs)]) for k in keys if not k.startswith('__')}
+
     allSamples = {
       'images': np.concatenate([loadedMats[i]['images'] for i in range(nprocs)]),
       'jacob': np.concatenate([loadedMats[i]['jacob'] for i in range(nprocs)]),
       'code': np.concatenate([loadedMats[i]['code'] for i in range(nprocs)]),
       'prob': np.concatenate([loadedMats[i]['prob'].flatten() for i in range(nprocs)])
     }
+
+    if 'feats' in loadedMats[0]:
+      allSamples['feats'] = np.concatenate([loadedMats[i]['feats'] for i in range(nprocs)])
 
     self.log("Saving %s"%self.opt.zipkey)
     self.files.save(allSamples,self.opt.zipkey,saver='mat',threadSpecific=False)

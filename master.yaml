@@ -73,7 +73,8 @@ info:
 - [e60, Training lenet on MNIST28]
 - [e61, Regressor no deep features mnist]
 - [e62, Test shallow cfar regressor on cifar]
-numExperiments: 62
+- [e63, Sampling probabilities with deep features]
+numExperiments: 63
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
