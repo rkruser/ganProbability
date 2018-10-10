@@ -1,0 +1,20 @@
+name: stage2
+modules: [DCGANSize28Col3, LenetSize28Cols3, SampleDeepGAN, ZipSamples, Analyzer]
+#One for everything in otherPaths
+#otherTemplates: {
+#  generated: template
+#}
+dependencies: [[], [], [0,1],[], [0,1,2,3]]
+args: {
+  'netGkey': 'netG',
+  'netGexpNum': 46, #?
+  'netDkey': 'netD',
+  'netDexpNum': 46, #?
+  'lenetKey': 'lenet',
+  'lenetExpNum': 53,
+  'samples': 1000,
+  'take': 25,
+  'method': 'analytical',
+  'collapseInterval': 10,
+  'collapseTimeout': 1000
+}
