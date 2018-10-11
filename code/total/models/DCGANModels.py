@@ -152,7 +152,8 @@ class DCGANModel(ModelTemplate):
       gLosses = AverageMeter()
       dLosses = AverageMeter()
       for i, data in enumerate(dataloader):
-        self.log("Iteration {0}".format(i))
+        if i%50 == 0:
+          self.log("Iteration {0}".format(i))
         
         self.netD.zero_grad()
         batchSize = data.size(0)
@@ -342,12 +343,12 @@ class DCGANModel(ModelTemplate):
 
   def saveCheckpoint(self, checkpointNum=None):
     if checkpointNum is not None:
-      self.save(self.netG.state_dict(), 'netG', instance=checkpointNum, saver='torch')
-      self.save(self.netD.state_dict(), 'netD', instance=checkpointNum, saver='torch')
+      self.save(self.netG.state_dict(), self.netGkey, instance=checkpointNum, saver='torch')
+      self.save(self.netD.state_dict(), self.netDkey, instance=checkpointNum, saver='torch')
       self.save((self.images,self.errG, self.errD), 'ganState', instance=checkpointNum, saver='pickle')
     else:
-      self.save(self.netG.state_dict(), 'netG', saver='torch')
-      self.save(self.netD.state_dict(), 'netD', saver='torch')
+      self.save(self.netG.state_dict(), self.netGkey, saver='torch')
+      self.save(self.netD.state_dict(), self.netDkey, saver='torch')
       self.save((self.images,self.errG, self.errD), 'ganState', saver='pickle')
 
 

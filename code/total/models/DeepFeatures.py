@@ -42,6 +42,7 @@ class LenetModel(ModelTemplate):
 
 
     self.lenet = self.lenetClass(ngpu=self.ngpu, nc=self.nc)
+    self.softmax = nn.Softmax()
     self.criterion = nn.BCELoss()
     self.optimizer = optim.Adam(self.lenet.parameters(), lr=self.lr, betas=(self.beta1,0.999))
     self.scheduler = lr_scheduler.StepLR(self.optimizer, step_size=200, gamma=0.1)
@@ -122,7 +123,7 @@ class LenetModel(ModelTemplate):
       label = Variable(label)
 
       _, output = self.lenet(data)
-      err = self.criterion(output, label)
+      err = self.criterion(self.softmax(output), label)
       losses.update(err.data[0], data.size(0))
       abserror.update((output.data-label.data).abs_().mean(), data.size(0))
 
@@ -174,7 +175,7 @@ class LenetModel(ModelTemplate):
       label = Variable(label, volatile=True)
 
       _, output = self.lenet(data)#, 5)
-      err = self.criterion(output, label)
+      err = self.criterion(self.softmax(output), label)
 
       losses.update(err.data[0], data.size(0))
       abserror.update((output.data - label.data).abs_().mean(), data.size(0))

@@ -2,7 +2,7 @@ from mlworkflow import Data
 from copy import copy
 from code.total.models.ModelTemplate import ModelTemplate, AverageMeter
 from code.total.models.nnModels import weights_init, NetP28, NetP32, NetP64 #, Lenet28, Lenet32, Lenet64, Lenet128
-from code.total.models.nnModels import Lenet28, Lenet32, Lenet64, Lenet128, DeepRegressor
+from code.total.models.nnModels import Lenet28, Lenet32, Lenet64, Lenet128, DeepRegressor, NetF10, NetF500
 
 import numpy as np
 import torch
@@ -39,7 +39,9 @@ class RegressorModel(ModelTemplate):
       'netPkey':'netP',
       'netPinstance':-1,
       'netPexpNum':-1,
-      'checkpointEvery':10
+      'checkpointEvery':10,
+      ##
+      'loadDeep':False
     }
     args = copy(args)
     self.opt.update(args)
@@ -140,8 +142,8 @@ class RegressorModel(ModelTemplate):
 
   def train(self, loaderTemplate, nepochs):
     # Reset for this run
-    dataloaderTrain = loaderTemplate.getDataloader(outShape=self.inShape, mode='train')
-    dataloaderTest = loaderTemplate.getDataloader(outShape=self.inShape, mode='test')
+    dataloaderTrain = loaderTemplate.getDataloader(outShape=self.inShape, deep=self.loadDeep, mode='train')
+    dataloaderTest = loaderTemplate.getDataloader(outShape=self.inShape, deep=self.loadDeep, mode='test')
 
     startEpoch = self.netPinstance+1
     for epoch in range(startEpoch, nepochs):
@@ -385,3 +387,18 @@ class DeepRegressorSize64Col1(RegressorModel):
 
     super(DeepRegressorSize64Col1, self).__init__(config, args)
 
+class FeatRegressor10(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['netPclass'] = NetF10
+    args['loadDeep'] = True
+
+    super(FeatRegressor10, self).__init__(config, args)
+
+class FeatRegressor500(RegressorModel):
+  def __init__(self, config, args):
+    args = copy(args)
+    args['netPclass'] = NetF500
+    args['loadDeep'] = True
+
+    super(FeatRegressor500, self).__init__(config, args)

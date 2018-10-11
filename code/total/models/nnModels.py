@@ -620,8 +620,7 @@ class Lenet32(nn.Module):
         )
         self.features2 = nn.Linear(5*5*50, 500)
         self.main = nn.Sequential(
-            nn.Linear(500, 10),
-            nn.Softmax() #Change in others as well
+            nn.Linear(500, 10)
             )
 
     def forward(self, input):
@@ -654,7 +653,6 @@ class Lenet28(nn.Module):
         self.features2 = nn.Linear(4*4*50, 500)
         self.main = nn.Sequential(
             nn.Linear(500, 10),
-            nn.Softmax() #Change in others as well
             )
 
     def forward(self, input):
@@ -691,7 +689,6 @@ class Lenet64(nn.Module):
         self.features2 = nn.Linear(5*5*100, 500)
         self.main = nn.Sequential(
             nn.Linear(500, 10),
-            nn.Softmax() #Change in others as well
             )
 
     def forward(self, input):
@@ -731,7 +728,6 @@ class Lenet128(nn.Module):
         self.features2 = nn.Linear(5*5*200, 500)
         self.main = nn.Sequential(
             nn.Linear(500, 10),
-            nn.Softmax() #Change in others as well
             )
 
     def forward(self, input):
@@ -786,5 +782,51 @@ class DeepRegressor(nn.Module):
         return output.view(-1, 1).squeeze(1)
        
 
+# Regressor - fc2 features
+class NetF10(nn.Module):
+    def __init__(self, ngpu):
+        super(_netF, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            nn.Linear(10, 32),
+            nn.ReLU(inplace=True),
+            nn.Linear(32, 32),
+            nn.ReLU(inplace=True),
+            nn.Linear(32, 64),
+            nn.ReLU(inplace=True),
+            nn.Linear(64, 128),
+            nn.ReLU(inplace=True),
+            nn.Linear(128, 256),
+            nn.ReLU(inplace=True),
+            nn.Linear(256,1)
+        )
+
+    def forward(self, input, th):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+        else:
+            output = self.main(input)
+
+        return output.view(-1, 1).squeeze(1)
 
 
+# Regressor - fc1 features
+class NetF500(nn.Module):
+    def __init__(self, ngpu):
+        super(_netF, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            nn.Linear(500,800),
+            nn.ReLU(inplace=True),
+            nn.Linear(800,500),
+            nn.ReLU(inplace=True),
+            nn.Linear(500,1)
+        )
+
+    def forward(self, input):
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+        else:
+            output = self.main(input)
+
+        return output.view(-1, 1).squeeze(1)

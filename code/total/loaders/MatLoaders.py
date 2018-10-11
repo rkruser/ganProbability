@@ -221,7 +221,7 @@ class ProbLoader(data.Dataset):
   def __init__(self, matpath, deep=False, mode='train', trainProportion=0.8):
     self.data = loadmat(matpath)
     if deep:
-      self.X = self.data['codes'] #Actually no, but okay
+      self.X = self.data['feats'] #Actually no, but okay
     else:
       self.X = self.data['images']
     self.Y = self.data['prob'].squeeze()

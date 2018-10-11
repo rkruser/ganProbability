@@ -11,8 +11,9 @@ class SampleGAN(Operator):
 		super(SampleGAN, self).__init__(config, args)
 		args = copy(args)
 		self.opt = {
+      'sampleKey':'samples',
 			'samples':10000,
-      		'resample':False,
+   		'resample':False,
 			'deep':False,
 			'method':'numerical',
 			'epsilon':1e-5,
@@ -23,9 +24,9 @@ class SampleGAN(Operator):
 		self.ganModel = self.dependencies[0]
 
 	def sample(self):
-		if self.opt['resample'] or (not self.checkExists('samples', threadSpecific = self.opt['appendThreadId'])):
+		if self.opt['resample'] or (not self.checkExists(self.opt['sampleKey'], threadSpecific = self.opt['appendThreadId'])):
 			samples = self.ganModel.probSample(nSamples = self.opt['samples'], deepFeatures = None, method=self.opt['method'], epsilon=self.opt['epsilon'])
-			self.save(samples, 'samples', saver='mat', threadSpecific = self.opt['appendThreadId'])
+			self.save(samples, self.opt['sampleKey'], saver='mat', threadSpecific = self.opt['appendThreadId'])
 
 	def run(self):
     # Check if netG file exists
@@ -38,9 +39,11 @@ class SampleDeepGAN(Operator):
 		super(SampleDeepGAN, self).__init__(config, args)
 		args = copy(args)
 		self.opt = {
+      		'sampleKey':'samples',
 			'samples':10000,
-	        'resample':False,
+      		'resample':False,
 			'deep':False,
+			'featsOut':10,
 			'method':'numerical',
 			'epsilon':1e-5,
 			'appendThreadId':True,
@@ -51,11 +54,15 @@ class SampleDeepGAN(Operator):
 		self.deepModel = self.dependencies[1]
 
 	def sample(self):
-		if self.opt['resample'] or (not self.checkExists('samples', threadSpecific = self.opt['appendThreadId'])):
-			embeddingNet = NthArgWrapper(self.deepModel.getModel(), 0)
+		if self.opt['resample'] or (not self.checkExists(self.opt['sampleKey'], threadSpecific = self.opt['appendThreadId'])):
+			if self.opt['featsOut'] == 10:
+				argOut = 1
+			else:
+				argOut = 0
+			embeddingNet = NthArgWrapper(self.deepModel.getModel(), argOut)
 			samples = self.ganModel.probSample(nSamples = self.opt['samples'], deepFeatures = embeddingNet,
-			 			deepFeaturesOutsize=500, method=self.opt['method'], epsilon=self.opt['epsilon'])
-			self.save(samples, 'samples', saver='mat', threadSpecific = self.opt['appendThreadId'])
+			 			deepFeaturesOutsize=self.opt['featsOut'], method=self.opt['method'], epsilon=self.opt['epsilon'])
+			self.save(samples, self.opt['sampleKey'], saver='mat', threadSpecific = self.opt['appendThreadId'])
 
 	def run(self):
     # Check if netG file exists

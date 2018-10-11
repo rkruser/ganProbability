@@ -1,0 +1,25 @@
+name: numDeep
+modules: [DCGANSize32Col3, LenetSize32Cols3, SampleDeepGAN, ZipSamples, MNISTSize32Cols1, ProbData, FeatRegressor10,  RegressorTrain, RegressorTest, Analyzer] 
+# Need a deep regressor DeepRegressor500
+#One for everything in otherPaths
+#otherTemplates: {
+#  generated: template
+#}
+dependencies: [[], [], [0,1], [], [], [], [], [5,6], [4,6], [2,3,4,5,6,7,8]]
+args: {
+  # GAN keys
+  'netGkey': 'dcgan_G_mnist_32_3',
+  'netDkey': 'dcgan_D_mnist_32_3',
+  # Regressor keys
+  'netPkey': 'reg_mnist_32_3_numerical_deep',
+  'featsOut': 10,
+  'nRegressorEpochs':25,
+  'batchSize':64,
+  # Deep features keys
+  'lenetKey': 'deep_mnist_32_3',
+  # Sample keys
+  'sampleKey': 'samples_mnist_32_3_numerical_deep',
+  'samples': 5000,
+  'method': 'numerical',
+  'take': 25
+}
