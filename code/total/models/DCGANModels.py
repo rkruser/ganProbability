@@ -256,7 +256,7 @@ class DCGANModel(ModelTemplate):
     nSamples = codes.size(0)
     images = np.empty([nSamples, self.nc, self.imSize, self.imSize])
     probs = np.empty([nSamples])
-    jacob = np.empty([nSamples, self.nz])
+    
 
     if deepFeaturesOutsize is not None:
       nX = deepFeaturesOutsize
@@ -264,6 +264,8 @@ class DCGANModel(ModelTemplate):
     else:
       nX = self.nc*self.imSize*self.imSize
     # Take deep features into account here
+
+    jacob = np.empty([nSamples, min(nX,self.nz)]) 
 
     self.netG.eval()
     for i in range(codes.size(0)):

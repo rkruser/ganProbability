@@ -5,6 +5,7 @@ from code.total.models.nnModels import weights_init, NetG28, NetD28, NetG32, Net
 from code.total.loaders.MatLoaders import MatLoader
 
 import torch
+from torch.autograd import Variable
 import numpy as np
 
 # Here is a new comment
@@ -66,7 +67,9 @@ class RegressorTest(Operator):
 #      'dataset':'mnist28',
       'take': 25,
       'distribution':None,
-      'nRegressorSamples':1000
+      'nRegressorSamples':1000,
+      'testRegressorDeepFeatures':False,
+      'cuda':False
     }
     self.opt.update(args)
 
@@ -77,6 +80,8 @@ class RegressorTest(Operator):
 
     self.dataloader = self.dependencies[0]
     self.regressor = self.dependencies[1]
+    if self.testRegressorDeepFeatures:
+      self.deepModel = self.dependencies[2]
 
     self.analysisData = []
 
@@ -92,7 +97,15 @@ class RegressorTest(Operator):
       labelArr.append(y)
 
     ims = torch.stack(imArr, dim=0)
-    imProbs = self.regressor.sample(ims)
+    if self.testRegressorDeepFeatures:
+      deepModel = self.deepModel.getModel()
+      if self.cuda:
+        varIms = ims.cuda()
+      varIms = Variable(varIms)
+      _, embeddedIms = deepModel(varIms)
+      imProbs = self.regressor.sample(embeddedIms.data)
+    else:
+      imProbs = self.regressor.sample(ims)
 
     #######
     sortedInds = np.argsort(imProbs)

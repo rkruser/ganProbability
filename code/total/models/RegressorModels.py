@@ -238,10 +238,10 @@ class RegressorModel(ModelTemplate):
 
   def saveCheckpoint(self, checkpointNum=None):
     if checkpointNum is not None:
-      self.save(self.netP.state_dict(), 'netP', instance=checkpointNum, saver='torch')
+      self.save(self.netP.state_dict(), self.netPkey, instance=checkpointNum, saver='torch')
       self.save((self.lossCurve, self.errorCurve), 'regressorState', instance=checkpointNum, saver='pickle')
     else:
-      self.save(self.netP.state_dict(), 'netP', saver='torch')
+      self.save(self.netP.state_dict(), self.netPkey, saver='torch')
       self.save((self.lossCurve, self.errorCurve), 'regressorState', saver='pickle')
 
 

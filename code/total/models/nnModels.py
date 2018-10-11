@@ -784,8 +784,8 @@ class DeepRegressor(nn.Module):
 
 # Regressor - fc2 features
 class NetF10(nn.Module):
-    def __init__(self, ngpu):
-        super(_netF, self).__init__()
+    def __init__(self, ngpu, nc=None, npf=None):
+        super(NetF10, self).__init__()
         self.ngpu = ngpu
         self.main = nn.Sequential(
             nn.Linear(10, 32),
@@ -801,7 +801,7 @@ class NetF10(nn.Module):
             nn.Linear(256,1)
         )
 
-    def forward(self, input, th):
+    def forward(self, input):
         if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
             output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
         else:
@@ -812,8 +812,8 @@ class NetF10(nn.Module):
 
 # Regressor - fc1 features
 class NetF500(nn.Module):
-    def __init__(self, ngpu):
-        super(_netF, self).__init__()
+    def __init__(self, ngpu, nc=None, npf=None):
+        super(NetF500, self).__init__()
         self.ngpu = ngpu
         self.main = nn.Sequential(
             nn.Linear(500,800),

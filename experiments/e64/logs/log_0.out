@@ -5425,3 +5425,1233 @@ Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experim
 Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/errorCurve.pickle
 Module times: [7.009506225585938e-05, 2.794713020324707, 139.04445600509644, 0.2567439079284668]
 Total time: 142.096013784
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:21:16
+=====
+DCGANSize32Col3: {'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+DCGANSize32Col3: Probability sampling 0
+An exception occurred when running SampleDeepGAN
+<type 'exceptions.ValueError'>
+could not broadcast input array from shape (10) into shape (100)
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:23:34
+=====
+DCGANSize32Col3: {'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+DCGANSize32Col3: Probability sampling 0
+An exception occurred when running SampleDeepGAN
+<class 'bdb.BdbQuit'>
+
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:29:54
+=====
+DCGANSize32Col3: {'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+DCGANSize32Col3: Probability sampling 0
+DCGANSize32Col3: Probability sampling 1
+DCGANSize32Col3: Probability sampling 2
+DCGANSize32Col3: Probability sampling 3
+DCGANSize32Col3: Probability sampling 4
+DCGANSize32Col3: Probability sampling 5
+DCGANSize32Col3: Probability sampling 6
+DCGANSize32Col3: Probability sampling 7
+DCGANSize32Col3: Probability sampling 8
+DCGANSize32Col3: Probability sampling 9
+DCGANSize32Col3: Probability sampling 10
+DCGANSize32Col3: Probability sampling 11
+DCGANSize32Col3: Probability sampling 12
+DCGANSize32Col3: Probability sampling 13
+DCGANSize32Col3: Probability sampling 14
+DCGANSize32Col3: Probability sampling 15
+DCGANSize32Col3: Probability sampling 16
+DCGANSize32Col3: Probability sampling 17
+DCGANSize32Col3: Probability sampling 18
+DCGANSize32Col3: Probability sampling 19
+DCGANSize32Col3: Probability sampling 20
+DCGANSize32Col3: Probability sampling 21
+DCGANSize32Col3: Probability sampling 22
+DCGANSize32Col3: Probability sampling 23
+DCGANSize32Col3: Probability sampling 24
+DCGANSize32Col3: Probability sampling 25
+DCGANSize32Col3: Probability sampling 26
+DCGANSize32Col3: Probability sampling 27
+DCGANSize32Col3: Probability sampling 28
+DCGANSize32Col3: Probability sampling 29
+DCGANSize32Col3: Probability sampling 30
+DCGANSize32Col3: Probability sampling 31
+DCGANSize32Col3: Probability sampling 32
+DCGANSize32Col3: Probability sampling 33
+DCGANSize32Col3: Probability sampling 34
+DCGANSize32Col3: Probability sampling 35
+DCGANSize32Col3: Probability sampling 36
+DCGANSize32Col3: Probability sampling 37
+DCGANSize32Col3: Probability sampling 38
+DCGANSize32Col3: Probability sampling 39
+DCGANSize32Col3: Probability sampling 40
+DCGANSize32Col3: Probability sampling 41
+DCGANSize32Col3: Probability sampling 42
+DCGANSize32Col3: Probability sampling 43
+DCGANSize32Col3: Probability sampling 44
+DCGANSize32Col3: Probability sampling 45
+DCGANSize32Col3: Probability sampling 46
+DCGANSize32Col3: Probability sampling 47
+DCGANSize32Col3: Probability sampling 48
+DCGANSize32Col3: Probability sampling 49
+SampleDeepGAN: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/samples.mat
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+ZipSamples: Loading mats
+An exception occurred when running ZipSamples
+<type 'exceptions.TypeError'>
+'NoneType' object is not iterable
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:31:14
+=====
+DCGANSize32Col3: {'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 28, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 28, 28)
+An exception occurred when running FeatRegressor10
+<type 'exceptions.TypeError'>
+__init__() got an unexpected keyword argument 'npf'
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:33:03
+=====
+DCGANSize32Col3: {'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 28, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 28, 28)
+An exception occurred when running FeatRegressor10
+<type 'exceptions.TypeError'>
+super(type, obj): obj must be an instance or subtype of type
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:33:41
+=====
+DCGANSize32Col3: {'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 28, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 28, 28)
+FeatRegressor10: Training netP from scratch
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: ===Begin epoch 0
+FeatRegressor10: Iteration 0
+An exception occurred when running RegressorTrain
+<type 'exceptions.TypeError'>
+forward() takes exactly 3 arguments (2 given)
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:34:02
+=====
+DCGANSize32Col3: {'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 28, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 28, 28)
+FeatRegressor10: Training netP from scratch
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: ===Begin epoch 0
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 0, loss=61.9675521851, abserror=62.4675598145
+FeatRegressor10: Testing epoch 0, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 1
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 1, loss=61.9671440125, abserror=62.4671401978
+FeatRegressor10: Testing epoch 1, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 2
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 2, loss=61.9667167664, abserror=62.4666976929
+FeatRegressor10: Testing epoch 2, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 3
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 3, loss=61.9662590027, abserror=62.4662590027
+FeatRegressor10: Testing epoch 3, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 4
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 4, loss=61.9657707214, abserror=62.4657783508
+FeatRegressor10: Testing epoch 4, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/netP_4.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_4.pickle
+FeatRegressor10: ===Begin epoch 5
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 5, loss=61.965259552, abserror=62.465259552
+FeatRegressor10: Testing epoch 5, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 6
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 6, loss=61.9647102356, abserror=62.4647026062
+FeatRegressor10: Testing epoch 6, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 7
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 7, loss=61.9641227722, abserror=62.4641304016
+FeatRegressor10: Testing epoch 7, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 8
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 8, loss=61.9635009766, abserror=62.4634933472
+FeatRegressor10: Testing epoch 8, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 9
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 9, loss=61.9628295898, abserror=62.4628295898
+FeatRegressor10: Testing epoch 9, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/netP_9.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_9.pickle
+FeatRegressor10: ===Begin epoch 10
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 10, loss=61.9620895386, abserror=62.4620895386
+FeatRegressor10: Testing epoch 10, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 11
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 11, loss=61.9612960815, abserror=62.4612846375
+FeatRegressor10: Testing epoch 11, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 12
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 12, loss=61.9604263306, abserror=62.4604301453
+FeatRegressor10: Testing epoch 12, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 13
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 13, loss=61.9594726562, abserror=62.4594726562
+FeatRegressor10: Testing epoch 13, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 14
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 14, loss=61.958404541, abserror=62.4583969116
+FeatRegressor10: Testing epoch 14, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/netP_14.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_14.pickle
+FeatRegressor10: ===Begin epoch 15
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 15, loss=61.9572067261, abserror=62.4572143555
+FeatRegressor10: Testing epoch 15, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 16
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 16, loss=61.9558601379, abserror=62.4558601379
+FeatRegressor10: Testing epoch 16, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 17
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 17, loss=61.9543151855, abserror=62.4543228149
+FeatRegressor10: Testing epoch 17, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 18
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 18, loss=61.9525260925, abserror=62.4525260925
+FeatRegressor10: Testing epoch 18, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 19
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 19, loss=61.9504394531, abserror=62.4504394531
+FeatRegressor10: Testing epoch 19, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/netP_19.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_19.pickle
+FeatRegressor10: ===Begin epoch 20
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 20, loss=61.9479904175, abserror=62.4479866028
+FeatRegressor10: Testing epoch 20, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 21
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 21, loss=61.9450798035, abserror=62.4450759888
+FeatRegressor10: Testing epoch 21, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 22
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 22, loss=61.941608429, abserror=62.4415969849
+FeatRegressor10: Testing epoch 22, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 23
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 23, loss=61.9374313354, abserror=62.4374313354
+FeatRegressor10: Testing epoch 23, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 24
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 24, loss=61.9324111938, abserror=62.4324111938
+FeatRegressor10: Testing epoch 24, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.AssertionError'>
+
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:38:36
+=====
+DCGANSize32Col3: {'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 28, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 28, 28)
+FeatRegressor10: Training netP from scratch
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: ===Begin epoch 0
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 0, loss=61.9675521851, abserror=62.467540741
+FeatRegressor10: Testing epoch 0, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 1
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 1, loss=61.9671821594, abserror=62.46717453
+FeatRegressor10: Testing epoch 1, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 2
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 2, loss=61.9667739868, abserror=62.466758728
+FeatRegressor10: Testing epoch 2, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 3
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 3, loss=61.9663505554, abserror=62.4663505554
+FeatRegressor10: Testing epoch 3, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 4
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 4, loss=61.9659004211, abserror=62.4658927917
+FeatRegressor10: Testing epoch 4, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_4.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_4.pickle
+FeatRegressor10: ===Begin epoch 5
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 5, loss=61.9654159546, abserror=62.4654121399
+FeatRegressor10: Testing epoch 5, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 6
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 6, loss=61.9649047852, abserror=62.4649047852
+FeatRegressor10: Testing epoch 6, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 7
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 7, loss=61.9643630981, abserror=62.4643669128
+FeatRegressor10: Testing epoch 7, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 8
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 8, loss=61.9637756348, abserror=62.4637832642
+FeatRegressor10: Testing epoch 8, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 9
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 9, loss=61.9631462097, abserror=62.4631462097
+FeatRegressor10: Testing epoch 9, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_9.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_9.pickle
+FeatRegressor10: ===Begin epoch 10
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 10, loss=61.9624633789, abserror=62.4624557495
+FeatRegressor10: Testing epoch 10, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 11
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 11, loss=61.9617195129, abserror=62.4617118835
+FeatRegressor10: Testing epoch 11, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 12
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 12, loss=61.9609069824, abserror=62.460899353
+FeatRegressor10: Testing epoch 12, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 13
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 13, loss=61.9600105286, abserror=62.4600028992
+FeatRegressor10: Testing epoch 13, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 14
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 14, loss=61.9590072632, abserror=62.4590072632
+FeatRegressor10: Testing epoch 14, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_14.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_14.pickle
+FeatRegressor10: ===Begin epoch 15
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 15, loss=61.9578971863, abserror=62.4579048157
+FeatRegressor10: Testing epoch 15, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 16
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 16, loss=61.9566421509, abserror=62.4566345215
+FeatRegressor10: Testing epoch 16, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 17
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 17, loss=61.9552078247, abserror=62.4552192688
+FeatRegressor10: Testing epoch 17, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 18
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 18, loss=61.9535598755, abserror=62.4535598755
+FeatRegressor10: Testing epoch 18, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 19
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 19, loss=61.9516296387, abserror=62.4516296387
+FeatRegressor10: Testing epoch 19, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_19.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_19.pickle
+FeatRegressor10: ===Begin epoch 20
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 20, loss=61.9493637085, abserror=62.4493637085
+FeatRegressor10: Testing epoch 20, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 21
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 21, loss=61.9467048645, abserror=62.4466934204
+FeatRegressor10: Testing epoch 21, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 22
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 22, loss=61.943523407, abserror=62.4435310364
+FeatRegressor10: Testing epoch 22, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 23
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 23, loss=61.9397201538, abserror=62.4397201538
+FeatRegressor10: Testing epoch 23, loss = 62, abserror=63
+FeatRegressor10: ===Begin epoch 24
+FeatRegressor10: Iteration 0
+FeatRegressor10: Epoch 24, loss=61.9351387024, abserror=62.4351196289
+FeatRegressor10: Testing epoch 24, loss = 62, abserror=63
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.AssertionError'>
+
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:48:28
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 28, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 28, 28)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.AssertionError'>
+
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:49:43
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:50:23
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'take': 25, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 28, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 28, 28)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<class 'bdb.BdbQuit'>
+
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:53:17
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.RuntimeError'>
+cannot call .data on a torch.Tensor: did you intend to use autograd.Variable?
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:54:13
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.RuntimeError'>
+cannot call .data on a torch.Tensor: did you intend to use autograd.Variable?
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:55:37
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.RuntimeError'>
+cannot call .data on a torch.Tensor: did you intend to use autograd.Variable?
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_00:58:40
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.RuntimeError'>
+Expected object of type torch.FloatTensor but found type torch.cuda.FloatTensor for argument #2 'weight'
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:01:03
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.RuntimeError'>
+Expected object of type torch.FloatTensor but found type torch.cuda.FloatTensor for argument #2 'weight'
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:01:33
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<class 'bdb.BdbQuit'>
+
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:03:32
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.RuntimeError'>
+Expected object of type torch.FloatTensor but found type torch.cuda.FloatTensor for argument #2 'weight'
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:04:19
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.RuntimeError'>
+Expected object of type torch.FloatTensor but found type torch.cuda.FloatTensor for argument #2 'weight'
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:04:42
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<class 'bdb.BdbQuit'>
+
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:08:06
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.AttributeError'>
+'tuple' object has no attribute 'cuda'
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:09:23
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<class 'bdb.BdbQuit'>
+
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:10:28
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.AttributeError'>
+'tuple' object has no attribute 'data'
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:11:10
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+An exception occurred when running RegressorTest
+<type 'exceptions.RuntimeError'>
+Variable data has to be a tensor, but got Variable
+Exiting early
+=====
+Starting experiment numDeep
+ID: 64, PID 0/1
+10_11_2018_01:11:37
+=====
+DCGANSize32Col3: {'testRegressorDeepFeatures': True, 'ngpu': 0, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'netDinstance': -1, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'zipkey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'featsOut': 10, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'lenetKey': 'deep_mnist_32_3', 'ndf': 64, 'netGexpNum': -1, 'cuda': True, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'batchSize': 64, 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/ganState_24.pickle
+LenetSize32Cols3: {'zipkey': 'samples_mnist_32_3_numerical_deep', 'beta1': 0.5, 'netGkey': 'dcgan_G_mnist_32_3', 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'samples': 50, 'featsOut': 10, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'netPkey': 'reg_mnist_32_3_numerical_deep', 'take': 25, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_mnist_32_3', 'nGANepochs': 25, 'nOutClasses': 10, 'batchSize': 64, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'nRegressorEpochs': 25, 'netDkey': 'dcgan_D_mnist_32_3', 'method': 'numerical', 'imSize': 32}
+LenetSize32Cols3: inShape is (3, 32, 32)
+LenetSize32Cols3: Loading Lenet from instance 24
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+LenetSize32Cols3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/lenetState_24.pickle
+ZipSamples: Collapsing to process 0
+ZipSamples: In Process 0 (this should not be seen by other processes)
+FeatRegressor10: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'testRegressorDeepFeatures': True, 'ngpu': 0, 'zipkey': 'samples_mnist_32_3_numerical_deep', 'nGANepochs': 25, 'embeddingModelInstance': -1, 'batchSize': 64, 'nc': 3, 'cuda': True, 'lr': 0.0002, 'take': 25, 'beta1': 0.5, 'method': 'numerical', 'netPkey': 'reg_mnist_32_3_numerical_deep', 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'samples': 50, 'netGkey': 'dcgan_G_mnist_32_3', 'sampleKey': 'samples_mnist_32_3_numerical_deep', 'npf': 64, 'loadDeep': True, 'featsOut': 10, 'embeddingModelClass': None, 'checkpointEvery': 5, 'netDkey': 'dcgan_D_mnist_32_3', 'netPinstance': -1, 'lenetKey': 'deep_mnist_32_3', 'embeddingModelExpNum': -1, 'netPexpNum': -1, 'nRegressorEpochs': 25, 'imSize': 32, 'nOutFeatures': 500}
+FeatRegressor10: inShape is (3, 32, 32)
+FeatRegressor10: Loading netP instance 24
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+FeatRegressor10: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP_24.pth
+FeatRegressor10: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/models/regressorState_24.pickle
+RegressorTest: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e64/data/regressorShiftResults_0.mat
+Analyzer: Obtaining data for analysis
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/lossCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/lossCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/errorCurve.png with handler for lineplot
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/errorCurve.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/topDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/topDataIms.pickle
+Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/botDataIms.png with handler for imageArray
+Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/botDataIms.pickle
+Module times: [2.928347110748291, 0.02034282684326172, 8.916854858398438e-05, 0.006513833999633789, 4.8160552978515625e-05, 5.507469177246094e-05, 0.008351802825927734, 0.013685941696166992, 1.5150699615478516, 2.6289870738983154]
+Total time: 7.12154507637
