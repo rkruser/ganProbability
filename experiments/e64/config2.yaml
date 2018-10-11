@@ -21,7 +21,7 @@ args: {
   # Sample keys
   'sampleKey': 'samples_mnist_32_3_numerical_deep',
   'zipkey': 'samples_mnist_32_3_numerical_deep',
-  'samples': 50,
+  'samples': 5000,
   'method': 'numerical',
   'take': 25,
 # Regressor test
