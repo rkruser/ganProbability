@@ -62,7 +62,7 @@ class SampleDeepGAN(Operator):
 			embeddingNet = NthArgWrapper(self.deepModel.getModel(), argOut)
 			samples = self.ganModel.probSample(nSamples = self.opt['samples'], deepFeatures = embeddingNet,
 			 			deepFeaturesOutsize=self.opt['featsOut'], method=self.opt['method'], epsilon=self.opt['epsilon'])
-			self.save(samples, self.opt['sampleKey'], saver='mat', threadSpecific = self.opt['appendThreadId'])
+			self.save(samples, self.opt['sampleKey'], instance=self.getPID(), saver='mat')#, threadSpecific = self.opt['appendThreadId'])
 
 	def run(self):
     # Check if netG file exists
