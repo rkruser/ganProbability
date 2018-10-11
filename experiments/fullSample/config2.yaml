@@ -5,8 +5,9 @@ modules: [DCGANSize32Col3, LenetSize32Cols3, SampleDeepGAN, ZipSamples, MNISTSiz
 #otherTemplates: {
 #  generated: template
 #}
-dependencies: [[], [], [0,1], [], [], [], [], [5,6], [4,6], [2,3,4,5,6,7,8]]
+dependencies: [[], [], [0,1], [], [], [], [], [5,6], [4,6,1], [2,3,4,5,6,7,8]]
 args: {
+  'cuda': True,
   # GAN keys
   'netGkey': 'dcgan_G_mnist_32_3',
   'netDkey': 'dcgan_D_mnist_32_3',
@@ -19,7 +20,11 @@ args: {
   'lenetKey': 'deep_mnist_32_3',
   # Sample keys
   'sampleKey': 'samples_mnist_32_3_numerical_deep',
+  'zipkey': 'samples_mnist_32_3_numerical_deep',
   'samples': 5000,
   'method': 'numerical',
-  'take': 25
+  'take': 25,
+# Regressor test
+  'testRegressorDeepFeatures': True,
+  'imSize': 32
 }

@@ -1,0 +1,14 @@
+name: lenet32_3_train
+modules: [CFAR10Size32Cols3, LenetSize32Cols3, DeepFeatureTrain, Analyzer]
+#One for everything in otherPaths
+otherTemplates: {
+  generated: template
+}
+dependencies: [[], [], [0,1], [0,1,2]]
+args: {
+  nDeepEpochs: 10,
+  cuda: True,
+  checkpointEvery: 5,
+  lenetKey: 'deep_cifar10_32_3'
+}
+

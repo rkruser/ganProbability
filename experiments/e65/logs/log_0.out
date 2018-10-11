@@ -779,3 +779,126 @@ lenetMnist32: {'beta1': 0.5, 'lenetClass': <class 'code.total.models.nnModels.Le
 lenetMnist32: inShape is (3, 32, 32)
 lenetMnist32: Loading Lenet from instance 24
 lenetMnist32: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet_24.pth
+NumericalPixels: {'netPclass': <class 'code.total.models.nnModels.NetP32'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': False, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 32, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_cifar10_32_3_numerical_pixel'}
+NumericalPixels: inShape is (3, 32, 32)
+NumericalPixels: Loading netP instance 24
+NumericalPixels: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_pixel/netP_24.pth
+NumericalPixels: NetP32(
+  (main): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+NumericalDeep: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': True, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 28, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_cifar10_32_3_numerical_deep'}
+NumericalDeep: inShape is (3, 28, 28)
+NumericalDeep: Loading netP instance 24
+NumericalDeep: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_deep/netP_24.pth
+NumericalDeep: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+lenetCifar32: {'beta1': 0.5, 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'ngpu': 0, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_cifar10_32_3', 'nOutClasses': 10, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'imSize': 32}
+lenetCifar32: inShape is (3, 32, 32)
+lenetCifar32: Loading Lenet from instance 9
+lenetCifar32: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/CIFAR10/size32_3/lenet_9.pth
+NumericalPixels: {'netPclass': <class 'code.total.models.nnModels.NetP32'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': False, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 32, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_cifar10_32_3_numerical_pixel'}
+NumericalPixels: inShape is (3, 32, 32)
+NumericalPixels: Loading netP instance 24
+NumericalPixels: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_pixel/netP_24.pth
+NumericalPixels: NetP32(
+  (main): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+NumericalDeep: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': True, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 28, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_cifar10_32_3_numerical_deep'}
+NumericalDeep: inShape is (3, 28, 28)
+NumericalDeep: Loading netP instance 24
+NumericalDeep: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_deep/netP_24.pth
+NumericalDeep: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+lenetCifar32: {'beta1': 0.5, 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'ngpu': 0, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_cifar10_32_3', 'nOutClasses': 10, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'imSize': 32}
+lenetCifar32: inShape is (3, 32, 32)
+lenetCifar32: Loading Lenet from instance 9
+lenetCifar32: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/CIFAR10/size32_3/lenet_9.pth
+NumericalPixels: {'netPclass': <class 'code.total.models.nnModels.NetP32'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': False, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 32, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_cifar10_32_3_numerical_pixel'}
+NumericalPixels: inShape is (3, 32, 32)
+NumericalPixels: Loading netP instance 24
+NumericalPixels: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_pixel/netP_24.pth
+NumericalPixels: NetP32(
+  (main): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True)
+    (2): LeakyReLU(0.2, inplace)
+    (3): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True)
+    (5): LeakyReLU(0.2, inplace)
+    (6): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (7): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True)
+    (8): LeakyReLU(0.2, inplace)
+    (9): Conv2d(256, 1, kernel_size=(4, 4), stride=(1, 1))
+  )
+)
+NumericalDeep: {'netPclass': <class 'code.total.models.nnModels.NetF10'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': True, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 28, 'cuda': True, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_cifar10_32_3_numerical_deep'}
+NumericalDeep: inShape is (3, 28, 28)
+NumericalDeep: Loading netP instance 24
+NumericalDeep: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_deep/netP_24.pth
+NumericalDeep: NetF10(
+  (main): Sequential(
+    (0): Linear(in_features=10, out_features=32, bias=True)
+    (1): ReLU(inplace)
+    (2): Linear(in_features=32, out_features=32, bias=True)
+    (3): ReLU(inplace)
+    (4): Linear(in_features=32, out_features=64, bias=True)
+    (5): ReLU(inplace)
+    (6): Linear(in_features=64, out_features=128, bias=True)
+    (7): ReLU(inplace)
+    (8): Linear(in_features=128, out_features=256, bias=True)
+    (9): ReLU(inplace)
+    (10): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+lenetCifar32: {'beta1': 0.5, 'lenetClass': <class 'code.total.models.nnModels.Lenet32'>, 'ngpu': 0, 'checkpointEvery': 5, 'lenetInstance': -1, 'lenetKey': 'deep_cifar10_32_3', 'nOutClasses': 10, 'nc': 3, 'lr': 0.0002, 'cuda': True, 'lenetExpNum': -1, 'imSize': 32}
+lenetCifar32: inShape is (3, 32, 32)
+lenetCifar32: Loading Lenet from instance 9
+lenetCifar32: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/CIFAR10/size32_3/lenet_9.pth

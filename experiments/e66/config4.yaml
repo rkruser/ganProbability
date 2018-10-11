@@ -1,0 +1,18 @@
+name: numPixel
+modules: [DCGANSize32Col3, SampleGAN, ZipSamples, CFAR10Size32Cols3, ProbData, RegressorSize32Col3, RegressorTrain, RegressorTest, Analyzer] 
+dependencies: [[], [0], [], [], [], [], [4,5], [3,5], [1,2,3,4,5,6,7]]
+args: {
+  # GAN keys
+  'netGkey': 'dcgan_G_cifar10_32_3',
+  'netDkey': 'dcgan_D_cifar10_32_3',
+  # Regressor keys
+  'netPkey': 'reg_cifar10_32_3_numerical_pixel',
+  'featsOut': 10,
+  'nRegressorEpochs':25,
+  'batchSize':64,
+  'sampleKey': 'samples_cifar10_32_3_numerical_pixel',
+  'zipkey': 'samples_cifar10_32_3_numerical_pixel',
+  'samples': 5000,
+  'method': 'numerical',
+  'take': 25
+}
