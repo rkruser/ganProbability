@@ -186,10 +186,10 @@ class LenetModel(ModelTemplate):
 
   def saveCheckpoint(self, checkpointNum=None):
     if checkpointNum is not None:
-      self.save(self.lenet.state_dict(), 'lenet', instance=checkpointNum, saver='torch')
+      self.save(self.lenet.state_dict(), self.lenetKey, instance=checkpointNum, saver='torch')
       self.save((self.lossCurve, self.errorCurve), 'lenetState', instance=checkpointNum, saver='pickle')
     else:
-      self.save(self.lenet.state_dict(), 'lenet', saver='torch')
+      self.save(self.lenet.state_dict(), self.lenetKey, saver='torch')
       self.save((self.lossCurve, self.errorCurve), 'lenetState', saver='pickle')
 
 
