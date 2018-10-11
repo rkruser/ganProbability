@@ -24,9 +24,9 @@ class SampleGAN(Operator):
 		self.ganModel = self.dependencies[0]
 
 	def sample(self):
-		if self.opt['resample'] or (not self.checkExists(self.opt['sampleKey'], threadSpecific = self.opt['appendThreadId'])):
+		if self.opt['resample'] or (not self.checkExists(self.opt['sampleKey'], instance=self.getPID())):
 			samples = self.ganModel.probSample(nSamples = self.opt['samples'], deepFeatures = None, method=self.opt['method'], epsilon=self.opt['epsilon'])
-			self.save(samples, self.opt['sampleKey'], saver='mat', threadSpecific = self.opt['appendThreadId'])
+			self.save(samples, self.opt['sampleKey'], instance=self.getPID(), saver='mat')
 
 	def run(self):
     # Check if netG file exists
@@ -54,7 +54,7 @@ class SampleDeepGAN(Operator):
 		self.deepModel = self.dependencies[1]
 
 	def sample(self):
-		if self.opt['resample'] or (not self.checkExists(self.opt['sampleKey'], threadSpecific = self.opt['appendThreadId'])):
+		if self.opt['resample'] or (not self.checkExists(self.opt['sampleKey'], instance=self.getPID())):
 			if self.opt['featsOut'] == 10:
 				argOut = 1
 			else:

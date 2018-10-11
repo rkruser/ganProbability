@@ -11,6 +11,7 @@ args: {
   'nRegressorEpochs':25,
   'batchSize':64,
   'sampleKey': 'samples_mnist_32_3_numerical_pixel',
+  'zipkey': 'samples_mnist_32_3_numerical_pixel',
   'samples': 5000,
   'method': 'numerical',
   'take': 25
