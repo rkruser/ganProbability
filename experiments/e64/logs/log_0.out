@@ -38542,3 +38542,23 @@ Analyzer: Generating /fs/vulcan-scratch/krusinga/projects/ganProbability/experim
 Analyzer: Saving data in /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments/e64/analysis/botDataIms.pickle
 Module times: [2.9565141201019287, 0.0007188320159912109, 55.66516089439392, 0.00010514259338378906, 5.0067901611328125e-05, 0.0674588680267334, 176.03262901306152, 1.5538880825042725, 4.362047910690308]
 Total time: 240.638612032
+NumericalPixels: {'netPclass': <class 'code.total.models.nnModels.NetP32'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': False, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 32, 'cuda': False, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_mnist_32_3_numerical_pixel'}
+NumericalPixels: inShape is (3, 32, 32)
+NumericalPixels: Loading netP instance 24
+NumericalPixels: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_pixel/netP_24.pth
+NumericalPixels: {'netPclass': <class 'code.total.models.nnModels.NetP32'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': False, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 32, 'cuda': False, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_mnist_32_3_numerical_pixel'}
+NumericalPixels: inShape is (3, 32, 32)
+NumericalPixels: Loading netP instance 24
+NumericalPixels: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_pixel/netP_24.pth
+NumericalPixels: {'netPclass': <class 'code.total.models.nnModels.NetP32'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': False, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 32, 'cuda': False, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_mnist_32_3_numerical_pixel'}
+NumericalPixels: inShape is (3, 32, 32)
+NumericalPixels: Loading netP instance 24
+NumericalPixels: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_pixel/netP_24.pth
+NumericalPixels: {'netPclass': <class 'code.total.models.nnModels.NetP32'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': False, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 32, 'cuda': False, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_mnist_32_3_numerical_pixel'}
+NumericalPixels: inShape is (3, 32, 32)
+NumericalPixels: Loading netP instance 24
+NumericalPixels: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_pixel/netP_24.pth
+NumericalPixels: {'netPclass': <class 'code.total.models.nnModels.NetP32'>, 'embeddingModelKey': 'lenet', 'usesEmbeddingModel': False, 'netPexpNum': -1, 'npf': 64, 'loadDeep': False, 'ngpu': 0, 'embeddingModelClass': None, 'checkpointEvery': 10, 'netPinstance': -1, 'embeddingModelInstance': -1, 'nc': 3, 'imSize': 32, 'cuda': False, 'lr': 0.0002, 'embeddingModelExpNum': -1, 'beta1': 0.5, 'nOutFeatures': 500, 'netPkey': 'reg_mnist_32_3_numerical_pixel'}
+NumericalPixels: inShape is (3, 32, 32)
+NumericalPixels: Loading netP instance 24
+NumericalPixels: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_pixel/netP_24.pth

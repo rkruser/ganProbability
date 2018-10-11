@@ -119,7 +119,8 @@ info:
 - [e62, Test shallow cfar regressor on cifar]
 - [e63, Sampling probabilities with deep features]
 - [e64, '***Testing fullSample']
-numExperiments: 64
+- [e65, Extracting figures from e64]
+numExperiments: 65
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
