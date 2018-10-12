@@ -122,7 +122,8 @@ info:
 - [e65, Extracting figures from e64]
 - [e66, '**Creating canonical CIFAR10']
 - [e67, Analyzing e66]
-numExperiments: 67
+- [e68, Making better histograms for mnist and cifar]
+numExperiments: 68
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
