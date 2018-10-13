@@ -1,3 +1,5 @@
+from __future__ import division
+
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
@@ -22,6 +24,7 @@ from code.total.getOperators import mapDict as Modules
 from code.total.models.nnModels import NthArgWrapper
 #import code.total.getOperators
 #Modules = getOperators.mapDict
+from code.total.loaders.MatLoaders import MatLoader
 
 
 def extractProbabilityStats(probs, ims, labels, take=36):#, plot=False, save=True):
@@ -32,10 +35,10 @@ def extractProbabilityStats(probs, ims, labels, take=36):#, plot=False, save=Tru
     topBottomAll = [None, sortedIms[:take], sortedIms[-take:]]
     labelAccs = []
     imAccs = [topBottomAll]
-    for lbl in np.unique(labels):
-        mask = (sortedLabels==lbl)
-        labelAccs.append([lbl, np.cumsum(mask), sortedProbs[mask]])
-        imAccs.append([lbl, sortedIms[mask][:take], sortedIms[mask][-take:]])
+#    for lbl in np.unique(labels):
+#        mask = (sortedLabels==lbl)
+#        labelAccs.append([lbl, np.cumsum(mask), sortedProbs[mask]])
+#        imAccs.append([lbl, sortedIms[mask][:take], sortedIms[mask][-take:]])
     return labelAccs, imAccs, sortedProbs
 
 def extractPercentileStats(trainProbs, testProbs):
@@ -214,6 +217,8 @@ def GetProbabilities(Xtrain, Xtest, deepNet, pixelProbNet, deepProbNet, savefold
     pickle.dump(probsDeepTest.numpy(),open(osp.join(savefolder,saveprefix+'_probsDeepTest.pickle'),'w')) 
     pickle.dump(probsDeepTrain.numpy(),open(osp.join(savefolder,saveprefix+'_probsDeepTrain.pickle'),'w'))
 
+    return probsPixelTrain.numpy(), probsPixelTest.numpy(), probsDeepTrain.numpy(), probsDeepTest.numpy()
+
 
 def GetPlots(loadfolder, savefolder, trainprefix, testprefix, saveprefix):
     pixelTrain = pickle.load(open(osp.join(loadfolder,trainprefix+'_probsPixelTrain.pickle'),'r')) 
@@ -237,7 +242,7 @@ def GetPlots(loadfolder, savefolder, trainprefix, testprefix, saveprefix):
 
     ax.plot(deepBins[:len(deepCounts)],deepCounts,'b.-', label='Deep Feature Regressor')
  #   ax.set_ylim(ymin=0,ymax=11)
-    ax.set_ylim(ymin=0,ymax=700)
+#    ax.set_ylim(ymin=0,ymax=700)
     ax.legend()
 
     return fig, ax
@@ -346,6 +351,49 @@ def mnistOnCifar(cuda=True, currentExperiment=68, masterpath='/fs/vulcan-scratch
 
     GetProbabilities(Xtrain, Xtest, lenet, numericalPixelRegressor.netP, numericalDeepRegressor.netP, savefolder, saveprefix)
 #    GetPlots(savefolder, 'mnistNumerical', 'mnistNumericalOnCifar', 'mnistTrain_cifarTest')
+
+def mnistOnOmniglot(cuda=True, currentExperiment=69, masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
+    savefolder='./generated/e{0}/data'.format(currentExperiment)
+    saveprefix = 'mnistNumericalOnOmniglot'
+    files = FileManager(masterpath, currentExperiment = currentExperiment)
+
+    dataTrain = MatLoader(files.getFilePath('japanese_hiragana_32'), outShape = (3,32,32), returnLabel=True, mode='train')
+    dataTest = MatLoader(files.getFilePath('japanese_hiragana_32'), outShape = (3,32,32), returnLabel=True, mode='test')
+
+    Xtrain = torch.Tensor(dataTrain.X)
+    Ytrain = torch.Tensor(dataTrain.Y)
+    Xtest = torch.Tensor(dataTest.X)
+    Ytest = torch.Tensor(dataTest.Y)
+
+    numericalPixelRegressor = Modules['RegressorSize32Col3']({'name':'NumericalPixels',
+                                                              'fileHandler':files,
+                                                              'dependencies':[]},
+                                                             {'netPkey':'reg_mnist_32_3_numerical_pixel','cuda':cuda})
+    numericalDeepRegressor = Modules['FeatRegressor10']({'name':'NumericalDeep',
+                                                              'fileHandler':files,
+                                                              'dependencies':[]},
+                                                             {'netPkey':'reg_mnist_32_3_numerical_deep','cuda':cuda})
+    lenetModule = Modules['LenetSize32Cols3']({'name':'lenetMnist32',
+                                            'fileHandler':files,
+                                            'dependencies':[]},
+                                            {'lenetKey':'deep_mnist_32_3','cuda':cuda})
+    lenet = NthArgWrapper(lenetModule.getModel(), 1)
+    
+    Xtrain = torch.Tensor(Xtrain)
+    Xtest = torch.Tensor(Xtest)
+
+    pixTr, pixTe, deTr, deTe = GetProbabilities(Xtrain, Xtest, lenet, numericalPixelRegressor.netP, numericalDeepRegressor.netP, savefolder, saveprefix)
+#    GetPlots(savefolder, 'mnistNumerical', 'mnistNumericalOnCifar', 'mnistTrain_cifarTest')
+
+    pixelStats = extractProbabilityStats(pixTr, Xtrain, Ytrain)
+    deepStats = extractProbabilityStats(deTr, Xtrain, Ytrain)
+    
+#    plotHistograms(pixelStats[0],path = './experiments/e65/analysis/', suffix='pixel', sortedProbs = pixelStats[2])
+#    plotHistograms(deepStats[0], path = './experiments/e65/analysis/', suffix='deep', sortedProbs = deepStats[2])
+    plotTopBottom(pixelStats[1], path='./experiments/e69/analysis/', suffix='pixel')
+    plotTopBottom(deepStats[1], path='./experiments/e69/analysis/', suffix='deep')
+
+
 
 
 def cifarOnMnist(cuda=True, currentExperiment=68, masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
@@ -476,36 +524,7 @@ if __name__=='__main__':
         mnistOnCifar()
     elif opt == 3:
         cifarOnMnist()
+    elif opt == 4:
+      mnistOnOmniglot()
 
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  

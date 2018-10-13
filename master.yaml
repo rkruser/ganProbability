@@ -20,7 +20,8 @@ globalKeywords: {birdsnap: /vulcan/scratch/krusinga/birdsnap/birdsnap, birdsnap3
   deep_mnist_32_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet.pth,
   deep_mnist_64_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size64_3/lenet.pth,
   fakeMnist: /vulcan/scratch/krusinga/mnist/mnistKnockoff.mat, generated: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated,
-  imagenet: '', lsun: '', mnist: /vulcan/scratch/krusinga/mnist, mnist28: /vulcan/scratch/krusinga/mnist/mnist28.mat,
+  imagenet: '', japanese_hiragana_32: /vulcan/scratch/krusinga/omniglot/omniglot/python/images_background/Japanese_(hiragana)/japanese_hiragana32.mat,
+  lsun: '', mnist: /vulcan/scratch/krusinga/mnist, mnist28: /vulcan/scratch/krusinga/mnist/mnist28.mat,
   mnist32: /vulcan/scratch/krusinga/mnist/mnist32.mat, mnist64: /vulcan/scratch/krusinga/mnist/mnist64.mat,
   mnist_distribution: /vulcan/scratch/krusinga/mnist, projectPath: /fs/vulcan-scratch/krusinga/projects/ganProbability/,
   reg_cifar10_32_3_backprop_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/backprop_deep/netP.pth,
@@ -123,7 +124,8 @@ info:
 - [e66, '**Creating canonical CIFAR10']
 - [e67, Analyzing e66]
 - [e68, Making better histograms for mnist and cifar]
-numExperiments: 68
+- [e69, Testing on omniglot japanese_hiragana]
+numExperiments: 69
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

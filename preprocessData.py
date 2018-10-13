@@ -11,7 +11,7 @@ from scipy.io import savemat
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', type=str, default=None)
 parser.add_argument('--name', type=str, default=None)
-parser.add_argument('--outSize', type=int, default=28)
+parser.add_argument('--outSize', type=int, default=32)
 
 
 def getDataset(name, folder, size):
