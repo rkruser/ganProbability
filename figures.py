@@ -425,6 +425,67 @@ def mnistOnOmniglot(cuda=True, currentExperiment=69, masterpath='/fs/vulcan-scra
     plotTopBottom(deepStats[1], path='./experiments/e69/analysis/', suffix='deep')
 
 
+def mnistOmniglotDomainShift(cuda=True, currentExperiment=70, masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
+  #   savefolder='./generated/e{0}/data'.format(currentExperiment)
+  #   saveprefix = 'mnistShiftOmniglot'
+  #   files = FileManager(masterpath, currentExperiment = currentExperiment)
+
+  #   mnist32 = mnist32loader.getDataset(outShape = (3,32,32), distribution=None, labels=None, mode='test', returnLabel = True)
+  #   omni = MatLoader(files.getFilePath('japanese_hiragana_32'), outShape = (3,32,32), returnLabel=True, mode='train')
+  # #  omniTest = MatLoader(files.getFilePath('japanese_hiragana_32'), outShape = (3,32,32), returnLabel=True, mode='test')
+
+  #   mnist32X = torch.Tensor(mnist32.X)
+  #   mnist32Y = torch.Tensor(mnist32.Y)
+  #   Omni32X = torch.Tensor(omni.X)
+  #   Omni32Y = torch.Tensor(omni.Y)
+
+  #   numericalPixelRegressor = Modules['RegressorSize32Col3']({'name':'NumericalPixels',
+  #                                                             'fileHandler':files,
+  #                                                             'dependencies':[]},
+  #                                                            {'netPkey':'reg_mnist_32_3_numerical_pixel','cuda':cuda})
+  #   numericalDeepRegressor = Modules['FeatRegressor10']({'name':'NumericalDeep',
+  #                                                             'fileHandler':files,
+  #                                                             'dependencies':[]},
+  #                                                            {'netPkey':'reg_mnist_32_3_numerical_deep','cuda':cuda})
+  #   lenetModule = Modules['LenetSize32Cols3']({'name':'lenetMnist32',
+  #                                           'fileHandler':files,
+  #                                           'dependencies':[]},
+  #                                           {'lenetKey':'deep_mnist_32_3','cuda':cuda})
+  #   lenet = NthArgWrapper(lenetModule.getModel(), 1)
+    
+
+  #   pixMnist, pixOmni, deMnist, deOmni = GetProbabilities(mnist32X, Omni32X, lenet, numericalPixelRegressor.netP, numericalDeepRegressor.netP, savefolder, saveprefix)
+#    GetPlots(savefolder, 'mnistNumerical', 'mnistNumericalOnCifar', 'mnistTrain_cifarTest')
+    pixMnist = pickle.load(open('./generated/e69/data/mnistNumerical_probsPixelTest.pickle','r')).squeeze()
+    pixOmni = pickle.load(open('./generated/e69/data/mnistNumericalOnOmniglot_probsPixelTrain.pickle','r')).squeeze() 
+
+    deMnist= pickle.load(open('./generated/e69/data/mnistNumerical_probsDeepTest.pickle','r')).squeeze()
+    deOmni = pickle.load(open('./generated/e69/data/mnistNumericalOnOmniglot_probsDeepTrain.pickle','r')).squeeze()
+
+
+    pixShift = np.zeros(10000)
+    deepShift = np.zeros(10000)
+    for i in range(10000):
+        prob = 1.0-i/float(10000)
+        choice = np.random.choice([0,1], p=[prob, 1-prob])
+        if choice == 0:
+            pixShift[i] = pixMnist[i%len(pixMnist)]
+            deepShift[i] = deMnist[i%len(deMnist)]
+        else:
+            pixShift[i] = pixOmni[i%len(pixOmni)]
+            deepShift[i] = deOmni[i%len(deOmni)]
+
+
+    return pixShift, deepShift
+
+
+#    pixelStats = extractProbabilityStats(pixTr, Xtrain, Ytrain)
+#    deepStats = extractProbabilityStats(deTr, Xtrain, Ytrain)
+    
+#    plotHistograms(pixelStats[0],path = './experiments/e65/analysis/', suffix='pixel', sortedProbs = pixelStats[2])
+#    plotHistograms(deepStats[0], path = './experiments/e65/analysis/', suffix='deep', sortedProbs = deepStats[2])
+#    plotTopBottom(pixelStats[1], path='./experiments/e69/analysis/', suffix='pixel')
+#    plotTopBottom(deepStats[1], path='./experiments/e69/analysis/', suffix='deep')
 
 
 def cifarOnMnist(cuda=True, currentExperiment=68, masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
@@ -557,5 +618,7 @@ if __name__=='__main__':
         cifarOnMnist()
     elif opt == 4:
       mnistOnOmniglot()
+    elif opt==5:
+        mnistOmniglotDomainShift()
 
   
