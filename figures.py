@@ -249,6 +249,37 @@ def GetPlots(loadfolder, savefolder, trainprefix, testprefix, saveprefix):
 #    ax.set_ylim(ymin=0,ymax=0.07)
 #    plt.savefig(osp.join(savefolder,saveprefix+'_deepHist.png'))
 
+def GetHists(loadfolder, savefolder, trainprefix, testprefix, saveprefix):
+    pixelTrain = pickle.load(open(osp.join(loadfolder,trainprefix+'_probsPixelTrain.pickle'),'r')) 
+    pixelTest = pickle.load(open(osp.join(loadfolder,testprefix+'_probsPixelTest.pickle'),'r')) 
+
+    deepTrain = pickle.load(open(osp.join(loadfolder,trainprefix+'_probsDeepTrain.pickle'),'r'))
+    deepTest = pickle.load(open(osp.join(loadfolder,testprefix+'_probsDeepTest.pickle'),'r'))
+
+    pixelPercentiles = 100*extractPercentileStats(pixelTrain, pixelTest)
+    deepPercentiles = 100*extractPercentileStats(deepTrain, deepTest)
+
+    return pixelPercentiles, deepPercentiles
+
+#    fig, ax = plt.subplots(1)
+#j    pixelCounts, pixelBins = np.histogram(pixelPercentiles,bins=100)
+#    deepCounts, deepBins = np.histogram(deepPercentiles,bins=100)
+
+#    return pixelCounts, pixelBins, deepCounts, deepBins
+
+#    pixelCounts = pixelCounts/np.trapz(pixelCounts,x=pixelBins[:len(pixelCounts)])#float(np.sum(pixelCounts))
+#    deepCounts = deepCounts/np.trapz(deepCounts, x=deepBins[:len(deepCounts)])#float(np.sum(deepCounts))
+
+#    ax.hist(pixelCounts, bins=pixelBins[:len(pixelCounts)])#,'r.-',label='Pixel Regressor')
+#    plt.savefig(osp.join(savefolder,saveprefix+'_pixelHist.png'))
+
+#    ax.hist(deepBins[:len(deepCounts)],deepCounts,'b.-', label='Deep Feature Regressor')
+ #   ax.set_ylim(ymin=0,ymax=11)
+#    ax.set_ylim(ymin=0,ymax=700)
+    #ax.legend()
+
+#    return fig, ax
+
 
 def mnistNumerical(cuda=True, currentExperiment=68, masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
     savefolder='./generated/e{0}/data'.format(currentExperiment)
