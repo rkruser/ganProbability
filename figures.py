@@ -425,6 +425,51 @@ def mnistOnOmniglot(cuda=True, currentExperiment=69, masterpath='/fs/vulcan-scra
     plotTopBottom(deepStats[1], path='./experiments/e69/analysis/', suffix='deep')
 
 
+
+# Todo: train a deep regressor on the no-ones data
+
+# Not complete
+def mnistNoOnesNumerical(cuda=True, currentExperiment=71, masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
+    savefolder='./generated/e{0}/data'.format(currentExperiment)
+    saveprefix = 'mnistNumerical'
+    files = FileManager(masterpath, currentExperiment = currentExperiment)
+
+    print "Loading datasets"
+    mnist32loader = Modules['MNISTSize32Cols1']({'name':'MNIST32', 'fileHandler':files, 'dependencies':[]},{'distribution':[0.11, 0, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.12]})
+    mnist32train = mnist32loader.getDataset(outShape = (3,32,32), labels=None, mode='train', returnLabel = True)
+    # Left off here
+    mnist32 = mnist32loader.getDataset(outShape = (3,32,32), distribution=np.array([0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]), labels=None, mode='test', returnLabel = True)
+    print "Done loading datasets"
+    Xtrain = np.concatenate([mnist32train.X, mnist32train.X, mnist32train.X], axis=1)
+    Ytrain = mnist32train.Y
+    Xtest = np.concatenate([mnist32.X, mnist32.X, mnist32.X], axis=1)
+    Ytest = mnist32.Y
+
+    numericalPixelRegressor = Modules['RegressorSize32Col3']({'name':'NumericalPixels',
+                                                              'fileHandler':files,
+                                                              'dependencies':[]},
+                                                             {'netPkey':'reg_mnist_32_3_numerical_pixel','cuda':cuda})
+    numericalDeepRegressor = Modules['FeatRegressor10']({'name':'NumericalDeep',
+                                                              'fileHandler':files,
+                                                              'dependencies':[]},
+                                                             {'netPkey':'reg_mnist_32_3_numerical_deep','cuda':cuda})
+    lenetModule = Modules['LenetSize32Cols3']({'name':'lenetMnist32',
+                                            'fileHandler':files,
+                                            'dependencies':[]},
+                                            {'lenetKey':'deep_mnist_32_3','cuda':cuda})
+    lenet = NthArgWrapper(lenetModule.getModel(), 1)
+    
+    Xtrain = torch.Tensor(Xtrain)
+    Xtest = torch.Tensor(Xtest)
+
+    GetProbabilities(Xtrain, Xtest, lenet, numericalPixelRegressor.netP, numericalDeepRegressor.netP, savefolder, saveprefix)
+
+
+
+
+
+
+
 def mnistOmniglotDomainShift(cuda=True, currentExperiment=70, masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
   #   savefolder='./generated/e{0}/data'.format(currentExperiment)
   #   saveprefix = 'mnistShiftOmniglot'

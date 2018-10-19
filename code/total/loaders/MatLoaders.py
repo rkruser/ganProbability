@@ -15,7 +15,8 @@ class LoaderTemplate(Loader):
     self.opt = {
       'batchSize':64,
       'workers':2,
-      'shuffle':True
+      'shuffle':True,
+      'loaderDistribution':None
     }
     args = copy(args)
     self.opt.update(args)
@@ -23,6 +24,9 @@ class LoaderTemplate(Loader):
     self.batchSize = self.opt['batchSize']
     self.workers = self.opt['workers']
     self.shuffle = self.opt['shuffle']
+    self.distribution = self.opt['loaderDistribution']
+    if self.distribution is not None:
+      self.distribution = np.array(self.distribution)
     self.path = None
 
   # Return the torch dataset object for the dataset
@@ -34,10 +38,14 @@ class LoaderTemplate(Loader):
   #  not compatible with the dataset
   def getDataset(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False):
     # Before returning, can check for compatible shapes
+    if distribution is None:
+      distribution = self.distribution
     return MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode)
 
   def getDataloader(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False):
     # Before returning, can check for compatible shapes
+    if distribution is None:
+      distribution = self.distribution
     return data.DataLoader(MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
 
 
@@ -156,7 +164,7 @@ class MatLoader(data.Dataset):
         self.labels = labels
       else:
         self.labels = np.unique(self.Y) #Is sorted
-      self.classwiseSubsets = [np.where(self.Y==lbl) for lbl in self.labels]
+      self.classwiseSubsets = [np.where(self.Y==lbl)[0] for lbl in self.labels]
     else:
       self.labels = None
       self.classwiseSubsets = None
@@ -164,10 +172,10 @@ class MatLoader(data.Dataset):
     # Resample X according to a distribution
     if distribution is not None:
       assert(self.Y is not None)
-      self.counts = np.array([len(sub) for sub in classwiseSubsets])
+      self.counts = np.array([len(sub) for sub in self.classwiseSubsets])
       assert(np.all(self.counts>0)) #Must be true to have distribution
-      self.rangeInds = getProportionalIndices(distribution, counts, randomize=False)
-      self.proportionalSubsets = [cw[rangeInds[i]] for i, cw in enumerate(classwiseSubsets)]
+      self.rangeInds = getProportionalIndices(distribution, self.counts, randomize=False)
+      self.proportionalSubsets = [cw[self.rangeInds[i]] for i, cw in enumerate(self.classwiseSubsets)]
       self.totalIndices = np.random.permutation(np.concatenate(self.proportionalSubsets))
       self.X = self.X[self.totalIndices]
       self.Y = self.Y[self.totalIndices]

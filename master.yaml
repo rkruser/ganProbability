@@ -126,7 +126,8 @@ info:
 - [e68, Making better histograms for mnist and cifar]
 - [e69, Testing on omniglot japanese_hiragana]
 - [e70, Shift experiment]
-numExperiments: 70
+- [e71, 'Train MNIST without 1s, test with 1s']
+numExperiments: 71
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

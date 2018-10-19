@@ -1,0 +1,21 @@
+Hello:
+=====
+Starting experiment stage1
+ID: 71, PID 0/1
+10_18_2018_14:15:48
+=====
+DCGANSize32Col3: {'netGkey': 'netG', 'netGinstance': -1, 'ngpu': 0, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 10, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'loaderDistribution': [0.11, 0, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.12], 'nGANepochs': 20, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'netDkey': 'netD', 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Starting GAN from scratch
+An exception occurred when running GANTrain
+<type 'exceptions.TypeError'>
+can't multiply sequence by non-int of type 'float'
+Exiting early
+Traceback (most recent call last):
+  File "run.py", line 50, in <module>
+    main()
+  File "run.py", line 47, in main
+    experiment(masterconfig=opt.masterconfig, classParser=getClasses, experimentNum=opt.id, pid=rank, numProcs=size,verbose=True,stage=opt.stage)
+  File "/fs/vulcan-scratch/krusinga/projects/template/mlworkflow/__init__.py", line 572, in experiment
+    raise e
+TypeError: can't multiply sequence by non-int of type 'float'

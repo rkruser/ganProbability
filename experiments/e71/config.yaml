@@ -1,0 +1,60 @@
+name: stage1
+modules: [MNISTSize32Cols1, DCGANSize32Col3, GANTrain, Analyzer]
+#One for everything in otherPaths
+otherTemplates: {
+  generated: template
+}
+dependencies: [[], [], [0,1], [0,1,2]]
+args: {
+  nGANepochs: 20,
+  cuda: True,
+  loaderDistribution: [0.11, 0, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.12]
+}
+## Note: at the moment: this must contain
+# all the files needed for stage 2 as well
+files: {
+  submit: {'path': 'submit.sh',
+         'parallelOpt': 'threadInvariant'},
+  submit2: {'path': 'submit2.sh',
+         'parallelOpt': 'threadInvariant'},
+  netG: {'path': 'models/netG.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  netD: {'path': 'models/netD.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  ganState: {'path': 'models/ganState.pickle',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  regressorState: {'path': 'models/regressorState.pickle',
+  'parallelOpt': 'threadInvariant',
+  'pathOpt': 'experimentRelative',
+  'folder': 'generated'},
+  slurmOutFolder: 'logs/',
+  samples: {'path': 'data/samples.mat',
+            'parallelOpt': 'threadSpecific',
+            'pathOpt': 'experimentRelative',
+            'folder': 'generated'},
+  netP: {'path': 'models/netP.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  lossCurve: 'analysis/lossCurve.png',
+  errorCurve: 'analysis/errorCurve.png',
+  regressorResults: { 'path': 'data/regressorShiftResults.mat',
+                      'folder': 'generated'},
+  domainShiftCurve: 'analysis/domainShiftTest.png',
+  topIms: {'path': 'analysis/topIms.png', 'parallelOpt': 'threadInvariant'},
+  botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'},
+  topDataIms: {'path': 'analysis/topDataIms.png', 'parallelOpt': 'threadInvariant'},
+  botDataIms: {'path': 'analysis/botDataIms.png', 'parallelOpt': 'threadInvariant'},
+  ganTrainPlot: 'analysis/ganTrainPlot.png',
+  ganSampleIms: 'analysis/sample.png'
+}
+formatArgs: {
+  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],
+  submit2: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ]
+}
