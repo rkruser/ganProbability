@@ -1,0 +1,84 @@
+name: trainMNIST
+modules: [MNISTSize32Cols1, DCGANSize32Col3, GANTrain, Analyzer]
+#One for everything in otherPaths
+otherTemplates: {
+  generated: template
+}
+dependencies: [[], [], [0,1], [0,1,2]]
+args: {
+  nGANepochs: 25,
+  cuda: True,
+  netGkey: 'dcgan_G_mnist_32_3',
+  netDkey: 'dcgan_D_mnist_32_3',
+  checkpointEvery: 5
+}
+## Note: at the moment: this must contain
+# all the files needed for stage 2 as well
+files: {
+# Submit scripts
+  submit: {'path': 'submit.sh',
+         'parallelOpt': 'threadInvariant'},
+  submit2: {'path': 'submit2.sh',
+         'parallelOpt': 'threadInvariant'},
+  submit3: {'path': 'submit3.sh',
+         'parallelOpt': 'threadInvariant'},
+  submit4: {'path': 'submit4.sh',
+         'parallelOpt': 'threadInvariant'},
+  submit5: {'path': 'submit5.sh',
+         'parallelOpt': 'threadInvariant'},
+  submit6: {'path': 'submit6.sh',
+         'parallelOpt': 'threadInvariant'},
+# Nets
+  netG: {'path': 'models/netG.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  netD: {'path': 'models/netD.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  lenet: {'path': 'models/lenet.pth',
+          'parallelOpt': 'threadInvariant',
+          'pathOpt': 'experimentRelative',
+          'folder': 'generated'},
+  lenetState: {'path': 'models/lenetState.pickle',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  ganState: {'path': 'models/ganState.pickle',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  regressorState: {'path': 'models/regressorState.pickle',
+  'parallelOpt': 'threadInvariant',
+  'pathOpt': 'experimentRelative',
+  'folder': 'generated'},
+  slurmOutFolder: 'logs/',
+  samples: {'path': 'data/samples.mat',
+            'parallelOpt': 'threadSpecific',
+            'pathOpt': 'experimentRelative',
+            'folder': 'generated'},
+  netP: {'path': 'models/netP.pth',
+      'parallelOpt': 'threadInvariant',
+      'pathOpt': 'experimentRelative',
+      'folder': 'generated'},
+  lossCurve: 'analysis/lossCurve.png',
+  errorCurve: 'analysis/errorCurve.png',
+  regressorResults: { 'path': 'data/regressorShiftResults.mat',
+                      'folder': 'generated'},
+  domainShiftCurve: 'analysis/domainShiftTest.png',
+  topIms: {'path': 'analysis/topIms.png', 'parallelOpt': 'threadInvariant'},
+  botIms: {'path': 'analysis/botIms.png', 'parallelOpt': 'threadInvariant'},
+  topDataIms: {'path': 'analysis/topDataIms.png', 'parallelOpt': 'threadInvariant'},
+  botDataIms: {'path': 'analysis/botDataIms.png', 'parallelOpt': 'threadInvariant'},
+  ganTrainPlot: 'analysis/ganTrainPlot.png',
+  ganSampleIms: 'analysis/sample.png'
+}
+formatArgs: {
+  submit: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],
+  submit2: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],
+  submit3: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],
+  submit4: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],
+  submit5: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],
+  submit6: [ 'name', 'NUMBER', 'file:slurmOutFolder', 'file:projectPath' ],
+}

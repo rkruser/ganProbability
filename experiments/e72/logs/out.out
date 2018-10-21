@@ -1,0 +1,26 @@
+Hello:
+=====
+Starting experiment trainMNIST
+ID: 72, PID 0/1
+10_20_2018_16:34:45
+=====
+DCGANSize32Col3: {'netGkey': 'dcgan_G_mnist_32_3', 'netGinstance': -1, 'ngpu': 0, 'netGclass': <class 'code.total.models.nnModels.NetG32'>, 'checkpointEvery': 5, 'ngf': 64, 'netDclass': <class 'code.total.models.nnModels.NetD32'>, 'nGANepochs': 25, 'netDexpNum': -1, 'nc': 3, 'nz': 100, 'ndf': 64, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'netDkey': 'dcgan_D_mnist_32_3', 'imSize': 32}
+DCGANSize32Col3: outShape is (3, 32, 32)
+DCGANSize32Col3: Loading GAN from instance 24
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Loading /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG_24.pth
+DCGANSize32Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD_24.pth
+DCGANSize32Col3: Saving /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e72/models/ganState_24.pickle
+An exception occurred when running GANTrain
+<type 'exceptions.IOError'>
+[Errno 2] No such file or directory: '/fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e72/models/ganState_24.pickle'
+Exiting early
+Traceback (most recent call last):
+  File "run.py", line 50, in <module>
+    main()
+  File "run.py", line 47, in main
+    experiment(masterconfig=opt.masterconfig, classParser=getClasses, experimentNum=opt.id, pid=rank, numProcs=size,verbose=True,stage=opt.stage)
+  File "/fs/vulcan-scratch/krusinga/projects/template/mlworkflow/__init__.py", line 572, in experiment
+    raise e
+IOError: [Errno 2] No such file or directory: '/fs/vulcan-scratch/krusinga/projects/ganProbability/generated/e72/models/ganState_24.pickle'

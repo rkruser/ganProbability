@@ -127,7 +127,12 @@ info:
 - [e69, Testing on omniglot japanese_hiragana]
 - [e70, Shift experiment]
 - [e71, 'Train MNIST without 1s, test with 1s']
-numExperiments: 71
+- [e72, Sampling deep features from the model trained in e71]
+- [e73, Train MNIST on 0-4]
+- [e74, Do deep feature regressor on e73]
+- [e75, 'Training without 0, testing with 0']
+- [e76, Training deep regressor on e75]
+numExperiments: 76
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

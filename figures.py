@@ -470,6 +470,8 @@ def mnistNoOnesNumerical(cuda=True, currentExperiment=71, masterpath='/fs/vulcan
 
 
 
+
+
 def mnistOmniglotDomainShift(cuda=True, currentExperiment=70, masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
   #   savefolder='./generated/e{0}/data'.format(currentExperiment)
   #   saveprefix = 'mnistShiftOmniglot'
@@ -569,85 +571,137 @@ def cifarOnMnist(cuda=True, currentExperiment=68, masterpath='/fs/vulcan-scratch
 
 
 
-# def cifar10Numerical():
-#     #prefix = '/fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3'
-#     masterpath = '/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'
-#     cuda = True
-#     currentExperiment = 65
-#     files = FileManager(masterpath, currentExperiment = currentExperiment)
 
-#     cifar32loader = Modules['CFAR10Size32Cols3']({'name':'CIFAR10', 'fileHandler':files, 'dependencies':[]},{})
-#     cifar32train = cifar32loader.getDataset(outShape = (3,32,32), distribution=None, labels=None, mode='train', returnLabel = True)
-#     cifar32test = cifar32loader.getDataset(outShape = (3,32,32), distribution=None, labels=None, mode='test', returnLabel = True)
-#     #Xtest = np.concatenate([cifar32.X, cifar32.X, cifar32.X], axis=1)
-#     Xtrain = torch.Tensor(cifar32train.X)
-#     Ytrain = torch.Tensor(cifar32test.Y)
-#     Xtest = torch.Tensor(cifar32test.X)
-#     Ytest = torch.Tensor(cifar32test.Y)
-#     print Xtrain.shape, Xtest.shape
-#     print Xtest.shape, Ytest.shape
+def mnistOnesDomainShift(cuda=True, sample=False, currentExperiment=72, masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
+    if sample:
+      savefolder='./generated/e{0}/data'.format(currentExperiment)
+      saveprefix = 'mnistShiftOnes'
+      files = FileManager(masterpath, currentExperiment = currentExperiment)
 
-# #    if not osp.exists('./generated/e67/data/probsPixel.pickle'):
-#     numericalPixelRegressor = Modules['RegressorSize32Col3']({'name':'NumericalPixels',
-#                                                               'fileHandler':files,
-#                                                               'dependencies':[]},
-#                                                              {'netPkey':'reg_cifar10_32_3_numerical_pixel','cuda':cuda})
-#     numericalDeepRegressor = Modules['FeatRegressor10']({'name':'NumericalDeep',
-#                                                               'fileHandler':files,
-#                                                               'dependencies':[]},
-#                                                              {'netPkey':'reg_cifar10_32_3_numerical_deep','cuda':cuda})
-#     lenetModule = Modules['LenetSize32Cols3']({'name':'lenetCifar32',
-#                                             'fileHandler':files,
-#                                             'dependencies':[]},
-#                                             {'lenetKey':'deep_cifar10_32_3','cuda':cuda})
-#     lenet = NthArgWrapper(lenetModule.getModel(), 1)
+      mnist32loader = Modules['MNISTSize32Cols1']({'name':'MNIST32', 'fileHandler':files, 'dependencies':[]},{})
+      noOnesDistr = np.array([0.11, 0.0, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.12])
+#      onesDistr = 0.1*np.ones((10),dtype=float)
+      onesDistr = np.array([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
-#     lenet.eval()
-#     numericalDeepRegressor.netP.eval()
-#     numericalPixelRegressor.netP.eval()
-    
-#     # XtestRun = Variable(torch.Tensor(Xtest))
-#     # if cuda:
-#     #     XtestRun = XtestRun.cuda()
-#     # XtestEmbedded = lenet(XtestRun)
-#     XtrainEmbedded = runHuge(lenet, Xtrain)
-#     XtestEmbedded = runHuge(lenet, Xtest)
-#     print "Getting pixel probs"
-#     probsPixelTrain = runHuge(numericalPixelRegressor.netP, Xtrain)
-#     probsPixelTest = runHuge(numericalPixelRegressor.netP, Xtest)
-#     print "Shape:",probsPixelTrain.shape
-#     print "Getting deep probs"
-#     probsDeepTest = runHuge(numericalDeepRegressor.netP, XtestEmbedded)
-#     probsDeepTrain = runHuge(numericalDeepRegressor.netP, XtrainEmbedded)
-#     print "Shape:",probsDeepTrain.shape
+      mnist32NoOnes = mnist32loader.getDataset(outShape = (3,32,32), distribution=noOnesDistr, labels=None, mode='test', returnLabel = True)
+      mnist32Ones = mnist32loader.getDataset(outShape = (3,32,32), distribution=onesDistr, labels=None, mode='test', returnLabel = True)
+
+      #  omniTest = MatLoader(files.getFilePath('japanese_hiragana_32'), outShape = (3,32,32), returnLabel=True, mode='test')
+
+      mnist32NoOnesX = torch.Tensor(np.concatenate((mnist32NoOnes.X,mnist32NoOnes.X, mnist32NoOnes.X),axis=1))
+      mnist32NoOnesY = torch.Tensor(mnist32NoOnes.Y)
+      mnist32OnesX = torch.Tensor(np.concatenate((mnist32Ones.X,mnist32Ones.X, mnist32Ones.X),axis=1))
+      mnist32OnesY = torch.Tensor(mnist32Ones.Y)
+
+      numericalPixelRegressor = Modules['RegressorSize32Col3']({'name':'NumericalPixels',
+                                                               'fileHandler':files,
+                                                               'dependencies':[]},
+                                                              {'netPkey':'netP','netPexpNum':71, 'cuda':cuda})
+      numericalDeepRegressor = Modules['FeatRegressor10']({'name':'NumericalDeep',
+                                                               'fileHandler':files,
+                                                               'dependencies':[]},
+                                                              {'netPkey':'netP','netPexpNum':72, 'cuda':cuda})
+      lenetModule = Modules['LenetSize32Cols3']({'name':'lenetMnist32',
+                                             'fileHandler':files,
+                                             'dependencies':[]},
+                                             {'lenetKey':'deep_mnist_32_3','cuda':cuda})
+      lenet = NthArgWrapper(lenetModule.getModel(), 1)
 
 
-#     print "Dumping pixel"
-#     pickle.dump(probsPixelTest,open('./generated/e67/data/probsPixelTest.pickle','w')) 
-#     pickle.dump(probsPixelTrain,open('./generated/e67/data/probsPixelTrain.pickle','w')) 
+      pixMnist, pixOmni, deMnist, deOmni = GetProbabilities(mnist32NoOnesX, mnist32OnesX, lenet, numericalPixelRegressor.netP, numericalDeepRegressor.netP, savefolder, saveprefix)
 
-#     print "Dumping deep"
-#     pickle.dump(probsDeepTest,open('./generated/e67/data/probsDeepTest.pickle','w')) 
-#     pickle.dump(probsDeepTrain,open('./generated/e67/data/probsDeepTrain.pickle','w')) 
+  #    GetPlots(savefolder, 'mnistNumerical', 'mnistNumericalOnCifar', 'mnistTrain_cifarTest')
+    else:
+      # train is no ones, test is ones
+      pixNoOnes = pickle.load(open('./generated/e72/data/mnistShiftOnes_probsPixelTrain.pickle','r')).squeeze() 
+      pixOnes = pickle.load(open('./generated/e72/data/mnistShiftOnes_probsPixelTest.pickle','r')).squeeze()
+
+      deNoOnes = pickle.load(open('./generated/e72/data/mnistShiftOnes_probsDeepTrain.pickle','r')).squeeze()
+      deOnes = pickle.load(open('./generated/e72/data/mnistShiftOnes_probsDeepTest.pickle','r')).squeeze()
 
 
-# def cifar10numericalPlot():
-#     probsPixelTest = pickle.load(open('./generated/e67/data/probsPixelTest.pickle','r')) 
-#     probsPixelTrain = pickle.load(open('./generated/e67/data/probsPixelTrain.pickle','r')) 
-#     probsDeepTest = pickle.load(open('./generated/e67/data/probsDeepTest.pickle','r')) 
-#     probsDeepTrain = pickle.load(open('./generated/e67/data/probsDeepTrain.pickle','r')) 
+      pixShift = np.zeros(10000)
+      deepShift = np.zeros(10000)
+      for i in range(10000):
+          if i < 5000:
+            prob = 1.0
+          else:
+            prob = 0.0
+          choice = np.random.choice([0,1], p=[prob, 1-prob])
+          if choice == 0:
+              pixShift[i] = pixNoOnes[i%len(pixNoOnes)]
+              deepShift[i] = deNoOnes[i%len(deNoOnes)]
+          else:
+              pixShift[i] = pixOnes[i%len(pixOnes)]
+              deepShift[i] = deOnes[i%len(deOnes)]
 
-#     pixelPercentiles = extractPercentileStats(probsPixelTrain, probsPixelTest)
-#     deepPercentiles = extractPercentileStats(probsDeepTrain, probsDeepTest)
-#     return pixelPercentiles, deepPercentiles
-    
-#    pixelStats = extractProbabilityStats(probsPixel, Xtest, Ytest)
-#    deepStats = extractProbabilityStats(probsDeep, Xtest, Ytest)
-    
-    # plotHistograms(pixelStats[0],path='./experiments/e67/analysis', suffix='pixel', sortedProbs = pixelStats[2])
-    # plotHistograms(deepStats[0], path='./experiments/e67/analysis', suffix='deep', sortedProbs = deepStats[2])
-    # plotTopBottom(pixelStats[1], path='./experiments/e67/analysis/', suffix='pixel')
-    # plotTopBottom(deepStats[1], path='./experiments/e67/analysis/', suffix='deep')
+
+      return pixShift, deepShift
+
+def mnistHalfDomainShift(cuda=True, sample=False, currentExperiment=74, saveprefix='mnistShiftHalf', 
+        initDistr = np.array([0.2, 0.2, 0.2, 0.2, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0]), finalDistr =  np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.2, 0.2, 0.2, 0.2]),
+          masterpath='/fs/vulcan-scratch/krusinga/projects/ganProbability/master.yaml'):
+    if sample:
+      savefolder='./generated/e{0}/data'.format(currentExperiment)
+      files = FileManager(masterpath, currentExperiment = currentExperiment)
+
+      mnist32loader = Modules['MNISTSize32Cols1']({'name':'MNIST32', 'fileHandler':files, 'dependencies':[]},{})
+      noOnesDistr = initDistr
+      onesDistr = finalDistr 
+      mnist32NoOnes = mnist32loader.getDataset(outShape = (3,32,32), distribution=noOnesDistr, labels=None, mode='test', returnLabel = True)
+      mnist32Ones = mnist32loader.getDataset(outShape = (3,32,32), distribution=onesDistr, labels=None, mode='test', returnLabel = True)
+
+      #  omniTest = MatLoader(files.getFilePath('japanese_hiragana_32'), outShape = (3,32,32), returnLabel=True, mode='test')
+
+      mnist32NoOnesX = torch.Tensor(np.concatenate((mnist32NoOnes.X,mnist32NoOnes.X, mnist32NoOnes.X),axis=1))
+      mnist32NoOnesY = torch.Tensor(mnist32NoOnes.Y)
+      mnist32OnesX = torch.Tensor(np.concatenate((mnist32Ones.X,mnist32Ones.X, mnist32Ones.X),axis=1))
+      mnist32OnesY = torch.Tensor(mnist32Ones.Y)
+
+      numericalPixelRegressor = Modules['RegressorSize32Col3']({'name':'NumericalPixels',
+                                                               'fileHandler':files,
+                                                               'dependencies':[]},
+                                                              {'netPkey':'netP','netPexpNum':currentExperiment-1, 'cuda':cuda})
+      numericalDeepRegressor = Modules['FeatRegressor10']({'name':'NumericalDeep',
+                                                               'fileHandler':files,
+                                                               'dependencies':[]},
+                                                              {'netPkey':'netP','netPexpNum':currentExperiment, 'cuda':cuda})
+      lenetModule = Modules['LenetSize32Cols3']({'name':'lenetMnist32',
+                                             'fileHandler':files,
+                                             'dependencies':[]},
+                                             {'lenetKey':'deep_mnist_32_3','cuda':cuda})
+      lenet = NthArgWrapper(lenetModule.getModel(), 1)
+
+
+      pixMnist, pixOmni, deMnist, deOmni = GetProbabilities(mnist32NoOnesX, mnist32OnesX, lenet, numericalPixelRegressor.netP, numericalDeepRegressor.netP, savefolder, saveprefix)
+
+  #    GetPlots(savefolder, 'mnistNumerical', 'mnistNumericalOnCifar', 'mnistTrain_cifarTest')
+    else:
+      # train is no ones, test is ones
+      pixNoOnes = pickle.load(open('./generated/e{0}/data/{1}_probsPixelTrain.pickle'.format(str(currentExperiment),saveprefix),'r')).squeeze() 
+      pixOnes = pickle.load(open('./generated/e{0}/data/{1}_probsPixelTest.pickle'.format(str(currentExperiment),saveprefix),'r')).squeeze()
+
+      deNoOnes = pickle.load(open('./generated/e{0}/data/{1}_probsDeepTrain.pickle'.format(str(currentExperiment),saveprefix),'r')).squeeze()
+      deOnes = pickle.load(open('./generated/e{0}/data/{1}_probsDeepTest.pickle'.format(str(currentExperiment),saveprefix),'r')).squeeze()
+
+
+      pixShift = np.zeros(10000)
+      deepShift = np.zeros(10000)
+      for i in range(10000):
+          if i < 5000:
+            prob = 1.0
+          else:
+            prob = 0.0
+          choice = np.random.choice([0,1], p=[prob, 1-prob])
+          if choice == 0:
+              pixShift[i] = pixNoOnes[i%len(pixNoOnes)]
+              deepShift[i] = deNoOnes[i%len(deNoOnes)]
+          else:
+              pixShift[i] = pixOnes[i%len(pixOnes)]
+              deepShift[i] = deOnes[i%len(deOnes)]
+
+
+      return pixShift, deepShift
 
 
 
@@ -665,5 +719,16 @@ if __name__=='__main__':
       mnistOnOmniglot()
     elif opt==5:
         mnistOmniglotDomainShift()
+    elif opt==6:
+        mnistOnesDomainShift(sample=True)
+    elif opt==7:
+        mnistHalfDomainShift(sample=True)
+    elif opt==8:
+        mnistHalfDomainShift(sample=True, currentExperiment=76, saveprefix='mnistNoZero', 
+            initDistr=np.array([0.0,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.12]), finalDistr=np.array([1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]))
+    elif opt==9:
+         mnistHalfDomainShift(sample=True, currentExperiment=76, saveprefix='mnistNoZeroSomeZero', 
+            initDistr=np.array([0.0,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.12]), finalDistr=np.array([0.4,0.1,0.04,0.04,0.04,0.04,0.04,0.1,0.1,0.1]))
+   
 
   
