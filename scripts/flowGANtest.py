@@ -124,7 +124,7 @@ def getBitmask(size, nc, batchsize, alignment):
 # Form oscillating bitmasks and figure out how to do the "squeeze" described in Real NVP paper
 # Check if each coupling uses different or the same S,T params
 # What size should the convolutional blocks be?
-# Train result using flowgan loss / log-likelihood loss and see if it works on cifar and mnist
+# Train result using flowgan loss / log-likelih ood loss and see if it works on cifar and mnist
 
 
 # Take an S and T network and couple them
@@ -278,21 +278,25 @@ def printBatchNormParameters(bmod):
 #  Thus during training I can't use running_mean to invert the thing
 def batchNormForward(bmod, x):
 	# Get the bmod parameters before or after?
-#	printBatchNormParameters(bmod)
+	#	printBatchNormParameters(bmod)
+	prevMean = bmod.running_mean.clone()
+	prevVar = bmod.running_var.clone()
 	y = bmod(x)
-#	printBatchNormParameters(bmod)
+	# Extract mean, var of current x
+	xmean = (bmod.running_mean-(1-bmod.momentum)*prevMean)/bmod.momentum
+	xvar = (bmod.running_var-(1-bmod.momentum)*prevVar)/bmod.momentum
+
+	#	printBatchNormParameters(bmod)
 	channelSize = x.size(2)*x.size(3)
 	weights = bmod._parameters['weight'].data
 	logDetJacob = -0.5*(weights*(bmod.running_var+bmod.eps)*channelSize).sum()
 	logDetJacob = torch.zeros(x.size(0)).fill_(logDetJacob) # Same determinant for everything in batch
-	return y, logDetJacob
+	return y, logDetJacob, xmean, xvar
 
+# Mean, var are tensors of size y.size(1) if present
 def batchNormInvert(bmod, y, mean=None, var=None):
-#	trainbit = bmod.training
-#	bmod.eval()
-	weights = bmod._parameters['weight'].data
-	bias = bmod._parameters['bias'].data
-
+	weights = bmod.weight.data
+	bias = bmod.bias.data
 	nc = y.size(1)
 	channelSize = y.size(2)*y.size(3)
 
@@ -305,18 +309,12 @@ def batchNormInvert(bmod, y, mean=None, var=None):
 		varSmall = var
 		var = Variable(var.view(1,nc,1,1).expand_as(y))
 
-	# Todo:
-	#  fix up the problems with below
-	#  bmod.running_var must be changed to a version of var of the right shape
-
-#	x = y
 	x = (y-Variable(bias.view(1,nc,1,1).expand_as(y)))/\
 		Variable(weights.view(1,nc,1,1).expand_as(y))
-	x = x*torch.sqrt(var+bmod.eps)+mean #Hopefully this broadcasts right
+	x = x*torch.sqrt(var+bmod.eps)+mean
 	logDetJacob = 0.5*(weights*(varSmall+bmod.eps)*channelSize).sum()
-	logDetJacob = torch.zeros(x.size(0)).fill_(logDetJacob) # Same determinant for everything in batch
-#	if trainbit:
-#		bmod.train()
+	# Same determinant for everything in batch
+	logDetJacob = torch.zeros(x.size(0)).fill_(logDetJacob) 
 	return x, logDetJacob
 
 
@@ -593,17 +591,18 @@ def testBatchNorm():
 	btch(training)
 	btch.eval()	
 #	a = Variable(torch.arange(0,144).resize_((2,2,6,6)))
-	a = Variable(30*torch.zeros(2,2,6,6).normal_()+50)
-	mean = torch.Tensor([a.data[:,i,:,:].mean() for i in range(a.size(1))])
-	var = torch.Tensor([a.data[:,i,:,:].var() for i in range(a.size(1))])
-	print mean, var
+	a = Variable(torch.zeros(2,2,6,6).normal_())
+	meanEmp = torch.Tensor([a.data[:,i,:,:].mean() for i in range(a.size(1))])
+	varEmp = torch.Tensor([a.data[:,i,:,:].var() for i in range(a.size(1))])
+	print meanEmp, varEmp
 
-	aout, detaout = batchNormForward(btch, a)
+	aout, detaout, mean, var = batchNormForward(btch, a)
 	ainv, detavin = batchNormInvert(btch, aout)#, mean, var)
 
 #	print detaout, detavin
 
-	print a, aout, ainv, detaout, detavin
+#	print a, aout, ainv, detaout, detavin
+	print mean, var
 	print (a-ainv).norm()
 
 def testCoupling():
