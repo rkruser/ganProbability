@@ -684,7 +684,7 @@ def testCoupling():
 	c.apply(weights_init)
 
 	a = torch.zeros(2,3,6,6)
-#	a.normal_()
+	#	a.normal_()
 	a = Variable(a)
 	y, detJacob = c(a, bitmask=mask, invBitmask=1-mask)
 	yinv, detJacobInv = c.invert(y, bitmask=mask, invBitmask=1-mask)
@@ -694,9 +694,27 @@ def testCoupling():
 	print (a-yinv).norm()
 	print (detJacobInv+detJacob).norm()
 
+def testCouplingChannelWise():
+#	mask = Variable(getBitmask(6,3,2,0))
+	c = Coupling( S(2, 5), T(2,5), channelWise=0)
+	c.apply(weights_init)
+
+	a = torch.zeros(2,4,6,6)
+	a.normal_()
+	a = Variable(a)
+	y, detJacob = c(a)#, bitmask=mask, invBitmask=1-mask)
+	yinv, detJacobInv = c.invert(y)#, bitmask=mask, invBitmask=1-mask)
+
+	print a, yinv, y
+	print detJacob, detJacobInv
+	print (a-yinv).norm()
+	print (detJacobInv+detJacob).norm()
+
+
 
 if __name__=='__main__':
 #	test(variable=True)
 #	testBitmask()
-	testCoupling()
+#	testCoupling()
 #	testBatchNorm()
+	testCouplingChannelWise()
