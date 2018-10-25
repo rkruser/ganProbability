@@ -199,10 +199,10 @@ def nvpSqueeze(x, horizontalIndex=None, verticalIndex=None):
 	cols = x.size(3)
 
 	if horizontalIndex is None or verticalIndex is None:
-		colperm = torch.cat([torch.arange(0,cols,2),torch.arange(1,cols,2)]).long()
-		rowperm = torch.cat([torch.arange(0,rows,2),torch.arange(1,rows,2)]).long()
-		horizontalIndex = colperm.unsqueeze(0).unsqueeze(0).unsqueeze(0).repeat(x.size(0),x.size(1),x.size(2),1)
-		verticalIndex = rowperm.unsqueeze(0).unsqueeze(0).unsqueeze(3).repeat(x.size(0),x.size(1),1,x.size(3))
+		horizontalIndex = torch.cat([torch.arange(0,cols,2),torch.arange(1,cols,2)]).long().expand_as(x)
+		verticalIndex = torch.cat([torch.arange(0,rows,2),torch.arange(1,rows,2)]).view(-1,1).long().expand_as(x)
+#		horizontalIndex = colperm.unsqueeze(0).unsqueeze(0).unsqueeze(0).repeat(x.size(0),x.size(1),x.size(2),1)
+#		verticalIndex = rowperm.unsqueeze(0).unsqueeze(0).unsqueeze(3).repeat(x.size(0),x.size(1),1,x.size(3))
 
 		if isinstance(x,Variable):
 			horizontalIndex = Variable(horizontalIndex)
@@ -241,11 +241,11 @@ def nvpUnsqueeze(y, horizontalIndex = None, verticalIndex=None):
 		rowperm[torch.arange(1,cols,2).long()] = cols/2+torch.arange(0,cols/2)
 		colperm[torch.arange(0,rows,2).long()] = torch.arange(0,rows/2)
 		colperm[torch.arange(1,rows,2).long()] = rows/2+torch.arange(0,rows/2)
-		rowperm = rowperm.long()
-		colperm = colperm.long()
+		horizontalIndex = rowperm.long().expand_as(x)
+		verticalIndex = colperm.view(-1,1).long().expand_as(x)
 
-		horizontalIndex = colperm.unsqueeze(0).unsqueeze(0).unsqueeze(0).repeat(x.size(0),x.size(1),x.size(2),1)
-		verticalIndex = rowperm.unsqueeze(0).unsqueeze(0).unsqueeze(3).repeat(x.size(0),x.size(1),1,x.size(3))
+#		horizontalIndex = colperm.unsqueeze(0).unsqueeze(0).unsqueeze(0).repeat(x.size(0),x.size(1),x.size(2),1)
+#		verticalIndex = rowperm.unsqueeze(0).unsqueeze(0).unsqueeze(3).repeat(x.size(0),x.size(1),1,x.size(3))
 
 		if isinstance(y,Variable):
 			horizontalIndex = Variable(horizontalIndex)
@@ -490,7 +490,7 @@ def weights_init(m):
             init.constant(m.bias, 0.0)
 
 def test(variable=False):
-	a = torch.arange(0,72).resize_((2,6,6)).unsqueeze(0)
+	a = torch.arange(0,144).resize_((2,2,6,6))#.unsqueeze(0)
 	if variable:
 		a = Variable(a)
 	b = nvpSqueeze(a)
@@ -521,6 +521,6 @@ def testCoupling():
 
 
 if __name__=='__main__':
-#	test(Variable)
+	test(variable=True)
 #	testBitmask()
-	testCoupling()
+#	testCoupling()
