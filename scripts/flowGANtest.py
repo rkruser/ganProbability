@@ -298,7 +298,7 @@ def batchNormForward(bmod, x):
 	channelSize = x.size(2)*x.size(3)
 	weights = bmod.weight # Problem: will this learn in the inverse direction?
 	# logDetJacob = -0.5*(weights*(bmod.running_var+bmod.eps)*channelSize).log().sum() #Need the log, I think
-	logDetJacob = (weights.data.log()*channelSize).sum()+(-0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
+	logDetJacob = (weights.data.abs().log()*channelSize).sum()+(-0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
 	logDetJacob = Variable(torch.zeros(x.size(0)).fill_(logDetJacob)) # Same determinant for everything in batch
 	return y, logDetJacob, xmean, xvar
 
@@ -320,8 +320,8 @@ def batchNormInvert(bmod, y, mean=None, var=None):
 
 	x = (y-bias.view(1,nc,1,1).expand_as(y))/weights.view(1,nc,1,1).expand_as(y)
 	x = x*torch.sqrt(var+bmod.eps)+mean
-	logDetJacob = 0.5*(weights.data*(varSmall+bmod.eps)*channelSize).log().sum()
-	logDetJacob = -(weights.data.log()*channelSize).sum()+(0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
+#	logDetJacob = 0.5*(weights.data*(varSmall+bmod.eps)*channelSize).log().sum()
+	logDetJacob = -(weights.data.abs().log()*channelSize).sum()+(0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
 
 	# Same determinant for everything in batch
 	logDetJacob = Variable(torch.zeros(x.size(0)).fill_(logDetJacob))
@@ -581,9 +581,10 @@ class StageType2(nn.Module):
 
 
 
-class RealNVP(nn.Module):
+class RealNVPbase(nn.Module):
+	# Future note: use **args as input for every network in the future
 	def __init__(self, imsize, nc, nh=64, ks=3, batchsize=64):
-		super(RealNVP, self).__init__()
+		super(RealNVPbase, self).__init__()
 
 		self.batchsize = batchsize
 		self.nc = nc
@@ -598,7 +599,10 @@ class RealNVP(nn.Module):
 		# Factor out half
 		self.stage3 = StageType2(imsize/4, 4*nc, 4*nh, ks, batchsize) # nc will overtake nh unless nh starts high enough
 
-	def forward(self, x):
+	def forward(self, x, invert=False):
+		if invert:
+			return self.invert(x)
+
 		out = x
 		out, det1 = self.stage1(out)
 		z1z2, out = torch.chunk(out,2,dim=1)
@@ -630,6 +634,29 @@ class RealNVP(nn.Module):
 		logDetJacob = det1+det2+det3
 		return x, logDetJacob
 
+class RealNVP(nn.Module):
+	def __init__(self, imsize, nc, nh=64, ks=3, batchsize=64, ngpu=0):
+		super(RealNVP, self).__init__()
+		self.main = RealNVPbase(imsize, nc, nh, ks, batchsize)
+		self.ngpu = ngpu
+
+	def forward(self, x, invert=False):
+		if invert:
+			return self.invert(x)
+
+		if isinstance(x, torch.cuda.FloatTensor) and self.ngpu > 1:
+			y, detx = nn.parallel.data_parallel(self.main, x, range(self.ngpu))
+		else:
+			y, detx = self.main(x)
+		return y, detx
+
+	def invert(self, y):
+		if isinstance(y, torch.cuda.FloatTensor) and self.ngpu > 1:
+			x, dety = nn.parallel.data_parallel(self.main, y, range(self.ngpu), module_kwargs={'invert':True})
+		else:
+			x, dety = self.main(y, invert=True)
+		return x, dety
+		
 
 
 
