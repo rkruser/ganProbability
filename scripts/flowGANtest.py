@@ -1,5 +1,10 @@
 # Real NVP / FlowGAN model
 
+# Next todo (10/26):
+#  Add gpu clauses to RealNVP class
+#  Incorporate into mlworkflow setup
+#  train model with flowGAN loss
+
 # More todo:
 #   Make batchnorm functions nice and clean, with caching
 #   Overload eval function to go to running mean during evaluation (maybe)
@@ -786,6 +791,6 @@ if __name__=='__main__':
 #	testCoupling()
 #	testBatchNorm()
 #	testCouplingChannelWise()
-	testStage1()
+#	testStage1()
 #	testStage2()
-#	testRealNVP()
+	testRealNVP()
