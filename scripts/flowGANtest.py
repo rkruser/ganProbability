@@ -273,24 +273,28 @@ def printBatchNormParameters(bmod):
 	print "momentum",bmod.momentum
 	print "eps",bmod.eps
 
-# Problem: batchnorm uses the norm of the current batch during training,
-#  but uses the overall running mean during testing
-#  Thus during training I can't use running_mean to invert the thing
 def batchNormForward(bmod, x):
-	# Get the bmod parameters before or after?
-	#	printBatchNormParameters(bmod)
 	prevMean = bmod.running_mean.clone()
 	prevVar = bmod.running_var.clone()
 	y = bmod(x)
-	# Extract mean, var of current x
-	xmean = (bmod.running_mean-(1-bmod.momentum)*prevMean)/bmod.momentum
-	xvar = (bmod.running_var-(1-bmod.momentum)*prevVar)/bmod.momentum
+
+	# Commenting this out because there are numerical stability issues with
+	#  using per-batch mean, var to compute inverses during training
+	#  Perhaps better to use running mean, var for everything?
+	# if bmod.training:
+	# 	xmean = (bmod.running_mean-(1-bmod.momentum)*prevMean)/bmod.momentum
+	# 	xvar = (bmod.running_var-(1-bmod.momentum)*prevVar)/bmod.momentum
+	# 	varSmall = xvar
+	# else:
+	xmean, xvar = None, None
+	varSmall = bmod.running_var
 
 	#	printBatchNormParameters(bmod)
 	channelSize = x.size(2)*x.size(3)
-	weights = bmod.weight.data # Problem: will this learn in the inverse direction?
-	logDetJacob = -0.5*(weights*(bmod.running_var+bmod.eps)*channelSize).sum()
-	logDetJacob = torch.zeros(x.size(0)).fill_(logDetJacob) # Same determinant for everything in batch
+	weights = bmod.weight # Problem: will this learn in the inverse direction?
+	# logDetJacob = -0.5*(weights*(bmod.running_var+bmod.eps)*channelSize).log().sum() #Need the log, I think
+	logDetJacob = (weights.data.log()*channelSize).sum()+(-0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
+	logDetJacob = Variable(torch.zeros(x.size(0)).fill_(logDetJacob)) # Same determinant for everything in batch
 	return y, logDetJacob, xmean, xvar
 
 # Mean, var are tensors of size y.size(1) if present
@@ -300,20 +304,22 @@ def batchNormInvert(bmod, y, mean=None, var=None):
 	nc = y.size(1)
 	channelSize = y.size(2)*y.size(3)
 
-	if mean is None:
-		mean = Variable(bmod.running_mean.view(1,nc,1,1).expand_as(y))
-		var = Variable(bmod.running_var.view(1,nc,1,1).expand_as(y))
-		varSmall = bmod.running_var
-	else:
-		mean = Variable(mean.view(1,nc,1,1).expand_as(y))
-		varSmall = var
-		var = Variable(var.view(1,nc,1,1).expand_as(y))
+	# if mean is None:
+	mean = Variable(bmod.running_mean.view(1,nc,1,1).expand_as(y))
+	var = Variable(bmod.running_var.view(1,nc,1,1).expand_as(y))
+	varSmall = bmod.running_var
+	# else:
+	# 	mean = Variable(mean.view(1,nc,1,1).expand_as(y))
+	# 	varSmall = var
+	# 	var = Variable(var.view(1,nc,1,1).expand_as(y))
 
 	x = (y-bias.view(1,nc,1,1).expand_as(y))/weights.view(1,nc,1,1).expand_as(y)
 	x = x*torch.sqrt(var+bmod.eps)+mean
-	logDetJacob = 0.5*(weights.data*(varSmall+bmod.eps)*channelSize).sum()
+	logDetJacob = 0.5*(weights.data*(varSmall+bmod.eps)*channelSize).log().sum()
+	logDetJacob = -(weights.data.log()*channelSize).sum()+(0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
+
 	# Same determinant for everything in batch
-	logDetJacob = torch.zeros(x.size(0)).fill_(logDetJacob) 
+	logDetJacob = Variable(torch.zeros(x.size(0)).fill_(logDetJacob))
 	return x, logDetJacob
 
 
@@ -340,12 +346,12 @@ class StageType1(nn.Module):
 		self.verticalIndex = Variable(self.verticalIndex)
 
 		#******* Cached inverse squeeze indices
-		rowperm = torch.zeros(rows)
-		colperm = torch.zeros(cols)
+		rowperm = torch.zeros(imsize)
+		colperm = torch.zeros(imsize)
 		rowperm[torch.arange(0,imsize,2).long()] = torch.arange(0,imsize/2)
-		rowperm[torch.arange(1,imsize,2).long()] = cols/2+torch.arange(0,imsize/2)
+		rowperm[torch.arange(1,imsize,2).long()] = imsize/2+torch.arange(0,imsize/2)
 		colperm[torch.arange(0,imsize,2).long()] = torch.arange(0,imsize/2)
-		colperm[torch.arange(1,imsize,2).long()] = rows/2+torch.arange(0,imsize/2)
+		colperm[torch.arange(1,imsize,2).long()] = imsize/2+torch.arange(0,imsize/2)
 		rowperm = rowperm.long()
 		colperm = colperm.long()
 		self.invHorizontalIndex = colperm.unsqueeze(0).unsqueeze(0).unsqueeze(0).repeat(batchsize,nc,imsize,1)
@@ -366,11 +372,11 @@ class StageType1(nn.Module):
 		self.b3 = nn.BatchNorm2d(nc)
 		# Should I double the hidden layers here too?
 		self.c4 = Coupling( S(2*nc, 2*nh, ks), T(2*nc, 2*nh, ks), channelWise = 1 )
-		self.b4 = nn.BatchNorm2d(2*nc)
+		self.b4 = nn.BatchNorm2d(4*nc)
 		self.c5 = Coupling( S(2*nc, 2*nh, ks), T(2*nc, 2*nh, ks), channelWise = 0 )
-		self.b5 = nn.BatchNorm2d(2*nc)
+		self.b5 = nn.BatchNorm2d(4*nc)
 		self.c6 = Coupling( S(2*nc, 2*nh, ks), T(2*nc, 2*nh, ks), channelWise = 1 )
-		self.b6 = nn.BatchNorm2d(2*nc)
+		self.b6 = nn.BatchNorm2d(4*nc)
 
 		# ***** Cached batchnorm means / values
 		self.b1m, self.b1v, self.b2m, self.b2v, self.b3m,\
@@ -448,7 +454,7 @@ class StageType1(nn.Module):
 			out, det5 = self.c5.invert(out)
 			out, detb4 = batchNormInvert(self.b4,out,self.b4m,self.b4v)
 			out, det4 = self.c4.invert(out)
-			if x.size(0) == self.batchsize:
+			if y.size(0) == self.batchsize:
 				out = nvpUnsqueeze(out, horizontalIndex=self.invHorizontalIndex, verticalIndex=self.invVerticalIndex)
 			else:
 				out = nvpUnsqueeze(out)
@@ -465,7 +471,7 @@ class StageType1(nn.Module):
 			out, det5 = self.c5.invert(out)
 			out, detb4 = batchNormInvert(self.b4,out)
 			out, det4 = self.c4.invert(out)
-			if x.size(0) == self.batchsize:
+			if y.size(0) == self.batchsize:
 				out = nvpUnsqueeze(out, horizontalIndex=self.invHorizontalIndex, verticalIndex=self.invVerticalIndex)
 			else:
 				out = nvpUnsqueeze(out)
@@ -507,7 +513,7 @@ class StageType2(nn.Module):
 		# Size is batchsize x nc x imsize x imsize
 		if x.size(0) == self.batchsize:
 			bitmask = self.mask
-			invMask = self.invMask
+			invBitmask = self.invMask
 		else:
 			bitmask = Variable(getBitmask(self.imsize, self.nc, x.size(0),0))
 			invBitmask = 1-bitmask
@@ -515,7 +521,7 @@ class StageType2(nn.Module):
 		out = x
 
 		if self.training:
-			out, det1 = self.c1(out, bitmask=bitmask, invMask=invBitmask)
+			out, det1 = self.c1(out, bitmask=bitmask, invBitmask=invBitmask)
 			out, detb1, self.b1m, self.b1v = batchNormForward(self.b1,out)
 			out, det2 = self.c2(out, bitmask=invBitmask, invBitmask=bitmask)
 			out, detb2, self.b2m, self.b2v = batchNormForward(self.b2,out)
@@ -523,7 +529,7 @@ class StageType2(nn.Module):
 			out,detb3, self.b3m, self.b3v = batchNormForward(self.b3,out)
 			out, det4 = self.c4(out, bitmask=invBitmask, invBitmask=bitmask)
 		else:
-			out, det1 = self.c1(out, bitmask=bitmask, invMask=invBitmask)
+			out, det1 = self.c1(out, bitmask=bitmask, invBitmask=invBitmask)
 			out, detb1, _, _ = batchNormForward(self.b1,out)
 			out, det2 = self.c2(out, bitmask=invBitmask, invBitmask=bitmask)
 			out, detb2, _, _ = batchNormForward(self.b2,out)
@@ -540,7 +546,7 @@ class StageType2(nn.Module):
 	def invert(self,y):
 		if y.size(0) == self.batchsize:
 			bitmask = self.mask
-			invMask = self.invMask
+			invBitmask = self.invMask
 		else:
 			bitmask = Variable(getBitmask(self.imsize, self.nc, y.size(0),0))
 			invBitmask = 1-bitmask
@@ -554,7 +560,7 @@ class StageType2(nn.Module):
 			out, detb2 = batchNormInvert(self.b2,out, self.b2m, self.b2v)
 			out, det2 = self.c2.invert(out, bitmask=invBitmask, invBitmask=bitmask)
 			out, detb1 = batchNormInvert(self.b1,out, self.b1m, self.b1v)
-			out, det1 = self.c1.invert(out, bitmask=bitmask, invMask=invBitmask)
+			out, det1 = self.c1.invert(out, bitmask=bitmask, invBitmask=invBitmask)
 		else:
 			out, det4 = self.c4.invert(out, bitmask=invBitmask, invBitmask=bitmask)
 			out, detb3 = batchNormInvert(self.b3,out)
@@ -562,7 +568,7 @@ class StageType2(nn.Module):
 			out, detb2 = batchNormInvert(self.b2,out)
 			out, det2 = self.c2.invert(out, bitmask=invBitmask, invBitmask=bitmask)
 			out, detb1 = batchNormInvert(self.b1,out)
-			out, det1 = self.c1.invert(out, bitmask=bitmask, invMask=invBitmask)
+			out, det1 = self.c1.invert(out, bitmask=bitmask, invBitmask=invBitmask)
 
 
 		logDetJacob = det1+det2+det3+det4+detb1+detb2+detb3
@@ -585,7 +591,7 @@ class RealNVP(nn.Module):
 		# factor out half
 		self.stage2 = StageType1(imsize/2, 2*nc, 2*nh, ks, batchsize) 
 		# Factor out half
-		self.stage3 = StageType2(imsize/4, 4*nc, 4*nh, ks) # nc will overtake nh unless nh starts high enough
+		self.stage3 = StageType2(imsize/4, 4*nc, 4*nh, ks, batchsize) # nc will overtake nh unless nh starts high enough
 
 	def forward(self, x):
 		out = x
@@ -597,18 +603,18 @@ class RealNVP(nn.Module):
 
 		logDetJacob = det1+det2+det3
 		b = x.size(0)
-		z = torch.cat((z1z2.view(b,-1), z3.view(b,-1), z4.view(b,-1)), dim=1)
+		z = torch.cat((z1z2.contiguous().view(b,-1), z3.contiguous().view(b,-1), z4.contiguous().view(b,-1)), dim=1)
 
 		return z, logDetJacob
 
 	def invert(self, z):
 		z1z2 = z[:,:self.totalSize/2]
 		# The numbers are wrong; pls fix
-		z1z2 = z1z2.view(z.size(0), 2*self.nc, self.imsize/2, self.imsize/2)
+		z1z2 = z1z2.contiguous().view(z.size(0), 2*self.nc, self.imsize/2, self.imsize/2)
 		z3 = z[:,self.totalSize/2:3*self.totalSize/4]
-		z3 = z3.view(z.size(0), 4*self.nc, self.imsize/4, self.imsize/4)
+		z3 = z3.contiguous().view(z.size(0), 4*self.nc, self.imsize/4, self.imsize/4)
 		z4 = z[:,3*self.totalSize/4:]
-		z4 = z4.view(z.size(0), 4*self.nc, self.imsize/4, self.imsize/4)
+		z4 = z4.contiguous().view(z.size(0), 4*self.nc, self.imsize/4, self.imsize/4)
 
 		z4in, det3 = self.stage3.invert(z4)
 		z3 = torch.cat((z3,z4in),dim=1)
@@ -625,6 +631,7 @@ class RealNVP(nn.Module):
 ################################################################3
 
 
+
 # custom weights initialization called on netG and netD
 def weights_init(m):
     classname = m.__class__.__name__
@@ -639,6 +646,66 @@ def weights_init(m):
         #init.xavier_uniform(m.weight, gain=1.4)
         if m.bias is not None:
             init.constant(m.bias, 0.0)
+
+def testRealNVP():
+	x = Variable(torch.zeros(2,2,8,8).normal_())
+	imsize = 8
+	nc = 2
+	nh = 8
+	ks = 3
+	batchsize = 2
+
+	rmod = RealNVP(imsize, nc, nh, ks, batchsize)
+	rmod.apply(weights_init)
+	rmod.eval()
+
+	y, detforward = rmod(x)
+	yinv, detbackward = rmod.invert(y)
+
+	print x, y, yinv, detforward, detbackward
+	print (x-yinv).norm()
+
+def testStage1():
+	x = Variable(torch.zeros(2,2,6,6).normal_())
+	imsize = 6
+	nc = 2
+	nh = 8
+	ks = 3
+	batchsize = 2
+
+	s1mod = StageType1(imsize, nc, nh, ks, batchsize)
+	s1mod.apply(weights_init)
+	s1mod.eval()
+	y, detforward = s1mod(x)
+	yinv, detbackward = s1mod.invert(y)
+
+	print x
+	print y
+	print yinv
+	print detforward, detbackward
+
+	print (x-yinv).norm()
+
+def testStage2():
+	x = Variable(torch.zeros(2,2,6,6).normal_())
+	imsize = 6
+	nc = 2
+	nh = 8
+	ks = 3
+	batchsize = 2
+
+	s2mod = StageType2(imsize, nc, nh, ks, batchsize)
+	s2mod.apply(weights_init)
+	s2mod.eval()
+	y, detforward = s2mod(x)
+	yinv, detbackward = s2mod.invert(y)
+
+	print x
+	print y
+	print yinv
+	print detforward, detbackward
+
+	print (x-yinv).norm()
 
 def test(variable=False):
 	a = torch.arange(0,144).resize_((2,2,6,6))#.unsqueeze(0)
@@ -660,19 +727,20 @@ def testBitmask():
 def testBatchNorm():
 	training = Variable(10*torch.zeros(2,2,6,6).normal_()+50)
 	btch = nn.BatchNorm2d(2)
-	btch.train() #There is a problem with doing batchnorm during training, possibly...
+	#btch.train() #There is a problem with doing batchnorm during training, possibly...
 	#	btch(training)
-	#	btch.eval()	
+	btch.eval()	
 	#	a = Variable(torch.arange(0,144).resize_((2,2,6,6)))
 	a = Variable(torch.zeros(2,2,6,6).normal_())
-	meanEmp = torch.Tensor([a.data[:,i,:,:].mean() for i in range(a.size(1))])
-	varEmp = torch.Tensor([a.data[:,i,:,:].var() for i in range(a.size(1))])
-	print meanEmp, varEmp
+	#meanEmp = torch.Tensor([a.data[:,i,:,:].mean() for i in range(a.size(1))])
+	#varEmp = torch.Tensor([a.data[:,i,:,:].var() for i in range(a.size(1))])
+	#print meanEmp, varEmp
+	#	mean, var = None, None
 
 	aout, detaout, mean, var = batchNormForward(btch, a)
 	ainv, detavin = batchNormInvert(btch, aout, mean, var)
 
-	#	print detaout, detavin
+	print detaout, detavin
 
 	#	print a, aout, ainv, detaout, detavin
 	print mean, var
@@ -695,7 +763,7 @@ def testCoupling():
 	print (detJacobInv+detJacob).norm()
 
 def testCouplingChannelWise():
-#	mask = Variable(getBitmask(6,3,2,0))
+	#	mask = Variable(getBitmask(6,3,2,0))
 	c = Coupling( S(2, 5), T(2,5), channelWise=0)
 	c.apply(weights_init)
 
@@ -717,4 +785,7 @@ if __name__=='__main__':
 #	testBitmask()
 #	testCoupling()
 #	testBatchNorm()
-	testCouplingChannelWise()
+#	testCouplingChannelWise()
+	testStage1()
+#	testStage2()
+#	testRealNVP()
