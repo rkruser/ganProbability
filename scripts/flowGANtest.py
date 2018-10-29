@@ -292,14 +292,14 @@ def batchNormForward(bmod, x):
 	# 	varSmall = xvar
 	# else:
 	xmean, xvar = None, None
-	varSmall = bmod.running_var
+	varSmall = Variable(bmod.running_var)
 
 	#	printBatchNormParameters(bmod)
 	channelSize = x.size(2)*x.size(3)
 	weights = bmod.weight # Problem: will this learn in the inverse direction?
 	# logDetJacob = -0.5*(weights*(bmod.running_var+bmod.eps)*channelSize).log().sum() #Need the log, I think
-	logDetJacob = (weights.data.abs().log()*channelSize).sum()+(-0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
-	logDetJacob = Variable(torch.zeros(x.size(0)).fill_(logDetJacob)) # Same determinant for everything in batch
+	logDetJacob = (weights.abs().log()*channelSize).sum()+(-0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
+	logDetJacob = logDetJacob.expand(x.size(0)) #Variable(torch.zeros(x.size(0)).fill_(logDetJacob)) # Same determinant for everything in batch
 	return y, logDetJacob, xmean, xvar
 
 # Mean, var are tensors of size y.size(1) if present
@@ -312,7 +312,7 @@ def batchNormInvert(bmod, y, mean=None, var=None):
 	# if mean is None:
 	mean = Variable(bmod.running_mean.view(1,nc,1,1).expand_as(y))
 	var = Variable(bmod.running_var.view(1,nc,1,1).expand_as(y))
-	varSmall = bmod.running_var
+	varSmall = Variable(bmod.running_var)
 	# else:
 	# 	mean = Variable(mean.view(1,nc,1,1).expand_as(y))
 	# 	varSmall = var
@@ -320,11 +320,11 @@ def batchNormInvert(bmod, y, mean=None, var=None):
 
 	x = (y-bias.view(1,nc,1,1).expand_as(y))/weights.view(1,nc,1,1).expand_as(y)
 	x = x*torch.sqrt(var+bmod.eps)+mean
-#	logDetJacob = 0.5*(weights.data*(varSmall+bmod.eps)*channelSize).log().sum()
-	logDetJacob = -(weights.data.abs().log()*channelSize).sum()+(0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
+	# logDetJacob = 0.5*(weights.data*(varSmall+bmod.eps)*channelSize).log().sum()
+	logDetJacob = -(weights.abs().log()*channelSize).sum()+(0.5)*((varSmall+bmod.eps).log()*channelSize).sum()
 
 	# Same determinant for everything in batch
-	logDetJacob = Variable(torch.zeros(x.size(0)).fill_(logDetJacob))
+	logDetJacob = logDetJacob.expand(x.size(0)) #Variable(torch.zeros(x.size(0)).fill_(logDetJacob))
 	return x, logDetJacob
 
 
@@ -680,7 +680,7 @@ def weights_init(m):
             init.constant(m.bias, 0.0)
 
 def testRealNVP():
-	x = Variable(torch.zeros(2,2,8,8).normal_())
+	x = Variable(torch.zeros(2,2,8,8).normal_(), requires_grad=True)
 	imsize = 8
 	nc = 2
 	nh = 8
@@ -694,7 +694,15 @@ def testRealNVP():
 	y, detforward = rmod(x)
 	yinv, detbackward = rmod.invert(y)
 
-	print x, y, yinv, detforward, detbackward
+	print detbackward.size()
+	print y.size()
+
+	y2 = (detbackward*y.sum(dim=1)).sum()
+	y2.backward()
+	print y2
+	print "grad", x.grad.data
+
+#	print x, y, yinv, detforward, detbackward
 	print (x-yinv).norm()
 
 def testStage1():
