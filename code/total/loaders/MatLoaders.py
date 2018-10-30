@@ -36,17 +36,17 @@ class LoaderTemplate(Loader):
   #  return a pair (x,y) or just x
   # This function should give an error if outShape is 
   #  not compatible with the dataset
-  def getDataset(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False):
+  def getDataset(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False, fuzzy=False):
     # Before returning, can check for compatible shapes
     if distribution is None:
       distribution = self.distribution
-    return MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode)
+    return MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy)
 
-  def getDataloader(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False):
+  def getDataloader(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False, fuzzy=False):
     # Before returning, can check for compatible shapes
     if distribution is None:
       distribution = self.distribution
-    return data.DataLoader(MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
+    return data.DataLoader(MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
 
 
 class MNISTSize28Cols1(LoaderTemplate):
@@ -125,12 +125,13 @@ class ProbData(LoaderTemplate):
 # Assumes you have a matfile
 # containing Xtrain, (Ytrain), Xtest, (Ytest) of the appropriate sizes
 class MatLoader(data.Dataset):
-  def __init__(self, matFile, outShape=None, distribution=None, labels=None,  returnLabel=False, mode='train'):
+  def __init__(self, matFile, outShape=None, distribution=None, labels=None, returnLabel=False, mode='train', fuzzy=False):
     self.matFile = matFile
     self.distribution = distribution
     self.outShape = outShape
     self.mode = mode
     self.returnLabel = returnLabel
+    self.fuzzy = fuzzy # Add small random noise to pixel values and shrink away from boundaries
 
     self.X = None
     self.Y = None
@@ -192,6 +193,9 @@ class MatLoader(data.Dataset):
       elif self.outShape[0]==1 and x.size(0) == 3:
         x = (x[0]*0.2989+x[1]*0.5870+x[2]*0.1140).unsqueeze(0)
 #      x = self.transform(x)
+
+    if self.fuzzy:
+      x = x.add_(torch.Tensor(x.size()).uniform_(-1.0/255,1.0/255)).clamp_(-1,1)
 
     if self.returnLabel:
       y = self.Y[item]

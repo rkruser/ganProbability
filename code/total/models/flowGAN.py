@@ -112,7 +112,7 @@ class FlowGANmodel(ModelTemplate):
     # self.errD = []
 
     # Remember to keep the batch size fixed here, maybe?
-    dataloader = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnLabel=False)
+    dataloader = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnLabel=False, fuzzy=True)
 
     gauss_const = -self.nz*np.log(np.sqrt(2*np.pi))
     log_const = 1
