@@ -34,6 +34,7 @@ class FlowGANmodel(ModelTemplate):
       'cuda':False,
       'lr':0.0002,
       'beta1':0.5,
+      'lossLambda':0.1,
       'batchsize':64,
       'netGclass':RealNVP,
       'netGkey':'netG',
@@ -110,7 +111,12 @@ class FlowGANmodel(ModelTemplate):
     # self.errG = []
     # self.errD = []
 
+    # Remember to keep the batch size fixed here, maybe?
     dataloader = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnLabel=False)
+
+    gauss_const = -self.nz*np.log(np.sqrt(2*np.pi))
+    log_const = 1
+
 
     self.netG.train()
     self.netD.train()
@@ -128,45 +134,49 @@ class FlowGANmodel(ModelTemplate):
         labelsReal = torch.Tensor(batchSize).fill_(1.0)
         labelsFake = torch.Tensor(batchSize).fill_(0.0)
         zCodesD = torch.Tensor(batchSize, self.nz, 1,1).normal_(0,1)
-        zCodesG = torch.Tensor(batchSize, self.nz, 1,1).normal_(0,1)
+#        zCodesG = torch.Tensor(batchSize, self.nz, 1,1).normal_(0,1)
 
         if self.cuda:
           data = data.cuda()
           zCodesD = zCodesD.cuda()
-          zCodesG = zCodesG.cuda()
+#          zCodesG = zCodesG.cuda()
           labelsReal = labelsReal.cuda()
           labelsFake = labelsFake.cuda()
 
         data = Variable(data)
         labelsReal = Variable(labelsReal)
         zCodesD = Variable(zCodesD)
-        zCodesG = Variable(zCodesG)
+#        zCodesG = Variable(zCodesG)
         labelsFake = Variable(labelsFake)
         
         # Running through discriminator
         dPredictionsReal = self.netD(data)
         errDreal = self.criterion(dPredictionsReal, labelsReal)
-        errDreal.backward()
 
-        fakeImsD = self.netG(zCodesD)
+        fakeImsD, _ = self.netG(zCodesD)
         dPredictionsFake = self.netD(fakeImsD.detach())
         errDfake = self.criterion(dPredictionsFake, labelsFake)
-        errDfake.backward()
 
         errD = errDreal + errDfake
+        errD.backward()
         self.optimizerD.step()
         
         # Running through Generator
           # Do I need to sample this separately?
           # or can I use existing samples?
         self.netG.zero_grad()
-        fakeImsG = self.netG(zCodesG)
-        gPredictionsFake = self.netD(fakeImsG)
+#        fakeImsG, _ = self.netG(zCodesG) #????
+        gPredictionsFake = self.netD(fakeImsD)
+        dataInverted, logDetDataInverted = self.netG.invert(data)
+        logLikelihoodLoss = gauss_const - log_const*0.5*(dataInverted**2).sum(dim=1) + logDetDataInverted
+        logLikelihoodLoss = logLikelihoodLoss.mean()
+
         errG = self.criterion(gPredictionsFake, labelsReal)
+        errG = errG - self.lossLambda*logLikelihoodLoss
         errG.backward()
         self.optimizerG.step()
 
-        # Need to weight-clip somewhere after stepping each function
+        # Need to weight-clip somewhere after stepping each function, if using wasserstein
 
         # Extract data from run
         gLosses.update(errG.data[0], batchSize)
@@ -187,7 +197,7 @@ class FlowGANmodel(ModelTemplate):
   def sample(self, nSamples):
     self.netG.eval()
     codes = torch.FloatTensor(nSamples,self.nz).normal_(0,1)
-    results = self.netG(codes)
+    results, _ = self.netG(codes)
     return results
 
 
@@ -208,84 +218,97 @@ class FlowGANmodel(ModelTemplate):
   # Move this to a library function later
   # Get the probabilities of a set of codes
   def getProbs(self, codes, deepFeatures=None, deepFeaturesOutsize=None, method='numerical', epsilon=1e-5):
-    if method=='numerical':
-      noise = torch.FloatTensor(2*self.nz+1,self.nz,1,1)
-    else:
-      noise = torch.FloatTensor(1, self.nz, 1, 1) 
-    b = torch.eye(self.nz)*epsilon # Add/subtract to code
-
-    if self.cuda:
-      noise = noise.cuda()
-      b = b.cuda()
-#      b.cuda() # not necessary?
-
+    self.netG.eval()
     # Using log10 because it's more intuitive
     gauss_const = -self.nz*np.log10(np.sqrt(2*np.pi))
     log_const = np.log10(np.exp(1))
+    log_div = np.log(10.0)
 
     nSamples = codes.size(0)
     images = np.empty([nSamples, self.nc, self.imSize, self.imSize])
     probs = np.empty([nSamples])
-    
+
+    if deepFeatures is None:
+      jacob = None
+    else:
+      jacob = np.empty([nSamples, min(nX,self.nz)]) 
 
     if deepFeaturesOutsize is not None:
       nX = deepFeaturesOutsize
       feats = np.empty([nSamples, nX])
     else:
       nX = self.nc*self.imSize*self.imSize
-    # Take deep features into account here
 
-    jacob = np.empty([nSamples, min(nX,self.nz)]) 
 
-    self.netG.eval()
-    for i in range(codes.size(0)):
-      self.log("Probability sampling {0}".format(i))
-
-      J = np.empty([nX, self.nz])
-
-      a = codes[i].view(1,-1)
+    if deepFeatures is None:
+      for i in range(codes.size(0)):
+        z = Variable(codes[i].view(1,-1))
+        im, logDetIm = self.netG(Variable(codes[i].view(1,-1)))
+        imProb = gauss_const-log_const*0.5*(z**2).sum()-logDetIm/log_div #change log to log 10 #subtract to get log of inverse
+        probs[i] = imProb
+        images[i] = im.data.cpu().numpy().reshape(self.nc, self.imSize, self.imSize)
+    else:
       if method=='numerical':
-        noise.copy_(torch.cat((a,a+b,a-b),0).unsqueeze(2).unsqueeze(3))
-        noisev = Variable(noise, volatile=True) #volatile helps with memory?
-        fakeIms = self.netG(noisev)
-        if deepFeatures is not None:
-          fake = deepFeatures(fakeIms) # What if there are multiple return values
-        else:
-          fake = fakeIms
-        I = fake.data.cpu().numpy().reshape(2*self.nz+1,-1)
-        J = (I[1:self.nz+1,:]-I[self.nz+1:,:]).transpose()/(2*epsilon)
+        noise = torch.FloatTensor(2*self.nz+1,self.nz,1,1)
       else:
-        noise.copy_(a.unsqueeze(2).unsqueeze(3))
-        noisev = Variable(noise, requires_grad=True)
-        fakeIms = self.netG(noisev)
-#        I = fake.data.cpu().numpy() #memory problems?
-        if deepFeatures is not None:
-          fake = deepFeatures(fakeIms)
-        else:
-          fake = fakeIms
-        # Insert deep features here
-        fake = fake.view(1,-1)
+        noise = torch.FloatTensor(1, self.nz, 1, 1) 
+      b = torch.eye(self.nz)*epsilon # Add/subtract to code
 
-        for k in range(nX):
-          if k%1000 == 0:
-            self.log("bprop iter {}".format(k))
-          self.netG.zero_grad()
+      if self.cuda:
+        noise = noise.cuda()
+        b = b.cuda()
+
+      for i in range(codes.size(0)):
+        self.log("Probability sampling {0}".format(i))
+
+        J = np.empty([nX, self.nz])
+
+        a = codes[i].view(1,-1)
+        # Numerical method is nearly untenable here
+        # Better use backprop?
+        # Also, only use backprop through the deep feature layer
+        if method=='numerical':
+          noise.copy_(torch.cat((a,a+b,a-b),0).unsqueeze(2).unsqueeze(3))
+          noisev = Variable(noise, volatile=True) #volatile helps with memory?
+          fakeIms, _ = self.netG(noisev)
           if deepFeatures is not None:
-            deepFeatures.zero_grad()
-          fake[0,k].backward(retain_variables=True) #Not sure if retain variables is necessary
-          J[k] = noisev.grad.data.cpu().numpy().squeeze()
+            fake = deepFeatures(fakeIms) # What if there are multiple return values
+          else:
+            fake = fakeIms
+          I = fake.data.cpu().numpy().reshape(2*self.nz+1,-1)
+          J = (I[1:self.nz+1,:]-I[self.nz+1:,:]).transpose()/(2*epsilon)
+        else:
+          noise.copy_(a.unsqueeze(2).unsqueeze(3))
+          noisev = Variable(noise, requires_grad=True)
+          fakeIms, _ = self.netG(noisev)
+  #        I = fake.data.cpu().numpy() #memory problems?
+          if deepFeatures is not None:
+            fake = deepFeatures(fakeIms)
+          else:
+            fake = fakeIms
+          # Insert deep features here
+          fake = fake.view(1,-1)
 
-      fakeIms = fakeIms.data.cpu().numpy()
-      images[i] = fakeIms[0,:].reshape(self.nc, self.imSize, self.imSize)
-      if deepFeatures is not None:
-        feats[i] = fake.data[0,:].cpu().numpy()
-      
-      R = np.linalg.qr(J, mode='r')
-      Z = a.cpu().numpy()
-      dummy = R.diagonal().copy()
-      jacob[i] = dummy.copy() # No modification yet
-      dummy[np.where(np.abs(dummy) < 1e-20)] = 1
-      probs[i] = -log_const*0.5*np.sum(Z**2)+gauss_const - np.log10(np.abs(dummy)).sum()
+          for k in range(nX):
+            if k%1000 == 0:
+              self.log("bprop iter {}".format(k))
+            self.netG.zero_grad()
+            if deepFeatures is not None:
+              deepFeatures.zero_grad()
+            fake[0,k].backward(retain_variables=True) #Not sure if retain variables is necessary
+            J[k] = noisev.grad.data.cpu().numpy().squeeze()
+
+        fakeIms = fakeIms.data.cpu().numpy()
+        images[i] = fakeIms[0,:].reshape(self.nc, self.imSize, self.imSize)
+        if deepFeatures is not None:
+          feats[i] = fake.data[0,:].cpu().numpy()
+        
+        R = np.linalg.qr(J, mode='r')
+        Z = a.cpu().numpy()
+        dummy = R.diagonal().copy()
+        jacob[i] = dummy.copy() # No modification yet
+        dummy[np.where(np.abs(dummy) < 1e-20)] = 1
+        probs[i] = -log_const*0.5*np.sum(Z**2)+gauss_const - np.log10(np.abs(dummy)).sum()
 
     
 		# What about codes?
