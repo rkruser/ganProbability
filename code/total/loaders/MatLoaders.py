@@ -42,11 +42,13 @@ class LoaderTemplate(Loader):
       distribution = self.distribution
     return MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy)
 
-  def getDataloader(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False, fuzzy=False):
+  def getDataloader(self, outShape = None, distribution=None, labels=None, mode='train', returnLabel = False, fuzzy=False, drop_last=False):
     # Before returning, can check for compatible shapes
     if distribution is None:
       distribution = self.distribution
-    return data.DataLoader(MatLoader(self.path, outShape = outShape, distribution=distribution, labels=labels, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy), batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers)
+    return data.DataLoader(MatLoader(self.path, outShape = outShape, distribution=distribution, 
+                labels=labels, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy), 
+                batch_size = self.batchSize, shuffle=self.shuffle, num_workers = self.workers, drop_last=drop_last)
 
 
 class MNISTSize28Cols1(LoaderTemplate):
