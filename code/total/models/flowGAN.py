@@ -145,7 +145,7 @@ class FlowGANModel(ModelTemplate):
       gLosses = AverageMeter()
       dLosses = AverageMeter()
       for i, data in enumerate(dataloader):
-        if i > 3 and i<927:
+        if i > 10 and i<927:
           continue
 #        if i%10 == 0:
         self.log("Iteration {0}".format(i))
@@ -193,8 +193,9 @@ class FlowGANModel(ModelTemplate):
         fakeImsG = fakeImsD
         gPredictionsFake = self.netD(fakeImsG)
         dataInverted, logDetDataInverted = self.netG(data)
-        logLikelihoodLoss = gauss_const - log_const*0.5*(dataInverted**2).sum(dim=1) + logDetDataInverted
-        logLikelihoodLoss = logLikelihoodLoss.mean()
+#        logLikelihoodLoss = gauss_const - log_const*0.5*(dataInverted**2).sum(dim=1) + logDetDataInverted
+#        logLikelihoodLoss = logLikelihoodLoss.mean()
+        logLikelihoodLoss = 0
 
 #        errG = self.criterion(gPredictionsFake, labelsReal)
         errG = -gPredictionsFake.mean()
