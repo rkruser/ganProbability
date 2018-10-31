@@ -20,6 +20,20 @@ import numpy as np
 # Check for correctness
 # Fill in sampling and other functions
 
+def weights_clip(m, c=0.01):
+    classname = m.__class__.__name__
+    if classname.find('Conv') != -1:
+        m.weight.clamp(-c, c)
+        if m.bias is not None:
+          m.bias.clamp(-c,c)
+    elif classname.find('BatchNorm') != -1:
+        m.weight.clamp(-c, c)
+        m.bias.clamp(-c,c)
+    elif classname.find('Linear') != -1:
+        m.weight.clamp(-c,c)
+        if m.bias is not None:
+          m.bias.clamp(-c,c)
+
 
 # Need to do random seeding in another module
 
@@ -131,8 +145,8 @@ class FlowGANModel(ModelTemplate):
       gLosses = AverageMeter()
       dLosses = AverageMeter()
       for i, data in enumerate(dataloader):
-#        if i > 3 and i<927:
-#          continue
+        if i > 3 and i<927:
+          continue
 #        if i%10 == 0:
         self.log("Iteration {0}".format(i))
         
@@ -158,27 +172,32 @@ class FlowGANModel(ModelTemplate):
         
         # Running through discriminator
         dPredictionsReal = self.netD(data)
-        errDreal = self.criterion(dPredictionsReal, labelsReal)
+#        errDreal = self.criterion(dPredictionsReal, labelsReal)
+        errDreal = -dPredictionsReal.mean()
 
         fakeImsD, _ = self.netG(zCodesD, invert=True)
         dPredictionsFake = self.netD(fakeImsD.detach())
-        errDfake = self.criterion(dPredictionsFake, labelsFake)
+#        errDfake = self.criterion(dPredictionsFake, labelsFake)
+        errDfake = dPredictionsFake.mean()
 
         errD = errDreal + errDfake
         errD.backward()
         self.optimizerD.step()
+        weights_clip(self.netD)
         
         # Running through Generator
           # Do I need to sample this separately?
           # or can I use existing samples?
         self.netG.zero_grad()
-#        fakeImsG, _ = self.netG(zCodesG) #????
-        gPredictionsFake = self.netD(fakeImsD)
+#        fakeImsG, _ = self.netG(zCodesG, invert=True) #????
+        fakeImsG = fakeImsD
+        gPredictionsFake = self.netD(fakeImsG)
         dataInverted, logDetDataInverted = self.netG(data)
         logLikelihoodLoss = gauss_const - log_const*0.5*(dataInverted**2).sum(dim=1) + logDetDataInverted
         logLikelihoodLoss = logLikelihoodLoss.mean()
 
-        errG = self.criterion(gPredictionsFake, labelsReal)
+#        errG = self.criterion(gPredictionsFake, labelsReal)
+        errG = -gPredictionsFake.mean()
         errG = errG - self.lossLambda*logLikelihoodLoss
         errG.backward()
         self.optimizerG.step()
@@ -194,7 +213,7 @@ class FlowGANModel(ModelTemplate):
         self.log("GLoss: {0}, DLoss: {1}".format(gLosses.avg, dLosses.avg))
 
         if i == (len(dataloader)-2) and (epoch+1)%self.checkpointEvery == 0:
-          self.images.append(np.array((np.transpose(fakeImsD.data.cpu().numpy(),(0,2,3,1))[:16]*0.5+0.5)*255,dtype='uint8'))
+          self.images.append(np.array((np.transpose(fakeImsG.data.cpu().numpy(),(0,2,3,1))[:16]*0.5+0.5)*255,dtype='uint8'))
 
       # Save checkpoint
       if (epoch+1)%self.checkpointEvery == 0:
