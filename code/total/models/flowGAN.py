@@ -145,8 +145,8 @@ class FlowGANModel(ModelTemplate):
       gLosses = AverageMeter()
       dLosses = AverageMeter()
       for i, data in enumerate(dataloader):
-        if i > 10 and i<927:
-          continue
+        # if i > 10 and i<927:
+        #   continue
 #        if i%10 == 0:
         self.log("Iteration {0}".format(i))
         
