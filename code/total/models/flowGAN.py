@@ -10,7 +10,14 @@ import torch.optim as optim
 from torch.autograd import Variable
 import numpy as np 
 
-# sdlfkjasdfasldfkj
+# Changes to make:
+#   - No more sigmoid for discriminator
+#   - Check initialization scheme for okayness (so so giant values)
+#   - Shrink data away from boundaries?
+#   - Check gradient sizes
+#   - Check log likelihood calculation
+#   - Try to train G purely with log likelihood
+
 
 # Todo:
 #  Make this class slightly more general,
