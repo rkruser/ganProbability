@@ -15,6 +15,8 @@ def weights_init(m):
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:
         m.weight.data.normal_(0.0, 0.01)
+        if m.bias is not None:
+          m.bias.data.normal_(0.0,0.01)
     elif classname.find('BatchNorm') != -1:
         m.weight.data.normal_(1.0, 0.01)
         m.bias.data.fill_(0)
@@ -246,6 +248,114 @@ class NetD32(nn.Module):
       return prediction, reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
     else:
       return prediction
+
+
+class NetD32(nn.Module):
+  def __init__(self, nz=100, ndf=64, nc=1, ngpu=0, infogan=False):
+    super(NetD32, self).__init__()
+    self.ngpu = ngpu
+    self.nz = nz
+    self.infogan = infogan
+    self.main = nn.Sequential(
+        # input is (nc) x 32 x 32
+        nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ndf),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf) x 16 x 16
+        nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ndf * 2),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf*2) x 8 x 8
+        nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
+        # for 28 x 28
+       # nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 2, bias=False),
+        nn.BatchNorm2d(ndf * 4),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf*4) x 4 x 4
+    )
+
+    # Predictor takes main output and produces a probability
+    self.predictor = nn.Sequential(
+        nn.Conv2d(ndf*4, 1, 4, 1, 0, bias=False),
+        nn.Sigmoid()
+        # Output is a single scalar
+    )
+
+    # Output size is nz
+    if self.infogan:
+      self.reconstructor = nn.Conv2d(ndf*4, nz, 4, 1, 0)
+
+
+  def forward(self, x):
+    # Removed the x.data part in this and in netG
+    if isinstance(x.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+      output = nn.parallel.data_parallel(self.main, x, range(self.ngpu))
+    else:
+      output = self.main(x)
+
+    prediction = self.predictor(output).view(-1,1).squeeze(1)
+
+    if self.infogan:
+      reconstruction = self.reconstructor(output)
+      return prediction, reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
+    else:
+      return prediction
+
+
+class NetD32Affine(nn.Module):
+  def __init__(self, nz=100, ndf=64, nc=1, ngpu=0, infogan=False):
+    super(NetD32Affine, self).__init__()
+    self.ngpu = ngpu
+    self.nz = nz
+    self.infogan = infogan
+    self.main = nn.Sequential(
+        # input is (nc) x 32 x 32
+        nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ndf),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf) x 16 x 16
+        nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
+        nn.BatchNorm2d(ndf * 2),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf*2) x 8 x 8
+        nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
+        # for 28 x 28
+       # nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 2, bias=False),
+        nn.BatchNorm2d(ndf * 4),
+        nn.LeakyReLU(0.2, inplace=True),
+        # state size. (ndf*4) x 4 x 4
+    )
+
+    # Predictor takes main output and produces a probability
+    self.predictor = nn.Sequential(
+        nn.Conv2d(ndf*4, 1, 4, 1, 0, bias=True),
+        # Output is a single scalar
+    )
+
+    # Output size is nz
+    if self.infogan:
+      self.reconstructor = nn.Conv2d(ndf*4, nz, 4, 1, 0)
+
+
+  def forward(self, x):
+    # Removed the x.data part in this and in netG
+    if isinstance(x.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+      output = nn.parallel.data_parallel(self.main, x, range(self.ngpu))
+    else:
+      output = self.main(x)
+
+    prediction = self.predictor(output).view(-1,1).squeeze(1)
+
+    if self.infogan:
+      reconstruction = self.reconstructor(output)
+      return prediction, reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
+    else:
+      return prediction
+
+
+
+
+
 
 
 class NetD64(nn.Module):

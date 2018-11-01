@@ -1,7 +1,7 @@
 from mlworkflow import Data
 from copy import copy
 from code.total.models.ModelTemplate import ModelTemplate, AverageMeter
-from code.total.models.nnModels import weights_init, NetG32, NetD32
+from code.total.models.nnModels import weights_init, NetG32, NetD32, NetD32Affine
 from code.total.models.realNVP import RealNVP
 
 import torch
@@ -63,7 +63,7 @@ class FlowGANModel(ModelTemplate):
       'netGkey':'netG',
       'netGinstance':-1,
       'netGexpNum':-1,
-      'netDclass':NetD32,
+      'netDclass':NetD32Affine,
       'netDkey':'netD',
       'netDinstance':-1,
       'netDexpNum':-1,

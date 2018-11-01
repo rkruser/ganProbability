@@ -1,0 +1,310 @@
+=====
+Starting experiment trainMNIST
+ID: 79, PID 0/1
+10_31_2018_20:53:48
+=====
+FlowGAN: {'checkpointEvery': 1, 'netGkey': 'netG', 'netGinstance': -1, 'batchsize': 64, 'lossLambda': 0.1, 'ngpu': 1, 'netGclass': <class 'code.total.models.realNVP.RealNVP'>, 'nh': 32, 'netDclass': <class 'code.total.models.nnModels.NetD32Affine'>, 'nGANepochs': 2, 'netDexpNum': -1, 'nc': 3, 'ndf': 64, 'ks': 3, 'netGexpNum': -1, 'netDinstance': -1, 'lr': 0.0002, 'cuda': True, 'beta1': 0.5, 'netDkey': 'netD', 'imSize': 32}
+FlowGAN: outShape is (3, 32, 32)
+FlowGAN: Starting GAN from scratch
+FlowGAN: ===Begin epoch 0
+FlowGAN: Iteration 0
+FlowGAN: GLoss: 0.971215605736, DLoss: 0.211013913155
+FlowGAN: Iteration 1
+FlowGAN: GLoss: 0.877252101898, DLoss: -1.21180444956
+FlowGAN: Iteration 2
+FlowGAN: GLoss: 0.839169959227, DLoss: -2.3912983338
+FlowGAN: Iteration 3
+FlowGAN: GLoss: 0.953064277768, DLoss: -3.67649152875
+FlowGAN: Iteration 4
+FlowGAN: GLoss: 1.12770096064, DLoss: -4.81288912296
+FlowGAN: Iteration 5
+FlowGAN: GLoss: 1.30750243862, DLoss: -5.98054109017
+FlowGAN: Iteration 6
+FlowGAN: GLoss: 1.47235145739, DLoss: -7.11695849895
+FlowGAN: Iteration 7
+FlowGAN: GLoss: 1.63772375137, DLoss: -8.14164151251
+FlowGAN: Iteration 8
+FlowGAN: GLoss: 1.80039557483, DLoss: -9.1423012548
+FlowGAN: Iteration 9
+FlowGAN: GLoss: 1.98696678281, DLoss: -10.0899888158
+FlowGAN: Iteration 10
+FlowGAN: GLoss: 2.02109467441, DLoss: -10.8122696551
+FlowGAN: Iteration 11
+FlowGAN: GLoss: 2.00665724774, DLoss: -11.529699256
+FlowGAN: Iteration 12
+FlowGAN: GLoss: 2.05422231326, DLoss: -12.2329102388
+FlowGAN: Iteration 13
+FlowGAN: GLoss: 2.11310433064, DLoss: -12.9361152053
+FlowGAN: Iteration 14
+FlowGAN: GLoss: 2.1764593482, DLoss: -13.6418255568
+FlowGAN: Iteration 15
+FlowGAN: GLoss: 2.31328913942, DLoss: -14.321772404
+FlowGAN: Iteration 16
+FlowGAN: GLoss: 2.44449868272, DLoss: -14.9814348291
+FlowGAN: Iteration 17
+FlowGAN: GLoss: 2.42137110564, DLoss: -15.5048837198
+FlowGAN: Iteration 18
+FlowGAN: GLoss: 2.4042303719, DLoss: -15.9764024396
+FlowGAN: Iteration 19
+FlowGAN: GLoss: 2.41005319655, DLoss: -16.4983377039
+FlowGAN: Iteration 20
+FlowGAN: GLoss: 2.48027121737, DLoss: -17.0220816079
+FlowGAN: Iteration 21
+FlowGAN: GLoss: 2.59590421211, DLoss: -17.5850962346
+FlowGAN: Iteration 22
+FlowGAN: GLoss: 2.62659127038, DLoss: -18.0574869539
+FlowGAN: Iteration 23
+FlowGAN: GLoss: 2.66963337113, DLoss: -18.5202111055
+FlowGAN: Iteration 24
+FlowGAN: GLoss: 2.72542305231, DLoss: -19.0094604921
+FlowGAN: Iteration 25
+FlowGAN: GLoss: 2.78701432164, DLoss: -19.4997107845
+FlowGAN: Iteration 26
+FlowGAN: GLoss: 2.80089160469, DLoss: -19.9439880627
+FlowGAN: Iteration 27
+FlowGAN: GLoss: 2.83103670606, DLoss: -20.3845790837
+FlowGAN: Iteration 28
+FlowGAN: GLoss: 2.80115599262, DLoss: -20.7725851495
+FlowGAN: Iteration 29
+FlowGAN: GLoss: 2.82407821616, DLoss: -21.1842700044
+FlowGAN: Iteration 30
+FlowGAN: GLoss: 2.90348834953, DLoss: -21.6240360237
+FlowGAN: Iteration 31
+FlowGAN: GLoss: 2.91401956789, DLoss: -22.0052382089
+FlowGAN: Iteration 32
+FlowGAN: GLoss: 2.96493563327, DLoss: -22.4302630894
+FlowGAN: Iteration 33
+FlowGAN: GLoss: 3.12747645203, DLoss: -22.9187987026
+FlowGAN: Iteration 34
+FlowGAN: GLoss: 3.26386560542, DLoss: -23.3614722422
+FlowGAN: Iteration 35
+FlowGAN: GLoss: 3.37871332798, DLoss: -23.814792239
+FlowGAN: Iteration 36
+FlowGAN: GLoss: 3.4380059355, DLoss: -24.2258872245
+FlowGAN: Iteration 37
+FlowGAN: GLoss: 3.60499986692, DLoss: -24.7065152902
+FlowGAN: Iteration 38
+FlowGAN: GLoss: 3.71480110211, DLoss: -25.1176519424
+FlowGAN: Iteration 39
+FlowGAN: GLoss: 3.81040129513, DLoss: -25.5613327295
+FlowGAN: Iteration 40
+FlowGAN: GLoss: 4.00888484716, DLoss: -26.0259064727
+FlowGAN: Iteration 41
+FlowGAN: GLoss: 4.23296310646, DLoss: -26.5065044477
+FlowGAN: Iteration 42
+FlowGAN: GLoss: 4.40414503979, DLoss: -26.9782262652
+FlowGAN: Iteration 43
+FlowGAN: GLoss: 4.57852887972, DLoss: -27.487916624
+FlowGAN: Iteration 44
+FlowGAN: GLoss: 4.85034056637, DLoss: -28.0350899829
+FlowGAN: Iteration 45
+FlowGAN: GLoss: 5.12510651998, DLoss: -28.5793349458
+FlowGAN: Iteration 46
+FlowGAN: GLoss: 5.39135981494, DLoss: -29.1364795832
+FlowGAN: Iteration 47
+FlowGAN: GLoss: 5.66939985628, DLoss: -29.6641211733
+FlowGAN: Iteration 48
+FlowGAN: GLoss: 5.94400460258, DLoss: -30.2120870692
+FlowGAN: Iteration 49
+FlowGAN: GLoss: 6.25468147159, DLoss: -30.8007275605
+FlowGAN: Iteration 50
+FlowGAN: GLoss: 6.58991256298, DLoss: -31.3862209156
+FlowGAN: Iteration 51
+FlowGAN: GLoss: 6.93976020698, DLoss: -32.0011046689
+FlowGAN: Iteration 52
+FlowGAN: GLoss: 7.36197453512, DLoss: -32.7064510044
+FlowGAN: Iteration 53
+FlowGAN: GLoss: 7.79491314954, DLoss: -33.4405047297
+FlowGAN: Iteration 54
+FlowGAN: GLoss: 8.24111407778, DLoss: -34.166472992
+FlowGAN: Iteration 55
+FlowGAN: GLoss: 8.70487645588, DLoss: -34.9320197978
+FlowGAN: Iteration 56
+FlowGAN: GLoss: 9.13676944427, DLoss: -35.6640115223
+FlowGAN: Iteration 57
+FlowGAN: GLoss: 9.57204519366, DLoss: -36.3952386975
+FlowGAN: Iteration 58
+FlowGAN: GLoss: 10.0176731358, DLoss: -37.1304849063
+FlowGAN: Iteration 59
+FlowGAN: GLoss: 10.4658110609, DLoss: -37.8842782517
+FlowGAN: Iteration 60
+FlowGAN: GLoss: 10.9082686305, DLoss: -38.6282227489
+FlowGAN: Iteration 61
+FlowGAN: GLoss: 11.3613058819, DLoss: -39.3845002132
+FlowGAN: Iteration 62
+FlowGAN: GLoss: 11.7987075978, DLoss: -40.1088717192
+FlowGAN: Iteration 63
+FlowGAN: GLoss: 12.1337663224, DLoss: -40.6990285087
+FlowGAN: Iteration 64
+FlowGAN: GLoss: 12.4963496566, DLoss: -41.3165090873
+FlowGAN: Iteration 65
+FlowGAN: GLoss: 12.768422675, DLoss: -41.8533117283
+FlowGAN: Iteration 66
+FlowGAN: GLoss: 13.030263786, DLoss: -42.4341897698
+FlowGAN: Iteration 67
+FlowGAN: GLoss: 13.2851857008, DLoss: -43.0098659449
+FlowGAN: Iteration 68
+FlowGAN: GLoss: 13.5992284573, DLoss: -43.5637862872
+FlowGAN: Iteration 69
+FlowGAN: GLoss: 13.9779906673, DLoss: -44.2307313255
+FlowGAN: Iteration 70
+FlowGAN: GLoss: 14.3786714572, DLoss: -44.869112594
+FlowGAN: Iteration 71
+FlowGAN: GLoss: 14.7929612787, DLoss: -45.5922276328
+FlowGAN: Iteration 72
+FlowGAN: GLoss: 15.2140428195, DLoss: -46.3078052197
+FlowGAN: Iteration 73
+FlowGAN: GLoss: 15.5662221127, DLoss: -46.9739480035
+FlowGAN: Iteration 74
+FlowGAN: GLoss: 15.8893747449, DLoss: -47.5901114035
+FlowGAN: Iteration 75
+FlowGAN: GLoss: 16.3021475634, DLoss: -48.3017274094
+FlowGAN: Iteration 76
+FlowGAN: GLoss: 16.7044160018, DLoss: -48.9751861513
+FlowGAN: Iteration 77
+FlowGAN: GLoss: 17.1178870071, DLoss: -49.693091284
+FlowGAN: Iteration 78
+FlowGAN: GLoss: 17.53389653, DLoss: -50.4040939853
+FlowGAN: Iteration 79
+FlowGAN: GLoss: 17.9481448166, DLoss: -51.1179524556
+FlowGAN: Iteration 80
+FlowGAN: GLoss: 18.3492805097, DLoss: -51.8207146106
+FlowGAN: Iteration 81
+FlowGAN: GLoss: 18.7528047787, DLoss: -52.5197613545
+FlowGAN: Iteration 82
+FlowGAN: GLoss: 19.0940883124, DLoss: -53.2031089269
+FlowGAN: Iteration 83
+FlowGAN: GLoss: 19.4822867704, DLoss: -53.8881083117
+FlowGAN: Iteration 84
+FlowGAN: GLoss: 19.871886219, DLoss: -54.5681408279
+FlowGAN: Iteration 85
+FlowGAN: GLoss: 20.2607746117, DLoss: -55.2243990468
+FlowGAN: Iteration 86
+FlowGAN: GLoss: 20.6595227903, DLoss: -55.9164726118
+FlowGAN: Iteration 87
+FlowGAN: GLoss: 21.0675800057, DLoss: -56.6157205877
+FlowGAN: Iteration 88
+FlowGAN: GLoss: 21.4751612196, DLoss: -57.3197837693
+FlowGAN: Iteration 89
+FlowGAN: GLoss: 21.8824006392, DLoss: -58.0254891409
+FlowGAN: Iteration 90
+FlowGAN: GLoss: 22.2894554551, DLoss: -58.7361844359
+FlowGAN: Iteration 91
+FlowGAN: GLoss: 22.6913970443, DLoss: -59.4195666222
+FlowGAN: Iteration 92
+FlowGAN: GLoss: 23.095223498, DLoss: -60.1233617426
+FlowGAN: Iteration 93
+FlowGAN: GLoss: 23.4935733708, DLoss: -60.8050760424
+FlowGAN: Iteration 94
+FlowGAN: GLoss: 23.7137455984, DLoss: -61.4100144349
+FlowGAN: Iteration 95
+FlowGAN: GLoss: 24.0426250293, DLoss: -61.9543657415
+FlowGAN: Iteration 96
+FlowGAN: GLoss: 24.3870629767, DLoss: -62.5886840931
+FlowGAN: Iteration 97
+FlowGAN: GLoss: 24.73462856, DLoss: -63.1560785831
+FlowGAN: Iteration 98
+FlowGAN: GLoss: 25.1230918031, DLoss: -63.8208325427
+FlowGAN: Iteration 99
+FlowGAN: GLoss: 25.5137734216, DLoss: -64.4966798508
+FlowGAN: Iteration 100
+FlowGAN: GLoss: 25.9063136029, DLoss: -65.180542456
+FlowGAN: Iteration 101
+FlowGAN: GLoss: 26.2675533663, DLoss: -65.82309335
+FlowGAN: Iteration 102
+FlowGAN: GLoss: 26.5984675578, DLoss: -66.4239254658
+FlowGAN: Iteration 103
+FlowGAN: GLoss: 26.9833644714, DLoss: -67.1025789804
+FlowGAN: Iteration 104
+FlowGAN: GLoss: 27.3660478132, DLoss: -67.7884679987
+FlowGAN: Iteration 105
+FlowGAN: GLoss: 27.7060349657, DLoss: -68.4444429031
+FlowGAN: Iteration 106
+FlowGAN: GLoss: 27.969842322, DLoss: -69.0664317864
+FlowGAN: Iteration 107
+FlowGAN: GLoss: 28.2897413036, DLoss: -69.6437707223
+FlowGAN: Iteration 108
+FlowGAN: GLoss: 28.6547468687, DLoss: -70.3082023509
+FlowGAN: Iteration 109
+FlowGAN: GLoss: 29.0402186995, DLoss: -70.9763093526
+FlowGAN: Iteration 110
+FlowGAN: GLoss: 29.4275338795, DLoss: -71.6530930899
+FlowGAN: Iteration 111
+FlowGAN: GLoss: 29.7968681194, DLoss: -72.3196957548
+FlowGAN: Iteration 112
+FlowGAN: GLoss: 30.1769255236, DLoss: -72.9889020086
+FlowGAN: Iteration 113
+FlowGAN: GLoss: 30.5680981012, DLoss: -73.6811789891
+FlowGAN: Iteration 114
+FlowGAN: GLoss: 30.960203021, DLoss: -74.3753185863
+FlowGAN: Iteration 115
+FlowGAN: GLoss: 31.3496956656, DLoss: -75.0731518279
+FlowGAN: Iteration 116
+FlowGAN: GLoss: 31.7409017183, DLoss: -75.7706597575
+FlowGAN: Iteration 117
+FlowGAN: GLoss: 32.1314605449, DLoss: -76.4692035055
+FlowGAN: Iteration 118
+FlowGAN: GLoss: 32.5192936484, DLoss: -77.1641334175
+FlowGAN: Iteration 119
+FlowGAN: GLoss: 32.9003383632, DLoss: -77.8454897652
+FlowGAN: Iteration 120
+FlowGAN: GLoss: 33.2677178496, DLoss: -78.499538462
+FlowGAN: Iteration 121
+FlowGAN: GLoss: 33.6457904123, DLoss: -79.1777443896
+FlowGAN: Iteration 122
+FlowGAN: GLoss: 34.0221388897, DLoss: -79.8522500226
+FlowGAN: Iteration 123
+FlowGAN: GLoss: 34.4041971386, DLoss: -80.5394429939
+FlowGAN: Iteration 124
+FlowGAN: GLoss: 34.7815430903, DLoss: -81.2251814051
+FlowGAN: Iteration 125
+FlowGAN: GLoss: 35.1615434067, DLoss: -81.9044493503
+FlowGAN: Iteration 126
+FlowGAN: GLoss: 35.5441569526, DLoss: -82.5935528457
+FlowGAN: Iteration 127
+FlowGAN: GLoss: 35.9237974281, DLoss: -83.2659727419
+FlowGAN: Iteration 128
+FlowGAN: GLoss: 36.3018037658, DLoss: -83.9538379131
+FlowGAN: Iteration 129
+FlowGAN: GLoss: 36.6750948975, DLoss: -84.6149678239
+FlowGAN: Iteration 130
+FlowGAN: GLoss: 37.0552611019, DLoss: -85.2917496858
+FlowGAN: Iteration 131
+FlowGAN: GLoss: 37.4389969792, DLoss: -85.983101824
+FlowGAN: Iteration 132
+FlowGAN: GLoss: 37.8225037993, DLoss: -86.6744411234
+FlowGAN: Iteration 133
+FlowGAN: GLoss: 38.1990471451, DLoss: -87.3363412966
+FlowGAN: Iteration 134
+FlowGAN: GLoss: 38.5737757926, DLoss: -88.021218993
+FlowGAN: Iteration 135
+FlowGAN: GLoss: 38.9513923416, DLoss: -88.7045947883
+FlowGAN: Iteration 136
+FlowGAN: GLoss: 39.3322904819, DLoss: -89.3906414918
+FlowGAN: Iteration 137
+FlowGAN: GLoss: 39.7111211026, DLoss: -90.0722881892
+FlowGAN: Iteration 138
+FlowGAN: GLoss: 40.0894498752, DLoss: -90.7582259221
+FlowGAN: Iteration 139
+FlowGAN: GLoss: 40.4678000855, DLoss: -91.443796547
+FlowGAN: Iteration 140
+FlowGAN: GLoss: 40.843566353, DLoss: -92.1270162239
+FlowGAN: Iteration 141
+FlowGAN: GLoss: 41.2142296908, DLoss: -92.8003608887
+FlowGAN: Iteration 142
+FlowGAN: GLoss: 41.5867166582, DLoss: -93.4799217886
+FlowGAN: Iteration 143
+FlowGAN: GLoss: 41.9630442721, DLoss: -94.1655662399
+FlowGAN: Iteration 144
+FlowGAN: GLoss: 42.3386680862, DLoss: -94.8498922488
+FlowGAN: Iteration 145
+FlowGAN: GLoss: 42.7160987327, DLoss: -95.53778056
+FlowGAN: Iteration 146
+FlowGAN: GLoss: 43.0921942259, DLoss: -96.2237452366
+FlowGAN: Iteration 147
+FlowGAN: GLoss: 43.468237593, DLoss: -96.910112646
+FlowGAN: Iteration 148
+FlowGAN: GLoss: 43.8442335189, DLoss: -97.5969763706
+FlowGAN: Iteration 149
+FlowGAN: GLoss: 44.2212508134, DLoss: -98.2833682323
+FlowGAN: Iteration 150

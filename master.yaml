@@ -134,7 +134,8 @@ info:
 - [e76, Training deep regressor on e75]
 - [e77, Testing flowgan training]
 - [e78, Testing different versions of flowgan training]
-numExperiments: 78
+- [e79, another flowgan iteration]
+numExperiments: 79
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []
