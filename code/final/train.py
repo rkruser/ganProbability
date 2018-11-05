@@ -165,11 +165,13 @@ def GANTrainStep(model, batch, optimizers, criterion, cuda):
 	netG, netD = model
 	optimG, optimD = optimizers
 
+	batch = Variable(batch)
 	onesLabel = Variable(torch.ones(batch.size(0)))
 	zerosLabel = Variable(torch.zeros(batch.size(0)))
 	if cuda:
 		onesLabel = onesLabel.cuda()
 		zerosLabel = zerosLabel.cuda()
+		batch = batch.cuda()
 
 	# ??
 	zVals = Variable(torch.Tensor(batch.size(0), netG.nz).normal_(0,1))
@@ -190,6 +192,29 @@ def GANTrainStep(model, batch, optimizers, criterion, cuda):
 	errG = criterion(gPred, onesLabel)
 	errG.backward()
 	optimG.step()
+
+	return errG.data[0], errD.data[0]
+
+
+
+def supervisedTrainStep(model, batch, optimizer, criterion, cuda):
+	x, y = batch
+	x = Variable(x)
+	y = Variable(y)
+	if cuda:
+		x = x.cuda()
+		y = y.cuda()
+
+	model.zero_grad()
+	ypred = model(x)
+	err = criterion(ypred, y)
+	err.backward()
+	optimizer.step()
+
+	return err.data[0]
+
+
+
 
 
 
@@ -233,24 +258,36 @@ def getTrainFunc(trainfunc, validation = False):
 # tracker: something to track network progress. Has as update function
 # checkpoint(model) : a function that saves the model
 # options: a dictionary of training options
-def train(model, trainStep, optimizers, loader, criterion, tracker, checkpointLocs, cuda, epochs=10, 
+def train(model, trainStep, optimizers, loader, criterion, trackers, checkpointLocs, cuda, epochs=10, 
 	startEpoch=0, checkpointEvery=2, validationLoader=None, validationStep=None):
 	setTrain(model)
 	for i in range(startEpoch, epochs):
 		imsave=None
 		for j, batch in enumerate(loader):
 			losses, ims = trainStep(model, batch, optimizers, criterion, cuda)
-			tracker.trainUpdate(epoch, j, losses)
+			if isinstance(trackers, tuple):
+				for track, loss in trackers, losses:
+					track.trainUpdate(epoch, j, loss)
+			else:
+				tracker.trainUpdate(epoch, j, losses)
 			if j == len(loader)-1:
 				imsave = ims #return none if no ims
-		tracker.addImages(imsave)
+		if isinstance(trackers, tuple):
+			trackers[0].addImages(imsave)
+		else:
+			trackers.addImages(imsave)
 		if i>0 and i%checkpointEvery == 0:
 			checkpoint(model, checkpointLocs, i)
 		if validationLoader is not None:
 			setEval(model)
 			for k, valBatch in enumerate(epoch, k, validationLoader):
 				valLosses = validationStep(model, valBatch, criterion, cuda)
-				tracker.validationUpdate(epoch, k, valLosses)
+				if isinstance(trackers, tuple):
+					for track, loss in trackers, valLosses:
+						track.validationUpdate(epoch, j, loss)
+				else:
+					tracker.validationUpdate(epoch, j, valLosses)
+
 			setTrain(model)
 	setEval(model)
 	checkpoint(model, checkpointLocs)
