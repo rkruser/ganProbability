@@ -186,7 +186,7 @@ def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLab
 		trLen = int(float(trProp)*len(dset))
 		valLen = len(dset)-trLen
 		trainDset, valDset = random_split(dset, (trLen, valLen))
-		return DataLoader(trainDset, batch_size=batchsize), DataLoader(valDset, batch_size=batchsize)
+		return (DataLoader(trainDset, batch_size=batchsize), DataLoader(valDset, batch_size=batchsize))
 	else:
 		return DataLoader(dset, batch_size=batchsize)
 

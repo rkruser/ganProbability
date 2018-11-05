@@ -13,17 +13,11 @@ from code.final.loaders import getLoaders
 
 # **************** Mode switching ****************
 def setTrain(model):
-	if isinstance(model, tuple):
-		for m in model:
-			m.train()
-	else:
+	for m in model:
 		m.train()
 
 def setEval(model):
-	if isinstance(model, tuple):
-		for m in model:
-			m.eval()
-	else:
+	for m in model:
 		m.eval()
 
 
@@ -114,19 +108,14 @@ def randomSeedAll(seed):
 
 # Apply weights_init to model
 def initModel(model):
-	if isinstance(model, tuple):
-		for m in model:
-			m.apply(weights_init)
-	else:
-		model.apply(weights_init)
+	for m in model:
+		m.apply(weights_init)
 
 # Load a model given a list of file names
 def loadModel(model, locations):
-	if isinstance(model, tuple):
-		for m, l in model,locations:
+	for m, l in model,locations:
+		if l is not None:
 			m.load_state_dict(torch.load(l))
-	else:
-		m.load_state_dict(torch.load(locations))
 
 
 # **************** Model Checkpointing ****************
@@ -136,11 +125,8 @@ def checkpoint(model, locations, epoch=None):
 	if epoch is not None:
 		append = '_'+str(epoch)+'.pth'
 
-	if isinstance(model, tuple):
-		for m, l in model,locations:
-			torch.save(m,l+append)
-	else:
-		torch.save(model, locations+append)
+	for m, l in model,locations:
+		torch.save(m,l+append)
 
 
 
@@ -148,13 +134,10 @@ def checkpoint(model, locations, epoch=None):
 # **************** Optimizers ****************
 # Get optimizers for the given model
 def getOptimizers(model, lr=0.0002, beta1=0.5, beta2=0.999):
-	if isinstance(model, tuple):
-		optimizers = []
-		for mod in model:
-			optimizers.append(torch.optim.Adam(filter(lambda m: m.requires_grad, mod.parameters()), lr=lr, betas=(beta1,beta2)))
-		return tuple(optimizers)
-	else:
-		return torch.optim.Adam(filter(lambda m: m.requires_grad, model.parameters()), lr=lr, betas=(beta1,beta2))
+	optimizers = []
+	for mod in model:
+		optimizers.append(torch.optim.Adam(filter(lambda m: m.requires_grad, mod.parameters()), lr=lr, betas=(beta1,beta2)))
+	return tuple(optimizers)
 
 
 
@@ -168,14 +151,11 @@ def GANTrainStep(model, batch, optimizers, criterion, cuda):
 	batch = Variable(batch)
 	onesLabel = Variable(torch.ones(batch.size(0)))
 	zerosLabel = Variable(torch.zeros(batch.size(0)))
+	zVals = Variable(torch.Tensor(batch.size(0), netG.nz).normal_(0,1))
 	if cuda:
 		onesLabel = onesLabel.cuda()
 		zerosLabel = zerosLabel.cuda()
 		batch = batch.cuda()
-
-	# ??
-	zVals = Variable(torch.Tensor(batch.size(0), netG.nz).normal_(0,1))
-	if cuda:
 		zVals = zVals.cuda()
 
 	netD.zero_grad()
@@ -193,11 +173,12 @@ def GANTrainStep(model, batch, optimizers, criterion, cuda):
 	errG.backward()
 	optimG.step()
 
-	return errG.data[0], errD.data[0]
+	return (errG.data[0], errD.data[0]), fake
 
 
 
 def supervisedTrainStep(model, batch, optimizer, criterion, cuda):
+	model = model[0]
 	x, y = batch
 	x = Variable(x)
 	y = Variable(y)
@@ -211,9 +192,21 @@ def supervisedTrainStep(model, batch, optimizer, criterion, cuda):
 	err.backward()
 	optimizer.step()
 
-	return err.data[0]
+	return (err.data[0]), None
 
+def supervisedValidationStep(model, batch, criterion, cuda):
+	model = model[0]
+	x, y = batch
+	x = Variable(x)
+	y = Variable(y)
+	if cuda:
+		x = x.cuda()
+		y = y.cuda()
 
+	ypred = model(x)
+	err = criterion(ypred, y)
+
+	return (err.data[0])
 
 
 
@@ -265,51 +258,35 @@ def train(model, trainStep, optimizers, loader, criterion, trackers, checkpointL
 		imsave=None
 		for j, batch in enumerate(loader):
 			losses, ims = trainStep(model, batch, optimizers, criterion, cuda)
-			if isinstance(trackers, tuple):
-				for track, loss in trackers, losses:
-					track.trainUpdate(epoch, j, loss)
-			else:
-				tracker.trainUpdate(epoch, j, losses)
+			for track, loss in trackers, losses:
+				track.trainUpdate(epoch, j, loss)
 			if j == len(loader)-1:
 				imsave = ims #return none if no ims
-		if isinstance(trackers, tuple):
-			trackers[0].addImages(imsave)
-		else:
-			trackers.addImages(imsave)
+		trackers[0].addImages(imsave)
 		if i>0 and i%checkpointEvery == 0:
 			checkpoint(model, checkpointLocs, i)
 		if validationLoader is not None:
 			setEval(model)
 			for k, valBatch in enumerate(epoch, k, validationLoader):
 				valLosses = validationStep(model, valBatch, criterion, cuda)
-				if isinstance(trackers, tuple):
-					for track, loss in trackers, valLosses:
-						track.validationUpdate(epoch, j, loss)
-				else:
-					tracker.validationUpdate(epoch, j, valLosses)
-
+				for track, loss in trackers, valLosses:
+					track.validationUpdate(epoch, j, loss)
 			setTrain(model)
 	setEval(model)
 	checkpoint(model, checkpointLocs)
 
 
 def makeCuda(model):
-	if isinstance(model,tuple):
-		out = []
-		for m in model:
-			out.append(m.cuda())
-		return tuple(out)
-	else:
-		return model.cuda()
+	out = []
+	for m in model:
+		out.append(m.cuda())
+	return tuple(out)
 
 def makeParallel(model):
-	if isinstance(model, tuple):
-		newMods = []
-		for m in model:
-			newMods.append(nn.DataParallel(m))
-		return tuple(newMods)
-	else:
-		return nn.DataParallel(model)
+	newMods = []
+	for m in model:
+		newMods.append(nn.DataParallel(m))
+	return tuple(newMods)
 
 
 
@@ -320,10 +297,10 @@ def main():
 	parser.add_argument('--dataset', required=True, help='cifar10 | mnist | lsun | imagenet | folder | lfw | fake')
 	parser.add_argument('--dataroot', default=None, help='path to dataset')
 	parser.add_argument('--modelroot', help='path to model save location')
-	parser.add_argument('--netG', default='', help="path to netG (to continue training)")
-	parser.add_argument('--netD', default='', help="path to netD (to continue training)")
-	parser.add_argument('--netR', default='', help='Path to regressor')
-	parser.add_argument('--netEmb', default='', help='Path to embedding net')
+	parser.add_argument('--netG', type=str, default=None, help="path to netG (to continue training)")
+	parser.add_argument('--netD', type=str, default=None, help="path to netD (to continue training)")
+	parser.add_argument('--netR', type=str, default=None, help='Path to regressor')
+	parser.add_argument('--netEmb', type=str, default=None, help='Path to embedding net')
 	parser.add_argument('--epochsCompleted', type=int, default=0, help='Number of epochs already completed by loaded models')
 	parser.add_argument('--parameterSet', default=None, help='Dict of pre-defined parameters to use as opts')
 	parser.add_argument('--supervised', action='store_true', help='Is this a supervised training problem')
@@ -362,12 +339,16 @@ def main():
 
 	# randomSeedAll
 	# Print options
+
+	# ********* Getting model **********
 	model = getModels(opt.model, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz)
 
 	# Init or load model here?
 
+	# ********* Getting criterion *********
 	criterion = getCriterion(opt.criterion)
 
+	# ********** Checking cuda ************
 	haveCuda = torch.cuda.is_available()
 	ngpus = torch.cuda.device_count()
 	if haveCuda:
@@ -376,7 +357,10 @@ def main():
 	if ngpus > 1:
 		model = makeParallel(model)
 
+	# *********** Getting optimizers **********
 	optimizers = getOptimizers(model, lr=opt.lr, beta1=opt.beta1, beta2=opt.beta2)
+
+	# *********** Getting loader **************
 	loader = getLoaders(loader=opt.dataset, nc=opt.nc, size=opt.imageSize, root=opt.dataroot, batchsize=opt.batchSize, returnLabel=opt.supervised,
 	     fuzzy=opt.fuzzy, mode='train', validation=opt.validation, trProp=opt.trainValProportion, deep=opt.deep)
 	if opt.validation:
@@ -385,25 +369,35 @@ def main():
 		valLoader = None
 
 
-	# tracker = Tracker(...)
+	# *********** Getting training step function ***********
 	trainStep = getTrainFunc(opt.trainFunc, validation=opt.validation)
 	if opt.validation:
 		trainStep, valStep = trainStep
 	else:
 		valStep = None
-	# checkpoint = lambda checkpoint(...)
 
+	# *********** Getting checkpointing info, file loading info, tracking info ***********
 	if 'gan' in opt.trainFunc:
 		checkpointLocs = (join(opt.modelroot, 'netG'), join(opt.modelroot, 'netD'))
-	elif 'regressor' in opt.trainfunc:
-		checkpointLocs = join(opt.modelroot, 'netR')
-	elif 'embedding' in opt.trainfunc:
-		checkpointLocs = join(opt.modelroot, 'netEmb')
+		loaderLocs = (opt.netG, opt.netD)
+		trackers = (Tracker('netG'), Tracker('netD'))
+	elif 'regressor' in opt.trainFunc:
+		checkpointLocs = (join(opt.modelroot, 'netR'))
+		loaderLocs = (opt.netR)
+		trackers = (Tracker('Regressor'))
+	elif 'embedding' in opt.trainFunc:
+		checkpointLocs = (join(opt.modelroot, 'netEmb'))
+		loaderLocs = (opt.netEmb)
+		trackers = (Tracker('Embedding'))
 
-	# initModel or loadModel
+	# *********** Initialize and/or load models ***************
+	initModel(model)
+	loadModel(model, loaderLocs)
 
-#	train(...)
-	# startEpoch=opt.epochsCompleted
+
+	# ************** Train the model ****************
+	train(model, trainStep, optimizers, loader, criterion, trackers, checkpointLocs, haveCuda, epochs=opt.epochs, 
+		startEpoch=opt.epochsCompleted, checkpointEvery=opt.checkpointEvery, validationLoader=valLoader, validationStep=valStep)
 
 
 
