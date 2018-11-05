@@ -1,7 +1,9 @@
 # loaders
 import torch
-from torch.utils.data import random_split, DataLoader
-
+from torch.utils import data
+from torch.utils.data import DataLoader #random_split, DataLoader
+from scipy.io import loadmat
+import numpy as np
 
 locations={
 	'mnist':'/vulcan/scratch/krusinga/mnist/mnist32.mat',

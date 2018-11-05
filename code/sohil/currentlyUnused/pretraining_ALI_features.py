@@ -325,7 +325,7 @@ noise = torch.FloatTensor(opt.batchSize, nz)
 if opt.cuda:
     netD.cuda()
     netG.cuda()
-    netE.cuda()
+   netE.cuda()
     x, z, noise = x.cuda(), z.cuda(), noise.cuda()
 
 x, z, noise = Variable(x), Variable(z), Variable(noise)

@@ -7,8 +7,8 @@ import argparse
 from os.path import join
 from tensorboardX import SummaryWriter
 
-from code.final.models import getModels, weights_init
-from code.final.loaders import getLoaders
+from models import getModels, weights_init
+from loaders import getLoaders
 
 
 # **************** Mode switching ****************
@@ -39,7 +39,7 @@ class Tracker(object):
 		self.trainIters = 0
 		self.trainAverage = 0.0
 
-	def trainUpdate(epoch, batchnum, loss):
+	def trainUpdate(self, epoch, batchnum, loss):
 		self.writer.add_scalar(self.trainBatchesPath, loss, epoch*batchnum)
 		if epoch > self.trainEpoch:
 			self.writer.add_scalar(self.trainCurvePath, self.trainAverage/self.trainIters, epoch)
@@ -51,7 +51,7 @@ class Tracker(object):
 			self.trainAverage += loss
 			self.trainIters += 1
 
-	def validationUpdate(epoch, batchnum, loss):
+	def validationUpdate(self, epoch, batchnum, loss):
 		if epoch > self.valEpoch:
 			self.writer.add_scalar(self.validationCurvePath, self.validationAverage/self.validationIters, epoch)
 			self.validationIters = 1
@@ -62,7 +62,7 @@ class Tracker(object):
 			self.validationAverage += loss
 			self.validationIters += 1
 
-	def addImages(epoch, ims):
+	def addImages(self, epoch, ims):
 		if ims is not None:
 			imGrid = vutils.make_grid(ims, normalize=True, scale_each=True)
 			writer.add_image(self.imagePath, imGrid, epoch)
@@ -74,7 +74,7 @@ class GANCriterion(nn.Module):
 		super(GANCriterion, self).__init__()
 		self.lossFunc = nn.BCELoss()
 
-	def forward(target, actual):
+	def forward(self, target, actual):
 		return self.lossFunc(target, actual)
 
 
@@ -113,7 +113,9 @@ def initModel(model):
 
 # Load a model given a list of file names
 def loadModel(model, locations):
-	for m, l in model,locations:
+#	for m, l in model,locations:
+	for i, l in enumerate(locations):
+		m = model[i]
 		if l is not None:
 			m.load_state_dict(torch.load(l))
 
@@ -125,7 +127,8 @@ def checkpoint(model, locations, epoch=None):
 	if epoch is not None:
 		append = '_'+str(epoch)+'.pth'
 
-	for m, l in model,locations:
+	for i, m in enumerate(model):
+		l = locations[i]
 		torch.save(m,l+append)
 
 
@@ -254,26 +257,28 @@ def getTrainFunc(trainfunc, validation = False):
 def train(model, trainStep, optimizers, loader, criterion, trackers, checkpointLocs, cuda, epochs=10, 
 	startEpoch=0, checkpointEvery=2, validationLoader=None, validationStep=None):
 	setTrain(model)
-	for i in range(startEpoch, epochs):
+	for epoch in range(startEpoch, epochs):
 		imsave=None
 		for j, batch in enumerate(loader):
 			losses, ims = trainStep(model, batch, optimizers, criterion, cuda)
-			for track, loss in trackers, losses:
+			for t, track in enumerate(trackers):
+				loss = losses[t]
 				track.trainUpdate(epoch, j, loss)
 			if j == len(loader)-1:
 				imsave = ims #return none if no ims
-		trackers[0].addImages(imsave)
-		if i>0 and i%checkpointEvery == 0:
-			checkpoint(model, checkpointLocs, i)
+		trackers[0].addImages(epoch, imsave)
+		if epoch>0 and epoch%checkpointEvery == 0:
+			checkpoint(model, checkpointLocs, epoch)
 		if validationLoader is not None:
 			setEval(model)
 			for k, valBatch in enumerate(epoch, k, validationLoader):
 				valLosses = validationStep(model, valBatch, criterion, cuda)
-				for track, loss in trackers, valLosses:
+				for t, track in enumerate(trackers):
+					loss = valLosses[t]
 					track.validationUpdate(epoch, j, loss)
 			setTrain(model)
 	setEval(model)
-	checkpoint(model, checkpointLocs)
+	checkpoint(model, checkpointLocs, epochs)
 
 
 def makeCuda(model):
@@ -293,10 +298,10 @@ def makeParallel(model):
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--model', help='dcgan32 | flowgan32 | pixelRegressor32 | deepRegressor32 | embedding32')
-	parser.add_argument('--dataset', required=True, help='cifar10 | mnist | lsun | imagenet | folder | lfw | fake')
+	parser.add_argument('--model', default='dcgan32', help='dcgan32 | flowgan32 | pixelRegressor32 | deepRegressor32 | embedding32')
+	parser.add_argument('--dataset', default='mnist', help='cifar10 | mnist | lsun | imagenet | folder | lfw | fake')
 	parser.add_argument('--dataroot', default=None, help='path to dataset')
-	parser.add_argument('--modelroot', help='path to model save location')
+	parser.add_argument('--modelroot', default='generated/final/dcgan_mnist', help='path to model save location')
 	parser.add_argument('--netG', type=str, default=None, help="path to netG (to continue training)")
 	parser.add_argument('--netD', type=str, default=None, help="path to netD (to continue training)")
 	parser.add_argument('--netR', type=str, default=None, help='Path to regressor')
@@ -306,7 +311,7 @@ def main():
 	parser.add_argument('--supervised', action='store_true', help='Is this a supervised training problem')
 	parser.add_argument('--fuzzy', action='store_true', help='Add small random noise to input' )
 	parser.add_argument('--validation', action='store_true', help='Use validation set during training')
-	parser.add_argument('--trainValProportion', type=float, help='Proportion to split as training data for training/validation')
+	parser.add_argument('--trainValProportion', default=0.8, type=float, help='Proportion to split as training data for training/validation')
 	parser.add_argument('--deep', action='store_true', help='Using deep features for training')
 	parser.add_argument('--criterion', type=str, default='gan', help='Loss criterion for the gan')
 	parser.add_argument('--trainFunc', type=str, default='gan', help='The training function to use')
@@ -314,7 +319,7 @@ def main():
 
 	parser.add_argument('--workers', type=int, help='number of data loading workers', default=2)
 	parser.add_argument('--batchSize', type=int, default=64, help='input batch size')
-	parser.add_argument('--nc', type=int, default=3, 'Colors in image')
+	parser.add_argument('--nc', type=int, default=3, help='Colors in image')
 	parser.add_argument('--imageSize', type=int, default=32, help='the height / width of the input image to network')
 	parser.add_argument('--nz', type=int, default=100, help='size of the latent z vector')
 	# parser.add_argument('--gfeats', type=int, default=64, help='Hidden features in G net')
@@ -353,7 +358,7 @@ def main():
 	ngpus = torch.cuda.device_count()
 	if haveCuda:
 		model = makeCuda(model)
-		criterion = makeCuda(criterion)
+		criterion = criterion.cuda()
 	if ngpus > 1:
 		model = makeParallel(model)
 
