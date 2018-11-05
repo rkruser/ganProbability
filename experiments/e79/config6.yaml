@@ -1,0 +1,14 @@
+name: lenet32_3_train
+modules: [MNISTSize32Cols1, LenetSize32Cols3, DeepFeatureTrain, Analyzer]
+#One for everything in otherPaths
+otherTemplates: {
+  generated: template
+}
+dependencies: [[], [], [0,1], [0,1,2]]
+args: {
+  nDeepEpochs: 25,
+  cuda: True,
+  checkpointEvery: 5,
+  lenetKey: 'deep_mnist_32_3'
+}
+

@@ -42,7 +42,7 @@ from torch.autograd import Variable
 # Problem: the network is so complex that it might not be comparable to DCGAN
 
 #****** Code snipped from stackGAN
-def convStatic(in_planes, out_planes, kernelSize, bias=False, weight_norm=False):
+def convStatic(in_planes, out_planes, kernelSize, bias=False, weight_norm=True):
     "convolution preserving the input width and heighth"
     assert(kernelSize%2 == 1) #Must be odd
     mod = nn.Conv2d(in_planes, out_planes, kernel_size=kernelSize, stride=1,
@@ -150,6 +150,9 @@ class Coupling(nn.Module):
 				# Suggested optimization: use expand_as here and call getBitmask in __init__ for a plane template
 				bitmask = Variable(getBitmask(x.size(2),x.size(1),x.size(0),self.align))
 				invBitmask = 1-bitmask
+				if x.is_cuda:
+					bitmask = bitmask.cuda()
+					invBitmask = invBitmask.cuda()
 
 			maskedX = bitmask*x
 			smX = self.S(maskedX)
@@ -182,6 +185,9 @@ class Coupling(nn.Module):
 				# Suggested optimization: use expand_as here and call getBitmask in __init__ for a plane template
 				bitmask = Variable(getBitmask(y.size(2),y.size(1),y.size(0),self.align))
 				invBitmask = 1-bitmask
+				if y.is_cuda:
+					bitmask = bitmask.cuda()
+					invBitmask = invBitmask.cuda()
 			maskedX = bitmask*y # equivalent to bitmask*x
 			smX = self.S(maskedX)
 		#	detJacob = 1.0/torch.exp((self.invBitmask*smX).view(smX.size()[0],-1).sum(dim=1))
@@ -347,8 +353,8 @@ class StageType1(nn.Module):
 		rowperm = torch.cat([torch.arange(0,imsize,2),torch.arange(1,imsize,2)]).long()
 		self.horizontalIndex = colperm.unsqueeze(0).unsqueeze(0).unsqueeze(0).repeat(batchsize,nc,imsize,1)
 		self.verticalIndex = rowperm.unsqueeze(0).unsqueeze(0).unsqueeze(3).repeat(batchsize,nc,1,imsize)
-		self.horizontalIndex = Variable(self.horizontalIndex)
-		self.verticalIndex = Variable(self.verticalIndex)
+		self.horizontalIndex = nn.Parameter(self.horizontalIndex, requires_grad=False) #Variable(self.horizontalIndex)
+		self.verticalIndex = nn.Parameter(self.verticalIndex, requires_grad=False) #Variable(self.verticalIndex)
 
 		#******* Cached inverse squeeze indices
 		rowperm = torch.zeros(imsize)
@@ -361,12 +367,15 @@ class StageType1(nn.Module):
 		colperm = colperm.long()
 		self.invHorizontalIndex = colperm.unsqueeze(0).unsqueeze(0).unsqueeze(0).repeat(batchsize,nc,imsize,1)
 		self.invVerticalIndex = rowperm.unsqueeze(0).unsqueeze(0).unsqueeze(3).repeat(batchsize,nc,1,imsize)
-		self.invHorizontalIndex = Variable(self.invHorizontalIndex)
-		self.invVerticalIndex = Variable(self.invVerticalIndex)
+		self.invHorizontalIndex = nn.Parameter(self.invHorizontalIndex, requires_grad=False) #Variable(self.invHorizontalIndex)
+		self.invVerticalIndex = nn.Parameter(self.invVerticalIndex, requires_grad=False) #Variable(self.invVerticalIndex)
 
 		# Cached bitmasks
-		self.mask = Variable(getBitmask(imsize, nc, batchsize, 0))
+		self.mask = getBitmask(imsize, nc, batchsize, 0) #Variable(getBitmask(imsize, nc, batchsize, 0))
 		self.invMask = 1-self.mask
+
+		self.mask = nn.Parameter(self.mask, requires_grad=False)
+		self.invMask = nn.Parameter(self.invMask, requires_grad=False)
 
 		#***** Network *******
 		self.c1 = Coupling( S(nc, nh, ks), T(nc, nh, ks), align = 0 )
@@ -388,6 +397,15 @@ class StageType1(nn.Module):
 		 	self.b3v, self.b4m, self.b4v, self.b5m, self.b5v, self.b6m, self.b6v = \
 		 	  None, None, None, None, None, None, None, None, None, None, None, None
 
+	# def cuda(self, device=None):
+	# 	self.mask = self.mask.cuda()
+	# 	self.invMask = self.invMask.cuda()
+	# 	self.invHorizontalIndex = self.invHorizontalIndex.cuda()
+	# 	self.invVerticalIndex = self.invVerticalIndex.cuda()
+	# 	self.horizontalIndex = self.horizontalIndex.cuda()
+	# 	self.verticalIndex = self.verticalIndex.cuda()
+	# 	return self._apply(lambda t: t.cuda(device))
+
 	def forward(self, x):
 		# Size is batchsize x nc x imsize x imsize
 		if x.size(0) == self.batchsize:
@@ -396,6 +414,9 @@ class StageType1(nn.Module):
 		else:
 			bitmask = Variable(getBitmask(self.imsize, self.nc, x.size(0),0))
 			invBitmask = 1-bitmask
+			if x.is_cuda:
+				bitmask = bitmask.cuda()
+				invBitmask = invBitmask.cuda()
 
 		out = x
 
@@ -448,6 +469,9 @@ class StageType1(nn.Module):
 		else:
 			bitmask = Variable(getBitmask(self.imsize, self.nc, y.size(0),0))
 			invBitmask = 1-bitmask
+			if y.is_cuda:
+				bitmask = bitmask.cuda()
+				invBitmask = invBitmask.cuda()
 
 		out = y
 
@@ -501,8 +525,12 @@ class StageType2(nn.Module):
 		self.nh = nh
 		self.ks = ks #for convenience below
 
-		self.mask = Variable(getBitmask(imsize, nc, batchsize, 0))
+		self.mask = getBitmask(imsize, nc, batchsize, 0)
 		self.invMask = 1-self.mask
+
+		self.mask = nn.Parameter(self.mask, requires_grad=False)
+		self.invMask = nn.Parameter(self.invMask, requires_grad=False)
+
 		self.c1 = Coupling( S(nc, nh, ks), T(nc, nh, ks), align=0 )
 		self.b1 = nn.BatchNorm2d(nc)
 		self.c2 = Coupling( S(nc, nh, ks), T(nc, nh, ks), align=1 )
@@ -522,6 +550,9 @@ class StageType2(nn.Module):
 		else:
 			bitmask = Variable(getBitmask(self.imsize, self.nc, x.size(0),0))
 			invBitmask = 1-bitmask
+			if x.is_cuda:
+				bitmask = bitmask.cuda()
+				invBitmask = invBitmask.cuda()
 
 		out = x
 
@@ -555,6 +586,9 @@ class StageType2(nn.Module):
 		else:
 			bitmask = Variable(getBitmask(self.imsize, self.nc, y.size(0),0))
 			invBitmask = 1-bitmask
+			if y.is_cuda:
+				bitmask = bitmask.cuda()
+				invBitmask = invBitmask.cuda()
 
 		out = y
 

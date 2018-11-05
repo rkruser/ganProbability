@@ -132,7 +132,10 @@ info:
 - [e74, Do deep feature regressor on e73]
 - [e75, 'Training without 0, testing with 0']
 - [e76, Training deep regressor on e75]
-numExperiments: 76
+- [e77, Testing flowgan training]
+- [e78, Testing different versions of flowgan training]
+- [e79, another flowgan iteration]
+numExperiments: 79
 otherScripts: {}
 path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
 runScript: []

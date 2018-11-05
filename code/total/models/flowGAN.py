@@ -1,7 +1,7 @@
 from mlworkflow import Data
 from copy import copy
 from code.total.models.ModelTemplate import ModelTemplate, AverageMeter
-from code.total.models.nnModels import weights_init, NetG32, NetD32
+from code.total.models.nnModels import weights_init, NetG32, NetD32, NetD32Affine
 from code.total.models.realNVP import RealNVP
 
 import torch
@@ -10,7 +10,14 @@ import torch.optim as optim
 from torch.autograd import Variable
 import numpy as np 
 
-# sdlfkjasdfasldfkj
+# Changes to make:
+#   - No more sigmoid for discriminator
+#   - Check initialization scheme for okayness (so so giant values)
+#   - Shrink data away from boundaries?
+#   - Check gradient sizes
+#   - Check log likelihood calculation
+#   - Try to train G purely with log likelihood
+
 
 # Todo:
 #  Make this class slightly more general,
@@ -20,15 +27,31 @@ import numpy as np
 # Check for correctness
 # Fill in sampling and other functions
 
+def weights_clip(m, c=0.01):
+    classname = m.__class__.__name__
+    if classname.find('Conv') != -1:
+        m.weight.clamp(-c, c)
+        if m.bias is not None:
+          m.bias.clamp(-c,c)
+    elif classname.find('BatchNorm') != -1:
+        m.weight.clamp(-c, c)
+        m.bias.clamp(-c,c)
+    elif classname.find('Linear') != -1:
+        m.weight.clamp(-c,c)
+        if m.bias is not None:
+          m.bias.clamp(-c,c)
+
 
 # Need to do random seeding in another module
 
-class FlowGANmodel(ModelTemplate):
+class FlowGANModel(ModelTemplate):
   def __init__(self, config, args):
-    super(FlowGANmodel,self).__init__(config, args)
+    super(FlowGANModel,self).__init__(config, args)
     self.opt = {
       'nh':32,
+      'ndf':64,
       'nc':3,
+      'ks':3, #kernel size
       'imSize':32,
       'ngpu':0,
       'cuda':False,
@@ -40,7 +63,7 @@ class FlowGANmodel(ModelTemplate):
       'netGkey':'netG',
       'netGinstance':-1,
       'netGexpNum':-1,
-      'netDclass':NetD32,
+      'netDclass':NetD32Affine,
       'netDkey':'netD',
       'netDinstance':-1,
       'netDexpNum':-1,
@@ -49,12 +72,13 @@ class FlowGANmodel(ModelTemplate):
     args = copy(args)
     self.opt.update(args)
 
+    for key in self.opt:
+      setattr(self, key, self.opt[key])
+
     self.nz = self.nc*self.imSize*self.imSize #Same number of inputs as outputs for invertible model
 
     self.log(str(self.opt))
 
-    for key in self.opt:
-      setattr(self, key, self.opt[key])
 
     self.outShape = (self.nc, self.imSize, self.imSize)
     self.log("outShape is "+str(self.outShape))
@@ -66,8 +90,8 @@ class FlowGANmodel(ModelTemplate):
     # Replace criterion with new function
     # Also, add weight clipping somewhere
     self.criterion = nn.BCELoss() 
-    self.optimizerG = optim.Adam(self.netG.parameters(), lr=self.lr, betas=(self.beta1,0.999))
-    self.optimizerD = optim.Adam(self.netD.parameters(), lr=self.lr, betas=(self.beta1,0.999))
+    self.optimizerG = optim.Adam(filter(lambda m: m.requires_grad, self.netG.parameters()), lr=self.lr, betas=(self.beta1,0.999))
+    self.optimizerD = optim.Adam(filter(lambda m: m.requires_grad, self.netD.parameters()), lr=self.lr, betas=(self.beta1,0.999))
     self.scheduler = None
 
 
@@ -101,6 +125,8 @@ class FlowGANmodel(ModelTemplate):
     if self.cuda:
       self.netG = self.netG.cuda()
       self.netD = self.netD.cuda()
+      # self.netG = nn.DataParallel(self.netG).cuda()
+      # self.netD = nn.DataParallel(self.netD).cuda()
       self.criterion = self.criterion.cuda()
 
 
@@ -112,7 +138,7 @@ class FlowGANmodel(ModelTemplate):
     # self.errD = []
 
     # Remember to keep the batch size fixed here, maybe?
-    dataloader = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnLabel=False, fuzzy=True)
+    dataloader = loaderTemplate.getDataloader(outShape=self.outShape, mode='train', returnLabel=False, fuzzy=True, drop_last=True)
 
     gauss_const = -self.nz*np.log(np.sqrt(2*np.pi))
     log_const = 1
@@ -126,8 +152,10 @@ class FlowGANmodel(ModelTemplate):
       gLosses = AverageMeter()
       dLosses = AverageMeter()
       for i, data in enumerate(dataloader):
-        if i%50 == 0:
-          self.log("Iteration {0}".format(i))
+        # if i > 10 and i<927:
+        #   continue
+#        if i%10 == 0:
+        self.log("Iteration {0}".format(i))
         
         self.netD.zero_grad()
         batchSize = data.size(0)
@@ -151,27 +179,33 @@ class FlowGANmodel(ModelTemplate):
         
         # Running through discriminator
         dPredictionsReal = self.netD(data)
-        errDreal = self.criterion(dPredictionsReal, labelsReal)
+#        errDreal = self.criterion(dPredictionsReal, labelsReal)
+        errDreal = -dPredictionsReal.mean()
 
-        fakeImsD, _ = self.netG(zCodesD)
+        fakeImsD, _ = self.netG(zCodesD, invert=True)
         dPredictionsFake = self.netD(fakeImsD.detach())
-        errDfake = self.criterion(dPredictionsFake, labelsFake)
+#        errDfake = self.criterion(dPredictionsFake, labelsFake)
+        errDfake = dPredictionsFake.mean()
 
         errD = errDreal + errDfake
         errD.backward()
         self.optimizerD.step()
+        weights_clip(self.netD)
         
         # Running through Generator
           # Do I need to sample this separately?
           # or can I use existing samples?
         self.netG.zero_grad()
-#        fakeImsG, _ = self.netG(zCodesG) #????
-        gPredictionsFake = self.netD(fakeImsD)
-        dataInverted, logDetDataInverted = self.netG.invert(data)
-        logLikelihoodLoss = gauss_const - log_const*0.5*(dataInverted**2).sum(dim=1) + logDetDataInverted
-        logLikelihoodLoss = logLikelihoodLoss.mean()
+#        fakeImsG, _ = self.netG(zCodesG, invert=True) #????
+        fakeImsG = fakeImsD
+        gPredictionsFake = self.netD(fakeImsG)
+        dataInverted, logDetDataInverted = self.netG(data)
+#        logLikelihoodLoss = gauss_const - log_const*0.5*(dataInverted**2).sum(dim=1) + logDetDataInverted
+#        logLikelihoodLoss = logLikelihoodLoss.mean()
+        logLikelihoodLoss = 0
 
-        errG = self.criterion(gPredictionsFake, labelsReal)
+#        errG = self.criterion(gPredictionsFake, labelsReal)
+        errG = -gPredictionsFake.mean()
         errG = errG - self.lossLambda*logLikelihoodLoss
         errG.backward()
         self.optimizerG.step()
@@ -183,6 +217,8 @@ class FlowGANmodel(ModelTemplate):
         dLosses.update(errD.data[0], batchSize)
         self.errG.append(gLosses.avg)
         self.errD.append(dLosses.avg)
+#        if i%10 == 0:
+        self.log("GLoss: {0}, DLoss: {1}".format(gLosses.avg, dLosses.avg))
 
         if i == (len(dataloader)-2) and (epoch+1)%self.checkpointEvery == 0:
           self.images.append(np.array((np.transpose(fakeImsG.data.cpu().numpy(),(0,2,3,1))[:16]*0.5+0.5)*255,dtype='uint8'))
@@ -197,7 +233,7 @@ class FlowGANmodel(ModelTemplate):
   def sample(self, nSamples):
     self.netG.eval()
     codes = torch.FloatTensor(nSamples,self.nz).normal_(0,1)
-    results, _ = self.netG(codes)
+    results, _ = self.netG.invert(codes)
     return results
 
 
@@ -243,7 +279,7 @@ class FlowGANmodel(ModelTemplate):
     if deepFeatures is None:
       for i in range(codes.size(0)):
         z = Variable(codes[i].view(1,-1))
-        im, logDetIm = self.netG(Variable(codes[i].view(1,-1)))
+        im, logDetIm = self.netG.invert(Variable(codes[i].view(1,-1)))
         imProb = gauss_const-log_const*0.5*(z**2).sum()-logDetIm/log_div #change log to log 10 #subtract to get log of inverse
         probs[i] = imProb
         images[i] = im.data.cpu().numpy().reshape(self.nc, self.imSize, self.imSize)
