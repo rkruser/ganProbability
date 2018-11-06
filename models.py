@@ -41,6 +41,15 @@ class NthArgWrapper(nn.Module):
         assert(isinstance(result, tuple) and (len(result) > self.arg))
         return result[self.arg]
 
+class DeepFeaturesWrapper(nn.Module):
+    def __init__(self,netG, netEmb):
+        super(DeepFeaturesWrapper,self).__init__()
+        self.netG = netG
+        self.netEmb = netEmb
+
+    def forward(self, x):
+        return self.netEmb(self.netG(x))
+
 
 # Model for 32 by 32 images
 class NetG32(nn.Module):
@@ -361,3 +370,6 @@ def getModels(model, nc=3, imsize=32, hidden=64, nz=100):
 		return tuple([NetP32(nc=nc, npf=hidden)])
 	elif model == 'lenetEmbedding32':
 		return tuple([NthArgWrapper(Lenet32(nc=nc), 1)])
+	else:
+		raise NameError("No such model")
+

@@ -8,10 +8,12 @@ from os.path import join
 from tensorboardX import SummaryWriter
 import sys
 import datetime
+import numpy as np
 
 from models import getModels, weights_init
 from loaders import getLoaders
 from train import setTrain, setEval, makeCuda, makeParallel, getLoaders, initModel, loadModel
+from models import DeepFeaturesWrapper
 
 import json
 
@@ -79,8 +81,8 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 		else:
 			fakeIms = runHuge(netG, noisev, nchunks=10)
 
-		images[i] = fakeIms[0,:].cpu().numpy().reshape(netG.outshape)
-		I = fake.data.cpu().numpy().reshape(2*netG.nz+1,-1)
+		images[i] = fakeIms[0,:].data.cpu().numpy().reshape(netG.outshape)
+		I = fakeIms.data.cpu().numpy().reshape(2*netG.nz+1,-1)
 		J = (I[1:netG.nz+1,:]-I[netG.nz+1:,:]).transpose()/(2*eps)
 
 		R = np.linalg.qr(J, mode='r')
@@ -111,14 +113,12 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 
 	if cuda:
 		noise = noise.cuda()
-		b = b.cuda()
 		codes = codes.cuda()
 
 	# Using log10 because it's more intuitive
 	gauss_const = -netG.nz*np.log10(np.sqrt(2*np.pi))
 	log_const = np.log10(np.exp(1))
 
-	nSamples = codes.size(0)
 	images = np.empty([nSamples]+netG.outshape)
 	probs = np.empty([nSamples])
 	jacob = np.empty([nSamples, min(netG.totalOut,netG.nz)]) 
@@ -134,12 +134,14 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 		fake = fakeIms.view(1,-1)
 
 		for k in range(netG.totalOut):
+			if k%100 == 0:
+				print "  ",k
 			netG.zero_grad()
 			# noisev.zero_grad() #??
-			fakeIms[0,k].backward(retain_graph=True) # ??
+			fake[0,k].backward(retain_graph=True) # ??
 			J[k] = noisev.grad.data.cpu().numpy().squeeze()
 
-		images[i] = fakeIms[0,:].cpu().numpy().reshape(netG.outshape)
+		images[i] = fakeIms[0,:].data.cpu().numpy().reshape(netG.outshape)
 		# I = fake.data.cpu().numpy().reshape(2*netG.nz+1,-1)
 		# J = (I[1:netG.nz+1,:]-I[netG.nz+1:,:]).transpose()/(2*eps)
 
@@ -162,20 +164,83 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 	return allData
 
 
+# Optimize for each z input
+# write as needed
+def sampleZOptim(ganModel, nSamples, eps, dataloader, cuda):
+	pass
+
+# nSamples and eps are unused
+# **** Problem: dataloader should not randomize batches
+def sampleEmbeddings(embeddingModel, nSamples, eps, dataloader, cuda):
+	netEmb = embeddingModel[0]
+
+	chunks = []
+	ychunks = []
+	for batch in dataloader:
+		if isinstance(batch, tuple):
+			x, y = batch
+		else:
+			x = batch
+			y = None
+		x = Variable(x)
+		if cuda:
+			x = x.cuda()
+
+		emb = netEmb(x)
+		chunks.append(emb.data)
+
+		if y is not None:
+			ychunks.append(y)
+
+	alldata = torch.cat(chunks,dim=0)
+	if len(ychunks) > 0:
+		allY = torch.cat(ychunks)
+		return {'X':alldata.cpu().numpy(), 'Y':allY.numpy()}
+	else:
+		return {'X':alldata.cpu().numpy()}
+
+
+# nSamples and eps are unused
+def sampleRegressor(regressorModel, nSamples, eps, dataloader, cuda):
+	netR = regressorModel[0]
+
+	chunks = []
+	for x in dataloader:
+		x = Variable(x)
+		if cuda:
+			x = x.cuda()
+
+		pvals = netR(x)
+		chunks.append(pvals.data)
+
+
+	allprobs = torch.cat(chunks)
+	return {'probs':allprobs.cpu().numpy()}
+
+
+
+
+
+
+
 
 def getSampleFunc(funcName):
-	if func == 'numerical':
+	if funcName == 'numerical':
 		return sampleNumericalProbabilities
-	elif func == 'backprop':
+	elif funcName == 'backprop':
 		return sampleBackpropProbabilities
+	elif funcName == 'embedding':
+		return sampleEmbeddings
+	elif funcName == 'regressor':
+		return sampleRegressor
 
 
 
 
 def sampler(model, sampleFunc, file, cuda=False, nsamples=None, dataloader=None, eps=1e-5):
 	setEval(model)
-	if cuda:
-		makeCuda(model)
+#	if cuda:
+#		makeCuda(model)
 	samples = sampleFunc(model, nsamples, eps, dataloader, cuda)
 	# samples is a torch tensor?
 
@@ -208,6 +273,7 @@ def main():
 	parser.add_argument('--saveDir', required=True, help='Where to save the samples')
 	parser.add_argument('--nsamples', type=int, required=True, help='number of samples')
 	parser.add_argument('--eps', type=float, default=1e-5, help='Numerical epsilon')
+	parser.add_argument('--deepModel', default=None, help='The deep model to append on the end of a generator')
 
 
 	parser.add_argument('--workers', type=int, help='number of data loading workers', default=2)
@@ -245,13 +311,20 @@ def main():
 	# ********* Getting model **********
 	model = getModels(opt.model, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz)
 
+	# Append deep features to end
+	if opt.deepModel is not None:
+		# **** Need to also load the deep model
+		deepModel = getModels(opt.deepModel, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz)
+		model[0] = DeepFeaturesWrapper(model[0], deepModel[0])
+
 	haveCuda = torch.cuda.is_available()
 	ngpus = torch.cuda.device_count()
 	if haveCuda:
 		model = makeCuda(model)
-		criterion = criterion.cuda()
+
 	if ngpus > 1:
 		model = makeParallel(model)
+
 
 	if 'gan' in opt.model:
 		loaderLocs = (opt.netG, opt.netD)
@@ -260,7 +333,8 @@ def main():
 	elif 'emb' in opt.model:
 		loaderLocs = tuple([opt.netEmb])
 
-	loadModel(model, loaderLocs)
+	initModel(model)
+#	loadModel(model, loaderLocs)
 
 	# ********** Get sampler **********
 	sampleFunc = getSampleFunc(opt.sampleFunc)
@@ -275,8 +349,9 @@ def main():
 
 
 	# ********** Run sampler **********
-	sampler(model, sampleFunc, join(opt.saveDir, opt.samplePrefix, '.mat'), 
+	sampler(model, sampleFunc, join(opt.saveDir, opt.samplePrefix+'.mat'), 
 		cuda=haveCuda, nsamples=opt.nsamples, dataloader=dataloader, eps=opt.eps)
+
 
 
 

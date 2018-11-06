@@ -1,0 +1,5 @@
+#!/bin/bash
+#python -m pdb sample.py --model dcgan32 --sampleFunc numerical --saveDir generated/final/dcgan_mnist/samplesNumerical --modelroot generated/final/dcgan_mnist --netG generated/final/dcgan_mnist/netG_10.pth --netD generated/final/dcgan_mnist/netD_10.pth --nsamples 10
+#python -m pdb sample.py --model dcgan32 --sampleFunc backprop --saveDir generated/final/dcgan_mnist/samplesBackprop --modelroot generated/final/dcgan_mnist --netG generated/final/dcgan_mnist/netG_10.pth --netD generated/final/dcgan_mnist/netD_10.pth --nsamples 10
+#python -m pdb sample.py --model pixelRegressor32 --sampleFunc regressor --saveDir generated/final/dcgan_mnist/regressor --modelroot generated/final/dcgan_mnist --netG generated/final/dcgan_mnist/netG_10.pth --netD generated/final/dcgan_mnist/netD_10.pth --dataset mnist --nsamples 10 #need dataset for regressor
+python -m pdb sample.py --model lenetEmbedding32 --sampleFunc embedding --saveDir generated/final/dcgan_mnist/embeddings --modelroot generated/final/dcgan_mnist --netG generated/final/dcgan_mnist/netG_10.pth --netD generated/final/dcgan_mnist/netD_10.pth --dataset mnist --nsamples 10 #need dataset for embedding
