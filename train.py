@@ -8,6 +8,8 @@ from os.path import join
 from tensorboardX import SummaryWriter
 import sys
 import datetime
+#import pickle
+import json
 
 from models import getModels, weights_init
 from loaders import getLoaders
@@ -15,6 +17,12 @@ from loaders import getLoaders
 writer = SummaryWriter('tensorboard')
 now = datetime.datetime.today()
 nowStr = now.strftime('%Y_%b_%d_%I_%M_%S')
+
+
+def saveOpts(dirname, optsDict):
+	json.dump(optsDict, open(join(dirname,'opts.json'),'w'))
+
+
 
 # **************** Mode switching ****************
 def setTrain(model):
@@ -308,9 +316,6 @@ def getTrainFunc(trainfunc, validation = False):
 			return EmbeddingTrainStep
 
 
-
-
-
 # model: nn.Module or tuple of nn.Modules to be trained
 # trainStep(model, batch, optimizers, criterion)  :  a function that runs one training batch
 #    and returns the average loss on the batch
@@ -406,6 +411,8 @@ def main():
 	# parser.add_argument('--proportions',type=str, help='Probabilities of each class in mnist',default='[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]')
 
 	opt = parser.parse_args()
+
+	saveOpts(opt.modelroot, opt.__dict__)
 
 	# randomSeedAll
 	# Print options
