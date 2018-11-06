@@ -6,10 +6,15 @@ from torch.autograd import Variable
 import argparse
 from os.path import join
 from tensorboardX import SummaryWriter
+import sys
+import datetime
 
 from models import getModels, weights_init
 from loaders import getLoaders
 
+writer = SummaryWriter('tensorboard')
+now = datetime.datetime.today()
+nowStr = now.strftime('%Y_%b_%d_%I_%M_%S')
 
 # **************** Mode switching ****************
 def setTrain(model):
@@ -23,15 +28,16 @@ def setEval(model):
 
 # **************** Tracker objects ****************
 class Tracker(object):
-	def __init__(self, prefix=''):#, modelType):
+	def __init__(self, prefix='', verbose=True):#, modelType):
 		# self.modelType = modelType
 		self.prefix = prefix
-		self.trainBatchesPath = join(prefix, 'trainCurveBatches')
-		self.trainCurvePath = join(prefix, 'trainCurve')
-		self.validationCurvePath = join(prefix, 'validationCurve')
-		self.imagePath = join(prefix,'Image')
+		self.trainBatchesPath = join(nowStr, prefix, 'trainCurveBatches')
+		self.trainCurvePath = join(nowStr, prefix, 'trainCurve')
+		self.validationCurvePath = join(nowStr, prefix, 'validationCurve')
+		self.imagePath = join(nowStr, prefix,'Image')
+		self.verbose = verbose
 
-		self.writer = SummaryWriter()
+		self.writer = writer #SummaryWriter('tensorboard')
 		self.valEpoch = 0
 		self.trainEpoch = 0
 		self.validationAverage = 0.0
@@ -40,6 +46,8 @@ class Tracker(object):
 		self.trainAverage = 0.0
 
 	def trainUpdate(self, epoch, batchnum, loss):
+		if self.verbose and batchnum%50 == 0:
+			print "epoch {0} batch {1} {2} loss = {3}".format(epoch, batchnum, self.prefix, loss)
 		self.writer.add_scalar(self.trainBatchesPath, loss, epoch*batchnum)
 		if epoch > self.trainEpoch:
 			self.writer.add_scalar(self.trainCurvePath, self.trainAverage/self.trainIters, epoch)
@@ -57,15 +65,19 @@ class Tracker(object):
 			self.validationIters = 1
 			self.validationAverage = loss
 			self.valEpoch = epoch
+			if self.verbose:
+				print "validation epoch {0} batch {1} {2} loss = {3}".format(epoch, batchnum, self.prefix, loss)
 		else:
 			#self.writer.add_scalar('validationCurve', loss, epoch*batchnum)
 			self.validationAverage += loss
 			self.validationIters += 1
 
 	def addImages(self, epoch, ims):
+		if self.verbose:
+			print "Adding images epoch {0}".format(epoch)
 		if ims is not None:
 			imGrid = vutils.make_grid(ims, normalize=True, scale_each=True)
-			writer.add_image(self.imagePath, imGrid, epoch)
+			self.writer.add_image(self.imagePath, imGrid, epoch)
 		
 
 # **************** Criterion functions ****************
@@ -74,9 +86,18 @@ class GANCriterion(nn.Module):
 		super(GANCriterion, self).__init__()
 		self.lossFunc = nn.BCELoss()
 
-	def forward(self, target, actual):
-		return self.lossFunc(target, actual)
+	def forward(self, actual, target):
+		return self.lossFunc(actual, target)
 
+class SoftmaxBCE(nn.Module):
+	def __init__(self):
+		super(SoftmaxBCE, self).__init__()
+		self.softmax = nn.Softmax()
+		self.bce = nn.BCELoss()
+
+	def forward(self, actual, target):
+		actual = self.softmax(actual)
+		return self.bce(actual,target)
 
 class RegressorCriterion(nn.Module):
 	def __init__(self):
@@ -90,12 +111,16 @@ class EmbeddingCriterion(nn.Module):
 def getCriterion(criterion):
 	if criterion == 'gan':
 		return GANCriterion()
+	elif criterion == 'bce':
+		return nn.BCELoss()
+	elif criterion == 'softmaxbce':
+		return SoftmaxBCE() 
 	elif criterion == 'wgan':
 		pass
 	elif criterion == 'flowgan':
 		pass
-	elif criterion == 'regressor':
-		return RegressorCriterion()
+	elif criterion == 'l2':
+		return nn.MSELoss()
 	elif criterion == 'embedding':
 		return EmbeddingCriterion()
 
@@ -176,12 +201,13 @@ def GANTrainStep(model, batch, optimizers, criterion, cuda):
 	errG.backward()
 	optimG.step()
 
-	return (errG.data[0], errD.data[0]), fake
+	return (errG.data[0], errD.data[0]), fake.data
 
 
 
 def supervisedTrainStep(model, batch, optimizer, criterion, cuda):
 	model = model[0]
+	optimizer = optimizer[0]
 	x, y = batch
 	x = Variable(x)
 	y = Variable(y)
@@ -195,7 +221,7 @@ def supervisedTrainStep(model, batch, optimizer, criterion, cuda):
 	err.backward()
 	optimizer.step()
 
-	return (err.data[0]), None
+	return tuple([err.data[0]]), None
 
 def supervisedValidationStep(model, batch, criterion, cuda):
 	model = model[0]
@@ -209,7 +235,7 @@ def supervisedValidationStep(model, batch, criterion, cuda):
 	ypred = model(x)
 	err = criterion(ypred, y)
 
-	return (err.data[0])
+	return tuple([err.data[0]])
 
 
 
@@ -220,11 +246,50 @@ def RegressorTrainStep(model, batch, optimizers, criterion):
 def RegressorValidationStep(model, batch, criterion):
 	pass
 
-def EmbeddingTrainStep(model, batch, optimizers, criterion):
-	pass
+def EmbeddingTrainStep(model, batch, optimizer, criterion, cuda):
+	model = model[0]
+	optimizer = optimizer[0]
 
-def EmbeddingValidationStep(model, batch, criterion):
-	pass
+	x, y = batch
+	y = y.view(-1,1) # make 2d
+	label = torch.zeros(y.size(0), model.outClasses) #10 for now
+	label.scatter_(1,y,1)
+	y = label
+
+	x = Variable(x)
+	y = Variable(y)
+	if cuda:
+		x = x.cuda()
+		y = y.cuda()
+
+	model.zero_grad()
+	ypred = model(x)
+	err = criterion(ypred, y)
+	err.backward()
+	optimizer.step()
+
+	return tuple([err.data[0]]), None
+ 
+
+def EmbeddingValidationStep(model, batch, criterion, cuda):
+	model = model[0]
+
+	x, y = batch
+	y = y.view(-1,1) # make 2d
+	label = torch.zeros(y.size(0), model.outClasses) #10 for now
+	label.scatter_(1,y,1)
+	y = label
+
+	x = Variable(x)
+	y = Variable(y)
+	if cuda:
+		x = x.cuda()
+		y = y.cuda()
+
+	ypred = model(x)
+	err = criterion(ypred, y)
+
+	return tuple([err.data[0]])
 
 def getTrainFunc(trainfunc, validation = False):
 	if trainfunc == 'gan':
@@ -233,9 +298,9 @@ def getTrainFunc(trainfunc, validation = False):
 		pass
 	elif trainfunc == 'regressor':
 		if validation:
-			return RegressorTrainStep, RegressorValidationStep
+			return supervisedTrainStep, supervisedValidationStep
 		else:
-			return RegressorTrainStep
+			return supervisedTrainStep
 	elif trainfunc == 'embedding':
 		if validation:
 			return EmbeddingTrainStep, EmbeddingValidationStep
@@ -271,11 +336,11 @@ def train(model, trainStep, optimizers, loader, criterion, trackers, checkpointL
 			checkpoint(model, checkpointLocs, epoch)
 		if validationLoader is not None:
 			setEval(model)
-			for k, valBatch in enumerate(epoch, k, validationLoader):
+			for k, valBatch in enumerate(validationLoader):
 				valLosses = validationStep(model, valBatch, criterion, cuda)
 				for t, track in enumerate(trackers):
 					loss = valLosses[t]
-					track.validationUpdate(epoch, j, loss)
+					track.validationUpdate(epoch, k, loss)
 			setTrain(model)
 	setEval(model)
 	checkpoint(model, checkpointLocs, epochs)
@@ -387,13 +452,13 @@ def main():
 		loaderLocs = (opt.netG, opt.netD)
 		trackers = (Tracker('netG'), Tracker('netD'))
 	elif 'regressor' in opt.trainFunc:
-		checkpointLocs = (join(opt.modelroot, 'netR'))
-		loaderLocs = (opt.netR)
-		trackers = (Tracker('Regressor'))
+		checkpointLocs = tuple([join(opt.modelroot, 'netR')])
+		loaderLocs = tuple([opt.netR])
+		trackers = tuple([Tracker('Regressor')])
 	elif 'embedding' in opt.trainFunc:
-		checkpointLocs = (join(opt.modelroot, 'netEmb'))
-		loaderLocs = (opt.netEmb)
-		trackers = (Tracker('Embedding'))
+		checkpointLocs = tuple([join(opt.modelroot, 'netEmb')])
+		loaderLocs = tuple([opt.netEmb])
+		trackers = tuple([Tracker('Embedding')])
 
 	# *********** Initialize and/or load models ***************
 	initModel(model)

@@ -14,6 +14,24 @@ locations={
  # (omniglot) japanese_hiragana_32: /vulcan/scratch/krusinga/omniglot/omniglot/python/images_background/Japanese_(hiragana)/japanese_hiragana32.mat	
 }
 
+class TrainSplit(data.Dataset):
+  def __init__(self, underlyingDset, indices):
+    self.indices = indices
+    self.dset = underlyingDset
+
+  def __len__(self):
+    return len(self.indices)
+
+  def __getitem__(self, i):
+    return self.dset[self.indices[i]]
+
+def random_split(dset, prop):
+  n = len(dset)
+  l1 = int(prop*n)
+  permute = np.random.permutation(n)
+  return TrainSplit(dset, permute[:l1]), TrainSplit(dset, permute[l1:])
+
+
 
 # Assumes you have a matfile
 # containing Xtrain, (Ytrain), Xtest, (Ytest) of the appropriate sizes
@@ -185,9 +203,9 @@ def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLab
 		dset = MatLoader(root, outShape=outshape, distribution=distribution, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy)
 
 	if validation:
-		trLen = int(float(trProp)*len(dset))
-		valLen = len(dset)-trLen
-		trainDset, valDset = random_split(dset, (trLen, valLen))
+#		trLen = int(float(trProp)*len(dset))
+#		valLen = len(dset)-trLen
+		trainDset, valDset = random_split(dset, trProp)
 		return (DataLoader(trainDset, batch_size=batchsize), DataLoader(valDset, batch_size=batchsize))
 	else:
 		return DataLoader(dset, batch_size=batchsize)

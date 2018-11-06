@@ -32,6 +32,8 @@ class NthArgWrapper(nn.Module):
     def __init__(self, net, arg):
         super(NthArgWrapper, self).__init__()
         self.net = net
+        if hasattr(self.net, 'outClasses'):
+            self.outClasses = self.net.outClasses
         self.arg = arg
 
     def forward(self, x):
@@ -234,7 +236,7 @@ class mog_netD(nn.Module):
 class Lenet32(nn.Module):
     def __init__(self, nc):
         super(Lenet32, self).__init__()
-        self.ngpu = ngpu
+        self.outClasses = 10
         self.features = nn.Sequential(
             nn.Conv2d(nc, 20, 5, 1, bias=True),
             # nn.MaxPool2d(2,2),
@@ -353,6 +355,6 @@ def getModels(model, nc=3, imsize=32, hidden=64, nz=100):
 	if model == 'dcgan32':
 		return (NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz))
 	elif model == 'pixelRegressor32':
-		return (NetP32(nc=nc, npf=hidden))
+		return tuple([NetP32(nc=nc, npf=hidden)])
 	elif model == 'lenetEmbedding32':
-		return (Lenet32(nc=nc))
+		return tuple([NthArgWrapper(Lenet32(nc=nc), 1)])
