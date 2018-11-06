@@ -49,6 +49,9 @@ class NetG32(nn.Module):
     self.nz = nz
     self.ngf = ngf
     self.nc = nc
+    self.imsize=32
+    self.outshape=[self.nc, self.imsize, self.imsize]
+    self.totalOut=self.nc*self.imsize*self.imsize
     self.main = nn.Sequential(
         # input is Z, going into a convolution
         nn.ConvTranspose2d(nz, ngf * 4, 4, 1, 0, bias=False),
