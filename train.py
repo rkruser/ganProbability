@@ -118,19 +118,19 @@ class EmbeddingCriterion(nn.Module):
 
 def getCriterion(criterion):
 	if criterion == 'gan':
-		return GANCriterion()
+		return [GANCriterion()]
 	elif criterion == 'bce':
-		return nn.BCELoss()
+		return [nn.BCELoss()]
 	elif criterion == 'softmaxbce':
-		return SoftmaxBCE() 
+		return [SoftmaxBCE()]
 	elif criterion == 'wgan':
 		pass
 	elif criterion == 'flowgan':
 		pass
 	elif criterion == 'l2':
-		return nn.MSELoss()
+		return [nn.MSELoss()]
 	elif criterion == 'embedding':
-		return EmbeddingCriterion()
+		return [EmbeddingCriterion()]
 
 
 
@@ -173,7 +173,7 @@ def getOptimizers(model, lr=0.0002, beta1=0.5, beta2=0.999):
 	optimizers = []
 	for mod in model:
 		optimizers.append(torch.optim.Adam(filter(lambda m: m.requires_grad, mod.parameters()), lr=lr, betas=(beta1,beta2)))
-	return tuple(optimizers)
+	return optimizers
 
 
 
@@ -183,11 +183,14 @@ def getOptimizers(model, lr=0.0002, beta1=0.5, beta2=0.999):
 def GANTrainStep(model, batch, optimizers, criterion, cuda):
 	netG, netD = model
 	optimG, optimD = optimizers
+	criterion = criterion[0]
+
+	nz = netG.numLatent()
 
 	batch = Variable(batch)
 	onesLabel = Variable(torch.ones(batch.size(0)))
 	zerosLabel = Variable(torch.zeros(batch.size(0)))
-	zVals = Variable(torch.Tensor(batch.size(0), netG.nz).normal_(0,1))
+	zVals = Variable(torch.Tensor(batch.size(0), nz).normal_(0,1))
 	if cuda:
 		onesLabel = onesLabel.cuda()
 		zerosLabel = zerosLabel.cuda()
@@ -216,6 +219,7 @@ def GANTrainStep(model, batch, optimizers, criterion, cuda):
 def supervisedTrainStep(model, batch, optimizer, criterion, cuda):
 	model = model[0]
 	optimizer = optimizer[0]
+	criterion = criterion[0]
 	x, y = batch
 	x = Variable(x)
 	y = Variable(y)
@@ -229,10 +233,11 @@ def supervisedTrainStep(model, batch, optimizer, criterion, cuda):
 	err.backward()
 	optimizer.step()
 
-	return tuple([err.data[0]]), None
+	return [err.data[0]], None
 
 def supervisedValidationStep(model, batch, criterion, cuda):
 	model = model[0]
+	criterion = criterion[0]
 	x, y = batch
 	x = Variable(x)
 	y = Variable(y)
@@ -243,7 +248,7 @@ def supervisedValidationStep(model, batch, criterion, cuda):
 	ypred = model(x)
 	err = criterion(ypred, y)
 
-	return tuple([err.data[0]])
+	return [err.data[0]]
 
 
 
@@ -257,10 +262,11 @@ def RegressorValidationStep(model, batch, criterion):
 def EmbeddingTrainStep(model, batch, optimizer, criterion, cuda):
 	model = model[0]
 	optimizer = optimizer[0]
+	criterion = criterion[0]
 
 	x, y = batch
 	y = y.view(-1,1) # make 2d
-	label = torch.zeros(y.size(0), model.outClasses) #10 for now
+	label = torch.zeros(y.size(0), model.numOutClasses()) #10 for now
 	label.scatter_(1,y,1)
 	y = label
 
@@ -276,15 +282,16 @@ def EmbeddingTrainStep(model, batch, optimizer, criterion, cuda):
 	err.backward()
 	optimizer.step()
 
-	return tuple([err.data[0]]), None
+	return [err.data[0]], None
  
 
 def EmbeddingValidationStep(model, batch, criterion, cuda):
 	model = model[0]
+	criterion = criterion[0]
 
 	x, y = batch
 	y = y.view(-1,1) # make 2d
-	label = torch.zeros(y.size(0), model.outClasses) #10 for now
+	label = torch.zeros(y.size(0), model.numOutClasses) #10 for now
 	label.scatter_(1,y,1)
 	y = label
 
@@ -297,7 +304,7 @@ def EmbeddingValidationStep(model, batch, criterion, cuda):
 	ypred = model(x)
 	err = criterion(ypred, y)
 
-	return tuple([err.data[0]])
+	return [err.data[0]]
 
 def getTrainFunc(trainfunc, validation = False):
 	if trainfunc == 'gan':
@@ -355,20 +362,20 @@ def makeCuda(model):
 	out = []
 	for m in model:
 		out.append(m.cuda())
-	return tuple(out)
+	return out
 
 def makeParallel(model):
 	newMods = []
 	for m in model:
 		newMods.append(nn.DataParallel(m))
-	return tuple(newMods)
+	return newMods
 
 
 
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--model', default='dcgan32', help='dcgan32 | flowgan32 | pixelRegressor32 | deepRegressor32 | embedding32')
+	parser.add_argument('--model', default='dcgan', help='dcgan | flowgan | pixelRegressor | deepRegressor | embedding')
 	parser.add_argument('--dataset', default='mnist', help='cifar10 | mnist | lsun | imagenet | folder | lfw | fake')
 	parser.add_argument('--dataroot', default=None, help='path to dataset')
 	parser.add_argument('--modelroot', default='generated/final/dcgan_mnist', help='path to model save location')
@@ -430,7 +437,8 @@ def main():
 	ngpus = torch.cuda.device_count()
 	if haveCuda:
 		model = makeCuda(model)
-		criterion = criterion.cuda()
+		criterion = makeCuda(criterion)
+#		criterion = criterion.cuda()
 	if ngpus > 1:
 		model = makeParallel(model)
 
@@ -459,13 +467,13 @@ def main():
 		loaderLocs = (opt.netG, opt.netD)
 		trackers = (Tracker('netG'), Tracker('netD'))
 	elif 'regressor' in opt.trainFunc:
-		checkpointLocs = tuple([join(opt.modelroot, 'netR')])
-		loaderLocs = tuple([opt.netR])
-		trackers = tuple([Tracker('Regressor')])
+		checkpointLocs = [join(opt.modelroot, 'netR')]
+		loaderLocs = [opt.netR]
+		trackers = [Tracker('Regressor')]
 	elif 'embedding' in opt.trainFunc:
-		checkpointLocs = tuple([join(opt.modelroot, 'netEmb')])
-		loaderLocs = tuple([opt.netEmb])
-		trackers = tuple([Tracker('Embedding')])
+		checkpointLocs = [join(opt.modelroot, 'netEmb')]
+		loaderLocs = [opt.netEmb]
+		trackers = [Tracker('Embedding')]
 
 	# *********** Initialize and/or load models ***************
 	initModel(model)
