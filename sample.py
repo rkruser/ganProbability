@@ -202,7 +202,7 @@ def sampleEmbeddings(embeddingModel, nSamples, eps, dataloader, cuda):
 	if len(ychunks) > 0:
 		allY = torch.cat(ychunks)
 		return {'X':alldata.cpu().numpy(), 'Y':allY.numpy()}
-	else:
+	else:sbatch --gres=gpu:1 --partition=scave
 		return {'X':alldata.cpu().numpy()}
 
 
@@ -257,7 +257,7 @@ def sampler(model, sampleFunc, file, cuda=False, nsamples=None, dataloader=None,
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--model', default='dcgan32', help='dcgan32 | flowgan32 | pixelRegressor32 | deepRegressor32 | embedding32')
+	parser.add_argument('--model', default='dcgan', help='dcgan | flowgan | pixelRegressor | deepRegressor | embedding')
 	parser.add_argument('--dataset', default=None, help='cifar10 | mnist | lsun | imagenet | folder | lfw | fake')
 	parser.add_argument('--dataroot', default=None, help='path to dataset')
 	parser.add_argument('--modelroot', default='generated/final/dcgan_mnist', help='path to model save location')
@@ -340,7 +340,7 @@ def main():
 		loaderLocs = [opt.netEmb]
 
 	initModel(model)
-#	loadModel(model, loaderLocs)
+	loadModel(model, loaderLocs)
 
 	# ********** Get sampler **********
 	sampleFunc = getSampleFunc(opt.sampleFunc)
