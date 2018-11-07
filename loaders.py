@@ -148,7 +148,7 @@ class ProbLoader(data.Dataset):
       self.X = self.data['feats'] #Actually no, but okay
     else:
       self.X = self.data['images']
-    self.Y = self.data['prob'].squeeze()
+    self.Y = self.data['probs'].squeeze()
 
     if mode=='train':
       self.train = True

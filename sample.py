@@ -53,6 +53,7 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 
 	nz = netG.numLatent()
 	outshape = netG.outshape()
+	totalOut = netG.numOutDims()
 
 	noise = torch.FloatTensor(2*nz+1,nz)
 	b = torch.eye(nz)*eps
@@ -69,18 +70,18 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 
 	images = np.empty([nSamples]+outshape)
 	probs = np.empty([nSamples])
-	jacob = np.empty([nSamples, min(netG.totalOut,nz)]) 
+	jacob = np.empty([nSamples, min(totalOut,nz)]) 
 
 
 	for i in range(nSamples):
-		J = np.empty([netG.totalOut, nz])
+		J = np.empty([totalOut, nz])
 
 		a = codes[i].view(1,-1)
 		noise.copy_(torch.cat((a,a+b,a-b),0))
 		noisev = Variable(noise, volatile=True) #volatile helps with memory somehow
 
 		# So as not to run out of memory
-		if netG.totalOut <= 3072:
+		if totalOut <= 3072:
 			fakeIms = netG(noisev)
 		else:
 			fakeIms = runHuge(netG, noisev, nchunks=10)
@@ -113,6 +114,7 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 	netG, netD = ganModel
 	nz = netG.numLatent()
 	outshape = netG.outshape()
+	totalOut = netG.numOutDims()
 
 	noise = torch.FloatTensor(1,nz)
 	codes = torch.FloatTensor(nSamples,nz).normal_(0,1)
@@ -127,10 +129,10 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 
 	images = np.empty([nSamples]+outshape)
 	probs = np.empty([nSamples])
-	jacob = np.empty([nSamples, min(netG.totalOut,nz)]) 
+	jacob = np.empty([nSamples, min(totalOut,nz)]) 
 
 	for i in range(nSamples):
-		J = np.empty([netG.totalOut, nz])
+		J = np.empty([totalOut, nz])
 
 		a = codes[i].view(1,-1)
 		noise.copy_(a)
@@ -139,7 +141,7 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 		fakeIms = netG(noisev)
 		fake = fakeIms.view(1,-1)
 
-		for k in range(netG.totalOut):
+		for k in range(totalOut):
 			if k%100 == 0:
 				print "  ",k
 			netG.zero_grad()
@@ -157,6 +159,7 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 		jacob[i] = diag.copy() # No modification yet
 		diag[np.where(np.abs(diag) < 1e-20)] = 1
 		probs[i] = gauss_const - log_const*0.5*np.sum(Z**2) - np.log10(np.abs(diag)).sum()
+
 
 
 	# Add in codes
@@ -183,7 +186,7 @@ def sampleEmbeddings(embeddingModel, nSamples, eps, dataloader, cuda):
 	chunks = []
 	ychunks = []
 	for batch in dataloader:
-		if isinstance(batch, tuple):
+		if isinstance(batch, list):
 			x, y = batch
 		else:
 			x = batch
@@ -202,7 +205,7 @@ def sampleEmbeddings(embeddingModel, nSamples, eps, dataloader, cuda):
 	if len(ychunks) > 0:
 		allY = torch.cat(ychunks)
 		return {'X':alldata.cpu().numpy(), 'Y':allY.numpy()}
-	else:sbatch --gres=gpu:1 --partition=scave
+	else:
 		return {'X':alldata.cpu().numpy()}
 
 
@@ -277,9 +280,10 @@ def main():
 	parser.add_argument('--samplePrefix', default='samples', help='The file to save the samples to')
 	parser.add_argument('--sampleFunc', required=True, default='numerical', help='How to sample the model')
 	parser.add_argument('--saveDir', required=True, help='Where to save the samples')
-	parser.add_argument('--nsamples', type=int, required=True, help='number of samples')
+	parser.add_argument('--nsamples', type=int, default=None, help='number of samples')
 	parser.add_argument('--eps', type=float, default=1e-5, help='Numerical epsilon')
 	parser.add_argument('--deepModel', default=None, help='The deep model to append on the end of a generator')
+	parser.add_argument('--datamode', type=str, default='train', help='train | test')
 
 
 	parser.add_argument('--workers', type=int, help='number of data loading workers', default=2)
@@ -310,17 +314,31 @@ def main():
 	opt = parser.parse_args()
 
 	if opt.useSavedOpts:
+		# something wrong here?
 		opt.__dict__.update(loadOpts(opt.modelroot))
 
+
+	# ******* File locations *********
+	if 'gan' in opt.model:
+		loaderLocs = (opt.netG, opt.netD)
+	elif 'Reg' in opt.model:
+		loaderLocs = [opt.netR]
+	elif 'Emb' in opt.model or 'emb' in opt.model:
+		loaderLocs = [opt.netEmb]
+	else:
+		loaderLocs = None
 
 
 	# ********* Getting model **********
 	model = getModels(opt.model, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz)
+	# initModel(model)
+	loadModel(model, loaderLocs)
 
 	# Append deep features to end
 	if opt.deepModel is not None:
 		# **** Need to also load the deep model
 		deepModel = getModels(opt.deepModel, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz)
+		loadModel(deepModel, [opt.netEmb])
 		model[0] = DeepFeaturesWrapper(model[0], deepModel[0])
 
 	haveCuda = torch.cuda.is_available()
@@ -332,15 +350,7 @@ def main():
 		model = makeParallel(model)
 
 
-	if 'gan' in opt.model:
-		loaderLocs = (opt.netG, opt.netD)
-	elif 'Reg' in opt.model:
-		loaderLocs = [opt.netR]
-	elif 'emb' in opt.model:
-		loaderLocs = [opt.netEmb]
 
-	initModel(model)
-	loadModel(model, loaderLocs)
 
 	# ********** Get sampler **********
 	sampleFunc = getSampleFunc(opt.sampleFunc)
@@ -349,7 +359,7 @@ def main():
 	# ********** Get dataset, if necessary **************
 	if opt.dataset is not None:
 		dataloader = getLoaders(loader=opt.dataset, nc=opt.nc, size=opt.imageSize, root=opt.dataroot, batchsize=opt.batchSize, returnLabel=opt.supervised,
-	     fuzzy=opt.fuzzy, mode='train', validation=opt.validation, trProp=opt.trainValProportion, deep=opt.deep)
+	     fuzzy=opt.fuzzy, mode=opt.datamode, validation=opt.validation, trProp=opt.trainValProportion, deep=opt.deep)
 	else:
 		dataloader = None
 

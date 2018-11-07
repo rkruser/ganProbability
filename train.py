@@ -162,7 +162,7 @@ def checkpoint(model, locations, epoch=None):
 
 	for i, m in enumerate(model):
 		l = locations[i]
-		torch.save(m,l+append)
+		torch.save(m.state_dict(),l+append)
 
 
 
@@ -291,7 +291,7 @@ def EmbeddingValidationStep(model, batch, criterion, cuda):
 
 	x, y = batch
 	y = y.view(-1,1) # make 2d
-	label = torch.zeros(y.size(0), model.numOutClasses) #10 for now
+	label = torch.zeros(y.size(0), model.numOutClasses()) #10 for now
 	label.scatter_(1,y,1)
 	y = label
 

@@ -42,6 +42,19 @@ class NthArgWrapper(nn.Module):
     def outshape(self):
         return self.net.outshape(self.arg)
 
+    def numLatent(self):
+        return self.net.numLatent()
+
+    def imsize(self):
+        return self.net.imsize()
+
+    def numColors(self):
+        return self.net.imsize()
+
+    def numOutClasses(self):
+        return self.net.numOutClasses()
+
+
     def forward(self, x):
         result = self.net(x)
         return result[self.arg]
@@ -316,7 +329,7 @@ class mog_netD(nn.Module):
 class Lenet32(nn.Module):
     def __init__(self, nc):
         super(Lenet32, self).__init__()
-        self.nc
+        self.nc = nc
         self.outClasses = 10
         self.features = nn.Sequential(
             nn.Conv2d(nc, 20, 5, 1, bias=True),
@@ -375,7 +388,7 @@ class Lenet32(nn.Module):
 
 def getModels(model, nc=3, imsize=32, hidden=64, nz=100):
 	if model == 'dcgan':
-		return (NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz))
+		return [NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz)]
 	elif model == 'pixelRegressor':
 		return [NetP32(nc=nc, npf=hidden)]
 	elif model == 'lenetEmbedding':
