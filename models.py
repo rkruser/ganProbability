@@ -36,9 +36,14 @@ class NthArgWrapper(nn.Module):
             self.outClasses = self.net.outClasses
         self.arg = arg
 
+    def numOutDims(self):
+        return self.net.numOutDims(self.arg)
+
+    def outshape(self):
+        return self.net.outshape(self.arg)
+
     def forward(self, x):
         result = self.net(x)
-        assert(isinstance(result, tuple) and (len(result) > self.arg))
         return result[self.arg]
 
 class DeepFeaturesWrapper(nn.Module):
@@ -46,6 +51,21 @@ class DeepFeaturesWrapper(nn.Module):
         super(DeepFeaturesWrapper,self).__init__()
         self.netG = netG
         self.netEmb = netEmb
+
+    def numLatent(self):
+        return self.netG.numLatent()
+
+    def numOutDims(self):
+        return self.netEmb.numOutDims()
+
+    def outshape(self):
+        return self.netEmb.outshape()
+
+    def imsize(self):
+        return None
+
+    def numColors(self):
+        return None
 
     def forward(self, x):
         return self.netEmb(self.netG(x))
@@ -59,8 +79,6 @@ class NetG32(nn.Module):
     self.ngf = ngf
     self.nc = nc
     self.imsize=32
-    self.outshape=[self.nc, self.imsize, self.imsize]
-    self.totalOut=self.nc*self.imsize*self.imsize
     self.main = nn.Sequential(
         # input is Z, going into a convolution
         nn.ConvTranspose2d(nz, ngf * 4, 4, 1, 0, bias=False),
@@ -81,6 +99,21 @@ class NetG32(nn.Module):
         nn.Tanh()
         # state size. (nc) x 32 x 32
     )
+
+  def numLatent(self):
+    return self.nz
+
+  def outshape(self):
+    return [self.nc, self.imsize, self.imsize]
+
+  def imsize(self):
+    return self.imsize
+
+  def numOutDims(self):
+    return self.nc*self.imsize*self.imsize
+
+  def numColors(self):
+    return self.nc
 
   def forward(self, input):
    # if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
@@ -125,6 +158,13 @@ class NetD32(nn.Module):
     if self.infogan:
       self.reconstructor = nn.Conv2d(ndf*4, nz, 4, 1, 0)
 
+  def numOutDims(self):
+    return 1
+
+  def outshape(self):
+    return [1]
+
+
 
   def forward(self, x):
     # Removed the x.data part in this and in netG
@@ -166,6 +206,13 @@ class NetP32(nn.Module):
             # nn.ReLU(inplace=True)
         )
 
+    def numOutDims(self):
+        return 1
+
+    def outshape(self):
+        return [1]
+
+
     def forward(self, input):
 #        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
 #            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
@@ -190,11 +237,15 @@ class NetPLatent(nn.Module):
       nn.Linear(npf, 1) # no log probs
     )
 
+  def numOutDims(self):
+    return 1
+
+  def outshape(self):
+    return [1]
+
+
   def forward(self, x):
-    if isinstance(x.data, torch.cuda.FloatTensor) and self.ngpu > 1:
-      output = nn.parallel.data_parallel(self.main, x, range(self.ngpu))
-    else:
-      output = self.main(x)
+    output = self.main(x)
       # output = -torch.abs(output)+th  # Why do this?
 
     return output.view(-1,1).squeeze(1) 
@@ -202,9 +253,9 @@ class NetPLatent(nn.Module):
 
 # Every model for MoG - Generator
 class mog_netG(nn.Module):
-    def __init__(self, ngpu, nz):
+    def __init__(self, nz):
         super(mog_netG, self).__init__()
-        self.ngpu = ngpu
+        self.nz = nz
         self.main = nn.Sequential(
             # input is Z, going into a convolution
             nn.Linear(nz,128),
@@ -214,16 +265,29 @@ class mog_netG(nn.Module):
             nn.Linear(128, 2),
         )
 
+    def numLatent(self):
+        return self.nz
+
+    def outshape(self):
+        return [2]
+
+    def imsize(self):
+      return None
+
+    def numOutDims(self):
+      return 2
+
+    def numColors(self):
+      return None
+
+
     def forward(self, input):
-        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
-            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
-        else:
-            output = self.main(input)
-        return output
+      output = self.main(input)
+      return output
 
 # Discriminator
 class mog_netD(nn.Module):
-    def __init__(self, ngpu):
+    def __init__(self):
         super(mog_netD, self).__init__()
         self.ngpu = ngpu
         self.main = nn.Sequential(
@@ -235,11 +299,15 @@ class mog_netD(nn.Module):
             nn.Sigmoid()
         )
 
+    def numOutDims(self):
+        return 1
+
+    def outshape(self):
+        return [1]
+
+
     def forward(self, input):
-        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
-            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
-        else:
-            output = self.main(input)
+        output = self.main(input)
 
         return output.view(-1, 1)
 
@@ -248,6 +316,7 @@ class mog_netD(nn.Module):
 class Lenet32(nn.Module):
     def __init__(self, nc):
         super(Lenet32, self).__init__()
+        self.nc
         self.outClasses = 10
         self.features = nn.Sequential(
             nn.Conv2d(nc, 20, 5, 1, bias=True),
@@ -261,6 +330,32 @@ class Lenet32(nn.Module):
         self.main = nn.Sequential(
             nn.Linear(500, 10)
             )
+
+    def numOutClasses(self):
+      return self.outClasses
+
+    def outshape(self, arg):
+        if arg == 0:
+          return [500]
+        elif arg == 1:
+          return [10]
+        else:
+          raise ValueError(str(self)+"\nArgument index out of range")
+
+    def imsize(self):
+      return 32
+
+    def numOutDims(self, arg):
+      if arg == 0:
+        return 500
+      elif arg == 1:
+        return 10
+      else:
+        raise ValueError(str(self)+"\nArgument index out of range")
+
+    def numColors(self):
+      return self.nc
+
 
     def forward(self, input):
         # if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
@@ -276,100 +371,108 @@ class Lenet32(nn.Module):
 
         return output, output1
 
-class DeepRegressor(nn.Module):
-    def __init__(self, featureExtractor, nOutFeatures=500, ngpu=0):
-        super(DeepRegressor, self).__init__()
-        self.deepFeatures = featureExtractor
-        for m in self.deepFeatures.parameters():
-            m.requires_grad = False
-
-        self.ngpu = ngpu
-        self.nOutFeatures = nOutFeatures
-        self.main = nn.Sequential(
-            nn.Linear(self.nOutFeatures, 256),
-            nn.ReLU(inplace=True),
-            nn.Linear(256, 128),
-            nn.ReLU(inplace=True),
-            nn.Linear(128, 64),
-            nn.ReLU(inplace=True),
-            nn.Linear(64, 32),
-            nn.ReLU(inplace=True),
-            nn.Linear(32, 16),
-            nn.ReLU(inplace=True),
-            nn.Linear(16,1)
-        )
-        self.main.apply(weights_init)
-
-    def forward(self, x):
-        feats, _ = self.deepFeatures(x)
-        if isinstance(feats.data, torch.cuda.FloatTensor) and self.ngpu > 1:
-            output = nn.parallel.data_parallel(self.main, feats, range(self.ngpu))
-        else:
-            output = self.main(feats)
-            # output -= 8*F.relu(output - th)
-           # output = -torch.abs(output) + th
-
-        return output.view(-1, 1).squeeze(1)
-       
-
-# Regressor - fc2 features
-class NetF10(nn.Module):
-    def __init__(self, ngpu, nc=None, npf=None):
-        super(NetF10, self).__init__()
-        self.ngpu = ngpu
-        self.main = nn.Sequential(
-            nn.Linear(10, 32),
-            nn.ReLU(inplace=True),
-            nn.Linear(32, 32),
-            nn.ReLU(inplace=True),
-            nn.Linear(32, 64),
-            nn.ReLU(inplace=True),
-            nn.Linear(64, 128),
-            nn.ReLU(inplace=True),
-            nn.Linear(128, 256),
-            nn.ReLU(inplace=True),
-            nn.Linear(256,1)
-        )
-
-    def forward(self, input):
-        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
-            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
-        else:
-            output = self.main(input)
-
-        return output.view(-1, 1).squeeze(1)
-
-
-# Regressor - fc1 features
-class NetF500(nn.Module):
-    def __init__(self, ngpu, nc=None, npf=None):
-        super(NetF500, self).__init__()
-        self.ngpu = ngpu
-        self.main = nn.Sequential(
-            nn.Linear(500,800),
-            nn.ReLU(inplace=True),
-            nn.Linear(800,500),
-            nn.ReLU(inplace=True),
-            nn.Linear(500,1)
-        )
-
-    def forward(self, input):
-        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
-            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
-        else:
-            output = self.main(input)
-
-        return output.view(-1, 1).squeeze(1)
-
 
 
 def getModels(model, nc=3, imsize=32, hidden=64, nz=100):
-	if model == 'dcgan32':
+	if model == 'dcgan':
 		return (NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz))
-	elif model == 'pixelRegressor32':
-		return tuple([NetP32(nc=nc, npf=hidden)])
-	elif model == 'lenetEmbedding32':
-		return tuple([NthArgWrapper(Lenet32(nc=nc), 1)])
+	elif model == 'pixelRegressor':
+		return [NetP32(nc=nc, npf=hidden)]
+	elif model == 'lenetEmbedding':
+		return [NthArgWrapper(Lenet32(nc=nc), 1)]
 	else:
 		raise NameError("No such model")
 
+
+
+
+
+
+# Regressor - fc2 features
+#class NetF10(nn.Module):
+#    def __init__(self, ngpu, nc=None, npf=None):
+#        super(NetF10, self).__init__()
+#        self.ngpu = ngpu
+#        self.main = nn.Sequential(
+#            nn.Linear(10, 32),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(32, 32),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(32, 64),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(64, 128),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(128, 256),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(256,1)
+#        )
+#
+#    def forward(self, input):
+#        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+#            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+#        else:
+#            output = self.main(input)
+#
+#        return output.view(-1, 1).squeeze(1)
+#
+#
+## Regressor - fc1 features
+#class NetF500(nn.Module):
+#    def __init__(self, ngpu, nc=None, npf=None):
+#        super(NetF500, self).__init__()
+#        self.ngpu = ngpu
+#        self.main = nn.Sequential(
+#            nn.Linear(500,800),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(800,500),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(500,1)
+#        )
+#
+#    def forward(self, input):
+#        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+#            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+#        else:
+#            output = self.main(input)
+#
+#        return output.view(-1, 1).squeeze(1)
+#
+#class DeepRegressor(nn.Module):
+#    def __init__(self, featureExtractor, nOutFeatures=500, ngpu=0):
+#        super(DeepRegressor, self).__init__()
+#        self.deepFeatures = featureExtractor
+#        for m in self.deepFeatures.parameters():
+#            m.requires_grad = False
+#
+#        self.ngpu = ngpu
+#        self.nOutFeatures = nOutFeatures
+#        self.main = nn.Sequential(
+#            nn.Linear(self.nOutFeatures, 256),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(256, 128),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(128, 64),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(64, 32),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(32, 16),
+#            nn.ReLU(inplace=True),
+#            nn.Linear(16,1)
+#        )
+#        self.main.apply(weights_init)
+#
+#    def numOutDims(self):
+#        return 1
+#
+#    def outshape(self):
+#        return [1]
+#
+#
+#    def forward(self, x):
+#        feats, _ = self.deepFeatures(x)
+#        output = self.main(feats)
+#            # output -= 8*F.relu(output - th)
+#           # output = -torch.abs(output) + th
+#
+#        return output.view(-1, 1).squeeze(1)
+#

@@ -18,7 +18,7 @@ from models import DeepFeaturesWrapper
 import json
 
 from scipy.io import loadmat, savemat
- 
+
 
 
 def loadOpts(dirname):
@@ -51,9 +51,12 @@ def runHuge(network, data, nchunks=50):#, cuda=False):
 def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 	netG, netD = ganModel
 
-	noise = torch.FloatTensor(2*netG.nz+1,netG.nz)
-	b = torch.eye(netG.nz)*eps
-	codes = torch.FloatTensor(nSamples,netG.nz).normal_(0,1)
+	nz = netG.numLatent()
+	outshape = netG.outshape()
+
+	noise = torch.FloatTensor(2*nz+1,nz)
+	b = torch.eye(nz)*eps
+	codes = torch.FloatTensor(nSamples,nz).normal_(0,1)
 
 	if cuda:
 		noise = noise.cuda()
@@ -61,16 +64,16 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 		codes = codes.cuda()
 
 	# Using log10 because it's more intuitive
-	gauss_const = -netG.nz*np.log10(np.sqrt(2*np.pi))
+	gauss_const = -nz*np.log10(np.sqrt(2*np.pi))
 	log_const = np.log10(np.exp(1))
 
-	images = np.empty([nSamples]+netG.outshape)
+	images = np.empty([nSamples]+outshape)
 	probs = np.empty([nSamples])
-	jacob = np.empty([nSamples, min(netG.totalOut,netG.nz)]) 
+	jacob = np.empty([nSamples, min(netG.totalOut,nz)]) 
 
 
 	for i in range(nSamples):
-		J = np.empty([netG.totalOut, netG.nz])
+		J = np.empty([netG.totalOut, nz])
 
 		a = codes[i].view(1,-1)
 		noise.copy_(torch.cat((a,a+b,a-b),0))
@@ -82,9 +85,9 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 		else:
 			fakeIms = runHuge(netG, noisev, nchunks=10)
 
-		images[i] = fakeIms[0,:].data.cpu().numpy().reshape(netG.outshape)
-		I = fakeIms.data.cpu().numpy().reshape(2*netG.nz+1,-1)
-		J = (I[1:netG.nz+1,:]-I[netG.nz+1:,:]).transpose()/(2*eps)
+		images[i] = fakeIms[0,:].data.cpu().numpy().reshape(outshape)
+		I = fakeIms.data.cpu().numpy().reshape(2*nz+1,-1)
+		J = (I[1:nz+1,:]-I[nz+1:,:]).transpose()/(2*eps)
 
 		R = np.linalg.qr(J, mode='r')
 		Z = a.cpu().numpy()
@@ -108,24 +111,26 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 # dataloader and eps are unused, just placeholders
 def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 	netG, netD = ganModel
+	nz = netG.numLatent()
+	outshape = netG.outshape()
 
-	noise = torch.FloatTensor(1,netG.nz)
-	codes = torch.FloatTensor(nSamples,netG.nz).normal_(0,1)
+	noise = torch.FloatTensor(1,nz)
+	codes = torch.FloatTensor(nSamples,nz).normal_(0,1)
 
 	if cuda:
 		noise = noise.cuda()
 		codes = codes.cuda()
 
 	# Using log10 because it's more intuitive
-	gauss_const = -netG.nz*np.log10(np.sqrt(2*np.pi))
+	gauss_const = -nz*np.log10(np.sqrt(2*np.pi))
 	log_const = np.log10(np.exp(1))
 
-	images = np.empty([nSamples]+netG.outshape)
+	images = np.empty([nSamples]+outshape)
 	probs = np.empty([nSamples])
-	jacob = np.empty([nSamples, min(netG.totalOut,netG.nz)]) 
+	jacob = np.empty([nSamples, min(netG.totalOut,nz)]) 
 
 	for i in range(nSamples):
-		J = np.empty([netG.totalOut, netG.nz])
+		J = np.empty([netG.totalOut, nz])
 
 		a = codes[i].view(1,-1)
 		noise.copy_(a)
@@ -142,9 +147,9 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 			fake[0,k].backward(retain_graph=True) # ??
 			J[k] = noisev.grad.data.cpu().numpy().squeeze()
 
-		images[i] = fakeIms[0,:].data.cpu().numpy().reshape(netG.outshape)
-		# I = fake.data.cpu().numpy().reshape(2*netG.nz+1,-1)
-		# J = (I[1:netG.nz+1,:]-I[netG.nz+1:,:]).transpose()/(2*eps)
+		images[i] = fakeIms[0,:].data.cpu().numpy().reshape(outshape)
+		# I = fake.data.cpu().numpy().reshape(2*nz+1,-1)
+		# J = (I[1:nz+1,:]-I[nz+1:,:]).transpose()/(2*eps)
 
 		R = np.linalg.qr(J, mode='r')
 		Z = a.cpu().numpy()
@@ -330,9 +335,9 @@ def main():
 	if 'gan' in opt.model:
 		loaderLocs = (opt.netG, opt.netD)
 	elif 'Reg' in opt.model:
-		loaderLocs = tuple([opt.netR])
+		loaderLocs = [opt.netR]
 	elif 'emb' in opt.model:
-		loaderLocs = tuple([opt.netEmb])
+		loaderLocs = [opt.netEmb]
 
 	initModel(model)
 #	loadModel(model, loaderLocs)
