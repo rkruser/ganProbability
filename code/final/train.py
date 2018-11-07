@@ -293,8 +293,8 @@ def makeParallel(model):
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--model', help='dcgan32 | flowgan32 | pixelRegressor32 | deepRegressor32 | embedding32')
-	parser.add_argument('--dataset', required=True, help='cifar10 | mnist | lsun | imagenet | folder | lfw | fake')
+	parser.add_argument('--model', default='dcgan32', help='dcgan32 | flowgan32 | pixelRegressor32 | deepRegressor32 | embedding32')
+	parser.add_argument('--dataset', default='mnist', required=True, help='cifar10 | mnist | lsun | imagenet | folder | lfw | fake')
 	parser.add_argument('--dataroot', default=None, help='path to dataset')
 	parser.add_argument('--modelroot', help='path to model save location')
 	parser.add_argument('--netG', type=str, default=None, help="path to netG (to continue training)")
