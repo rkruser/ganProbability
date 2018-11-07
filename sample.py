@@ -18,6 +18,7 @@ from models import DeepFeaturesWrapper
 import json
 
 from scipy.io import loadmat, savemat
+ 
 
 
 def loadOpts(dirname):
@@ -96,7 +97,7 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 	# Add in codes
 	allData = {
 				'images': images.astype(np.float32),
-				'prob': probs.astype(np.float32),
+				'probs': probs.astype(np.float32),
 				'jacob': jacob.astype(np.float32),
 				'codes': codes.cpu().numpy()
 				}
@@ -156,7 +157,7 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 	# Add in codes
 	allData = {
 				'images': images.astype(np.float32),
-				'prob': probs.astype(np.float32),
+				'probs': probs.astype(np.float32),
 				'jacob': jacob.astype(np.float32),
 				'codes': codes.cpu().numpy()
 				}

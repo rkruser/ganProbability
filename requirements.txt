@@ -1,0 +1,20 @@
+Todo:
+-----
+Standardize generators further (incorporate things like stackgan)
+Clean up files (maybe move functions to others, import them)
+Standardize model names and folder structure
+Train a full pipeline
+Visualize
+Test lots of models
+
+
+
+
+Generators must have the following attributes / properties:
+
+nz : number of latent features
+outshape : a list [] containing the shape of the output, not including the batch dimension
+nc : number of colors
+imsize : width/height of output image, if this makes sense
+totalOut : Total number of output dims per point (e.g. nc*size*size for images)
+
