@@ -1,7 +1,9 @@
 # loaders
 import torch
-from torch.utils.data import random_split, DataLoader
-
+from torch.utils import data
+from torch.utils.data import DataLoader #random_split, DataLoader
+from scipy.io import loadmat
+import numpy as np
 
 locations={
 	'mnist':'/vulcan/scratch/krusinga/mnist/mnist32.mat',
@@ -11,6 +13,24 @@ locations={
 	'cub':'/vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_32.mat'
  # (omniglot) japanese_hiragana_32: /vulcan/scratch/krusinga/omniglot/omniglot/python/images_background/Japanese_(hiragana)/japanese_hiragana32.mat	
 }
+
+class TrainSplit(data.Dataset):
+  def __init__(self, underlyingDset, indices):
+    self.indices = indices
+    self.dset = underlyingDset
+
+  def __len__(self):
+    return len(self.indices)
+
+  def __getitem__(self, i):
+    return self.dset[self.indices[i]]
+
+def random_split(dset, prop):
+  n = len(dset)
+  l1 = int(prop*n)
+  permute = np.random.permutation(n)
+  return TrainSplit(dset, permute[:l1]), TrainSplit(dset, permute[l1:])
+
 
 
 # Assumes you have a matfile
@@ -183,12 +203,12 @@ def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLab
 		dset = MatLoader(root, outShape=outshape, distribution=distribution, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy)
 
 	if validation:
-		trLen = int(float(trProp)*len(dset))
-		valLen = len(dset)-trLen
-		trainDset, valDset = random_split(dset, (trLen, valLen))
-		return (DataLoader(trainDset, batch_size=batchsize), DataLoader(valDset, batch_size=batchsize))
+#		trLen = int(float(trProp)*len(dset))
+#		valLen = len(dset)-trLen
+		trainDset, valDset = random_split(dset, trProp)
+		return (DataLoader(trainDset, batch_size=batchsize, shuffle=False), DataLoader(valDset, batch_size=batchsize, shuffle=False))
 	else:
-		return DataLoader(dset, batch_size=batchsize)
+		return DataLoader(dset, batch_size=batchsize, shuffle=False)
 
 
 

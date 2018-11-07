@@ -15,6 +15,8 @@ def weights_init(m):
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:
         m.weight.data.normal_(0.0, 0.01)
+        if m.bias is not None:
+            init.constant(m.bias,0.0)
     elif classname.find('BatchNorm') != -1:
         m.weight.data.normal_(1.0, 0.01)
         m.bias.data.fill_(0)
@@ -30,6 +32,8 @@ class NthArgWrapper(nn.Module):
     def __init__(self, net, arg):
         super(NthArgWrapper, self).__init__()
         self.net = net
+        if hasattr(self.net, 'outClasses'):
+            self.outClasses = self.net.outClasses
         self.arg = arg
 
     def forward(self, x):
@@ -37,12 +41,26 @@ class NthArgWrapper(nn.Module):
         assert(isinstance(result, tuple) and (len(result) > self.arg))
         return result[self.arg]
 
+class DeepFeaturesWrapper(nn.Module):
+    def __init__(self,netG, netEmb):
+        super(DeepFeaturesWrapper,self).__init__()
+        self.netG = netG
+        self.netEmb = netEmb
+
+    def forward(self, x):
+        return self.netEmb(self.netG(x))
+
 
 # Model for 32 by 32 images
 class NetG32(nn.Module):
   def __init__(self, nz=100, ngf=64, nc=3):
     super(NetG32, self).__init__()
-    self.ngpu = ngpu
+    self.nz = nz
+    self.ngf = ngf
+    self.nc = nc
+    self.imsize=32
+    self.outshape=[self.nc, self.imsize, self.imsize]
+    self.totalOut=self.nc*self.imsize*self.imsize
     self.main = nn.Sequential(
         # input is Z, going into a convolution
         nn.ConvTranspose2d(nz, ngf * 4, 4, 1, 0, bias=False),
@@ -68,6 +86,7 @@ class NetG32(nn.Module):
    # if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
    #     output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
    # else:
+    input = input.unsqueeze(2).unsqueeze(3)
     output = self.main(input)
     return output
 
@@ -127,7 +146,6 @@ class NetD32(nn.Module):
 class NetP32(nn.Module):
     def __init__(self, nc, npf):
         super(NetP32, self).__init__()
-        self.ngpu = ngpu
         self.main = nn.Sequential(
             # input is (nc) x 32 x 32
             nn.Conv2d(nc, npf, 4, 2, 1, bias=True),
@@ -160,9 +178,8 @@ class NetP32(nn.Module):
 # What is the best shape for this net?
 # This predicts log probabilities
 class NetPLatent(nn.Module):
-  def __init__(self, nz=100, npf=64, ngpu=0):
+  def __init__(self, nz=100, npf=64):
     super(NetPLatent,self).__init__()
-    self.ngpu = ngpu
     self.main = nn.Sequential(
       nn.Linear(nz, npf*4),
       nn.ReLU(inplace=True),
@@ -231,7 +248,7 @@ class mog_netD(nn.Module):
 class Lenet32(nn.Module):
     def __init__(self, nc):
         super(Lenet32, self).__init__()
-        self.ngpu = ngpu
+        self.outClasses = 10
         self.features = nn.Sequential(
             nn.Conv2d(nc, 20, 5, 1, bias=True),
             # nn.MaxPool2d(2,2),
@@ -350,6 +367,9 @@ def getModels(model, nc=3, imsize=32, hidden=64, nz=100):
 	if model == 'dcgan32':
 		return (NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz))
 	elif model == 'pixelRegressor32':
-		return (NetP32(nc=nc, npf=hidden))
+		return tuple([NetP32(nc=nc, npf=hidden)])
 	elif model == 'lenetEmbedding32':
-		return (Lenet32(nc=nc))
+		return tuple([NthArgWrapper(Lenet32(nc=nc), 1)])
+	else:
+		raise NameError("No such model")
+

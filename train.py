@@ -6,9 +6,22 @@ from torch.autograd import Variable
 import argparse
 from os.path import join
 from tensorboardX import SummaryWriter
+import sys
+import datetime
+#import pickle
+import json
 
-from code.final.models import getModels, weights_init
-from code.final.loaders import getLoaders
+from models import getModels, weights_init
+from loaders import getLoaders
+
+writer = SummaryWriter('tensorboard')
+now = datetime.datetime.today()
+nowStr = now.strftime('%Y_%b_%d_%I_%M_%S')
+
+
+def saveOpts(dirname, optsDict):
+	json.dump(optsDict, open(join(dirname,'opts.json'),'w'))
+
 
 
 # **************** Mode switching ****************
@@ -23,15 +36,16 @@ def setEval(model):
 
 # **************** Tracker objects ****************
 class Tracker(object):
-	def __init__(self, prefix=''):#, modelType):
+	def __init__(self, prefix='', verbose=True):#, modelType):
 		# self.modelType = modelType
 		self.prefix = prefix
-		self.trainBatchesPath = join(prefix, 'trainCurveBatches')
-		self.trainCurvePath = join(prefix, 'trainCurve')
-		self.validationCurvePath = join(prefix, 'validationCurve')
-		self.imagePath = join(prefix,'Image')
+		self.trainBatchesPath = join(nowStr, prefix, 'trainCurveBatches')
+		self.trainCurvePath = join(nowStr, prefix, 'trainCurve')
+		self.validationCurvePath = join(nowStr, prefix, 'validationCurve')
+		self.imagePath = join(nowStr, prefix,'Image')
+		self.verbose = verbose
 
-		self.writer = SummaryWriter()
+		self.writer = writer #SummaryWriter('tensorboard')
 		self.valEpoch = 0
 		self.trainEpoch = 0
 		self.validationAverage = 0.0
@@ -39,7 +53,9 @@ class Tracker(object):
 		self.trainIters = 0
 		self.trainAverage = 0.0
 
-	def trainUpdate(epoch, batchnum, loss):
+	def trainUpdate(self, epoch, batchnum, loss):
+		if self.verbose and batchnum%50 == 0:
+			print "epoch {0} batch {1} {2} loss = {3}".format(epoch, batchnum, self.prefix, loss)
 		self.writer.add_scalar(self.trainBatchesPath, loss, epoch*batchnum)
 		if epoch > self.trainEpoch:
 			self.writer.add_scalar(self.trainCurvePath, self.trainAverage/self.trainIters, epoch)
@@ -51,21 +67,25 @@ class Tracker(object):
 			self.trainAverage += loss
 			self.trainIters += 1
 
-	def validationUpdate(epoch, batchnum, loss):
+	def validationUpdate(self, epoch, batchnum, loss):
 		if epoch > self.valEpoch:
 			self.writer.add_scalar(self.validationCurvePath, self.validationAverage/self.validationIters, epoch)
 			self.validationIters = 1
 			self.validationAverage = loss
 			self.valEpoch = epoch
+			if self.verbose:
+				print "validation epoch {0} batch {1} {2} loss = {3}".format(epoch, batchnum, self.prefix, loss)
 		else:
 			#self.writer.add_scalar('validationCurve', loss, epoch*batchnum)
 			self.validationAverage += loss
 			self.validationIters += 1
 
-	def addImages(epoch, ims):
+	def addImages(self, epoch, ims):
+		if self.verbose:
+			print "Adding images epoch {0}".format(epoch)
 		if ims is not None:
 			imGrid = vutils.make_grid(ims, normalize=True, scale_each=True)
-			writer.add_image(self.imagePath, imGrid, epoch)
+			self.writer.add_image(self.imagePath, imGrid, epoch)
 		
 
 # **************** Criterion functions ****************
@@ -74,9 +94,18 @@ class GANCriterion(nn.Module):
 		super(GANCriterion, self).__init__()
 		self.lossFunc = nn.BCELoss()
 
-	def forward(target, actual):
-		return self.lossFunc(target, actual)
+	def forward(self, actual, target):
+		return self.lossFunc(actual, target)
 
+class SoftmaxBCE(nn.Module):
+	def __init__(self):
+		super(SoftmaxBCE, self).__init__()
+		self.softmax = nn.Softmax()
+		self.bce = nn.BCELoss()
+
+	def forward(self, actual, target):
+		actual = self.softmax(actual)
+		return self.bce(actual,target)
 
 class RegressorCriterion(nn.Module):
 	def __init__(self):
@@ -90,12 +119,16 @@ class EmbeddingCriterion(nn.Module):
 def getCriterion(criterion):
 	if criterion == 'gan':
 		return GANCriterion()
+	elif criterion == 'bce':
+		return nn.BCELoss()
+	elif criterion == 'softmaxbce':
+		return SoftmaxBCE() 
 	elif criterion == 'wgan':
 		pass
 	elif criterion == 'flowgan':
 		pass
-	elif criterion == 'regressor':
-		return RegressorCriterion()
+	elif criterion == 'l2':
+		return nn.MSELoss()
 	elif criterion == 'embedding':
 		return EmbeddingCriterion()
 
@@ -113,7 +146,9 @@ def initModel(model):
 
 # Load a model given a list of file names
 def loadModel(model, locations):
-	for m, l in model,locations:
+#	for m, l in model,locations:
+	for i, l in enumerate(locations):
+		m = model[i]
 		if l is not None:
 			m.load_state_dict(torch.load(l))
 
@@ -125,7 +160,8 @@ def checkpoint(model, locations, epoch=None):
 	if epoch is not None:
 		append = '_'+str(epoch)+'.pth'
 
-	for m, l in model,locations:
+	for i, m in enumerate(model):
+		l = locations[i]
 		torch.save(m,l+append)
 
 
@@ -173,12 +209,13 @@ def GANTrainStep(model, batch, optimizers, criterion, cuda):
 	errG.backward()
 	optimG.step()
 
-	return (errG.data[0], errD.data[0]), fake
+	return (errG.data[0], errD.data[0]), fake.data
 
 
 
 def supervisedTrainStep(model, batch, optimizer, criterion, cuda):
 	model = model[0]
+	optimizer = optimizer[0]
 	x, y = batch
 	x = Variable(x)
 	y = Variable(y)
@@ -192,7 +229,7 @@ def supervisedTrainStep(model, batch, optimizer, criterion, cuda):
 	err.backward()
 	optimizer.step()
 
-	return (err.data[0]), None
+	return tuple([err.data[0]]), None
 
 def supervisedValidationStep(model, batch, criterion, cuda):
 	model = model[0]
@@ -206,7 +243,7 @@ def supervisedValidationStep(model, batch, criterion, cuda):
 	ypred = model(x)
 	err = criterion(ypred, y)
 
-	return (err.data[0])
+	return tuple([err.data[0]])
 
 
 
@@ -217,11 +254,50 @@ def RegressorTrainStep(model, batch, optimizers, criterion):
 def RegressorValidationStep(model, batch, criterion):
 	pass
 
-def EmbeddingTrainStep(model, batch, optimizers, criterion):
-	pass
+def EmbeddingTrainStep(model, batch, optimizer, criterion, cuda):
+	model = model[0]
+	optimizer = optimizer[0]
 
-def EmbeddingValidationStep(model, batch, criterion):
-	pass
+	x, y = batch
+	y = y.view(-1,1) # make 2d
+	label = torch.zeros(y.size(0), model.outClasses) #10 for now
+	label.scatter_(1,y,1)
+	y = label
+
+	x = Variable(x)
+	y = Variable(y)
+	if cuda:
+		x = x.cuda()
+		y = y.cuda()
+
+	model.zero_grad()
+	ypred = model(x)
+	err = criterion(ypred, y)
+	err.backward()
+	optimizer.step()
+
+	return tuple([err.data[0]]), None
+ 
+
+def EmbeddingValidationStep(model, batch, criterion, cuda):
+	model = model[0]
+
+	x, y = batch
+	y = y.view(-1,1) # make 2d
+	label = torch.zeros(y.size(0), model.outClasses) #10 for now
+	label.scatter_(1,y,1)
+	y = label
+
+	x = Variable(x)
+	y = Variable(y)
+	if cuda:
+		x = x.cuda()
+		y = y.cuda()
+
+	ypred = model(x)
+	err = criterion(ypred, y)
+
+	return tuple([err.data[0]])
 
 def getTrainFunc(trainfunc, validation = False):
 	if trainfunc == 'gan':
@@ -230,17 +306,14 @@ def getTrainFunc(trainfunc, validation = False):
 		pass
 	elif trainfunc == 'regressor':
 		if validation:
-			return RegressorTrainStep, RegressorValidationStep
+			return supervisedTrainStep, supervisedValidationStep
 		else:
-			return RegressorTrainStep
+			return supervisedTrainStep
 	elif trainfunc == 'embedding':
 		if validation:
 			return EmbeddingTrainStep, EmbeddingValidationStep
 		else:
 			return EmbeddingTrainStep
-
-
-
 
 
 # model: nn.Module or tuple of nn.Modules to be trained
@@ -254,26 +327,28 @@ def getTrainFunc(trainfunc, validation = False):
 def train(model, trainStep, optimizers, loader, criterion, trackers, checkpointLocs, cuda, epochs=10, 
 	startEpoch=0, checkpointEvery=2, validationLoader=None, validationStep=None):
 	setTrain(model)
-	for i in range(startEpoch, epochs):
+	for epoch in range(startEpoch, epochs):
 		imsave=None
 		for j, batch in enumerate(loader):
 			losses, ims = trainStep(model, batch, optimizers, criterion, cuda)
-			for track, loss in trackers, losses:
+			for t, track in enumerate(trackers):
+				loss = losses[t]
 				track.trainUpdate(epoch, j, loss)
 			if j == len(loader)-1:
 				imsave = ims #return none if no ims
-		trackers[0].addImages(imsave)
-		if i>0 and i%checkpointEvery == 0:
-			checkpoint(model, checkpointLocs, i)
+		trackers[0].addImages(epoch, imsave)
+		if epoch>0 and epoch%checkpointEvery == 0:
+			checkpoint(model, checkpointLocs, epoch)
 		if validationLoader is not None:
 			setEval(model)
-			for k, valBatch in enumerate(epoch, k, validationLoader):
+			for k, valBatch in enumerate(validationLoader):
 				valLosses = validationStep(model, valBatch, criterion, cuda)
-				for track, loss in trackers, valLosses:
-					track.validationUpdate(epoch, j, loss)
+				for t, track in enumerate(trackers):
+					loss = valLosses[t]
+					track.validationUpdate(epoch, k, loss)
 			setTrain(model)
 	setEval(model)
-	checkpoint(model, checkpointLocs)
+	checkpoint(model, checkpointLocs, epochs)
 
 
 def makeCuda(model):
@@ -294,9 +369,9 @@ def makeParallel(model):
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--model', default='dcgan32', help='dcgan32 | flowgan32 | pixelRegressor32 | deepRegressor32 | embedding32')
-	parser.add_argument('--dataset', default='mnist', required=True, help='cifar10 | mnist | lsun | imagenet | folder | lfw | fake')
+	parser.add_argument('--dataset', default='mnist', help='cifar10 | mnist | lsun | imagenet | folder | lfw | fake')
 	parser.add_argument('--dataroot', default=None, help='path to dataset')
-	parser.add_argument('--modelroot', help='path to model save location')
+	parser.add_argument('--modelroot', default='generated/final/dcgan_mnist', help='path to model save location')
 	parser.add_argument('--netG', type=str, default=None, help="path to netG (to continue training)")
 	parser.add_argument('--netD', type=str, default=None, help="path to netD (to continue training)")
 	parser.add_argument('--netR', type=str, default=None, help='Path to regressor')
@@ -306,7 +381,7 @@ def main():
 	parser.add_argument('--supervised', action='store_true', help='Is this a supervised training problem')
 	parser.add_argument('--fuzzy', action='store_true', help='Add small random noise to input' )
 	parser.add_argument('--validation', action='store_true', help='Use validation set during training')
-	parser.add_argument('--trainValProportion', type=float, help='Proportion to split as training data for training/validation')
+	parser.add_argument('--trainValProportion', default=0.8, type=float, help='Proportion to split as training data for training/validation')
 	parser.add_argument('--deep', action='store_true', help='Using deep features for training')
 	parser.add_argument('--criterion', type=str, default='gan', help='Loss criterion for the gan')
 	parser.add_argument('--trainFunc', type=str, default='gan', help='The training function to use')
@@ -314,7 +389,7 @@ def main():
 
 	parser.add_argument('--workers', type=int, help='number of data loading workers', default=2)
 	parser.add_argument('--batchSize', type=int, default=64, help='input batch size')
-	parser.add_argument('--nc', type=int, default=3, 'Colors in image')
+	parser.add_argument('--nc', type=int, default=3, help='Colors in image')
 	parser.add_argument('--imageSize', type=int, default=32, help='the height / width of the input image to network')
 	parser.add_argument('--nz', type=int, default=100, help='size of the latent z vector')
 	# parser.add_argument('--gfeats', type=int, default=64, help='Hidden features in G net')
@@ -337,6 +412,8 @@ def main():
 
 	opt = parser.parse_args()
 
+	saveOpts(opt.modelroot, opt.__dict__)
+
 	# randomSeedAll
 	# Print options
 
@@ -353,7 +430,7 @@ def main():
 	ngpus = torch.cuda.device_count()
 	if haveCuda:
 		model = makeCuda(model)
-		criterion = makeCuda(criterion)
+		criterion = criterion.cuda()
 	if ngpus > 1:
 		model = makeParallel(model)
 
@@ -382,13 +459,13 @@ def main():
 		loaderLocs = (opt.netG, opt.netD)
 		trackers = (Tracker('netG'), Tracker('netD'))
 	elif 'regressor' in opt.trainFunc:
-		checkpointLocs = (join(opt.modelroot, 'netR'))
-		loaderLocs = (opt.netR)
-		trackers = (Tracker('Regressor'))
+		checkpointLocs = tuple([join(opt.modelroot, 'netR')])
+		loaderLocs = tuple([opt.netR])
+		trackers = tuple([Tracker('Regressor')])
 	elif 'embedding' in opt.trainFunc:
-		checkpointLocs = (join(opt.modelroot, 'netEmb'))
-		loaderLocs = (opt.netEmb)
-		trackers = (Tracker('Embedding'))
+		checkpointLocs = tuple([join(opt.modelroot, 'netEmb')])
+		loaderLocs = tuple([opt.netEmb])
+		trackers = tuple([Tracker('Embedding')])
 
 	# *********** Initialize and/or load models ***************
 	initModel(model)
