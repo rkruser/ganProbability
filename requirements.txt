@@ -3,6 +3,10 @@ Todo:
 Standardize generators further (incorporate things like stackgan)
 Clean up files (maybe move functions to others, import them)
 Standardize model names and folder structure
+	- allow for multiple criterions in train
+	- 
+
+
 Train a full pipeline
 Visualize
 Test lots of models
@@ -16,5 +20,11 @@ nz : number of latent features
 outshape : a list [] containing the shape of the output, not including the batch dimension
 nc : number of colors
 imsize : width/height of output image, if this makes sense
-totalOut : Total number of output dims per point (e.g. nc*size*size for images)
+numOutDims : Total number of output dims per point (e.g. nc*size*size for images)
 
+All nets must have:
+outshape
+numOutDims
+
+Every *Embedding* model must also have:
+nOutClasses
