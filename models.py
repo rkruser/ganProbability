@@ -474,6 +474,13 @@ def getModels(model, nc=3, imsize=32, hidden=64, nz=100, cuda=False):
         #prior = distributions.MultivariateNormal(torch.zeros(2), torch.eye(2))
         flow = RealNVP(nets, nett, masks, cuda)
         return [flow, mog_netD()]
+    elif model == 'pureNVP':
+        nets = lambda: nn.Sequential(nn.Linear(2, 256), nn.LeakyReLU(), nn.Linear(256, 256), nn.LeakyReLU(), nn.Linear(256, 2), nn.Tanh())
+        nett = lambda: nn.Sequential(nn.Linear(2, 256), nn.LeakyReLU(), nn.Linear(256, 256), nn.LeakyReLU(), nn.Linear(256, 2))
+        masks = torch.from_numpy(np.array([[0, 1], [1, 0]] * 3).astype(np.float32))
+        #prior = distributions.MultivariateNormal(torch.zeros(2), torch.eye(2))
+        flow = RealNVP(nets, nett, masks, cuda)
+        return [flow]
     elif model == 'mog':
         return [mog_netG(nz), mog_netD()]
     else:

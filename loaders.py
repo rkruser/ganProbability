@@ -240,10 +240,10 @@ def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLab
   	dset =  ProbLoader(root, deep=deep, mode=mode)
   elif loader == 'mogEight':
     eightMeans = getMogMeans()
-    return DataGenerator(1000, batchsize, lambda n : mogData(n, mogMeans=eightMeans, stdev=stdev))
+    return DataGenerator(5000, batchsize, lambda n : mogData(n, mogMeans=eightMeans, stdev=stdev))
   elif loader == 'mogSeven':
     eightMinusOne = getMogMeans(omit=2)
-    return DataGenerator(1000, batchsize, lambda n : mogData(n, mogMeans=eightMinusOne, stdev=stdev))
+    return DataGenerator(5000, batchsize, lambda n : mogData(n, mogMeans=eightMinusOne, stdev=stdev))
   else:
     dset = MatLoader(root, outShape=outshape, distribution=distribution, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy)
 

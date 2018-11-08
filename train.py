@@ -367,7 +367,31 @@ def flowGANTrainStep(model, batch, optimizers, criterion, cuda):
 	errG.backward()
 	optimFlow.step()
 
-	return (errG.data[0], errD.data[0]), fake.data
+	return [errG.data[0], errD.data[0]], fake.data
+
+def nllTrainStep(model, batch, optimizers, criterion, cuda):
+	nvp = model[0]
+	optim = optimizers[0]
+
+	nz = nvp.numLatent()
+
+	batch = Variable(batch)
+	# onesLabel = Variable(torch.ones(batch.size(0)))
+	# zerosLabel = Variable(torch.zeros(batch.size(0)))
+#	zVals = Variable(torch.Tensor(batch.size(0), nz).normal_(0,1))
+	if cuda:
+		# onesLabel = onesLabel.cuda()
+		# zerosLabel = zerosLabel.cuda()
+		batch = batch.cuda()
+#		zVals = zVals.cuda()
+
+	nvp.zero_grad()
+	_, logprob = nvp.invert(batch)
+	err = -logprob.mean()
+	err.backward()
+	optim.step()
+
+	return [err.data[0]], None
 
 
 
@@ -478,6 +502,8 @@ def getTrainFunc(trainfunc, validation = False):
 			return EmbeddingTrainStep, EmbeddingValidationStep
 		else:
 			return EmbeddingTrainStep
+	elif trainfunc == 'nll':
+		return nllTrainStep
 
 
 # model: nn.Module or tuple of nn.Modules to be trained
@@ -627,7 +653,7 @@ def main():
 	if 'gan' in opt.trainFunc:
 		checkpointLocs = (join(opt.modelroot, 'netG'), join(opt.modelroot, 'netD'))
 		loaderLocs = (opt.netG, opt.netD)
-		trackers = (Tracker('netG'), Tracker('netD'))
+		trackers = [Tracker('netG'), Tracker('netD')]
 	elif 'regressor' in opt.trainFunc:
 		checkpointLocs = [join(opt.modelroot, 'netR')]
 		loaderLocs = [opt.netR]
@@ -636,6 +662,11 @@ def main():
 		checkpointLocs = [join(opt.modelroot, 'netEmb')]
 		loaderLocs = [opt.netEmb]
 		trackers = [Tracker('Embedding')]
+	elif 'nll' in opt.trainFunc:
+		checkpointLocs = [join(opt.modelroot, 'netG')]
+		loaderLocs = [opt.netG]
+		trackers = [Tracker('nvp')]
+
 
 	# *********** Initialize and/or load models ***************
 	initModel(model)
