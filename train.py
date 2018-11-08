@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torchvision.utils as vutils
 from torch.autograd import Variable
+import torch.autograd as autograd
 import argparse
 from os.path import join
 from tensorboardX import SummaryWriter
@@ -10,6 +11,7 @@ import sys
 import datetime
 #import pickle
 import json
+
 
 from models import getModels, weights_init
 from loaders import getLoaders
@@ -89,13 +91,84 @@ class Tracker(object):
 		
 
 # **************** Criterion functions ****************
+# *** Note: added sigmoid, removed in model
 class GANCriterion(nn.Module):
 	def __init__(self):
 		super(GANCriterion, self).__init__()
+		self.sigmoid = nn.Sigmoid()
 		self.lossFunc = nn.BCELoss()
 
 	def forward(self, actual, target):
-		return self.lossFunc(actual, target)
+		return self.lossFunc(self.sigmoid(actual), target)
+
+
+# def calc_gradient_penalty(netD, real_data, fake_data):
+#     #print real_data.size()
+#     alpha = torch.rand(BATCH_SIZE, 1)
+#     alpha = alpha.expand(real_data.size())
+#     alpha = alpha.cuda(gpu) if use_cuda else alpha
+
+#     interpolates = alpha * real_data + ((1 - alpha) * fake_data)
+
+#     if use_cuda:
+#         interpolates = interpolates.cuda(gpu)
+#     interpolates = autograd.Variable(interpolates, requires_grad=True)
+
+#     disc_interpolates = netD(interpolates)
+
+#     gradients = autograd.grad(outputs=disc_interpolates, inputs=interpolates,
+#                               grad_outputs=torch.ones(disc_interpolates.size()).cuda(gpu) if use_cuda else torch.ones(
+#                                   disc_interpolates.size()),
+#                               create_graph=True, retain_graph=True, only_inputs=True)[0]
+
+#     gradient_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean() * LAMBDA
+# return gradient_penalty
+
+
+
+class WGANCriterion(nn.Module):
+	def __init__(self, wganLambda, flowganLambda=None):
+		super(WGANCriterion, self).__init__()
+		self.wganLambda = wganLambda
+		self.flowganLambda = flowganLambda
+
+
+	def dloss(self, netD, real, fake, cuda):
+		alpha = Variable(torch.rand(real.size(0),1))
+		alpha = alpha.expand(real.size())
+		if cuda:
+			alpha = alpha.cuda()
+		interpol = alpha * real + ((1 - alpha) * fake)
+		interpol.requires_grad = True
+
+		real_predictions = netD(real)
+		fake_predictions = netD(fake)
+		interpol_predictions = netD(interpol)
+		# interpolList = [interpol[i] for i in range(len(interpol))]
+		# interpol_out = [interpol_predictions[i] for i in range(len(interpol_predictions))]
+		grad_interpol = autograd.grad(outputs=interpol_predictions, inputs=interpol,
+			grad_outputs=torch.ones(interpol_predictions.size()).cuda() if cuda else torch.ones(interpol_predictions.size()),
+			create_graph=True, retain_graph=True, only_inputs=True)[0]
+		loss = fake_predictions.mean()-real_predictions.mean()
+		# oneVec = Variable(torch.ones(interpol_predictions.size())).cuda() if cuda else Variable(torch.ones(interpol_predictions.size()))
+		penalty = self.wganLambda*((grad_interpol.norm(dim=1)-1)**2).mean()
+		loss = loss + penalty
+
+		return loss
+
+
+	def gloss(self, netD, fake):
+		loss = -netD(fake).mean()
+		return loss
+
+	def flowganGLoss(self, netG, netD, real, fake):
+		adv_loss = -netD(fake).mean()
+		_, logProb = netG.invert(real)
+		nll_loss = -self.flowganLambda*logProb.mean()
+		loss = (1-self.flowganLambda)*adv_loss+nll_loss
+		return loss
+
+
 
 class SoftmaxBCE(nn.Module):
 	def __init__(self):
@@ -116,17 +189,17 @@ class EmbeddingCriterion(nn.Module):
 		super(EmbeddingCriterion, self).__init__()
 
 
-def getCriterion(criterion):
+def getCriterion(criterion, wganLambda=0.05, flowganLambda=None):
 	if criterion == 'gan':
-		return [GANCriterion()]
+		return [GANCriterion(), GANCriterion()]
 	elif criterion == 'bce':
 		return [nn.BCELoss()]
 	elif criterion == 'softmaxbce':
 		return [SoftmaxBCE()]
 	elif criterion == 'wgan':
-		pass
+		return [WGANCriterion(wganLambda=wganLambda)]
 	elif criterion == 'flowgan':
-		pass
+		return [WGANCriterion(wganLambda=wganLambda, flowganLambda=flowganLambda)]
 	elif criterion == 'l2':
 		return [nn.MSELoss()]
 	elif criterion == 'embedding':
@@ -183,7 +256,7 @@ def getOptimizers(model, lr=0.0002, beta1=0.5, beta2=0.999):
 def GANTrainStep(model, batch, optimizers, criterion, cuda):
 	netG, netD = model
 	optimG, optimD = optimizers
-	criterion = criterion[0]
+	criterionG, criterionD = criterion
 
 	nz = netG.numLatent()
 
@@ -202,15 +275,56 @@ def GANTrainStep(model, batch, optimizers, criterion, cuda):
 	fakePred = netD(fake.detach())
 	realPred = netD(batch)
 
-	errD = criterion(fakePred, zerosLabel)+criterion(realPred,onesLabel)
+	errD = criterionD(fakePred, zerosLabel)+criterionD(realPred,onesLabel)
 	errD.backward()
 	optimD.step()
 
 	netG.zero_grad()
 	gPred = netD(fake)
-	errG = criterion(gPred, onesLabel)
+	errG = criterionG(gPred, onesLabel)
 	errG.backward()
 	optimG.step()
+
+	return (errG.data[0], errD.data[0]), fake.data
+
+def flowGANTrainStep(model, batch, optimizers, criterion, cuda):
+	flowGAN, netD = model
+	optimFlow, optimD = optimizers
+	# criterionFlow, criterionD = criterion
+	# ignore criterion?
+	flowCriterion = criterion[0]
+
+	nz = flowGAN.numLatent()
+
+	batch = Variable(batch)
+	# onesLabel = Variable(torch.ones(batch.size(0)))
+	# zerosLabel = Variable(torch.zeros(batch.size(0)))
+	zVals = Variable(torch.Tensor(batch.size(0), nz).normal_(0,1))
+	if cuda:
+		# onesLabel = onesLabel.cuda()
+		# zerosLabel = zerosLabel.cuda()
+		batch = batch.cuda()
+		zVals = zVals.cuda()
+
+	netD.zero_grad()
+	fake, _ = flowGAN(zVals)
+	# fakePred = netD(fake.detach())
+	# realPred = netD(batch)
+
+	# errD = criterionD(fakePred, zerosLabel)+criterionD(realPred,onesLabel)
+	errD = flowCriterion.dloss(netD, batch, fake.detach(), cuda)
+	errD.backward()
+	optimD.step()
+
+	flowGAN.zero_grad()
+	# gPred = netD(fake)
+	# _, batchLogProb = flowGAN.invert(batch)
+
+	# errG = criterionG(gPred, onesLabel)
+	# errG = -(1-lmbda)*fakePred.mean() - lmbda*batchLogProb.mean()
+	errG = flowCriterion.flowganGLoss(flowGAN, netD, batch, fake)
+	errG.backward()
+	optimFlow.step()
 
 	return (errG.data[0], errD.data[0]), fake.data
 
@@ -310,7 +424,7 @@ def getTrainFunc(trainfunc, validation = False):
 	if trainfunc == 'gan':
 		return GANTrainStep
 	elif trainfunc == 'flowgan':
-		pass
+		return flowGANTrainStep
 	elif trainfunc == 'regressor':
 		if validation:
 			return supervisedTrainStep, supervisedValidationStep
@@ -410,6 +524,10 @@ def main():
 	parser.add_argument('--lr', type=float, default=0.0002, help='learning rate, default=0.0002')
 	parser.add_argument('--beta1', type=float, default=0.5, help='beta1 for adam. default=0.5')
 	parser.add_argument('--beta2', type=float, default=0.999, help='beta2 for adam')
+	parser.add_argument('--wganLambda', type=float, default=10, help='Gradient penalty for improved wgan')
+	parser.add_argument('--flowganLambda', type=float, default=None, help='NLL tradeoff for flowgan')
+	# use 0.5 for flowganLambda
+
 	# parser.add_argument('--cuda', action='store_true', help='enables cuda')
 	# parser.add_argument('--ngpu', type=int, default=1, help='number of GPUs to use')
 	# parser.add_argument('--outf', default='/fs/vulcan-scratch/krusinga/distGAN/checkpoints',
@@ -421,20 +539,21 @@ def main():
 
 	saveOpts(opt.modelroot, opt.__dict__)
 
+	haveCuda = torch.cuda.is_available()
+	ngpus = torch.cuda.device_count()
+
 	# randomSeedAll
 	# Print options
 
 	# ********* Getting model **********
-	model = getModels(opt.model, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz)
+	model = getModels(opt.model, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz, cuda=haveCuda)
 
 	# Init or load model here?
 
 	# ********* Getting criterion *********
-	criterion = getCriterion(opt.criterion)
+	criterion = getCriterion(opt.criterion, wganLambda=opt.wganLambda, flowganLambda = opt.flowganLambda)
 
 	# ********** Checking cuda ************
-	haveCuda = torch.cuda.is_available()
-	ngpus = torch.cuda.device_count()
 	if haveCuda:
 		model = makeCuda(model)
 		criterion = makeCuda(criterion)

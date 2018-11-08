@@ -173,6 +173,9 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 	return allData
 
 
+#def sampleMog
+
+
 # Optimize for each z input
 # write as needed
 def sampleZOptim(ganModel, nSamples, eps, dataloader, cuda):

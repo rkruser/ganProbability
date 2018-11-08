@@ -8,6 +8,8 @@ import torch.optim as optim
 import random
 import torch.backends.cudnn as cudnn
 import torch.nn.init as init
+import numpy as np
+from torch.autograd import Variable
 
 
 # custom weights initialization called on netG and netD
@@ -162,8 +164,8 @@ class NetD32(nn.Module):
 
     # Predictor takes main output and produces a probability
     self.predictor = nn.Sequential(
-        nn.Conv2d(ndf*4, 1, 4, 1, 0, bias=False),
-        nn.Sigmoid()
+        nn.Conv2d(ndf*4, 1, 4, 1, 0, bias=False)
+#        nn.Sigmoid()
         # Output is a single scalar
     )
 
@@ -227,9 +229,9 @@ class NetP32(nn.Module):
 
 
     def forward(self, input):
-#        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
-#            output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
-#        else:
+       # if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+       #     output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+       # else:
         output = self.main(input)
 
         return output.view(-1, 1).squeeze(1)
@@ -271,11 +273,19 @@ class mog_netG(nn.Module):
         self.nz = nz
         self.main = nn.Sequential(
             # input is Z, going into a convolution
-            nn.Linear(nz,128),
-            nn.Tanh(),
-            nn.Linear(128, 128),
-            nn.Tanh(),
-            nn.Linear(128, 2),
+            nn.Linear(nz,256),
+            nn.ReLU(),
+            nn.Linear(256, 256),
+            nn.ReLU(),
+            nn.Linear(256, 256),
+            nn.ReLU(),
+            nn.Linear(256, 256),
+            nn.ReLU(),
+            nn.Linear(256, 256),
+            nn.ReLU(),
+            nn.Linear(256, 256),
+            nn.ReLU(),
+            nn.Linear(256, 2),
         )
 
     def numLatent(self):
@@ -302,14 +312,21 @@ class mog_netG(nn.Module):
 class mog_netD(nn.Module):
     def __init__(self):
         super(mog_netD, self).__init__()
-        self.ngpu = ngpu
         self.main = nn.Sequential(
-            nn.Linear(2, 128),
-            nn.Tanh(),
-            nn.Linear(128, 128),
-            nn.Tanh(),
-            nn.Linear(128, 1),
-            nn.Sigmoid()
+            nn.Linear(2, 256),
+            nn.LeakyReLU(),
+            nn.Linear(256, 256),
+            nn.LeakyReLU(),
+            nn.Linear(256, 256),
+            nn.LeakyReLU(),
+            nn.Linear(256, 256),
+            nn.LeakyReLU(),
+            nn.Linear(256, 256),
+            nn.LeakyReLU(),
+            nn.Linear(256, 256),
+            nn.LeakyReLU(),
+            nn.Linear(256, 1),
+#            nn.Sigmoid()
         )
 
     def numOutDims(self):
@@ -385,16 +402,82 @@ class Lenet32(nn.Module):
         return output, output1
 
 
+class RealNVP(nn.Module):
+    def __init__(self, nets, nett, masks, cuda=False):
+        super(RealNVP, self).__init__()
+        self.nz = 2
+        self.hascuda = cuda
+#        self.logPrior = prior
+        self.mask = nn.Parameter(masks, requires_grad=False)
+        self.t = torch.nn.ModuleList([nett() for _ in range(len(masks))])
+        self.s = torch.nn.ModuleList([nets() for _ in range(len(masks))])
+        # Perhaps have a scale parameter here, but ntic
+        # *** Must factor scale param into the jacobian
+       # self.scale = nn.Parameter(torch.FloatTensor(1))
+        
+    # latent codes to data
+    def forward(self, z):
+        x = z
+        log_det_J = Variable(torch.zeros(x.size(0)))
+        if self.hascuda:
+            log_det_J = log_det_J.cuda()
+        for i in range(len(self.t)):
+            x_ = x*self.mask[i].expand_as(x)
+            s = self.s[i](x_)*(1 - self.mask[i]).expand_as(x)
+            t = self.t[i](x_)*(1 - self.mask[i]).expand_as(x)
+            x = x_ + (1 - self.mask[i]).expand_as(x) * (x * torch.exp(s) + t)
+            log_det_J += s.sum(dim=1)
+        logProb = self.priorLogProb(z)-log_det_J
+        return x, logProb
 
-def getModels(model, nc=3, imsize=32, hidden=64, nz=100):
-	if model == 'dcgan':
-		return [NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz)]
-	elif model == 'pixelRegressor':
-		return [NetP32(nc=nc, npf=hidden)]
-	elif model == 'lenetEmbedding':
-		return [NthArgWrapper(Lenet32(nc=nc), 1)]
-	else:
-		raise NameError("No such model")
+    # Data to latent codes
+    def invert(self, x):
+       # log_det_J, z = x.new_zeros(x.shape[0]), x
+        log_det_J = Variable(torch.zeros(x.size(0)))
+        if self.hascuda:
+            log_det_J = log_det_J.cuda()
+        z = x
+        for i in reversed(range(len(self.t))):
+            z_ = self.mask[i].expand_as(z) * z
+            s = self.s[i](z_) * (1-self.mask[i]).expand_as(z)
+            t = self.t[i](z_) * (1-self.mask[i]).expand_as(z)
+            z = (1 - self.mask[i]).expand_as(z) * (z - t) * torch.exp(-s) + z_
+            log_det_J -= s.sum(dim=1)
+        logProb = self.priorLogProb(z)+log_det_J
+        return z, logProb
+    
+   # def log_prob(self,x):
+   #     z, logp = self.f(x)
+       # return self.priorLogPrior(z) + logp
+
+    def priorLogProb(self, z):
+        c = float(-2*np.log(np.sqrt(2*np.pi)))
+        return c-0.5*(z**2).sum(dim=1)
+
+    def numLatent(self):
+        return self.nz
+
+
+
+
+def getModels(model, nc=3, imsize=32, hidden=64, nz=100, cuda=False):
+    if model == 'dcgan':
+    	return [NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz)]
+    elif model == 'pixelRegressor':
+    	return [NetP32(nc=nc, npf=hidden)]
+    elif model == 'lenetEmbedding':
+    	return [NthArgWrapper(Lenet32(nc=nc), 1)]
+    elif model == 'mogNVP':
+        nets = lambda: nn.Sequential(nn.Linear(2, 256), nn.LeakyReLU(), nn.Linear(256, 256), nn.LeakyReLU(), nn.Linear(256, 2), nn.Tanh())
+        nett = lambda: nn.Sequential(nn.Linear(2, 256), nn.LeakyReLU(), nn.Linear(256, 256), nn.LeakyReLU(), nn.Linear(256, 2))
+        masks = torch.from_numpy(np.array([[0, 1], [1, 0]] * 3).astype(np.float32))
+        #prior = distributions.MultivariateNormal(torch.zeros(2), torch.eye(2))
+        flow = RealNVP(nets, nett, masks, cuda)
+        return [flow, mog_netD()]
+    elif model == 'mog':
+        return [mog_netG(nz), mog_netD()]
+    else:
+        raise NameError("No such model")
 
 
 

@@ -189,26 +189,71 @@ class ProbLoader(data.Dataset):
     return self.outShape
 
 
+# ************* MOG stuff ***************
+
+def getMogMeans(nmeans=8, scale=1.0, omit=None):
+  mogMeans = scale*np.array([[np.cos(i*2*np.pi/nmeans), np.sin(i*2*np.pi/nmeans)] for i in range(nmeans) if i != omit]).astype(np.float32)
+  return mogMeans
+
+def getRandomMeans(mogMeans, npts):
+  indices = np.random.choice(len(mogMeans), npts, replace=True)
+  return torch.from_numpy(mogMeans[indices])
+
+def mogData(n, mogMeans=np.array([1.0]), stdev=0.05):
+  # Get n samples of a mog circle
+  data = torch.Tensor(n,2).normal_(0,stdev)+getRandomMeans(mogMeans,n)
+  return data
+
+class DataGenerator(object):
+  def __init__(self, numBatches, batchsize, dataFunc):
+    self.numBatches = numBatches
+    self.batchsize = batchsize
+    self.dataFunc = dataFunc
+    self.index = 0
+
+  def __iter__(self):
+    return self
+
+  def __next__(self):
+    if self.index < self.numBatches:
+      self.index += 1
+      return self.dataFunc(self.batchsize)
+    if self.index == self.numBatches:
+      self.index = 0
+    raise StopIteration()
+
+  next = __next__
+
+  def __len__(self):
+    return self.numBatches
+
+
 
 def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLabel=False,
-	distribution=None, fuzzy=False, mode='train', validation=False, trProp=0.8, deep=False):
-	if root is None:
-		root = locations[loader]
+	distribution=None, fuzzy=False, mode='train', validation=False, trProp=0.8, deep=False, stdev=0.05):
+  if root is None and loader not in ['mogSeven', 'mogEight']:
+  	root = locations[loader]
 
-	outshape = (nc, size, size)
+  outshape = (nc, size, size)
 
-	if loader == 'probdata':
-		dset =  ProbLoader(root, deep=deep, mode=mode)
-	else:
-		dset = MatLoader(root, outShape=outshape, distribution=distribution, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy)
+  if loader == 'probdata':
+  	dset =  ProbLoader(root, deep=deep, mode=mode)
+  elif loader == 'mogEight':
+    eightMeans = getMogMeans()
+    return DataGenerator(1000, batchsize, lambda n : mogData(n, mogMeans=eightMeans, stdev=stdev))
+  elif loader == 'mogSeven':
+    eightMinusOne = getMogMeans(omit=2)
+    return DataGenerator(1000, batchsize, lambda n : mogData(n, mogMeans=eightMinusOne, stdev=stdev))
+  else:
+    dset = MatLoader(root, outShape=outshape, distribution=distribution, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy)
 
-	if validation:
-#		trLen = int(float(trProp)*len(dset))
-#		valLen = len(dset)-trLen
-		trainDset, valDset = random_split(dset, trProp)
-		return (DataLoader(trainDset, batch_size=batchsize, shuffle=False), DataLoader(valDset, batch_size=batchsize, shuffle=False))
-	else:
-		return DataLoader(dset, batch_size=batchsize, shuffle=False)
+  if validation:
+  #		trLen = int(float(trProp)*len(dset))
+  #		valLen = len(dset)-trLen
+    trainDset, valDset = random_split(dset, trProp)
+    return (DataLoader(trainDset, batch_size=batchsize, shuffle=False), DataLoader(valDset, batch_size=batchsize, shuffle=False))
+  else:
+    return DataLoader(dset, batch_size=batchsize, shuffle=False)
 
 
 
