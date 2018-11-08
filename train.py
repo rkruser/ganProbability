@@ -134,7 +134,7 @@ class WGANCriterion(nn.Module):
 
 
 	def dloss(self, netD, real, fake, cuda):
-		alpha = Variable(torch.rand(real.size(0),1))
+		alpha = Variable(torch.rand(real.size(0),1,1,1))
 		alpha = alpha.expand(real.size())
 		if cuda:
 			alpha = alpha.cuda()
@@ -287,6 +287,47 @@ def GANTrainStep(model, batch, optimizers, criterion, cuda):
 
 	return (errG.data[0], errD.data[0]), fake.data
 
+def WGANTrainStep(model, batch, optimizers, criterion, cuda):
+	netG, netD = model
+	optimG, optimD = optimizers
+	# criterionFlow, criterionD = criterion
+	# ignore criterion?
+	wganCriterion = criterion[0]
+
+	nz = netG.numLatent()
+
+	batch = Variable(batch)
+	# onesLabel = Variable(torch.ones(batch.size(0)))
+	# zerosLabel = Variable(torch.zeros(batch.size(0)))
+	zVals = Variable(torch.Tensor(batch.size(0), nz).normal_(0,1))
+	if cuda:
+		# onesLabel = onesLabel.cuda()
+		# zerosLabel = zerosLabel.cuda()
+		batch = batch.cuda()
+		zVals = zVals.cuda()
+
+	netD.zero_grad()
+	fake = netG(zVals)
+	# fakePred = netD(fake.detach())
+	# realPred = netD(batch)
+
+	# errD = criterionD(fakePred, zerosLabel)+criterionD(realPred,onesLabel)
+	errD = wganCriterion.dloss(netD, batch, fake.detach(), cuda)
+	errD.backward()
+	optimD.step()
+
+	netG.zero_grad()
+	# gPred = netD(fake)
+	# _, batchLogProb = netG.invert(batch)
+
+	# errG = criterionG(gPred, onesLabel)
+	# errG = -(1-lmbda)*fakePred.mean() - lmbda*batchLogProb.mean()
+	errG = wganCriterion.gloss(netD, fake)
+	errG.backward()
+	optimG.step()
+
+	return (errG.data[0], errD.data[0]), fake.data
+
 def flowGANTrainStep(model, batch, optimizers, criterion, cuda):
 	flowGAN, netD = model
 	optimFlow, optimD = optimizers
@@ -423,6 +464,8 @@ def EmbeddingValidationStep(model, batch, criterion, cuda):
 def getTrainFunc(trainfunc, validation = False):
 	if trainfunc == 'gan':
 		return GANTrainStep
+	elif trainfunc == 'wgan':
+		return WGANTrainStep
 	elif trainfunc == 'flowgan':
 		return flowGANTrainStep
 	elif trainfunc == 'regressor':
