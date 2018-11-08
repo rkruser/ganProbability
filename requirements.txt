@@ -1,10 +1,9 @@
 Todo:
 -----
-Standardize generators further (incorporate things like stackgan)
-Clean up files (maybe move functions to others, import them)
-Standardize model names and folder structure
-	- allow for multiple criterions in train
-	- 
+- Fill in rest of visualization functions
+- Make rapid visualizations
+- Train several kinds of deep features and make plots
+- Investigate flowgan more
 
 
 Train a full pipeline
