@@ -230,7 +230,8 @@ class DataGenerator(object):
 
 
 def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLabel=False,
-	distribution=None, fuzzy=False, mode='train', validation=False, trProp=0.8, deep=False, stdev=0.05):
+	distribution=None, fuzzy=False, mode='train', validation=False, trProp=0.8, deep=False, stdev=0.05,
+  shuffle=True):
   if root is None and loader not in ['mogSeven', 'mogEight']:
   	root = locations[loader]
 
@@ -240,10 +241,10 @@ def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLab
   	dset =  ProbLoader(root, deep=deep, mode=mode)
   elif loader == 'mogEight':
     eightMeans = getMogMeans()
-    return DataGenerator(5000, batchsize, lambda n : mogData(n, mogMeans=eightMeans, stdev=stdev))
+    return DataGenerator(1000, batchsize, lambda n : mogData(n, mogMeans=eightMeans, stdev=stdev))
   elif loader == 'mogSeven':
     eightMinusOne = getMogMeans(omit=2)
-    return DataGenerator(5000, batchsize, lambda n : mogData(n, mogMeans=eightMinusOne, stdev=stdev))
+    return DataGenerator(1000, batchsize, lambda n : mogData(n, mogMeans=eightMinusOne, stdev=stdev))
   else:
     dset = MatLoader(root, outShape=outshape, distribution=distribution, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy)
 
@@ -251,9 +252,9 @@ def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLab
   #		trLen = int(float(trProp)*len(dset))
   #		valLen = len(dset)-trLen
     trainDset, valDset = random_split(dset, trProp)
-    return (DataLoader(trainDset, batch_size=batchsize, shuffle=False), DataLoader(valDset, batch_size=batchsize, shuffle=False))
+    return (DataLoader(trainDset, batch_size=batchsize, shuffle=shuffle), DataLoader(valDset, batch_size=batchsize, shuffle=False))
   else:
-    return DataLoader(dset, batch_size=batchsize, shuffle=False)
+    return DataLoader(dset, batch_size=batchsize, shuffle=shuffle)
 
 
 

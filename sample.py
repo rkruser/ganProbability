@@ -287,6 +287,7 @@ def main():
 	parser.add_argument('--eps', type=float, default=1e-5, help='Numerical epsilon')
 	parser.add_argument('--deepModel', default=None, help='The deep model to append on the end of a generator')
 	parser.add_argument('--datamode', type=str, default='train', help='train | test')
+	parser.add_argument('--returnEmbeddingFeats', action='store_true', help='For embeddings, return the layer before the last layer, rather than the last layer')
 
 
 	parser.add_argument('--workers', type=int, help='number of data loading workers', default=2)
@@ -312,6 +313,7 @@ def main():
 	parser.add_argument('--manualSeed', type=int, default=1, help='manual seed')
 
 	parser.add_argument('--useSavedOpts', action='store_true', help='load from saved opts json')
+	parser.add_argument('--useLargerEmbedding', action='store_true', help='Use the feature embedding right before the final layer')
 	# parser.add_argument('--proportions',type=str, help='Probabilities of each class in mnist',default='[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]')
 
 	opt = parser.parse_args()
@@ -326,16 +328,19 @@ def main():
 		loaderLocs = (opt.netG, opt.netD)
 	elif 'Reg' in opt.model:
 		loaderLocs = [opt.netR]
-	elif 'Emb' in opt.model or 'emb' in opt.model:
+	elif 'Emb' in opt.model or 'emb' in opt.model or 'densenet' in opt.model:
 		loaderLocs = [opt.netEmb]
 	else:
 		loaderLocs = None
 
 
 	# ********* Getting model **********
-	model = getModels(opt.model, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz)
+	model = getModels(opt.model, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz, returnFeats=opt.returnEmbeddingFeats)
 	# initModel(model)
 	loadModel(model, loaderLocs)
+
+	if opt.useLargerEmbedding:
+		model.setArg(0)
 
 	# Append deep features to end
 	if opt.deepModel is not None:
@@ -362,7 +367,7 @@ def main():
 	# ********** Get dataset, if necessary **************
 	if opt.dataset is not None:
 		dataloader = getLoaders(loader=opt.dataset, nc=opt.nc, size=opt.imageSize, root=opt.dataroot, batchsize=opt.batchSize, returnLabel=opt.supervised,
-	     fuzzy=opt.fuzzy, mode=opt.datamode, validation=opt.validation, trProp=opt.trainValProportion, deep=opt.deep)
+	     fuzzy=opt.fuzzy, mode=opt.datamode, validation=opt.validation, trProp=opt.trainValProportion, deep=opt.deep, shuffle=False)
 	else:
 		dataloader = None
 

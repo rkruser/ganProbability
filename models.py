@@ -56,6 +56,9 @@ class NthArgWrapper(nn.Module):
     def numOutClasses(self):
         return self.net.numOutClasses()
 
+    def setArg(self, arg):
+        self.arg = arg
+
 
     def forward(self, x):
         result = self.net(x)
@@ -84,6 +87,58 @@ class DeepFeaturesWrapper(nn.Module):
 
     def forward(self, x):
         return self.netEmb(self.netG(x))
+
+
+class NetGDeep(nn.Module):
+    def __init__(self, nz=100, ngf=625, ndeep=384):
+        super(NetGDeep, self).__init__()
+        self.nz = nz
+        self.ngf = ngf
+        self.ndeep = ndeep
+        self.main = nn.Sequential(
+                nn.Linear(nz, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ndeep)                             
+            )
+
+    def forward(self, x):
+        return self.main(x)
+
+class NetDDeep(nn.Module):
+    def __init__(self, ngf=625, ndeep=384):
+        super(NetDDeep, self).__init__()
+        self.ngf = ngf
+        self.ndeep = ndeep
+        self.main = nn.Sequential(
+                nn.Linear(ndeep, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, 1)                             
+            )
+
+    def forward(self, x):
+        return self.main(x).view(-1,1).squeeze(1)
+
+
 
 
 # Model for 32 by 32 images
@@ -458,15 +513,23 @@ class RealNVP(nn.Module):
         return self.nz
 
 
+from densenet import densenet_cifar
 
-
-def getModels(model, nc=3, imsize=32, hidden=64, nz=100, cuda=False):
+# returnFeats and returnClf are for embeddings
+def getModels(model, nc=3, imsize=32, hidden=64, nz=100, cuda=False, returnFeats=False):
     if model == 'dcgan':
     	return [NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz)]
     elif model == 'pixelRegressor':
     	return [NetP32(nc=nc, npf=hidden)]
     elif model == 'lenetEmbedding':
     	return [NthArgWrapper(Lenet32(nc=nc), 1)]
+    elif model == 'densenet':
+        model = densenet_cifar()
+        if returnFeats:
+            return [NthArgWrapper(model, 0)]
+        else:
+            return [NthArgWrapper(model, 1)]
+
     elif model == 'mogNVP':
         nets = lambda: nn.Sequential(nn.Linear(2, 256), nn.LeakyReLU(), nn.Linear(256, 256), nn.LeakyReLU(), nn.Linear(256, 2), nn.Tanh())
         nett = lambda: nn.Sequential(nn.Linear(2, 256), nn.LeakyReLU(), nn.Linear(256, 256), nn.LeakyReLU(), nn.Linear(256, 2))

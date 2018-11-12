@@ -18,7 +18,8 @@ from loaders import getLoaders
 
 writer = SummaryWriter('tensorboard')
 now = datetime.datetime.today()
-nowStr = now.strftime('%Y_%b_%d_%I_%M_%S')
+#nowStr = now.strftime('%Y_%b_%d_%I_%M_%S')
+nowStr = ''
 
 
 def saveOpts(dirname, optsDict):
@@ -60,7 +61,10 @@ class Tracker(object):
 			print "epoch {0} batch {1} {2} loss = {3}".format(epoch, batchnum, self.prefix, loss)
 		self.writer.add_scalar(self.trainBatchesPath, loss, epoch*batchnum)
 		if epoch > self.trainEpoch:
-			self.writer.add_scalar(self.trainCurvePath, self.trainAverage/self.trainIters, epoch)
+			if self.trainIters == 0: # Added this because of a stupid corner case: starting at a nonzero epoch
+				self.writer.add_scalar(self.trainCurvePath, self.trainAverage, epoch)
+			else:
+				self.writer.add_scalar(self.trainCurvePath, self.trainAverage/self.trainIters, epoch)
 			self.trainIters = 1
 			self.trainAverage = loss
 			self.trainEpoch = epoch
@@ -71,12 +75,15 @@ class Tracker(object):
 
 	def validationUpdate(self, epoch, batchnum, loss):
 		if epoch > self.valEpoch:
-			self.writer.add_scalar(self.validationCurvePath, self.validationAverage/self.validationIters, epoch)
+			if self.validationIters == 0:
+				self.writer.add_scalar(self.validationCurvePath, self.validationAverage, epoch)
+			else:
+				self.writer.add_scalar(self.validationCurvePath, self.validationAverage/self.validationIters, epoch)
 			self.validationIters = 1
 			self.validationAverage = loss
 			self.valEpoch = epoch
 			if self.verbose:
-				print "validation epoch {0} batch {1} {2} loss = {3}".format(epoch, batchnum, self.prefix, loss)
+				print "validation epoch {0} batch {1} {2} accuracy = {3}".format(epoch, batchnum, self.prefix, loss)
 		else:
 			#self.writer.add_scalar('validationCurve', loss, epoch*batchnum)
 			self.validationAverage += loss
@@ -169,6 +176,29 @@ class WGANCriterion(nn.Module):
 		return loss
 
 
+def accuracy(result, labels):
+	_, inds = result.max(1)
+	correct = torch.sum(labels == inds)
+	acc = float(correct)/len(labels)
+	return correct, acc
+
+def totalAccuracy(net, ldr, cuda=False):
+	total = 0
+	correct = 0
+	for i,btch in enumerate(ldr):
+		if i%10 == 0:
+			print i
+		x,y = btch
+		x = Variable(x)
+		if cuda:
+			x = x.cuda()
+			y = y.cuda()
+		out = net(x).data
+		ncorrect, _ = accuracy(out, y)
+		correct += ncorrect
+		total += len(y)
+	return float(correct)/total
+
 
 class SoftmaxBCE(nn.Module):
 	def __init__(self):
@@ -187,6 +217,11 @@ class RegressorCriterion(nn.Module):
 class EmbeddingCriterion(nn.Module):
 	def __init__(self):
 		super(EmbeddingCriterion, self).__init__()
+		self.softmax = nn.Softmax()
+		self.loss = nn.BCELoss
+
+	def forward(self, actual, targets):
+		self.loss(self.softmax(actual), targets)
 
 
 def getCriterion(criterion, wganLambda=0.05, flowganLambda=None):
@@ -378,12 +413,12 @@ def nllTrainStep(model, batch, optimizers, criterion, cuda):
 	batch = Variable(batch)
 	# onesLabel = Variable(torch.ones(batch.size(0)))
 	# zerosLabel = Variable(torch.zeros(batch.size(0)))
-#	zVals = Variable(torch.Tensor(batch.size(0), nz).normal_(0,1))
+	# zVals = Variable(torch.Tensor(batch.size(0), nz).normal_(0,1))
 	if cuda:
 		# onesLabel = onesLabel.cuda()
 		# zerosLabel = zerosLabel.cuda()
 		batch = batch.cuda()
-#		zVals = zVals.cuda()
+		# zVals = zVals.cuda()
 
 	nvp.zero_grad()
 	_, logprob = nvp.invert(batch)
@@ -426,6 +461,7 @@ def supervisedValidationStep(model, batch, criterion, cuda):
 
 	ypred = model(x)
 	err = criterion(ypred, y)
+#	err = accuracy(ypred, y)
 
 	return [err.data[0]]
 
@@ -469,6 +505,7 @@ def EmbeddingValidationStep(model, batch, criterion, cuda):
 	criterion = criterion[0]
 
 	x, y = batch
+	trueInds = y
 	y = y.view(-1,1) # make 2d
 	label = torch.zeros(y.size(0), model.numOutClasses()) #10 for now
 	label.scatter_(1,y,1)
@@ -479,11 +516,13 @@ def EmbeddingValidationStep(model, batch, criterion, cuda):
 	if cuda:
 		x = x.cuda()
 		y = y.cuda()
+		trueInds = trueInds.cuda()
 
 	ypred = model(x)
-	err = criterion(ypred, y)
+#	err = criterion(ypred, y)
+	_, acc = accuracy(ypred.data, trueInds)
 
-	return [err.data[0]]
+	return [acc]
 
 def getTrainFunc(trainfunc, validation = False):
 	if trainfunc == 'gan':
@@ -575,6 +614,7 @@ def main():
 	parser.add_argument('--deep', action='store_true', help='Using deep features for training')
 	parser.add_argument('--criterion', type=str, default='gan', help='Loss criterion for the gan')
 	parser.add_argument('--trainFunc', type=str, default='gan', help='The training function to use')
+	parser.add_argument('--returnEmbeddingFeats', action='store_true', help='For embeddings, return the layer before the last layer, rather than the last layer')
 
 
 	parser.add_argument('--workers', type=int, help='number of data loading workers', default=2)
@@ -602,6 +642,7 @@ def main():
 	# parser.add_argument('--outf', default='/fs/vulcan-scratch/krusinga/distGAN/checkpoints',
 	#                     help='folder to output images and model checkpoints')
 	parser.add_argument('--manualSeed', type=int, default=1, help='manual seed')
+	parser.add_argument('--noShuffle', action='store_false', help='Use flag if you do not want the data shuffled')
 	# parser.add_argument('--proportions',type=str, help='Probabilities of each class in mnist',default='[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]')
 
 	opt = parser.parse_args()
@@ -615,7 +656,7 @@ def main():
 	# Print options
 
 	# ********* Getting model **********
-	model = getModels(opt.model, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz, cuda=haveCuda)
+	model = getModels(opt.model, nc=opt.nc, imsize=opt.imageSize, hidden=opt.hidden, nz=opt.nz, cuda=haveCuda, returnFeats = opt.returnEmbeddingFeats)
 
 	# Init or load model here?
 
@@ -635,7 +676,8 @@ def main():
 
 	# *********** Getting loader **************
 	loader = getLoaders(loader=opt.dataset, nc=opt.nc, size=opt.imageSize, root=opt.dataroot, batchsize=opt.batchSize, returnLabel=opt.supervised,
-	     fuzzy=opt.fuzzy, mode='train', validation=opt.validation, trProp=opt.trainValProportion, deep=opt.deep)
+	     fuzzy=opt.fuzzy, mode='train', validation=opt.validation, trProp=opt.trainValProportion, deep=opt.deep, shuffle=opt.noShuffle)
+	print "Shuffle?", opt.noShuffle
 	if opt.validation:
 		loader, valLoader = loader
 	else:
@@ -672,10 +714,12 @@ def main():
 	initModel(model)
 	loadModel(model, loaderLocs)
 
+	batch = next(iter(loader))
+#	EmbeddingValidationStep(model, batch, criterion, haveCuda)
 
 	# ************** Train the model ****************
 	train(model, trainStep, optimizers, loader, criterion, trackers, checkpointLocs, haveCuda, epochs=opt.epochs, 
-		startEpoch=opt.epochsCompleted, checkpointEvery=opt.checkpointEvery, validationLoader=valLoader, validationStep=valStep)
+		startEpoch=opt.epochsCompleted+1, checkpointEvery=opt.checkpointEvery, validationLoader=valLoader, validationStep=valStep)
 
 
 
