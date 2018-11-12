@@ -340,7 +340,7 @@ def main():
 	loadModel(model, loaderLocs)
 
 	if opt.useLargerEmbedding:
-		model.setArg(0)
+		model[0].setArg(0)
 
 	# Append deep features to end
 	if opt.deepModel is not None:

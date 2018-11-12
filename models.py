@@ -108,8 +108,24 @@ class NetGDeep(nn.Module):
                 nn.ReLU(inplace=True),
                 nn.Linear(ngf, ngf),
                 nn.ReLU(inplace=True),
-                nn.Linear(ngf, ndeep)                             
+                nn.Linear(ngf, ndeep),
+                nn.ReLU(inplace=True) # Because the deep features used have a ReLU
             )
+
+    def numLatent(self):
+        return self.nz
+
+    def outshape(self):
+        return [self.ndeep]
+
+    def imsize(self):
+        return self.ndeep
+
+    def numOutDims(self):
+        return self.ndeep
+
+    def numColors(self):
+        return None
 
     def forward(self, x):
         return self.main(x)
@@ -134,6 +150,21 @@ class NetDDeep(nn.Module):
                 nn.ReLU(inplace=True),
                 nn.Linear(ngf, 1)                             
             )
+
+    def numLatent(self):
+        return None
+
+    def outshape(self):
+        return [1]
+
+    def imsize(self):
+        return self.ndeep
+
+    def numOutDims(self):
+        return 1
+
+    def numColors(self):
+        return None
 
     def forward(self, x):
         return self.main(x).view(-1,1).squeeze(1)
@@ -516,9 +547,13 @@ class RealNVP(nn.Module):
 from densenet import densenet_cifar
 
 # returnFeats and returnClf are for embeddings
-def getModels(model, nc=3, imsize=32, hidden=64, nz=100, cuda=False, returnFeats=False):
+def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=False, returnFeats=False):
     if model == 'dcgan':
     	return [NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz)]
+    elif model == 'DeepGAN384':
+        return [NetGDeep(nz=nz, ngf=ndeephidden, ndeep=384), NetDDeep(ngf=ndeephidden, ndeep=384)]
+    elif model == 'DeepGAN10':
+        return [NetGDeep(nz=nz, ngf=ndeephidden, ndeep=10), NetDDeep(ngf=ndeephidden, ndeep=10)]
     elif model == 'pixelRegressor':
     	return [NetP32(nc=nc, npf=hidden)]
     elif model == 'lenetEmbedding':
