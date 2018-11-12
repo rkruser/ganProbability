@@ -9,9 +9,11 @@ locations={
 	'mnist':'/vulcan/scratch/krusinga/mnist/mnist32.mat',
 	'cifar10':'/vulcan/scratch/krusinga/cifar10/cifar10_32.mat',
   'cifarEmbedded384':'generated/final/densenet_cifar/cifar/cifarEmbedded384.mat',
+  'mnistEmbedded10': 'generated/final/densenet_mnist/mnistEmbedded.mat',
+  'cifarEmbedded10': 'generated/final/densenet_cifar/cifarEmbedded.mat',
 #	'lsun':...,
 	'birdsnap':'/vulcan/scratch/krusinga/birdsnap/birdsnap/download/images/birdsnap32.mat',
-	'cub':'/vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_32.mat'
+	'cub':'/vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_32.mat',
  # (omniglot) japanese_hiragana_32: /vulcan/scratch/krusinga/omniglot/omniglot/python/images_background/Japanese_(hiragana)/japanese_hiragana32.mat	
 }
 
@@ -232,7 +234,7 @@ class DataGenerator(object):
 
 def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLabel=False,
 	distribution=None, fuzzy=False, mode='train', validation=False, trProp=0.8, deep=False, stdev=0.05,
-  shuffle=True):
+  shuffle=True, datasetOnly=False):
   if root is None and loader not in ['mogSeven', 'mogEight']:
   	root = locations[loader]
 
@@ -250,6 +252,9 @@ def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLab
     return DataGenerator(1000, batchsize, lambda n : mogData(n, mogMeans=eightMinusOne, stdev=stdev))
   else:
     dset = MatLoader(root, outShape=outshape, distribution=distribution, returnLabel=returnLabel, mode=mode, fuzzy=fuzzy)
+
+  if datasetOnly:
+    return dset
 
   if validation:
   #		trLen = int(float(trProp)*len(dset))

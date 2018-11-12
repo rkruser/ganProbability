@@ -109,7 +109,7 @@ class NetGDeep(nn.Module):
                 nn.Linear(ngf, ngf),
                 nn.ReLU(inplace=True),
                 nn.Linear(ngf, ndeep),
-                nn.ReLU(inplace=True) # Because the deep features used have a ReLU
+#                nn.ReLU(inplace=True) # Because the deep features used have a ReLU
             )
 
     def numLatent(self):
@@ -251,7 +251,7 @@ class NetD32(nn.Module):
     # Predictor takes main output and produces a probability
     self.predictor = nn.Sequential(
         nn.Conv2d(ndf*4, 1, 4, 1, 0, bias=False)
-#        nn.Sigmoid()
+       # nn.Sigmoid()
         # Output is a single scalar
     )
 
@@ -412,7 +412,7 @@ class mog_netD(nn.Module):
             nn.Linear(256, 256),
             nn.LeakyReLU(),
             nn.Linear(256, 1),
-#            nn.Sigmoid()
+           # nn.Sigmoid()
         )
 
     def numOutDims(self):
@@ -493,7 +493,7 @@ class RealNVP(nn.Module):
         super(RealNVP, self).__init__()
         self.nz = 2
         self.hascuda = cuda
-#        self.logPrior = prior
+       # self.logPrior = prior
         self.mask = nn.Parameter(masks, requires_grad=False)
         self.t = torch.nn.ModuleList([nett() for _ in range(len(masks))])
         self.s = torch.nn.ModuleList([nets() for _ in range(len(masks))])
@@ -556,6 +556,8 @@ def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=F
         return [NetGDeep(nz=nz, ngf=ndeephidden, ndeep=10), NetDDeep(ngf=ndeephidden, ndeep=10)]
     elif model == 'pixelRegressor':
     	return [NetP32(nc=nc, npf=hidden)]
+    elif model == 'DeepRegressor10':
+        return [NetDDeep(ngf=ndeephidden, ndeep=10)]
     elif model == 'lenetEmbedding':
     	return [NthArgWrapper(Lenet32(nc=nc), 1)]
     elif model == 'densenet':

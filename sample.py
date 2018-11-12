@@ -132,6 +132,8 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 	jacob = np.empty([nSamples, min(totalOut,nz)]) 
 
 	for i in range(nSamples):
+		if i%100 == 0:
+			print i
 		J = np.empty([totalOut, nz])
 
 		a = codes[i].view(1,-1)
@@ -142,8 +144,8 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 		fake = fakeIms.view(1,-1)
 
 		for k in range(totalOut):
-			if k%100 == 0:
-				print "  ",k
+#			if k%100 == 0:
+#				print "  ",k
 			netG.zero_grad()
 			# noisev.zero_grad() #??
 			fake[0,k].backward(retain_graph=True) # ??
@@ -324,7 +326,7 @@ def main():
 
 
 	# ******* File locations *********
-	if 'gan' in opt.model:
+	if 'gan' in opt.model or 'GAN' in opt.model:
 		loaderLocs = (opt.netG, opt.netD)
 	elif 'Reg' in opt.model:
 		loaderLocs = [opt.netR]
