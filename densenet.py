@@ -79,10 +79,11 @@ class DenseNet(nn.Module):
         out = self.trans2(self.dense2(out))
         out = self.trans3(self.dense3(out))
         out = self.dense4(out)
+        out0 = F.avg_pool2d(out, 4)
         out = F.avg_pool2d(F.relu(self.bn(out)), 4)
-        out0 = out.view(out.size(0), -1)
-        out1 = self.linear(out0)
-        return out0, out1 #out0 is for deep feature embedding stuff
+        out = out.view(out.size(0), -1)
+        out1 = self.linear(out)
+        return out0.view(-1,384), out1 #out0 is for deep feature embedding stuff
 
     def numOutDims(self, arg):
         if arg == 0:
@@ -107,6 +108,82 @@ class DenseNet(nn.Module):
 
     def numOutClasses(self):
         return 10
+
+
+# class DenseNetModified(nn.Module):
+#     def __init__(self, block, nblocks, growth_rate=12, reduction=0.5, num_classes=10):
+#         super(DenseNetModified, self).__init__()
+#         self.growth_rate = growth_rate
+
+#         num_planes = 2*growth_rate
+#         self.conv1 = nn.Conv2d(3, num_planes, kernel_size=3, padding=1, bias=False)
+
+#         self.dense1 = self._make_dense_layers(block, num_planes, nblocks[0])
+#         num_planes += nblocks[0]*growth_rate
+#         out_planes = int(math.floor(num_planes*reduction))
+#         self.trans1 = Transition(num_planes, out_planes)
+#         num_planes = out_planes
+
+#         self.dense2 = self._make_dense_layers(block, num_planes, nblocks[1])
+#         num_planes += nblocks[1]*growth_rate
+#         out_planes = int(math.floor(num_planes*reduction))
+#         self.trans2 = Transition(num_planes, out_planes)
+#         num_planes = out_planes
+
+#         self.dense3 = self._make_dense_layers(block, num_planes, nblocks[2])
+#         num_planes += nblocks[2]*growth_rate
+#         out_planes = int(math.floor(num_planes*reduction))
+#         self.trans3 = Transition(num_planes, out_planes)
+#         num_planes = out_planes
+
+#         self.dense4 = self._make_dense_layers(block, num_planes, nblocks[3])
+#         num_planes += nblocks[3]*growth_rate
+
+#         self.bn = nn.BatchNorm2d(num_planes)
+# #        self.linear1 = nn.Linear(num_planes, num_planes)
+# #        self.linear2 = nn.Linear(num_planes, num_classes)
+
+#     def _make_dense_layers(self, block, in_planes, nblock):
+#         layers = []
+#         for i in range(nblock):
+#             layers.append(block(in_planes, self.growth_rate))
+#             in_planes += self.growth_rate
+#         return nn.Sequential(*layers)
+
+#     def forward(self, x):
+#         out = self.conv1(x)
+#         out = self.trans1(self.dense1(out))
+#         out = self.trans2(self.dense2(out))
+#         out = self.trans3(self.dense3(out))
+#         out = self.dense4(out)
+#         out = F.avg_pool2d(F.relu(self.bn(out)), 4)
+#         out0 = out.view(out.size(0), -1)
+#         out1 = self.linear(out0)
+#         return out0, out1 #out0 is for deep feature embedding stuff
+
+#     def numOutDims(self, arg):
+#         if arg == 0:
+#             return 384
+#         else:
+#             return 10
+
+#     def outshape(self, arg):
+#         if arg == 0:
+#             return [384]
+#         else:
+#             return [10]
+
+#     def numLatent(self):
+#         return None
+
+#     def imsize(self):
+#         return 32
+
+#     def numColors(self):
+#         return 3
+
+#     def numOutClasses(self):
+#         return 10
 
 
 

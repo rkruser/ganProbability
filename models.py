@@ -109,7 +109,7 @@ class NetGDeep(nn.Module):
                 nn.Linear(ngf, ngf),
                 nn.ReLU(inplace=True),
                 nn.Linear(ngf, ndeep),
-#                nn.ReLU(inplace=True) # Because the deep features used have a ReLU
+               # nn.ReLU(inplace=True) # Because the deep features used have a ReLU
             )
 
     def numLatent(self):
@@ -170,6 +170,99 @@ class NetDDeep(nn.Module):
         return self.main(x).view(-1,1).squeeze(1)
 
 
+class NetGDeepV2(nn.Module):
+    def __init__(self, nz=100, ngf=128, ndeep=6144):
+        super(NetGDeepV2, self).__init__()
+        self.nz = nz
+        self.ngf = ngf
+        self.ndeep = ndeep
+        self.main = nn.Sequential(
+                nn.Linear(nz, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, 2*ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(2*ngf, 2*ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(2*ngf, 4*ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(4*ngf, 4*ngf),
+               # nn.ReLU(inplace=True),
+               # nn.Linear(4*ngf, 8*ngf),
+               # nn.ReLU(8*ngf),
+               # nn.Linear(8*ngf, 8*ngf),
+               # nn.ReLU(8*ngf),
+               # nn.Linear(8*ngf,16*ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(4*ngf, ndeep),
+               # nn.ReLU(inplace=True) # Because the deep features used have a ReLU
+            )
+
+    def numLatent(self):
+        return self.nz
+
+    def outshape(self):
+        return [self.ndeep]
+
+    def imsize(self):
+        return self.ndeep
+
+    def numOutDims(self):
+        return self.ndeep
+
+    def numColors(self):
+        return None
+
+    def forward(self, x):
+        return self.main(x)
+
+class NetDDeepV2(nn.Module):
+    def __init__(self, nz=100, ngf=128, ndeep=6144):
+        super(NetDDeepV2, self).__init__()
+        self.nz = nz
+        self.ngf = ngf
+        self.ndeep = ndeep
+        self.main = nn.Sequential(
+                nn.Linear(ndeep, 4*ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(4*ngf, 4*ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(4*ngf, 2*ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(2*ngf, 2*ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(2*ngf, ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, ngf),
+               # nn.ReLU(inplace=True),
+               # nn.Linear(4*ngf, 8*ngf),
+               # nn.ReLU(8*ngf),
+               # nn.Linear(8*ngf, 8*ngf),
+               # nn.ReLU(8*ngf),
+               # nn.Linear(8*ngf,16*ngf),
+                nn.ReLU(inplace=True),
+                nn.Linear(ngf, 1),
+               # nn.ReLU(inplace=True) # Because the deep features used have a ReLU
+            )
+
+    def numLatent(self):
+        return None
+
+    def outshape(self):
+        return [1]
+
+    def imsize(self):
+        return self.ndeep
+
+    def numOutDims(self):
+        return 1
+
+    def numColors(self):
+        return None
+
+    def forward(self, x):
+        return self.main(x).view(-1,1).squeeze(1)
 
 
 # Model for 32 by 32 images
@@ -558,6 +651,8 @@ def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=F
     	return [NetP32(nc=nc, npf=hidden)]
     elif model == 'DeepRegressor10':
         return [NetDDeep(ngf=ndeephidden, ndeep=10)]
+    elif model == 'DeepRegressor384':
+        return [NetDDeep(ngf=ndeephidden, ndeep=384)]
     elif model == 'lenetEmbedding':
     	return [NthArgWrapper(Lenet32(nc=nc), 1)]
     elif model == 'densenet':

@@ -8,9 +8,10 @@ import numpy as np
 locations={
 	'mnist':'/vulcan/scratch/krusinga/mnist/mnist32.mat',
 	'cifar10':'/vulcan/scratch/krusinga/cifar10/cifar10_32.mat',
-  'cifarEmbedded384':'generated/final/densenet_cifar/cifar/cifarEmbedded384.mat',
+#  'cifarEmbedded384':'generated/final/densenet_cifar/cifar/cifarEmbedded384.mat',
   'mnistEmbedded10': 'generated/final/densenet_mnist/mnistEmbedded.mat',
   'cifarEmbedded10': 'generated/final/densenet_cifar/cifarEmbedded.mat',
+  'mnistEmbedded384': 'generated/final/densenet_mnist/mnistEmbedded384.mat',
 #	'lsun':...,
 	'birdsnap':'/vulcan/scratch/krusinga/birdsnap/birdsnap/download/images/birdsnap32.mat',
 	'cub':'/vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_32.mat',
@@ -239,8 +240,10 @@ def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLab
   	root = locations[loader]
 
 #  if loader 
-#  outshape = (nc, size, size)
-  outshape = None
+  outshape = (nc, size, size)
+  if 'Embedded' in loader:
+    outshape = None
+#  outshape = None
 
   if loader == 'probdata':
   	dset =  ProbLoader(root, deep=deep, mode=mode)
