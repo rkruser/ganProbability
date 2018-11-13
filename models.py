@@ -97,17 +97,23 @@ class NetGDeep(nn.Module):
         self.ndeep = ndeep
         self.main = nn.Sequential(
                 nn.Linear(nz, ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(ngf, ndeep),
                # nn.ReLU(inplace=True) # Because the deep features used have a ReLU
             )
@@ -137,17 +143,23 @@ class NetDDeep(nn.Module):
         self.ndeep = ndeep
         self.main = nn.Sequential(
                 nn.Linear(ndeep, ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
+#                nn.ReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
+#                nn.ReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
+#                nn.ReLU(inplace=True),
                 nn.Linear(ngf, ngf),
-                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
+#                nn.ReLU(inplace=True),
                 nn.Linear(ngf, 1)                             
             )
 
@@ -225,23 +237,30 @@ class NetDDeepV2(nn.Module):
         self.ndeep = ndeep
         self.main = nn.Sequential(
                 nn.Linear(ndeep, 4*ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(4*ngf, 4*ngf),
-                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
+#                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
                 nn.Linear(4*ngf, 2*ngf),
-                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
+#                nn.ReLU(inplace=True),
                 nn.Linear(2*ngf, 2*ngf),
-                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
+#                nn.ReLU(inplace=True),
                 nn.Linear(2*ngf, ngf),
-                nn.ReLU(inplace=True),
+                nn.LeakyReLU(inplace=True),
+#                nn.ReLU(inplace=True),
                 nn.Linear(ngf, ngf),
+                nn.LeakyReLU(inplace=True),
                # nn.ReLU(inplace=True),
                # nn.Linear(4*ngf, 8*ngf),
                # nn.ReLU(8*ngf),
                # nn.Linear(8*ngf, 8*ngf),
                # nn.ReLU(8*ngf),
                # nn.Linear(8*ngf,16*ngf),
-                nn.ReLU(inplace=True),
+#                nn.ReLU(inplace=True),
                 nn.Linear(ngf, 1),
                # nn.ReLU(inplace=True) # Because the deep features used have a ReLU
             )
@@ -638,7 +657,7 @@ class RealNVP(nn.Module):
 
 
 from densenet import densenet_cifar
-from autoencoder import Encoder, Decoder
+from autoencoder import Encoder, Decoder, Encoder2, Decoder2
 
 # returnFeats and returnClf are for embeddings
 def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=False, returnFeats=False):
@@ -646,16 +665,22 @@ def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=F
     	return [NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz)]
     elif model == 'autoencoder':
         return [Encoder(), Decoder()]
+    elif model == 'autoencoder2':
+        return [Encoder2(), Decoder2()]
     elif model == 'DeepGAN384':
         return [NetGDeep(nz=nz, ngf=ndeephidden, ndeep=384), NetDDeep(ngf=ndeephidden, ndeep=384)]
     elif model == 'DeepGAN10':
         return [NetGDeep(nz=nz, ngf=ndeephidden, ndeep=10), NetDDeep(ngf=ndeephidden, ndeep=10)]
+    elif model == 'DeepGAN256':
+        return [NetGDeep(nz=nz, ngf=ndeephidden, ndeep=256), NetDDeep(ngf=ndeephidden, ndeep=256)]
     elif model == 'pixelRegressor':
     	return [NetP32(nc=nc, npf=hidden)]
     elif model == 'DeepRegressor10':
         return [NetDDeep(ngf=ndeephidden, ndeep=10)]
     elif model == 'DeepRegressor384':
         return [NetDDeep(ngf=ndeephidden, ndeep=384)]
+    elif model == 'DeepRegressor256':
+        return [NetDDeep(ngf=ndeephidden, ndeep=256)]
     elif model == 'lenetEmbedding':
     	return [NthArgWrapper(Lenet32(nc=nc), 1)]
     elif model == 'densenet':

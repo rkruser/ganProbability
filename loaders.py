@@ -12,6 +12,7 @@ locations={
   'mnistEmbedded10': 'generated/final/densenet_mnist/mnistEmbedded.mat',
   'cifarEmbedded10': 'generated/final/densenet_cifar/cifarEmbedded.mat',
   'mnistEmbedded384': 'generated/final/densenet_mnist/mnistEmbedded384.mat',
+  'mnistAutoEmbedded': 'generated/final/mnist_autoencoder/mnistAutoEmbedded.mat',
 #	'lsun':...,
 	'birdsnap':'/vulcan/scratch/krusinga/birdsnap/birdsnap/download/images/birdsnap32.mat',
 	'cub':'/vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_32.mat',

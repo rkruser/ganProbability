@@ -231,7 +231,24 @@ def sampleRegressor(regressorModel, nSamples, eps, dataloader, cuda):
 	allprobs = torch.cat(chunks)
 	return {'probs':allprobs.cpu().numpy()}
 
+#def sampleAutoencoder(model, nsamples, eps, dataloader, cuda):
+#	netEnc, netDec = model
 
+def sampleUp(model, nsamples, eps, dataloader, cuda):
+	netDec = model[1]
+	chunks = []
+	probs = []
+	for x in dataloader:
+		x, p = x
+		x = Variable(x)
+		if cuda:
+			x = x.cuda()
+		ims = netDec(x)
+		chunks.append(ims)
+		probs.append(p)
+	allIms = torch.cat(chunks)
+	allProbs = torch.cat(probs)
+	return {'images':allIms.data.cpu().numpy(), 'probs':allProbs.cpu().numpy()}
 
 
 
@@ -247,6 +264,10 @@ def getSampleFunc(funcName):
 		return sampleEmbeddings
 	elif funcName == 'regressor':
 		return sampleRegressor
+	elif funcName == 'autoencoder':
+		return sampleAutoencoder
+	elif funcName == 'sampleUp':
+		return sampleUp
 
 
 
@@ -291,6 +312,9 @@ def main():
 	parser.add_argument('--datamode', type=str, default='train', help='train | test')
 	parser.add_argument('--returnEmbeddingFeats', action='store_true', help='For embeddings, return the layer before the last layer, rather than the last layer')
 
+	parser.add_argument('--netEnc', type=str, default=None, help="path to netEnc (to continue training)")
+	parser.add_argument('--netDec', type=str, default=None, help="path to netDec (to continue training)")
+
 
 	parser.add_argument('--workers', type=int, help='number of data loading workers', default=2)
 	parser.add_argument('--batchSize', type=int, default=64, help='input batch size')
@@ -332,6 +356,8 @@ def main():
 		loaderLocs = [opt.netR]
 	elif 'Emb' in opt.model or 'emb' in opt.model or 'densenet' in opt.model:
 		loaderLocs = [opt.netEmb]
+	elif 'autoencoder' in opt.model:
+		loaderLocs = [opt.netEnc, opt.netDec]
 	else:
 		loaderLocs = None
 
