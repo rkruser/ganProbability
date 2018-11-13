@@ -8,6 +8,7 @@ import numpy as np
 locations={
 	'mnist':'/vulcan/scratch/krusinga/mnist/mnist32.mat',
 	'cifar10':'/vulcan/scratch/krusinga/cifar10/cifar10_32.mat',
+  'omniglot':'/vulcan/scratch/krusinga/omniglot/omniglot/python/images_background/Japanese_(hiragana)/japanese_hiragana32.mat',
 #  'cifarEmbedded384':'generated/final/densenet_cifar/cifar/cifarEmbedded384.mat',
   'mnistEmbedded10': 'generated/final/densenet_mnist/mnistEmbedded.mat',
   'cifarEmbedded10': 'generated/final/densenet_cifar/cifarEmbedded.mat',
@@ -147,13 +148,16 @@ def getProportionalIndices(distribution, counts,randomize=False):
   return ranges
 
 class ProbLoader(data.Dataset):
-  def __init__(self, matpath, deep=False, mode='train', trainProportion=0.8):
+  def __init__(self, matpath, useCodeProbs=False, deep=False, mode='train', trainProportion=0.8):
     self.data = loadmat(matpath)
     if deep:
       self.X = self.data['feats'] #Actually no, but okay
     else:
       self.X = self.data['images']
-    self.Y = self.data['probs'].squeeze()
+    if useCodeProbs:
+      self.Y = self.data['codeProbs'].squeeze()
+    else:
+      self.Y = self.data['probs'].squeeze()
 
     if mode=='train':
       self.train = True
@@ -183,6 +187,57 @@ class ProbLoader(data.Dataset):
       return torch.from_numpy(self.Xtrain[item]), self.Ytrain[item]
     else:
       return torch.from_numpy(self.Xtest[item]), self.Ytest[item]
+
+  def setMode(self, mode):
+    if mode == 'train':
+      self.train = True
+    else:
+      self.train = False
+
+  def getOutshape(self):
+    return self.outShape
+
+
+class CodeLoader(data.Dataset):
+  def __init__(self, matpath, deep=False, mode='train', trainProportion=0.8):
+    self.data = loadmat(matpath)
+    if deep:
+      self.X = self.data['feats'] #Actually no, but okay
+    else:
+      self.X = self.data['images']
+    if 'codes' in self.data:
+      self.Y = self.data['codes']#.squeeze()
+    else:
+      self.Y = self.data['code']
+
+    if mode=='train':
+      self.train = True
+    else:
+      self.train = False
+
+    self.outShape = self.X[0].shape 
+
+    self.dataSize = len(self.X)
+    self.trainSize = int(self.dataSize*trainProportion)
+    self.testSize = self.dataSize-self.trainSize
+    
+    self.Xtrain = self.X[:self.trainSize]
+    self.Ytrain = self.Y[:self.trainSize]
+    self.Xtest = self.X[self.trainSize:]
+    self.Ytest = self.Y[self.trainSize:]
+
+
+  def __len__(self):
+    if self.train: 
+      return self.trainSize
+    else:
+      return self.testSize
+
+  def __getitem__(self, item):
+    if self.train:
+      return torch.from_numpy(self.Xtrain[item]), torch.from_numpy(self.Ytrain[item])
+    else:
+      return torch.from_numpy(self.Xtest[item]), torch.from_numpy(self.Ytest[item])
 
   def setMode(self, mode):
     if mode == 'train':
@@ -236,7 +291,7 @@ class DataGenerator(object):
 
 def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLabel=False,
 	distribution=None, fuzzy=False, mode='train', validation=False, trProp=0.8, deep=False, stdev=0.05,
-  shuffle=True, datasetOnly=False):
+  shuffle=True, datasetOnly=False, useCodeProbs=False):
   if root is None and loader not in ['mogSeven', 'mogEight']:
   	root = locations[loader]
 
@@ -247,7 +302,9 @@ def getLoaders(loader='mnist', nc=3, size=32, root=None, batchsize=64, returnLab
 #  outshape = None
 
   if loader == 'probdata':
-  	dset =  ProbLoader(root, deep=deep, mode=mode)
+  	dset =  ProbLoader(root, deep=deep, mode=mode, useCodeProbs=useCodeProbs)
+  elif loader == 'codedata':
+    dset = CodeLoader(root, deep=deep, mode=mode)
   elif loader == 'mogEight':
     eightMeans = getMogMeans()
     return DataGenerator(1000, batchsize, lambda n : mogData(n, mogMeans=eightMeans, stdev=stdev))

@@ -23,7 +23,8 @@ def zipSamples(samplePrefix, nfiles, out):
 	  'images': np.concatenate([loadedMats[i]['images'] for i in range(nfiles)]),
 	  'jacob': np.concatenate([loadedMats[i]['jacob'] for i in range(nfiles)]),
 	  'codes': np.concatenate([loadedMats[i]['codes'] for i in range(nfiles)]),
-	  'probs': np.concatenate([loadedMats[i]['probs'].flatten() for i in range(nfiles)])
+	  'probs': np.concatenate([loadedMats[i]['probs'].flatten() for i in range(nfiles)]),
+	  'codeProbs': np.concatenate([loadedMats[i]['codeProbs'].flatten() for i in range(nfiles)])
 	}
 	savemat(out, allSamples)
 

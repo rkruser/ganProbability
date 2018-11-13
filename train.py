@@ -11,7 +11,8 @@ import sys
 import datetime
 #import pickle
 import json
-
+import numpy as np
+import torch.nn.functional as F
 
 from models import getModels, weights_init
 from loaders import getLoaders
@@ -132,6 +133,19 @@ class GANCriterion(nn.Module):
 # return gradient_penalty
 
 
+class smoothL1TwoSided(nn.Module):
+	def __init__(self):
+		super(smoothL1TwoSided, self).__init__()
+		self.alpha = nn.Parameter(torch.Tensor([2]))
+		self.beta = nn.Parameter(torch.Tensor([2]))
+		self.loss = nn.SmoothL1Loss(size_average=True)#nn.MSELoss()
+
+	def forward(self, x, target):
+		x = x-self.alpha.expand_as(x)*F.relu(x-self.beta.expand_as(x),inplace=True)
+		return self.loss(x, target)
+
+
+
 
 class WGANCriterion(nn.Module):
 	def __init__(self, wganLambda, flowganLambda=None):
@@ -227,6 +241,8 @@ class EmbeddingCriterion(nn.Module):
 def getCriterion(criterion, wganLambda=0.05, flowganLambda=None):
 	if criterion == 'gan':
 		return [GANCriterion(), GANCriterion()]
+	elif criterion == 'infogan':
+		return [GANCriterion(), GANCriterion(), nn.MSELoss()]
 	elif criterion == 'bce':
 		return [nn.BCELoss()]
 	elif criterion == 'softmaxbce':
@@ -239,6 +255,8 @@ def getCriterion(criterion, wganLambda=0.05, flowganLambda=None):
 		return [nn.MSELoss()]
 	elif criterion == 'embedding':
 		return [EmbeddingCriterion()]
+	elif criterion == 'smoothL1TwoSided':
+		return [smoothL1TwoSided()]
 
 
 
@@ -539,9 +557,48 @@ def EmbeddingValidationStep(model, batch, criterion, cuda):
 
 	return [acc]
 
+def infoganStep(model, batch, optimizers, criterion, cuda):
+	netG, netD, netQ = model
+	optimG, optimD, optimQ = optimizers
+	criterionG, criterionD, criterionInfo = criterion
+
+	nz = netG.numLatent()
+
+	batch = Variable(batch)
+	onesLabel = Variable(torch.ones(batch.size(0)))
+	zerosLabel = Variable(torch.zeros(batch.size(0)))
+	zVals = Variable(torch.Tensor(batch.size(0), nz).normal_(0,1))
+	if cuda:
+		onesLabel = onesLabel.cuda()
+		zerosLabel = zerosLabel.cuda()
+		batch = batch.cuda()
+		zVals = zVals.cuda()
+
+	netD.zero_grad()
+	fake = netG(zVals)
+	_, fakePred = netD(fake.detach())
+	_, realPred = netD(batch)
+
+	errD = criterionD(fakePred, zerosLabel)+criterionD(realPred,onesLabel)
+	errD.backward()
+	optimD.step()
+
+	netG.zero_grad()
+	netQ.zero_grad()
+	dfeats, gPred = netD(fake)
+	reconstructed = netQ(dfeats)
+	errG = criterionG(gPred, onesLabel)+0.5*criterionInfo(reconstructed, zVals)
+	errG.backward()
+	optimG.step()
+	optimQ.step()
+
+	return (errG.data[0], errD.data[0]), fake.data
+
 def getTrainFunc(trainfunc, validation = False):
 	if trainfunc == 'gan':
 		return GANTrainStep
+	elif trainfunc == 'infogan':
+		return infoganStep
 	elif trainfunc == 'wgan':
 		return WGANTrainStep
 	elif trainfunc == 'flowgan':
@@ -621,6 +678,7 @@ def main():
 	parser.add_argument('--netG', type=str, default=None, help="path to netG (to continue training)")
 	parser.add_argument('--netD', type=str, default=None, help="path to netD (to continue training)")
 	parser.add_argument('--netR', type=str, default=None, help='Path to regressor')
+	parser.add_argument('--netQ', type=str, default=None, help='infogan Qnet')
 	parser.add_argument('--netEmb', type=str, default=None, help='Path to embedding net')
 	parser.add_argument('--epochsCompleted', type=int, default=0, help='Number of epochs already completed by loaded models')
 	parser.add_argument('--parameterSet', default=None, help='Dict of pre-defined parameters to use as opts')
@@ -632,6 +690,7 @@ def main():
 	parser.add_argument('--criterion', type=str, default='gan', help='Loss criterion for the gan')
 	parser.add_argument('--trainFunc', type=str, default='gan', help='The training function to use')
 	parser.add_argument('--returnEmbeddingFeats', action='store_true', help='For embeddings, return the layer before the last layer, rather than the last layer')
+	parser.add_argument('--useCodeProbs', action='store_true', help='Use code probabilities instead of image probabilities')
 
 	parser.add_argument('--netEnc', type=str, default=None, help="path to netEnc (to continue training)")
 	parser.add_argument('--netDec', type=str, default=None, help="path to netDec (to continue training)")
@@ -664,6 +723,7 @@ def main():
 	parser.add_argument('--manualSeed', type=int, default=1, help='manual seed')
 	parser.add_argument('--noShuffle', action='store_false', help='Use flag if you do not want the data shuffled')
 	# parser.add_argument('--proportions',type=str, help='Probabilities of each class in mnist',default='[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]')
+	parser.add_argument('--noOnes', action='store_true', help='Sample MNIST with no ones')
 
 	opt = parser.parse_args()
 
@@ -695,8 +755,14 @@ def main():
 	optimizers = getOptimizers(model, lr=opt.lr, beta1=opt.beta1, beta2=opt.beta2)
 
 	# *********** Getting loader **************
+	if opt.noOnes:
+		ldrDistribution = np.array([0.11, 0, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.12])
+	else:
+		ldrDistribution = None
+
 	loader = getLoaders(loader=opt.dataset, nc=opt.nc, size=opt.imageSize, root=opt.dataroot, batchsize=opt.batchSize, returnLabel=opt.supervised,
-	     fuzzy=opt.fuzzy, mode='train', validation=opt.validation, trProp=opt.trainValProportion, deep=opt.deep, shuffle=opt.noShuffle)
+	     fuzzy=opt.fuzzy, mode='train', validation=opt.validation, trProp=opt.trainValProportion, deep=opt.deep, shuffle=opt.noShuffle,
+	     distribution=ldrDistribution, useCodeProbs = opt.useCodeProbs)
 	print "Shuffle?", opt.noShuffle
 	if opt.validation:
 		loader, valLoader = loader
@@ -712,7 +778,11 @@ def main():
 		valStep = None
 
 	# *********** Getting checkpointing info, file loading info, tracking info ***********
-	if 'gan' in opt.trainFunc:
+	if 'infogan' in opt.trainFunc:
+		checkpointLocs = (join(opt.modelroot, 'netG'), join(opt.modelroot, 'netD'), join(opt.modelroot, 'netQ'))
+		loaderLocs = (opt.netG, opt.netD, opt.netQ)
+		trackers = [Tracker('netG'), Tracker('netD')]
+	elif 'gan' in opt.trainFunc:
 		checkpointLocs = (join(opt.modelroot, 'netG'), join(opt.modelroot, 'netD'))
 		loaderLocs = (opt.netG, opt.netD)
 		trackers = [Tracker('netG'), Tracker('netD')]

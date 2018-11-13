@@ -70,10 +70,13 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 
 	images = np.empty([nSamples]+outshape)
 	probs = np.empty([nSamples])
+	codeProbs = np.empty([nSamples])
 	jacob = np.empty([nSamples, min(totalOut,nz)]) 
 
 
 	for i in range(nSamples):
+		if i%100 == 0:
+			print i
 		J = np.empty([totalOut, nz])
 
 		a = codes[i].view(1,-1)
@@ -95,7 +98,8 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 		diag = R.diagonal().copy()
 		jacob[i] = diag.copy() # No modification yet
 		diag[np.where(np.abs(diag) < 1e-20)] = 1
-		probs[i] = gauss_const - log_const*0.5*np.sum(Z**2) - np.log10(np.abs(diag)).sum()
+		codeProbs[i] = gauss_const - log_const*0.5*np.sum(Z**2)
+		probs[i] = codeProbs[i] - np.log10(np.abs(diag)).sum()
 
 
 	# Add in codes
@@ -103,7 +107,8 @@ def sampleNumericalProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 				'images': images.astype(np.float32),
 				'probs': probs.astype(np.float32),
 				'jacob': jacob.astype(np.float32),
-				'codes': codes.cpu().numpy()
+				'codes': codes.cpu().numpy(),
+				'codeProbs': codeProbs.astype(np.float32)
 				}
 
 	return allData
@@ -130,6 +135,7 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 	images = np.empty([nSamples]+outshape)
 	probs = np.empty([nSamples])
 	jacob = np.empty([nSamples, min(totalOut,nz)]) 
+	codeProbs = np.empty([nSamples])
 
 	for i in range(nSamples):
 		if i%100 == 0:
@@ -160,7 +166,8 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 		diag = R.diagonal().copy()
 		jacob[i] = diag.copy() # No modification yet
 		diag[np.where(np.abs(diag) < 1e-20)] = 1
-		probs[i] = gauss_const - log_const*0.5*np.sum(Z**2) - np.log10(np.abs(diag)).sum()
+		codeProbs[i] = gauss_const - log_const*0.5*np.sum(Z**2)
+		probs[i] = codeProbs[i] - np.log10(np.abs(diag)).sum()
 
 
 
@@ -169,7 +176,8 @@ def sampleBackpropProbabilities(ganModel, nSamples, eps, dataloader, cuda):
 				'images': images.astype(np.float32),
 				'probs': probs.astype(np.float32),
 				'jacob': jacob.astype(np.float32),
-				'codes': codes.cpu().numpy()
+				'codes': codes.cpu().numpy(),
+				'codeProbs': codeProbs.astype(np.float32)
 				}
 
 	return allData
@@ -231,6 +239,28 @@ def sampleRegressor(regressorModel, nSamples, eps, dataloader, cuda):
 	allprobs = torch.cat(chunks)
 	return {'probs':allprobs.cpu().numpy()}
 
+# nSamples and eps are unused
+def sampleRegressorCodes(regressorModel, nSamples, eps, dataloader, cuda):
+	netR = regressorModel[0]
+	gauss_const = Variable(torch.Tensor([-netR.numOutDims()*np.log10(np.sqrt(2*np.pi))]))
+	log_const = Variable(torch.Tensor([np.log10(np.exp(1))]))
+	if cuda:
+		gauss_const = gauss_const.cuda()
+		log_const = log_const.cuda()
+
+	chunks = []
+	for x in dataloader:
+		x = Variable(x)
+		if cuda:
+			x = x.cuda()
+
+		codes = netR(x)
+		pvals = gauss_const.expand(codes.size(0)) - log_const.expand(codes.size(0))*0.5*(codes**2).sum(1)
+		chunks.append(pvals.data)
+
+	allprobs = torch.cat(chunks)
+	return {'probs':allprobs.cpu().numpy()}
+
 #def sampleAutoencoder(model, nsamples, eps, dataloader, cuda):
 #	netEnc, netDec = model
 
@@ -268,6 +298,8 @@ def getSampleFunc(funcName):
 		return sampleAutoencoder
 	elif funcName == 'sampleUp':
 		return sampleUp
+	elif funcName == 'sampleCodes':
+		return sampleRegressorCodes
 
 
 

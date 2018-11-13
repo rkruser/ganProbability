@@ -368,8 +368,8 @@ class NetD32(nn.Module):
     )
 
     # Output size is nz
-    if self.infogan:
-      self.reconstructor = nn.Conv2d(ndf*4, nz, 4, 1, 0)
+  #  if self.infogan:
+  #    self.reconstructor = nn.Conv2d(ndf*4, nz, 4, 1, 0)
 
   def numOutDims(self):
     return 1
@@ -389,10 +389,54 @@ class NetD32(nn.Module):
     prediction = self.predictor(output).view(-1,1).squeeze(1)
 
     if self.infogan:
-      reconstruction = self.reconstructor(output)
-      return prediction, reconstruction.view(-1,self.nz) # output is (batchSize x nz) for recon
+  #    reconstruction = self.reconstructor(output)
+      return output, prediction  # output is (batchSize x nz) for recon
     else:
       return prediction
+
+class Qnet(nn.Module):
+    def __init__(self, ndf, nz):
+        super(Qnet, self).__init__()
+        self.nz = nz
+        self.conv = nn.Conv2d(ndf*4, int((ndf*4+nz)/2), 4, 1, 0)
+        self.relu = nn.LeakyReLU(0.2,inplace=True)
+        self.linear1 = nn.Linear(int((ndf*4+nz)/2), int((ndf*4+nz)/2))
+        self.linear2 = nn.Linear(int((ndf*4+nz)/2), nz)
+
+    def numOutDims(self):
+        return self.nz
+
+    def outshape(self):
+        return [self.nz]       
+
+    def forward(self, x):
+        x = self.conv(x)
+        x = x.view(x.size(0),-1)
+        x = self.relu(x)
+        x = self.linear1(x)
+        x = self.relu(x)
+        x = self.linear2(x)
+        return x
+
+class InfoganRegressor(nn.Module):
+    def __init__(self, dnet, qnet):
+        super(InfoganRegressor,self).__init__()
+        self.dnet = dnet
+        self.qnet = qnet
+        self.gauss_const = nn.Parameter(torch.Tensor([-self.qnet.numOutDims()*np.log10(np.sqrt(2*np.pi))]))
+        self.log_const = nn.Parameter(torch.Tensor([np.log10(np.exp(1))]))
+
+    def forward(self, x):
+        out,_ = self.dnet(x)
+        out = self.qnet(out)
+        probs = self.gauss_const.expand(x.size(0)) - self.log_const.expand(x.size(0))*0.5*(out**2).sum(1)
+        return probs
+
+    def numOutDims(self):
+        return self.qnet.numOutDims()
+
+    def outshape(self):
+        return self.qnet.outshape()
 
 
 # Regressor
@@ -434,6 +478,58 @@ class NetP32(nn.Module):
 
         return output.view(-1, 1).squeeze(1)
 
+# Regressor
+class NetP32Modified(nn.Module):
+    def __init__(self, nc, npf, nz):
+        super(NetP32Modified, self).__init__()
+        self.npf = npf
+        self.nz = nz
+        self.nc = nc
+        self.main = nn.Sequential(
+            # input is (nc) x 32 x 32
+            nn.Conv2d(nc, npf, 4, 2, 1, bias=True),
+            nn.BatchNorm2d(npf),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf) x 16 x 16
+            nn.Conv2d(npf, npf * 2, 4, 2, 1, bias=True),
+            nn.BatchNorm2d(npf * 2),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf*2) x 8 x 8
+            nn.Conv2d(npf * 2, npf * 4, 4, 2, 1, bias=True),
+            # for 28 x 28
+           # nn.Conv2d(npf * 2, npf * 4, 4, 2, 2, bias=False),
+            nn.BatchNorm2d(npf * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+            # state size. (npf*4) x 4 x 4
+            nn.Conv2d(npf * 4, npf*8, 4, 1, 0, bias=True),
+            # nn.ReLU(inplace=True)
+        )
+        self.final = nn.Sequential(
+                nn.Linear(npf*8, int((npf*8+nz)/2)),
+                nn.LeakyReLU(0.2, inplace=True),
+                nn.Linear(int((npf*8+nz)/2), nz)
+            )
+
+    def numOutDims(self):
+        return self.nz
+
+#    def numLatent(self):
+#        return self.nz
+
+    def outshape(self):
+        return [self.nz]
+
+
+    def forward(self, input):
+       # if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+       #     output = nn.parallel.data_parallel(self.main, input, range(self.ngpu))
+       # else:
+        output = self.main(input)
+        output = output.view(input.size(0),-1)
+        output = self.final(output)
+
+        return output.view(-1, self.nz)
+
 
 # What is the best shape for this net?
 # This predicts log probabilities
@@ -462,6 +558,9 @@ class NetPLatent(nn.Module):
       # output = -torch.abs(output)+th  # Why do this?
 
     return output.view(-1,1).squeeze(1) 
+
+
+
 
 
 # Every model for MoG - Generator
@@ -663,6 +762,8 @@ from autoencoder import Encoder, Decoder, Encoder2, Decoder2
 def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=False, returnFeats=False):
     if model == 'dcgan':
     	return [NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz)]
+    elif model == 'infogan':
+        return [NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz, infogan=True), Qnet(ndf=hidden,nz=nz)]
     elif model == 'autoencoder':
         return [Encoder(), Decoder()]
     elif model == 'autoencoder2':
@@ -675,6 +776,10 @@ def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=F
         return [NetGDeep(nz=nz, ngf=ndeephidden, ndeep=256), NetDDeep(ngf=ndeephidden, ndeep=256)]
     elif model == 'pixelRegressor':
     	return [NetP32(nc=nc, npf=hidden)]
+    elif model == 'infoganRegressor':
+        return [InfoganRegressor(ndf=hidden,nz=nz)]
+    elif model == 'codeRegressor':
+        return [NetP32Modified(nc=nc, npf=hidden, nz=nz)]
     elif model == 'DeepRegressor10':
         return [NetDDeep(ngf=ndeephidden, ndeep=10)]
     elif model == 'DeepRegressor384':
