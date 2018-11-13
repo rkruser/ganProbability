@@ -461,11 +461,26 @@ def supervisedValidationStep(model, batch, criterion, cuda):
 
 	ypred = model(x)
 	err = criterion(ypred, y)
-#	err = accuracy(ypred, y)
+	# err = accuracy(ypred, y)
 
 	return [err.data[0]]
 
+def autoencoderTrainStep(model, batch, optimizer, criterion, cuda):
+	encoder, decoder = model
+	optimizerEnc, optimizerDec = optimizer
+	criterion = criterion[0]
+	x = Variable(batch)
+	if cuda:
+		x = x.cuda()
+	encoder.zero_grad()
+	decoder.zero_grad()
+	pred = decoder(encoder(x))
+	err = criterion(pred,x)
+	err.backward()
+	optimizerEnc.step()
+	optimizerDec.step()
 
+	return [err.data[0]], pred.data
 
 
 def RegressorTrainStep(model, batch, optimizers, criterion):
@@ -541,6 +556,8 @@ def getTrainFunc(trainfunc, validation = False):
 			return EmbeddingTrainStep, EmbeddingValidationStep
 		else:
 			return EmbeddingTrainStep
+	elif trainfunc == 'autoencoder':
+		return autoencoderTrainStep
 	elif trainfunc == 'nll':
 		return nllTrainStep
 
@@ -615,6 +632,9 @@ def main():
 	parser.add_argument('--criterion', type=str, default='gan', help='Loss criterion for the gan')
 	parser.add_argument('--trainFunc', type=str, default='gan', help='The training function to use')
 	parser.add_argument('--returnEmbeddingFeats', action='store_true', help='For embeddings, return the layer before the last layer, rather than the last layer')
+
+	parser.add_argument('--netEnc', type=str, default=None, help="path to netEnc (to continue training)")
+	parser.add_argument('--netDec', type=str, default=None, help="path to netDec (to continue training)")
 
 
 	parser.add_argument('--workers', type=int, help='number of data loading workers', default=2)
@@ -708,6 +728,11 @@ def main():
 		checkpointLocs = [join(opt.modelroot, 'netG')]
 		loaderLocs = [opt.netG]
 		trackers = [Tracker('nvp')]
+	elif 'autoencoder' in opt.trainFunc:
+		checkpointLocs = [join(opt.modelroot, 'netEnc'), join(opt.modelroot, 'netDec')]
+		loaderLocs = [opt.netEnc, opt.netDec]
+		trackers = [Tracker('autoencoder')]
+
 
 
 	# *********** Initialize and/or load models ***************

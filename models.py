@@ -638,11 +638,14 @@ class RealNVP(nn.Module):
 
 
 from densenet import densenet_cifar
+from autoencoder import Encoder, Decoder
 
 # returnFeats and returnClf are for embeddings
 def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=False, returnFeats=False):
     if model == 'dcgan':
     	return [NetG32(nc=nc, ngf=hidden, nz=nz), NetD32(nc=nc, ndf=hidden, nz=nz)]
+    elif model == 'autoencoder':
+        return [Encoder(), Decoder()]
     elif model == 'DeepGAN384':
         return [NetGDeep(nz=nz, ngf=ndeephidden, ndeep=384), NetDDeep(ngf=ndeephidden, ndeep=384)]
     elif model == 'DeepGAN10':
