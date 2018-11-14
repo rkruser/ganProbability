@@ -777,7 +777,7 @@ def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=F
     elif model == 'pixelRegressor':
     	return [NetP32(nc=nc, npf=hidden)]
     elif model == 'infoganRegressor':
-        return [InfoganRegressor(ndf=hidden,nz=nz)]
+        return [InfoganRegressor(NetD32(ndf=hidden,nz=nz,nc=nc, infogan=True), Qnet(ndf=hidden,nz=nz))]
     elif model == 'codeRegressor':
         return [NetP32Modified(nc=nc, npf=hidden, nz=nz)]
     elif model == 'DeepRegressor10':

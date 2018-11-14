@@ -382,7 +382,9 @@ def main():
 
 
 	# ******* File locations *********
-	if 'gan' in opt.model or 'GAN' in opt.model:
+	if 'infoganRegressor' in opt.model:
+		loaderLocs = [opt.netR]
+	elif 'gan' in opt.model or 'GAN' in opt.model:
 		loaderLocs = (opt.netG, opt.netD)
 	elif 'Reg' in opt.model:
 		loaderLocs = [opt.netR]

@@ -1,0 +1,4 @@
+#!/bin/bash
+#python train.py --model codeRegressor --trainFunc regressor --dataset codedata --dataroot generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_pixel/samples.mat --criterion l2 --validation --supervised --modelroot generated/final/codeRegressor --epochs 50 --lr 1e-4 --checkpointEvery 5
+#python train.py --model pixelRegressor --trainFunc regressor --dataset probdata --dataroot generated/final/dcgan_mnist_no_ones/samples.mat --criterion l2 --validation --supervised --modelroot generated/final/dcgan_mnist_no_ones/pixel --epochs 50 --lr 1e-4 --checkpointEvery 5 --epochs 25 # --useCodeProbs
+python train.py --model pixelRegressor --trainFunc regressor --dataset probdata --dataroot generated/final/infogan_mnist_no_ones/samples/samples.mat --criterion smoothL1TwoSided --validation --supervised --modelroot generated/final/infogan_mnist_no_ones --lr 1e-4 --checkpointEvery 5 --epochs 25 
