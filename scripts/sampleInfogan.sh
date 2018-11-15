@@ -11,7 +11,7 @@
 #SBATCH --output out_%a.out
 
 
-
+# This one ****
 #python sample.py --model infoganRegressor --saveDir generated/final/infogan_mnist_no_ones/mnist --netR generated/final/infogan_mnist_no_ones/netR_infogan.pth --samplePrefix mnist  --sampleFunc regressor --dataset mnist --datamode train
 
 #python sample.py --model infoganRegressor --saveDir generated/final/infogan_mnist_no_ones/omniglot --netR generated/final/infogan_mnist_no_ones/netR_infogan.pth --samplePrefix omniglot  --sampleFunc regressor --dataset omniglot --datamode train
