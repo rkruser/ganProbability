@@ -12,6 +12,7 @@ import numpy as np
 from torch.autograd import Variable
 
 
+
 # custom weights initialization called on netG and netD
 def weights_init(m):
     classname = m.__class__.__name__
@@ -571,17 +572,17 @@ class mog_netG(nn.Module):
         self.main = nn.Sequential(
             # input is Z, going into a convolution
             nn.Linear(nz,256),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(256, 256),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(256, 256),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(256, 256),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(256, 256),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(256, 256),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(256, 2),
         )
 
@@ -611,17 +612,114 @@ class mog_netD(nn.Module):
         super(mog_netD, self).__init__()
         self.main = nn.Sequential(
             nn.Linear(2, 256),
-            nn.LeakyReLU(),
+            nn.Tanh(),
+            nn.Linear(256, 256),
+            nn.Tanh(),
+            nn.Linear(256, 256),
+            nn.Tanh(),
+            nn.Linear(256, 256),
+            nn.Tanh(),
+            nn.Linear(256, 256),
+            nn.Tanh(),
+            nn.Linear(256, 256)
+        )
+        self.final = nn.Sequential(
+            nn.Tanh(),
+            nn.Linear(256, 1),
+        )
+
+    def numOutDims(self):
+        return 1
+
+    def outshape(self):
+        return [1]
+
+
+    def forward(self, input):
+        output = self.main(input)
+        output2 = self.final(output)
+
+        return output, output2.view(-1, 1)
+
+class mog_netQ(nn.Module):
+    def __init__(self):
+        super(mog_netQ, self).__init__()
+        self.main = nn.Sequential(
             nn.Linear(256, 256),
             nn.LeakyReLU(),
-            nn.Linear(256, 256),
+            nn.Linear(256,256),
             nn.LeakyReLU(),
+            nn.Linear(256,2)
+            )
+
+    def forward(self, x):
+        return self.main(x)
+
+# Every model for MoG - Generator
+class mog_netG_improved(nn.Module):
+    def __init__(self, nz):
+        super(mog_netG_improved, self).__init__()
+        self.nz = nz
+        self.main = nn.Sequential(
+            # input is Z, going into a convolution
+            nn.Linear(nz,625),
+            nn.Tanh(),
+            nn.Linear(625, 625),
+            nn.Tanh(),
+            nn.Linear(625, 625),
+            nn.Tanh(),
+            nn.Linear(625, 625),
+            nn.Tanh(),
+            nn.Linear(625, 625),
+            nn.Tanh(),
+            nn.Linear(625, 625),
+            nn.Tanh(),
+            nn.Linear(625, 625),
+            nn.Tanh(),
+            nn.Linear(625, 625),
+            nn.Tanh(),
+            nn.Linear(625, 625),
+            nn.Tanh(),
+            nn.Linear(625, 2),
+        )
+
+    def numLatent(self):
+        return self.nz
+
+    def outshape(self):
+        return [2]
+
+    def imsize(self):
+      return None
+
+    def numOutDims(self):
+      return 2
+
+    def numColors(self):
+      return None
+
+
+    def forward(self, input):
+      output = self.main(input)
+      return output
+
+# Discriminator
+class mog_netD_improved(nn.Module):
+    def __init__(self):
+        super(mog_netD_improved, self).__init__()
+        self.main = nn.Sequential(
+            nn.Linear(4, 256),
+            nn.Tanh(),
             nn.Linear(256, 256),
-            nn.LeakyReLU(),
+            nn.Tanh(),
             nn.Linear(256, 256),
-            nn.LeakyReLU(),
+            nn.Tanh(),
             nn.Linear(256, 256),
-            nn.LeakyReLU(),
+            nn.Tanh(),
+            nn.Linear(256, 256),
+            nn.Tanh(),
+            nn.Linear(256, 256),
+            nn.Tanh(),
             nn.Linear(256, 1),
            # nn.Sigmoid()
         )
@@ -634,9 +732,72 @@ class mog_netD(nn.Module):
 
 
     def forward(self, input):
+        mean = input.mean(0).unsqueeze(0)
+        output = torch.cat([input, mean.expand_as(input)], 1)
+        output = self.main(output)
+
+        return output.view(-1, 1)
+
+# Every model for MoG - Generator
+class mog_netG_sohil(nn.Module):
+    def __init__(self, nz):
+        super(mog_netG_sohil, self).__init__()
+        self.nz = nz
+        self.main = nn.Sequential(
+            # input is Z, going into a convolution
+            nn.Linear(nz,128),
+            nn.Tanh(),
+            nn.Linear(128, 128),
+            nn.Tanh(),
+            nn.Linear(128, 2),
+        )
+
+    def numLatent(self):
+        return self.nz
+
+    def outshape(self):
+        return [2]
+
+    def imsize(self):
+      return None
+
+    def numOutDims(self):
+      return 2
+
+    def numColors(self):
+      return None
+
+    def forward(self, input):
+        output = self.main(input)
+        return output
+
+# Discriminator
+class mog_netD_sohil(nn.Module):
+    def __init__(self):
+        super(mog_netD_sohil, self).__init__()
+        self.main = nn.Sequential(
+            nn.Linear(2, 128),
+            nn.Tanh(),
+            nn.Linear(128, 128),
+            nn.Tanh(),
+            nn.Linear(128, 1),
+            nn.Sigmoid()
+        )
+
+    def forward(self, input):
         output = self.main(input)
 
         return output.view(-1, 1)
+
+    def numOutDims(self):
+        return 1
+
+    def outshape(self):
+        return [1]
+
+
+
+
 
 
 # Lenet model for extracting features
@@ -755,6 +916,7 @@ class RealNVP(nn.Module):
         return self.nz
 
 
+
 from densenet import densenet_cifar
 from autoencoder import Encoder, Decoder, Encoder2, Decoder2
 
@@ -810,7 +972,15 @@ def getModels(model, nc=3, imsize=32, hidden=64, ndeephidden=625, nz=100, cuda=F
         flow = RealNVP(nets, nett, masks, cuda)
         return [flow]
     elif model == 'mog':
-        return [mog_netG(nz), mog_netD()]
+        return [mog_netG(2), mog_netD()]
+    elif model == 'mog_netG_improved':
+        return [mog_netG_improved(2), mog_netD_improved()]
+    elif model == 'mog_sohil':
+        return [mog_netG_sohil(2), mog_netD_sohil()]
+    elif model == 'mogRegressor':
+        return [mog_netD()]
+    elif model == 'mogInfogan':
+        return [mog_netG(2), mog_netD(), mog_netQ()]
     else:
         raise NameError("No such model")
 

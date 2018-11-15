@@ -155,7 +155,10 @@ class WGANCriterion(nn.Module):
 
 
 	def dloss(self, netD, real, fake, cuda):
-		alpha = Variable(torch.rand(real.size(0),1,1,1))
+		if len(real.size()) == 4:
+			alpha = Variable(torch.rand(real.size(0),1,1,1))
+		elif len(real.size()) == 2:
+			alpha = Variable(torch.rand(real.size(0),1))
 		alpha = alpha.expand(real.size())
 		if cuda:
 			alpha = alpha.cuda()
