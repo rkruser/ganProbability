@@ -1,0 +1,140 @@
+cleanScript: []
+editor: [/fs/vulcan-scratch/krusinga/projects/ganProbability/editor.sh, config.yaml,
+  submit.sh, config2.yaml, submit2.sh]
+globalKeywords: {birdsnap: /vulcan/scratch/krusinga/birdsnap/birdsnap, birdsnap32: /vulcan/scratch/krusinga/birdsnap/birdsnap/download/images/birdsnap32.mat,
+  birdsnap64: /vulcan/scratch/krusinga/birdsnap/birdsnap/download/images/birdsnap64.mat,
+  cifar10: /vulcan/scratch/krusinga/cifar10, cifar10_28: /vulcan/scratch/krusinga/cifar10/cifar10_28.mat,
+  cifar10_32: /vulcan/scratch/krusinga/cifar10/cifar10_32.mat, cifar10_64: /vulcan/scratch/krusinga/cifar10/cifar10_64.mat,
+  coco: /vulcan/scratch/krusinga/coco, cub: /vulcan/scratch/krusinga/CUB_200_2011,
+  cub200_32: /vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_32.mat, cub200_64: /vulcan/scratch/krusinga/CUB_200_2011/images/cub_200_2011_64.mat,
+  dcgan_D_cifar10_32_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/netD.pth,
+  dcgan_D_cifar10_64_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/netD.pth,
+  dcgan_D_mnist_32_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netD.pth,
+  dcgan_D_mnist_64_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/netD.pth,
+  dcgan_G_cifar10_32_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/netG.pth,
+  dcgan_G_cifar10_64_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/netG.pth,
+  dcgan_G_mnist_32_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/netG.pth,
+  dcgan_G_mnist_64_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/netG.pth,
+  deep_cifar10_32_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/CIFAR10/size32_3/lenet.pth,
+  deep_cifar10_64_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/CIFAR10/size64_3/lenet.pth,
+  deep_mnist_32_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size32_3/lenet.pth,
+  deep_mnist_64_3: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DeepFeatures/MNIST/size64_3/lenet.pth,
+  fakeMnist: /vulcan/scratch/krusinga/mnist/mnistKnockoff.mat, generated: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated,
+  imagenet: '', japanese_hiragana_32: /vulcan/scratch/krusinga/omniglot/omniglot/python/images_background/Japanese_(hiragana)/japanese_hiragana32.mat,
+  lsun: '', mnist: /vulcan/scratch/krusinga/mnist, mnist28: /vulcan/scratch/krusinga/mnist/mnist28.mat,
+  mnist32: /vulcan/scratch/krusinga/mnist/mnist32.mat, mnist64: /vulcan/scratch/krusinga/mnist/mnist64.mat,
+  mnist_distribution: /vulcan/scratch/krusinga/mnist, projectPath: /fs/vulcan-scratch/krusinga/projects/ganProbability/,
+  reg_cifar10_32_3_backprop_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/backprop_deep/netP.pth,
+  reg_cifar10_32_3_backprop_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/backprop_pixel/netP.pth,
+  reg_cifar10_32_3_numerical_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_deep/netP.pth,
+  reg_cifar10_32_3_numerical_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_pixel/netP.pth,
+  reg_cifar10_64_3_backprop_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/samples/backprop_deep/netP.pth,
+  reg_cifar10_64_3_backprop_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/samples/backprop_pixel/netP.pth,
+  reg_cifar10_64_3_numerical_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/samples/numerical_deep/netP.pth,
+  reg_cifar10_64_3_numerical_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/samples/numerical_pixel/netP.pth,
+  reg_mnist_32_3_backprop_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/backprop_deep/netP.pth,
+  reg_mnist_32_3_backprop_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/backprop_pixel/netP.pth,
+  reg_mnist_32_3_numerical_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/netP.pth,
+  reg_mnist_32_3_numerical_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_pixel/netP.pth,
+  reg_mnist_64_3_backprop_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/samples/backprop_deep/netP.pth,
+  reg_mnist_64_3_backprop_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/samples/backprop_pixel/netP.pth,
+  reg_mnist_64_3_numerical_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/samples/numerical_deep/netP.pth,
+  reg_mnist_64_3_numerical_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/samples/numerical_pixel/netP.pth,
+  samples_cifar10_32_3_backprop_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/backprop_deep/samples.mat,
+  samples_cifar10_32_3_backprop_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/backprop_pixel/samples.mat,
+  samples_cifar10_32_3_numerical_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_deep/samples.mat,
+  samples_cifar10_32_3_numerical_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size32_3/samples/numerical_pixel/samples.mat,
+  samples_cifar10_64_3_backprop_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/samples/backprop_deep/samples.mat,
+  samples_cifar10_64_3_backprop_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/samples/backprop_pixel/samples.mat,
+  samples_cifar10_64_3_numerical_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/samples/numerical_deep/samples.mat,
+  samples_cifar10_64_3_numerical_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/CIFAR10/size64_3/samples/numerical_pixel/samples.mat,
+  samples_mnist_32_3_backprop_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/backprop_deep/samples.mat,
+  samples_mnist_32_3_backprop_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/backprop_pixel/samples.mat,
+  samples_mnist_32_3_numerical_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_deep/samples.mat,
+  samples_mnist_32_3_numerical_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size32_3/samples/numerical_pixel/samples.mat,
+  samples_mnist_64_3_backprop_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/samples/backprop_deep/samples.mat,
+  samples_mnist_64_3_backprop_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/samples/backprop_pixel/samples.mat,
+  samples_mnist_64_3_numerical_deep: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/samples/numerical_deep/samples.mat,
+  samples_mnist_64_3_numerical_pixel: /fs/vulcan-scratch/krusinga/projects/ganProbability/generated/canonical/DCGAN/MNIST/size64_3/samples/numerical_pixel/samples.mat}
+info:
+- [e1, First experiment]
+- [e2, 'Experiment 2: sampling']
+- [e3, Testing batch sampling]
+- [e4, Another batch sampling test]
+- [e5, Testing zipping]
+- [e6, Testing regressor training]
+- [e7, Tweaked Regressor experiment]
+- [e8, Test the mnist domain shift experiment]
+- [e9, Testing a total run-through]
+- [e10, Testing batch submit of total mnist]
+- [e11, Running mnist total for real]
+- [e12, Added training visualization to total pipeline]
+- [e14, Testing mnist_distribution loader]
+- [e15, Redoing e14 with different probs]
+- [e16, Another mnist exp]
+- [e17, Testing upward shift]
+- [e18, Making sure things work after moving modules]
+- [e19, Run birdsnap with infogan]
+- [e20, 'Bugs worked out with infogan model, now to train']
+- [e21, e21 loss tweak]
+- [e22, Switch sign on mse criterion in generator part of loss (fixed from e21)]
+- [e23, Use infogan multiplier 0]
+- [e24, Use infogan multiplier 0.005]
+- [e25, Use infogan multiplier 0.05]
+- [e26, 'why did e23, e24, e25 fail?']
+- [e27, Found the problem]
+- [e28, Rerun e23]
+- [e29, Rerun e24]
+- [e30, Rerun e25]
+- [e31, 'Make lambda huge, equal to 5']
+- [e32, Testing mnist with infogan but 0]
+- [e33, Running cub]
+- [e34, Running mnist again with infogan loss]
+- [e35, Testing vulcan-scratch experiment creation after problems]
+- [e36, 'Testing birdsnap with infogan again, lambda 0']
+- [e37, infogan birdsnap 0.5]
+- [e38, Running for more epochs]
+- [e39, Training on CFAR and testing on MNIST]
+- [e40, The first experiment with the new code in the total directory]
+- [e41, First real experiment in new code; train on CIFAR and test on MNIST]
+- [e42, 'Train on MNIST, test on CIFAR']
+- [e43, Something is wrong with the previous experiments]
+- [e44, Trying to debug e41/e42]
+- [e45, Trying to figure out out earlier problem]
+- [e46, 'Train on CIFAR10, test on MNIST']
+- [e47, 'Train on MNIST, test on CIFAR10']
+- [e48, Testing lenet training]
+- [e49, Training lenet for real]
+- [e50, Train lenet on mnist]
+- [e51, Cifar size 64]
+- [e52, Lenet with mnist size 64]
+- [e53, Training on CFAR10 size 28]
+- [e54, Training deep feature regressor on cifar10]
+- [e55, Deep features trained and tested on MNIST]
+- [e56, Sampling non-numerically]
+- [e57, Sampling mnist analytically]
+- [e58, Train GAN on CIFAR10 size 64]
+- [e59, Train GAN on MNIST size 64]
+- [e60, Training lenet on MNIST28]
+- [e61, Regressor no deep features mnist]
+- [e62, Test shallow cfar regressor on cifar]
+- [e63, Sampling probabilities with deep features]
+- [e64, '***Testing fullSample']
+- [e65, Extracting figures from e64]
+- [e66, '**Creating canonical CIFAR10']
+- [e67, Analyzing e66]
+- [e68, Making better histograms for mnist and cifar]
+- [e69, Testing on omniglot japanese_hiragana]
+- [e70, Shift experiment]
+- [e71, 'Train MNIST without 1s, test with 1s']
+- [e72, Sampling deep features from the model trained in e71]
+- [e73, Train MNIST on 0-4]
+- [e74, Do deep feature regressor on e73]
+- [e75, 'Training without 0, testing with 0']
+- [e76, Training deep regressor on e75]
+- [e77, Testing flowgan training]
+- [e78, Testing different versions of flowgan training]
+numExperiments: 78
+otherScripts: {}
+path: /fs/vulcan-scratch/krusinga/projects/ganProbability/experiments
+runScript: []
