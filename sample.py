@@ -67,6 +67,24 @@ def sampleRays(ganModel, nSamples, eps, dataloader, cuda):
   allIms = runHuge(netG, allCodes)
   return allIms.data.cpu()
 
+def sampleBasic(ganModel, nSamples, eps, dataloader, cuda):
+  netG, netD = ganModel
+  nz = netG.numLatent()
+  outshape = netG.outshape()
+  totalOut = netG.numOutDims()
+
+  codes = torch.FloatTensor(nSamples, nz).normal_(0,eps)
+#  normsq = (codes*codes).sum(1)
+#  sortedInds= np.argsort(normsq)
+  if cuda:
+    codes = codes.cuda()
+  codes = Variable(codes)
+  allIms = runHuge(netG, codes)
+  allIms = allIms.data.cpu()
+#  allIms = allIms[sortedInds] #Upper left is high prob, lower right low
+  return allIms
+
+
 def sampleCodeSort(ganModel, nSamples, eps, dataloader, cuda):
   netG, netD = ganModel
 
@@ -347,6 +365,8 @@ def getSampleFunc(funcName):
     return sampleNumericalProbabilities
   elif funcName == 'ray':
     return sampleRays
+  elif funcName == 'basic':
+    return sampleBasic
   elif funcName == 'zsort':
     return sampleCodeSort
   elif funcName == 'normSample':
@@ -367,14 +387,19 @@ def getSampleFunc(funcName):
 
 
 
-def sampler(model, sampleFunc, file, cuda=False, nsamples=None, dataloader=None, eps=1e-5):
+def sampler(model, sampleFunc, file, cuda=False, nsamples=None, dataloader=None, eps=1e-5, individual=False):
   setEval(model)
 # if cuda:
 #   makeCuda(model)
   samples = sampleFunc(model, nsamples, eps, dataloader, cuda)
   # samples is a torch tensor?
 
-  vutils.save_image(samples, file, nrow=19)
+  if not individual:
+    vutils.save_image(samples, file, nrow=19)
+  else:
+    for i in range(nsamples):
+      vutils.save_image(samples[i,:],file+'_'+str(i), nrow=1)
+
 # savemat(file, samples)
 
 
@@ -437,6 +462,7 @@ def main():
   parser.add_argument('--useSavedOpts', action='store_true', help='load from saved opts json')
   parser.add_argument('--useLargerEmbedding', action='store_true', help='Use the feature embedding right before the final layer')
   # parser.add_argument('--proportions',type=str, help='Probabilities of each class in mnist',default='[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]')
+  parser.add_argument('--saveIndividual', action='store_true', help='Store outputs as individual jpegs')
 
   opt = parser.parse_args()
 
@@ -502,7 +528,8 @@ def main():
 #  sampler(model, sampleFunc, join(opt.saveDir, opt.samplePrefix+'.mat'), 
 #    cuda=haveCuda, nsamples=opt.nsamples, dataloader=dataloader, eps=opt.eps)
   sampler(model, sampleFunc, join(opt.saveDir, opt.samplePrefix), 
-    cuda=haveCuda, nsamples=opt.nsamples, dataloader=dataloader, eps=opt.eps)
+    cuda=haveCuda, nsamples=opt.nsamples, dataloader=dataloader, eps=opt.eps,
+    individual=opt.saveIndividual)
 
 
 
