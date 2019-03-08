@@ -1,5 +1,7 @@
 Code associated with "Understanding the (un)interpretability of natural image distributions using generative models"
+
 Coder: Ryen Krusinga 
+
 (Based on code written by Sohil Shah)
 
 The relevant code files are all in the top level directory. The "code" directory contains old code.
