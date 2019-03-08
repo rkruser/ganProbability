@@ -11,6 +11,9 @@ See the "scripts" directory for examples of how to use the code.
 Main files:
 
 models.py: Neural net models
+
 train.py: Train models under various conditions
+
 sample.py: Sample models and probabilities
+
 loaders.py: Points to large mat files of datasets at various resolutions
