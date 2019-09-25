@@ -60,7 +60,6 @@ class NthArgWrapper(nn.Module):
     def setArg(self, arg):
         self.arg = arg
 
-
     def forward(self, x):
         result = self.net(x)
         return result[self.arg]
